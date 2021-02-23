@@ -10,20 +10,21 @@
 	--point-color-disabled: #80808073;
 	--input-color: #f2f3f5;
 	--border-color: #d7d7d7;
+	--content-font-size: 14px;
 }
 
 body {
 	font-family: 'Roboto mono';
 	background-color: var(--main-bg-color);
-	/* padding: 50px; */
 }
 
 .content {
-	width: 70%;
+	width: 45%;
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: calc(var(--header-height) + 10px);
 	display: flex;
+	font-size: var(--content-font-size);
 }
 
 .styled-border {

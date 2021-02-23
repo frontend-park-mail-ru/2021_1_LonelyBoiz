@@ -15,15 +15,15 @@
 
 .card_info__title {
 	color: var(--primary-text-color);
-	font-family: 'Roboto';
+	/* font-family: 'Roboto'; */
 	font-size: 42px;
 	display: flex;
 }
 
 .card_info__inforow {
+	/* font-family: 'Roboto'; */
 	display: flex;
 	color: var(--secondary-text-color);
-	font-size: 20px;
 }
 
 .card_info__inforow__icon {
