@@ -1,4 +1,4 @@
-.search_feed {
+.search__feed {
 	width: 70%;
 	margin-right: 20px;
 }
@@ -12,13 +12,6 @@
 	position: fixed;
 }
 
-.search__input {
-	background: var(--input-color);
-	margin: 0 40px 6px 0;
-	padding: 0;
-	width: 100%;
-	display: block;
-	text-indent: 10px;
-	border-radius: 5px;
-	height: 36px;
+.filter__title {
+	margin-bottom: 10px;
 }

@@ -1,44 +1,48 @@
-.card_info {
-	background-color: var(--white-bg-color);
-	padding-left: 12px;
-	padding-top: 5px;
-	padding-bottom: 10px;
+.card-info {
+    background-color: var(--white-bg-color);
+    padding-left: 12px;
+    padding-top: 5px;
+    padding-bottom: 10px;
 }
 
-.card_info-feed {
-	border-radius: 0px 0px 10px 10px;
+.card-info_feed {
+    border-radius: 0px 0px 10px 10px;
 }
 
-.card_info-home {
-	border-radius: 10px;
+.card-info_home {
+    border-radius: 10px;
 }
 
-.card_info__title {
-	color: var(--primary-text-color);
-	/* font-family: 'Roboto'; */
-	font-size: 42px;
-	display: flex;
+.card-info__title {
+    color: var(--primary-text-color);
+    /* font-family: 'Roboto'; */
+    /* font-size: 50px; */
+    display: flex;
 }
 
-.card_info__inforow {
-	/* font-family: 'Roboto'; */
-	display: flex;
-	color: var(--secondary-text-color);
+.card-info__inforow {
+    /* font-family: 'Roboto'; */
+    display: flex;
+    color: var(--secondary-text-color);
 }
 
-.card_info__inforow__icon {
-	margin-right: 10px;
+.card-info__inforow-icon {
+    margin-right: 10px;
 }
 
-.card_info__inforow__caption {
-	margin-top: 10px;
+.card-info__inforow-caption {
+    margin-top: 10px;
 }
 
-.card_info__title__text {
-	margin-bottom: 12px;
+.card-info__title-text {
+    font-size: 50px;
+    margin-bottom: 12px;
 }
 
-.card_info__title__icon {
-	margin-right: 12px;
-	margin-left: auto;
+.card-info__title-icon {
+    margin-right: 12px;
+    margin-left: auto;
+    box-sizing: border-box;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }

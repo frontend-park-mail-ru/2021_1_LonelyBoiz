@@ -1,78 +1,78 @@
-.card_photo {
-	position: relative;
+.card-photo {
+    position: relative;
 }
 
-.card_photo__img {
-	z-index: 1;
-	display: block;
-	width: 100%;
+.card-photo__img {
+    z-index: 1;
+    display: block;
+    width: 100%;
 }
 
-.card_photo__img-feed {
-	border-radius: 10px 10px 0px 0px;
+.card-photo__img_feed {
+    border-radius: 10px 10px 0px 0px;
 }
 
-.card_photo__img-home {
-	border-radius: 10px;
+.card-photo__img_home {
+    border-radius: 10px;
 }
 
-.card_photo__arrows {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	z-index: 2;
+.card-photo__arrows {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    z-index: 2;
 }
 
-.card_photo__arrow {
-	position: relative;
-	border-radius: 50%;
-	background-color: var(--arrow-color);
-	width: 27px;
-	height: 27px;
-	top: 50%;
+.card-photo__arrow {
+    position: relative;
+    border-radius: 50%;
+    background-color: var(--arrow-color);
+    width: 27px;
+    height: 27px;
+    top: 50%;
 }
 
-.card_photo__arrow:hover {
-	background-color: var(--arrow-color-hover);
-	cursor: pointer;
+.card-photo__arrow:hover {
+    background-color: var(--arrow-color-hover);
+    cursor: pointer;
 }
 
-.card_photo__arrow__icon {
-	width: 9px;
-	height: 11px;
-	margin: auto;
-	line-height: 27px;
+.card-photo__arrow-icon {
+    width: 9px;
+    height: 11px;
+    margin: auto;
+    line-height: 27px;
 }
 
-.card_photo__arrow__left {
-	margin-left: 10px;
+.card-photo__arrow-left {
+    margin-left: 10px;
 }
 
-.card_photo__arrow__rigth {
-	margin-left: auto;
-	margin-right: 10px;
+.card-photo__arrow-rigth {
+    margin-left: auto;
+    margin-right: 10px;
 }
 
-.card_photo__points {
-	position: absolute;
-	width: calc(100% - 5px);
-	height: 2px;
-	display: flex;
-	margin: 5px;
-	z-index: 2;
+.card-photo__points {
+    position: absolute;
+    width: calc(100% - 5px);
+    height: 2px;
+    display: flex;
+    margin: 5px;
+    z-index: 2;
 }
 
-.card_photo__point {
-	width: 100%;
-	border-radius: 4px;
-	margin-right: 5px;
+.card-photo__point {
+    width: 100%;
+    border-radius: 4px;
+    margin-right: 5px;
 }
 
-.card_photo__point-active {
-	background-color: var(--point-color-active);
+.card-photo__point_active {
+    background-color: var(--point-color_active);
 }
 
-.card_photo__point-disabled {
-	background-color: var(--point-color-disabled);
+.card-photo__point_disabled {
+    background-color: var(--point-color_disabled);
 }

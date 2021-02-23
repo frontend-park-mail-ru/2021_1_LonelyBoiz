@@ -1,0 +1,25 @@
+.input-group {
+	padding-top: 12px;
+	padding-bottom: 12px;
+	/* padding-left: 16px;
+    padding-right: 16px; */
+}
+
+.input-group__top {
+	padding-bottom: 6px;
+	padding-top: 2px;
+	color: var(--input-top-text-color);
+}
+
+.input-group__input {
+	color: var(--input-top-text-color);
+	background: var(--input-color);
+	width: 100%;
+	display: block;
+	text-indent: 10px;
+	border-radius: 5px;
+	height: 36px;
+	font-size: var(--content-font-size);
+	/* margin: 0 40px 6px 0; */
+	/* padding: 0px; */
+}
