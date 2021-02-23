@@ -38,18 +38,18 @@
     cursor: pointer;
 }
 
-.card-photo__arrow-icon {
+.card-photo__arrow__icon {
     width: 9px;
     height: 11px;
     margin: auto;
     line-height: 27px;
 }
 
-.card-photo__arrow-left {
+.card-photo__arrow_left {
     margin-left: 10px;
 }
 
-.card-photo__arrow-rigth {
+.card-photo__arrow_rigth {
     margin-left: auto;
     margin-right: 10px;
 }
