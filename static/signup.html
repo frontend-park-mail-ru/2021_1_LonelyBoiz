@@ -1,24 +1,27 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link href=' http://fonts.googleapis.com/css?family=Roboto+Mono' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="signup.css">
-    </head>
-    <body>
-        <div class="centered-content">
-            <div class="form-container styled-border">
-                <h1 id="form-header">PICKle</h1>
-                <form action="" method="">
-                    <input class="styled-border" type="text" placeholder="Телефон, почта">
-                    <input class="styled-border" type="text" placeholder="Имя">
-                    <input class="styled-border" type="text" placeholder="Логин">
-                    <input class="styled-border" type="password" placeholder="Пароль">
-                    <button id="submit-button" type="submit">Зарегестрироваться</button>
-                </form>
-            </div>
-            <div class="form-container styled-border footer">
-                Уже есть аккаунт? <a href="signup">Вход</a>
-            </div>
-        </div>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <link href=' http://fonts.googleapis.com/css?family=Roboto+Mono' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="signup.css">
+</head>
+<body>
+<div class="application">
+    <div class="form-block form-block_border">
+        <h1 class="form-block__header">PICKle</h1>
+        <form class="form-block__form" action="" method="">
+            <input class="form-block__input form-block__input_border" type="text" placeholder="Телефон, почта">
+            <input class="form-block__input form-block__input_border" type="text" placeholder="Имя">
+            <input class="form-block__input form-block__input_border" type="text" placeholder="Логин">
+            <input class="form-block__input form-block__input_border" type="password" placeholder="Пароль">
+            <button class="form-block__button" type="submit">Зарегестрироваться</button>
+        </form>
+    </div>
+    <div class="form-block form-block_border from-block_footer">
+        Уже есть аккаунт? <a class="form-block__link" href="signup">Вход</a>
+    </div>
+</div>
+</body>
 </html>
