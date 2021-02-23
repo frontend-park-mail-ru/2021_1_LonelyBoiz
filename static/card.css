@@ -1,0 +1,7 @@
+@import 'card_photo.css';
+@import 'card_info.css';
+
+.card {
+	margin-bottom: 64px;
+	border-radius: 10px;
+}
