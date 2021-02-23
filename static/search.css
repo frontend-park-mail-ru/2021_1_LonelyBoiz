@@ -1,0 +1,26 @@
+.search_feed {
+	width: 70%;
+	margin-right: 20px;
+	/* background-color: blue; */
+}
+
+.filter {
+	width: 30%;
+}
+
+.filter__content {
+	width: 20%;
+	position: fixed;
+}
+
+.search__input {
+	background: var(--input-color);
+	margin: 0 40px 6px 0;
+	padding: 0;
+	width: 100%;
+	display: block;
+	text-indent: 10px;
+	border-radius: 5px;
+	height: 36px;
+	font-size: 12px;
+}

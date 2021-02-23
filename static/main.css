@@ -1,0 +1,31 @@
+:root {
+	--main-bg-color: #f6f6f6;
+	--white-bg-color: #ffffff;
+	--primary-text-color: #2e2e2e;
+	--secondary-text-color: #818c99;
+	--header-height: 54px;
+	--arrow-color: #c4c4c4;
+	--arrow-color-hover: #979797b6;
+	--point-color-active: #ffffff;
+	--point-color-disabled: #80808073;
+	--input-color: #f2f3f5;
+	--border-color: #d7d7d7;
+}
+
+body {
+	font-family: 'Roboto mono';
+	background-color: var(--main-bg-color);
+	/* padding: 50px; */
+}
+
+.content {
+	width: 70%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: calc(var(--header-height) + 10px);
+	display: flex;
+}
+
+.styled-border {
+	border: solid 1px var(--border-color);
+}

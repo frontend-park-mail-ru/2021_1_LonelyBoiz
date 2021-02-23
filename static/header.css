@@ -1,0 +1,32 @@
+.header {
+	z-index: 10;
+	position: fixed;
+	display: flex;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: var(--header-height);
+	line-height: var(--header-height);
+	background-color: var(--white-bg-color);
+}
+
+.header__title {
+	width: 33%;
+	text-align: right;
+	vertical-align: bottom;
+	font-weight: bold;
+	font-size: 32px;
+	color: var(--primary-text-color);
+}
+
+.header__tabbar {
+	width: 33%;
+	margin-left: auto;
+	margin-right: 0;
+	display: flex;
+}
+
+.header__tabbar_icon {
+	margin-right: 30px;
+	font-size: 32px;
+}

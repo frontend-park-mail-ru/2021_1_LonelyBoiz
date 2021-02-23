@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поиск</title>
+    <link rel="stylesheet" href="main.css" />
+    <link rel="stylesheet" href="header.css" />
+    <link rel="stylesheet" href="search.css" />
+    <link rel="stylesheet" href="card.css" />
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Mono' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+    <div class="header">
+        <div class="header__title">PICKle</div>
+        <div class="header__tabbar">
+            <div class="header__tabbar_icon">
+                <svg width="27" height="31" viewBox="0 0 27 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M0 13.7817V30.2181H10.1111V20.107H15.8889V30.2181H26V13.7817L13 0.781738L0 13.7817Z" fill="black" stroke="black" stroke-width="1.68208"/>
+                </svg>
+            </div>
+            <div class="header__tabbar_icon">
+                <svg width="35" height="31" viewBox="0 0 35 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M31.1335 3.37885L14.8293 12.7142L18.0143 26.0966L31.1335 3.37885ZM13.527 12.729L16.8948 28.0356L17.376 30.2222L18.4954 28.2832L32.874 3.37885L34.3212 0.872259L34.4844 0.777353L34.376 0.777344L31.4804 0.777354L2.72333 0.777356L0.484375 0.777356L2.13751 2.28735L13.5528 12.7142L13.527 12.729ZM30.6842 2.28735L14.0743 11.3473L4.37647 2.28735H30.6842Z" fill="black"/>
+                </svg>
+            </div>
+            <div class="header__tabbar_icon">
+                <svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M2.48618 13.8954C2.48618 7.61994 7.58991 2.51819 13.8646 2.51819C20.138 2.51819 25.2417 7.61994 25.2417 13.8954C25.2417 20.1709 20.138 25.2726 13.8646 25.2726C7.58991 25.2726 2.48618 20.1709 2.48618 13.8954ZM23.488 22.4489C25.5181 20.168 26.7586 17.177 26.7586 13.8954C26.7586 6.785 20.973 1 13.8646 1C6.7563 1 0.969238 6.785 0.969238 13.8954C0.969238 21.0058 6.7563 26.7908 13.8646 26.7908C17.1466 26.7908 20.138 25.5448 22.4148 23.5205L28.6738 29.7789C28.8241 29.9263 29.0183 30 29.2125 30C29.4054 30 29.5996 29.9263 29.747 29.7789C30.0433 29.4826 30.0433 29.0035 29.747 28.7072L23.488 22.4489Z" fill="black" stroke="black" stroke-width="0.2"/>
+                </svg>
+            </div>
+            <div class="header__tabbar_icon">
+                <svg width="33" height="31" viewBox="0 0 33 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16.0657 5.41534L16.6422 6.06814L17.2186 5.41534L18.1573 4.35234C20.8841 1.26425 25.9055 0.744832 29.3433 3.23651C30.9731 4.41774 31.6654 6.23143 31.7399 8.14733C31.8149 10.0765 31.2547 12.0155 30.4926 13.283C26.2388 20.3586 22.9605 23.9094 16.6229 29.1317C13.2614 26.5865 10.8257 24.7301 8.74008 22.6488C6.57246 20.4857 4.77137 18.0661 2.74556 14.3616C0.466043 10.1933 0.646216 5.62452 3.94103 3.2365C7.37886 0.744831 12.4002 1.26425 15.1271 4.35234L16.0657 5.41534Z" stroke="black" stroke-width="1.53802" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <div class="header__tabbar_icon">
+                <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <circle cx="12" cy="12.5" r="12" fill="url(#pattern0)"/>
+                    <defs>
+                    <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
+                    <use xlink:href="#image0" transform="scale(0.0078125)"/>
+                    </pattern>
+                    <image id="image0" width="128" height="128" xlink:href="data:image/jpeg;base64,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"/>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="search_feed">
+            <div class="card">
+                <div class="card_photo">
+                    <div class="card_photo__points">
+                        <div class="card_photo__point card_photo__point-active"></div>
+                        <div class="card_photo__point card_photo__point-disabled"></div>
+                        <div class="card_photo__point card_photo__point-disabled"></div>
+                        <div class="card_photo__point card_photo__point-disabled"></div>
+                    </div>
+                    <div class="card_photo__arrows">
+                        <div class="card_photo__arrow card_photo__arrow__left">
+                            <div class="card_photo__arrow__icon">
+                                <svg width="9" height="11" viewBox="0 0 9 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8.17277 1.97295C8.60742 1.65272 8.60505 1.13178 8.17243 0.813052L8.07447 0.740883C7.63963 0.420518 6.93753 0.418371 6.49765 0.742452L0.828463 4.9192C0.392448 5.24043 0.38858 5.7584 0.828463 6.08248L6.49765 10.2592C6.93366 10.5805 7.64185 10.5795 8.07447 10.2608L8.17243 10.1886C8.60727 9.86827 8.611 9.3516 8.17277 9.02873L3.38428 5.50084L8.17277 1.97295Z" fill="#414141"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="card_photo__arrow card_photo__arrow__rigth">
+                            <div class="card_photo__arrow__icon">
+                                <svg width="9" height="11" viewBox="0 0 9 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M0.827235 1.97295C0.392583 1.65272 0.394954 1.13178 0.827574 0.813052L0.92553 0.740883C1.36037 0.420518 2.06247 0.418371 2.50235 0.742452L8.17154 4.9192C8.60755 5.24043 8.61142 5.7584 8.17154 6.08248L2.50235 10.2592C2.06634 10.5805 1.35815 10.5795 0.92553 10.2608L0.827574 10.1886C0.392735 9.86827 0.389 9.3516 0.827235 9.02873L5.61572 5.50084L0.827235 1.97295Z" fill="#414141"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <img class="card_photo__img card_photo__img-feed" src="img.png" />
+                </div>
+                <div class="card_info card_info-feed">
+                    <div class="card_info__title">
+                        <div class="card_info__title__text">Лена, 20</div>
+                        <div class="card_info__title__icon">
+                            <svg width="31" height="30" viewBox="0 0 31 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <mask id="path-1-inside-1" fill="white">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M27.5713 21.7715C28.7982 19.6482 29.5002 17.1837 29.5002 14.5553C29.5002 6.57784 23.0332 0.11084 15.0558 0.11084C7.07833 0.11084 0.611328 6.57784 0.611328 14.5553C0.611328 22.5327 7.07833 28.9997 15.0558 28.9997C17.7014 28.9997 20.1809 28.2885 22.3135 27.0467L30.1647 29.707L27.5713 21.7715Z"/>
+                                </mask>
+                                <path d="M27.5713 21.7715L26.3206 21.0488L25.998 21.6072L26.1983 22.2202L27.5713 21.7715ZM22.3135 27.0467L22.777 25.6787L22.1546 25.4678L21.5867 25.7985L22.3135 27.0467ZM30.1647 29.707L29.7012 31.0751L32.4341 32.0011L31.5377 29.2583L30.1647 29.707ZM28.0558 14.5553C28.0558 16.9233 27.4239 19.1394 26.3206 21.0488L28.822 22.4941C30.1724 20.1571 30.9447 17.4442 30.9447 14.5553H28.0558ZM15.0558 1.55528C22.2355 1.55528 28.0558 7.37558 28.0558 14.5553H30.9447C30.9447 5.78009 23.831 -1.3336 15.0558 -1.3336V1.55528ZM2.05577 14.5553C2.05577 7.37558 7.87607 1.55528 15.0558 1.55528V-1.3336C6.28058 -1.3336 -0.833116 5.78009 -0.833116 14.5553H2.05577ZM15.0558 27.5553C7.87607 27.5553 2.05577 21.735 2.05577 14.5553H-0.833116C-0.833116 23.3305 6.28058 30.4442 15.0558 30.4442V27.5553ZM21.5867 25.7985C19.6688 26.9152 17.4392 27.5553 15.0558 27.5553V30.4442C17.9636 30.4442 20.693 29.6617 23.0403 28.295L21.5867 25.7985ZM30.6283 28.339L22.777 25.6787L21.8499 28.4148L29.7012 31.0751L30.6283 28.339ZM26.1983 22.2202L28.7917 30.1557L31.5377 29.2583L28.9443 21.3227L26.1983 22.2202Z" fill="black" mask="url(#path-1-inside-1)"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="card_info__inforow">
+                        <div class="card_info__inforow__icon">
+                            <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8.72628 0.729871L14.4713 6.18764C14.8546 6.55174 15.0716 7.05721 15.0716 7.58585V13.141C15.0716 14.0286 14.352 14.7482 13.4644 14.7482H9.60728C9.25224 14.7482 8.96443 14.4604 8.96443 14.1053V10.5695C8.96443 10.0369 8.5327 9.60522 8.00014 9.60522C7.46758 9.60522 7.03585 10.0369 7.03585 10.5695V14.1053C7.03585 14.4604 6.74804 14.7482 6.393 14.7482H2.53585C1.64825 14.7482 0.928711 14.0286 0.928711 13.141V7.58585C0.928711 7.05721 1.14571 6.55174 1.52898 6.18764L7.274 0.729871C7.68092 0.343298 8.31936 0.343298 8.72628 0.729871ZM8.00014 1.81344L2.41451 7.11978C2.28676 7.24115 2.21443 7.40964 2.21443 7.58585V13.141C2.21443 13.3185 2.35833 13.4625 2.53585 13.4625H5.75014V10.5695C5.75014 9.32687 6.7575 8.31951 8.00014 8.31951C9.24278 8.31951 10.2501 9.32687 10.2501 10.5695V13.4625H13.4644C13.6419 13.4625 13.7859 13.3185 13.7859 13.141V7.58585C13.7859 7.40964 13.7135 7.24115 13.5858 7.11978L8.00014 1.81344Z" fill="#99A2AD"/>
+                            </svg>
+                        </div>
+                        <div class="card_info__inforow__text">Живет в: Москва</div>
+                    </div>
+                    <div class="card_info__inforow">
+                        <div class="card_info__inforow__icon">
+                            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7.09592 13.3439C7.16157 14.045 7.78314 14.5601 8.48423 14.4945C8.96084 14.4498 9.37229 14.142 9.54964 13.6974L13.9223 2.73467C14.1832 2.08062 13.8645 1.33892 13.2104 1.07804C12.9071 0.957061 12.569 0.957061 12.2657 1.07804L1.30297 5.4507C0.648918 5.71159 0.330189 6.45329 0.59107 7.10734C0.768418 7.55197 1.17987 7.8598 1.65648 7.90442L6.63022 8.37013L7.09592 13.3439ZM12.6037 2.39663L8.41103 12.9081L7.87003 7.13031L2.09224 6.58932L12.6037 2.39663Z" fill="#99A2AD"/>
+                            </svg>
+                        </div>
+                        <div class="card_info__inforow__text">1 КМ</div>
+                    </div>
+                    <div class="card_info__inforow">
+                        <div class="card_info__inforow__icon">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8.70421 0.929199C9.99631 0.931432 10.265 0.941574 10.9152 0.971241C11.6678 1.00557 12.1819 1.12512 12.6317 1.29994C13.0967 1.48063 13.491 1.72242 13.8842 2.11555C14.2773 2.5087 14.5191 2.90305 14.6998 3.36806C14.8746 3.81786 14.9942 4.3319 15.0285 5.08457C15.0582 5.73478 15.0683 6.00343 15.0705 7.29555V8.7047C15.0683 9.9968 15.0582 10.2654 15.0285 10.9157C14.9942 11.6683 14.8746 12.1824 14.6998 12.6322C14.5191 13.0972 14.2773 13.4915 13.8842 13.8847C13.491 14.2778 13.0967 14.5196 12.6317 14.7003C12.1819 14.8751 11.6678 14.9947 10.9152 15.029C10.265 15.0587 9.99631 15.0688 8.70421 15.071H7.29506C6.00294 15.0688 5.7343 15.0587 5.08409 15.029C4.33142 14.9947 3.81737 14.8751 3.36757 14.7003C2.90256 14.5196 2.50821 14.2778 2.11506 13.8847C1.72194 13.4915 1.48014 13.0972 1.29945 12.6322C1.12463 12.1824 1.00508 11.6683 0.970753 10.9157C0.941086 10.2654 0.930944 9.9968 0.928711 8.7047V7.29555C0.930944 6.00343 0.941086 5.73478 0.970753 5.08457C1.00508 4.3319 1.12463 3.81786 1.29945 3.36806C1.48014 2.90305 1.72194 2.5087 2.11506 2.11555C2.50821 1.72242 2.90256 1.48063 3.36757 1.29994C3.81737 1.12512 4.33142 1.00557 5.08409 0.971241C5.7343 0.941574 6.00294 0.931432 7.29506 0.929199H8.70421ZM8.36726 2.20293H7.63202C6.07815 2.20394 5.83639 2.21238 5.14216 2.24405C4.45271 2.27549 4.07828 2.39069 3.8291 2.48753C3.49903 2.61581 3.26346 2.76905 3.01602 3.01651C2.76856 3.26395 2.61532 3.49951 2.48704 3.82959C2.3902 4.07877 2.275 4.45319 2.24356 5.14265C2.21189 5.83688 2.20345 6.07863 2.20244 7.63251V8.36775C2.20345 9.9216 2.21189 10.1634 2.24356 10.8576C2.275 11.547 2.3902 11.9215 2.48704 12.1706C2.61532 12.5007 2.76859 12.7363 3.01602 12.9837C3.26346 13.2312 3.49903 13.3844 3.8291 13.5127C4.07828 13.6095 4.45271 13.7247 5.14216 13.7562C5.7849 13.7855 6.03972 13.7949 7.30755 13.797H8.69173C9.95954 13.7949 10.2144 13.7855 10.8571 13.7562C11.5465 13.7247 11.921 13.6095 12.1702 13.5127C12.5002 13.3844 12.7358 13.2312 12.9832 12.9837C13.2307 12.7363 13.3839 12.5007 13.5122 12.1706C13.6091 11.9215 13.7243 11.547 13.7557 10.8576C13.785 10.2148 13.7944 9.95989 13.7965 8.69216V7.30808C13.7944 6.04034 13.785 5.78546 13.7557 5.14265C13.7243 4.45319 13.6091 4.07877 13.5122 3.82959C13.3839 3.49951 13.2307 3.26395 12.9832 3.01651C12.7358 2.76905 12.5002 2.61581 12.1702 2.48753C11.921 2.39069 11.5465 2.27549 10.8571 2.24405C10.1629 2.21238 9.92111 2.20394 8.36726 2.20293ZM7.99741 4.37222C10.0023 4.37222 11.6275 5.99747 11.6275 8.00236C11.6275 10.0072 10.0023 11.6325 7.99741 11.6325C5.99252 11.6325 4.36727 10.0072 4.36727 8.00236C4.36727 5.99747 5.99252 4.37222 7.99741 4.37222ZM7.99741 5.64595C6.69599 5.64595 5.641 6.70094 5.641 8.00236C5.641 9.30376 6.69599 10.3587 7.99741 10.3587C9.29881 10.3587 10.3538 9.30376 10.3538 8.00236C10.3538 6.70094 9.29881 5.64595 7.99741 5.64595ZM11.7709 3.38048C12.2395 3.38048 12.6193 3.76029 12.6193 4.2288C12.6193 4.69731 12.2395 5.07709 11.7709 5.07709C11.3025 5.07709 10.9227 4.69731 10.9227 4.2288C10.9227 3.76029 11.3025 3.38048 11.7709 3.38048Z" fill="#99A2AD"/>
+                            </svg>
+                        </div>
+                        <div class="card_info__inforow__text">@diana_vlas</div>
+                    </div>
+                    <div class="card_info__inforow">
+                        <div class="card_info__inforow__caption">Тут прям охренительный статус он же описание моего ШИКАРНОГО профиля (если что, выше не здание, а мое суперское селфи)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="filter">
+            <div class="filter__content">
+                <input class="search__input styled-border" type="text" placeholder="Телефон, почта, логин">
+                <input class="search__input styled-border" type="password" placeholder="Пароль">
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
