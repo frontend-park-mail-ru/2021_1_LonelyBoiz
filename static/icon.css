@@ -4,14 +4,10 @@
 	margin-right: 30px;
 	padding-top: 8px;
 	padding-bottom: 8px;
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .icon {
-	/* position: relative; */
-	/* margin: 0; */
-	/* vertical-align: middle; */
-	/* transform: translateY(-50%); */
 }
 
 .avatar {

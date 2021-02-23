@@ -1,5 +1,4 @@
 .inforow {
-	/* font-family: 'Roboto'; */
 	display: flex;
 	color: var(--secondary-text-color);
 }

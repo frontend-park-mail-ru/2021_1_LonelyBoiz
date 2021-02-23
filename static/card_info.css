@@ -16,11 +16,7 @@
 
 .card-info__title {
 	color: var(--primary-text-color);
-	/* font-size: 50px; */
 	display: flex;
-	/* margin-bottom: 12px;
-	padding-bottom: 6px;
-	border-bottom: var(--border); */
 }
 
 .card-info__title-text {
