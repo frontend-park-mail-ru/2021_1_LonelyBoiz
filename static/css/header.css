@@ -8,7 +8,7 @@
 	height: var(--header-height);
 	line-height: var(--header-height);
 	background-color: var(--white-bg-color);
-    border-bottom: var(--border);
+	border-bottom: var(--border);
 }
 
 .header__title {
@@ -21,13 +21,17 @@
 }
 
 .header__tabbar {
-	width: 30%;
+	min-width: 300px;
+	width: 35%;
 	margin-left: auto;
 	margin-right: 0;
-	display: flex;
 }
 
 .header-icon {
 	width: 28px;
 	height: 28px;
+}
+
+.tabbar__header {
+	width: 300px;
 }

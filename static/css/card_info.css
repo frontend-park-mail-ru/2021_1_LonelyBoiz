@@ -1,17 +1,15 @@
 .card-info {
+	position: relative;
 	background-color: var(--white-bg-color);
-	padding-left: 12px;
-	padding-right: 12px;
-	padding-top: 5px;
-	padding-bottom: 10px;
+	padding: 5px 12px 10px 12px;
 }
 
 .card-info_feed {
-	border-radius: 0px 0px 10px 10px;
+	border-radius: 0 0 10px 10px;
 }
 
 .card-info_home {
-	border-radius: 10px;
+	border-radius: 0 10px 10px 0;
 }
 
 .card-info__title {
@@ -35,4 +33,15 @@
 .inforow-icon {
 	width: 24px;
 	height: 24px;
+}
+
+.card-info__bottom {
+	width: 100%;
+	position: absolute;
+	justify-content: space-between;
+	bottom: 0;
+	left: auto;
+	right: 0;
+	margin-top: 12px;
+	border-top: var(--border);
 }

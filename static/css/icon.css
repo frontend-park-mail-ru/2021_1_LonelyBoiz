@@ -1,19 +1,28 @@
 .tabbar__icon {
 	box-sizing: border-box;
 	height: var(--header-height);
-	margin-right: 30px;
 	padding-top: 8px;
 	padding-bottom: 8px;
 	cursor: pointer;
-}
-
-.icon {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
 .avatar {
 	position: relative;
-	top: -2px;
+	top: 1px;
 	border-radius: 50%;
+	width: 32px;
+	height: 32px;
+}
+
+.avatar_l {
 	width: 42px;
 	height: 42px;
+}
+
+.tabbar {
+	display: flex;
+	justify-content: space-around;
 }
