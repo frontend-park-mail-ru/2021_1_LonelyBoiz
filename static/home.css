@@ -1,3 +1,11 @@
 .content_home {
-	max-width: calc(600px + 300px);
+	max-width: calc(450px + 300px);
+}
+
+.card-photo_home{
+	max-width: 450px;
+}
+
+.card-info_home {
+	max-width: 300px;
 }

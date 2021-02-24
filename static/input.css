@@ -1,21 +1,22 @@
 .input-group {
-	padding-top: 12px;
-	padding-bottom: 12px;
+    padding-top: 12px;
+    padding-bottom: 12px;
 }
 
 .input-group__top {
-	padding-bottom: 6px;
-	padding-top: 2px;
-	color: var(--input-top-text-color);
+    padding-bottom: 6px;
+    padding-top: 2px;
+    color: var(--second-text-color);
 }
 
 .input-group__input {
-	color: var(--input-top-text-color);
-	background: var(--input-color);
-	width: 100%;
-	display: block;
-	text-indent: 10px;
-	border-radius: 5px;
-	height: 36px;
-	font-size: var(--content-font-size);
+    box-sizing: border-box;
+    color: var(--second-text-color);
+    background: var(--input-color);
+    width: 100%;
+    display: block;
+    text-indent: 10px;
+    border-radius: 5px;
+    height: 36px;
+    font-size: var(--content-font-size);
 }

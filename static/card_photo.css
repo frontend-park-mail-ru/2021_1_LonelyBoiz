@@ -76,7 +76,3 @@
 .card-photo__point_disabled {
 	background-color: var(--point-color_disabled);
 }
-
-.card-photo_home{
-	max-width: 600px;
-}
