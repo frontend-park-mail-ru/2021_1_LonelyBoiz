@@ -18,6 +18,14 @@
 	height: 32px;
 }
 
+.avatar_l {
+	position: relative;
+	top: 1px;
+	border-radius: 50%;
+	width: 42px;
+	height: 42px;
+}
+
 .tabbar{
 	display: flex;
 	justify-content: space-around;
