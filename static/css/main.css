@@ -1,61 +1,62 @@
 :root {
-    --main-bg-color: #f6f6f6;
-    --white-bg-color: #ffffff;
-    --primary-text-color: #2e2e2e;
-    --secondary-text-color: #818c99;
-    --second-text-color: #6d7885;
-    --muted-text-color: #99A2AD;
-    --arrow-color: #c4c4c4;
-    --arrow-color-hover: #979797b6;
-    --point-color_active: #ffffff;
-    --point-color_disabled: #80808073;
-    --input-color: #f2f3f5;
-    --border-color: #d7d7d7a4;
-    --counter-color: #3F8AE0;
-    --other-message-bg-color: #bcf17e;
-    --header-height: 54px;
-    --content-font-size: 14px;
-    --border: solid 1px var(--border-color);
+	--main-bg-color: #f6f6f6;
+	--white-bg-color: #ffffff;
+	--primary-text-color: #2e2e2e;
+	--secondary-text-color: #818c99;
+	--second-text-color: #6d7885;
+	--muted-text-color: #99a2ad;
+	--arrow-color: #c4c4c4;
+	--arrow-color-hover: #979797b6;
+	--point-color_active: #ffffff;
+	--point-color_disabled: #80808073;
+	--input-color: #f2f3f5;
+	--border-color: #d7d7d7a4;
+	--counter-color: #3f8ae0;
+	--other-message-bg-color: #bcf17e;
+	--header-height: 54px;
+	--content-font-size: 14px;
+	--border: solid 1px var(--border-color);
 }
 
 body {
-    font-family: 'Roboto mono';
-    background-color: var(--main-bg-color);
+	font-family: 'Roboto mono';
+	background-color: var(--main-bg-color);
 }
 
 .content {
-    display: flex;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: calc(var(--header-height) + 15px);
-    font-size: var(--content-font-size);
+	display: flex;
+	justify-content: center;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: calc(var(--header-height) + 15px);
+	font-size: var(--content-font-size);
 }
 
 .styled-border {
-    border: solid 1px var(--border-color);
+	border: solid 1px var(--border-color);
 }
 
 .title {
-    color: var(--primary-text-color);
-    font-size: 26px;
+	color: var(--primary-text-color);
+	font-size: 26px;
 }
 
 .bottom-border {
-    margin-bottom: 10px;
-    padding-bottom: 8px;
-    border-bottom: var(--border);
+	margin-bottom: 10px;
+	padding-bottom: 8px;
+	border-bottom: var(--border);
 }
 
 .top-border {
-    margin-top: 12px;
-    padding-top: 6px;
-    border-top: var(--border);
+	margin-top: 12px;
+	padding-top: 6px;
+	border-top: var(--border);
 }
 
 .muted-text {
-    color: var(--muted-text-color);
+	color: var(--muted-text-color);
 }
 
 .ml-2 {
-    margin-left: 4px;
+	margin-left: 4px;
 }
