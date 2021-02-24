@@ -45,4 +45,6 @@
 	bottom: 0px;
 	left:auto;
 	right: 0px;
+    margin-top: 12px;
+    border-top: var(--border);
 }
