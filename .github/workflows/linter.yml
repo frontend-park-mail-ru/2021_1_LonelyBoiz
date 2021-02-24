@@ -1,0 +1,21 @@
+# Название
+name: Lint Code Base
+# Определение триггера для запуска CI/CD
+on:
+  # Триггер на push любого коммита в ветку
+  push:
+    # Игнорирование ветки `master`
+    branches-ignore:
+      - 'master'
+# Задачи к выполнению
+jobs:
+  # Задача
+  linter:
+    # Сборка окружения ubuntu-latest
+    runs-on: ubuntu-latest
+    # Шаги задачи
+    steps:
+      # Переключение на текущую ветку (обязательное действие, если нужен доступ к файлам репозитория)
+      - uses: actions/checkout@v2
+      # Вызов Super Linter
+      - uses: docker://github/super-linter:v2.1.0
