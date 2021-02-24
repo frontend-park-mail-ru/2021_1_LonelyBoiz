@@ -5,3 +5,7 @@
 	margin-bottom: 64px;
 	border-radius: 10px;
 }
+
+.card_home{
+    display: flex;
+}

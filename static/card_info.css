@@ -1,4 +1,5 @@
 .card-info {
+	position: relative;
 	background-color: var(--white-bg-color);
 	padding-left: 12px;
 	padding-right: 12px;
@@ -11,7 +12,7 @@
 }
 
 .card-info_home {
-	border-radius: 10px;
+	border-radius: 0px 10px 10px 0px;
 }
 
 .card-info__title {
@@ -35,4 +36,13 @@
 .inforow-icon {
 	width: 24px;
 	height: 24px;
+}
+
+.card-info__bottom{
+	width: 100%;
+	position:absolute;
+    justify-content: space-between;
+	bottom: 0px;
+	left:auto;
+	right: 0px;
 }

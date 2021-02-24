@@ -21,7 +21,6 @@ body {
 }
 
 .content {
-	max-width: calc(600px + 300px + 20px);
 	display: flex;
 	margin-left: auto;
 	margin-right: auto;

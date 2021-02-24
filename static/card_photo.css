@@ -13,7 +13,7 @@
 }
 
 .card-photo__img_home {
-	border-radius: 10px;
+	border-radius: 10px 0px 0px 10px;
 }
 
 .card-photo__arrows {
@@ -75,4 +75,8 @@
 
 .card-photo__point_disabled {
 	background-color: var(--point-color_disabled);
+}
+
+.card-photo_home{
+	max-width: 600px;
 }
