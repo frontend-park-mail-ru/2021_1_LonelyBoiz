@@ -1,19 +1,19 @@
 .write-bar {
-    box-sizing: border-box;
-    border-top: var(--border);
-    width: 100%;
-    padding: 12px;
-    display: flex;
+	box-sizing: border-box;
+	border-top: var(--border);
+	width: 100%;
+	padding: 12px;
+	display: flex;
 }
 
 .write-bar__icon {
-    display: flex;
-    align-items: center;
-    margin-left: 12px;
-    margin-right: 6px;
+	display: flex;
+	align-items: center;
+	margin-left: 12px;
+	margin-right: 6px;
 }
 
 .send-icon {
-    width: 28px;
-    height: 28px;
+	width: 28px;
+	height: 28px;
 }
