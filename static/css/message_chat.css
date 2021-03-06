@@ -24,18 +24,18 @@
 	word-wrap: break-word;
 	border-radius: 10px;
 	padding: 10px;
-	margin-top: 5px;
-	margin-bottom: 5px;
+	margin: 7px;
+	margin-bottom: 7px;
+	border: var(--border);
 }
 
 .message_user {
-	background-color: var(--other-message-bg-color);
+	background-color: var(--main-bg-color);
 	margin-right: 10px;
 	margin-left: auto;
 }
 
 .message_other {
-	background-color: var(--main-bg-color);
 	margin-left: 10px;
 	margin-right: auto;
 }

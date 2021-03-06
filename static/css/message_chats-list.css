@@ -1,18 +1,18 @@
-.chat-list__header {
+.chats-list__header {
 	box-sizing: border-box;
 	border-bottom: var(--border);
 	width: 100%;
 	padding: 12px;
 }
 
-.chat-list__list {
+.chats-list__list {
 	height: 100%;
 	padding-left: 12px;
 	padding-right: 12px;
 	overflow: auto;
 }
 
-.chat-list__list__contet {
+.chats-list__list__contet {
 	position: absolute;
 	left: 0;
 	right: 0;

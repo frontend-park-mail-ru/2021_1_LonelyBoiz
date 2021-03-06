@@ -1,12 +1,12 @@
 @import 'message_chat.css';
-@import 'message_chat-list.css';
+@import 'message_chats-list.css';
 
 .content_message {
 	max-width: calc(300px + 600px);
 	height: 89vh;
 }
 
-.chat-list {
+.chats-list {
 	position: relative;
 	min-width: 300px;
 	width: 300px;
