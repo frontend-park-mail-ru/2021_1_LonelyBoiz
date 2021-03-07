@@ -23,17 +23,12 @@ class Tabbar {
 	}
 
 	/**
-	 * Задает контекст
-	 *
-	 * @setContext
+	 * @render
 	 * @this  {Tabbar}
 	 * @param {Object[]} context {icons:[{iconClasses='', size=28, src='logo.png', href}]}
 	 */
-	setContext(context) {
+	render(context) {
 		this.context = context;
-	}
-
-	render() {
 		return this.template(this.context);
 	}
 }

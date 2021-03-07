@@ -15,12 +15,14 @@ class Header {
 		this.template = Handlebars.templates['Header.hbs'];
 		this.context = {};
 	}
-
-	setContext(context) {
+	
+	/**
+	 * @render
+	 * @this  {Header}
+	 * @param {Object} context {}
+	 */
+	render(context) {
 		this.context = context;
-	}
-
-	render() {
 		const tabbar = new Tabbar();
 		tabbar.setContext({
 			icons: [

@@ -17,17 +17,12 @@ class Message {
 	}
 
 	/**
-	 * Задает контекст
-	 *
-	 * @setContext
+	 * @render
 	 * @this  {Message}
 	 * @param {Object} context [text, usersMessage=false]
 	 */
-	setContext(context) {
+	render(context) {
 		this.context = context;
-	}
-
-	render() {
 		return this.template(this.context);
 	}
 }

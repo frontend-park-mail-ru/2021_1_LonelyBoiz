@@ -17,17 +17,12 @@ class InfoRow {
 	}
 
 	/**
-	 * Задает контекст
-	 *
-	 * @setContext
+	 * @render
 	 * @this  {InfoRow}
 	 * @param {Object} context {iconSrc, text=''}
 	 */
-	setContext(context) {
+	render(context) {
 		this.context = context;
-	}
-
-	render() {
 		return this.template(this.context);
 	}
 }
