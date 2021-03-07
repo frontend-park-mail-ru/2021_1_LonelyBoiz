@@ -1,5 +1,5 @@
 .input-block {
-    padding: 15px 8px;
+    padding: 5px 5px;
 }
 
 .input-block__input {
@@ -11,6 +11,7 @@
     border-radius: 5px;
     height: 36px;
     font-size: 12px;
+    box-sizing: border-box;
 }
 
 .input-block__input_border {
