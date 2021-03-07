@@ -1,11 +1,21 @@
 import Input from '../Input/Input.js'
 import Button from '../Button/Button.js'
 
-const loginFormTemplate = 'LoginForm.hbs'
+const formTemplate = 'LoginForm.hbs'
 
-class LoginForm {
+/**
+ * @class
+ * Компонента формы
+ */
+class Form {
+    /**
+     * Создает экземпляр формы
+     *
+     * @constructor
+     * @this  {Form}
+     */
     constructor() {
-        this.template = Handlebars.templates[loginFormTemplate];
+        this.template = Handlebars.templates[formTemplate];
     }
 
     render(context) {
@@ -21,4 +31,4 @@ class LoginForm {
     }
 }
 
-export default LoginForm
+export default Form

@@ -1,6 +1,6 @@
 import Button from '../src/components/Button/Button.js';
 import Input from '../src/components/Input/Input.js';
-import LoginForm from '../src/components/LoginForm/LoginForm.js';
+import LoginForm from '../src/components/Form/Form.js';
 
 let app = document.getElementById("app");
 

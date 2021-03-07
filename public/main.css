@@ -1,6 +1,6 @@
 @import '../src/components/Button/Button.css';
 @import '../src/components/Input/Input.css';
-@import '../src/components/LoginForm/LoginForm.css';
+@import '../src/components/Form/Form.css';
 
 :root {
     --bg-color: #f6f6f6;
