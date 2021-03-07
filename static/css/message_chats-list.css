@@ -2,7 +2,7 @@
 	box-sizing: border-box;
 	border-bottom: var(--border);
 	width: 100%;
-	padding: 12px;
+	padding: 11px;
 }
 
 .chats-list__list {

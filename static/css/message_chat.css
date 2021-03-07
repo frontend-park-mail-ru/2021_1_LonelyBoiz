@@ -9,7 +9,7 @@
 	position: absolute;
 	left: 0;
 	right: 0;
-	top: 0;
+	top: 62px;
 	bottom: 66px;
 }
 
@@ -41,6 +41,7 @@
 }
 
 .message-header {
+	background-color: var(--white-bg-color);
 	display: flex;
 	box-sizing: border-box;
 	border-bottom: var(--border);
