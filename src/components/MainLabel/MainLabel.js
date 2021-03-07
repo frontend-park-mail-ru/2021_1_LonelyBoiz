@@ -1,30 +1,26 @@
+const mainLabelTemplate = 'MainLabel.hbs'
+
 /**
  * @class
- * Компонента MainSlogan
+ * Компонента логотипа
  */
-class MainSlogan {
+class MainLabel {
 	/**
-	 * Создает экземпляр MainSlogan
+	 * Создает экземпляр MainLabel
 	 *
 	 * @constructor
-	 * @this  {MainSlogan}
-	 * @param context
-	 * @param parent
+	 * @this  {MainLabel}
 	 */
 	constructor() {
-		this.template = Handlebars.templates['MainSlogan.hbs'];
-		this.context = {
-			text: '',
-		};
+		this.template = Handlebars.templates[mainLabelTemplate];
 	}
 
-	setContext(context) {
-		this.context = context;
-	}
-
+	/**
+	 * Отображает компонент логотипа
+	 */
 	render() {
-		return this.template(this.context);
+		return this.template({});
 	}
 }
 
-export default MainSlogan;
+export default MainLabel;

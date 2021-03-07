@@ -1,23 +1,30 @@
 import Button from '../src/components/Button/Button.js';
 import Input from '../src/components/Input/Input.js';
-import LoginForm from '../src/components/Form/Form.js';
+import Form from '../src/components/Form/Form.js';
+import LoginView from '../src/view/LoginView/LoginView.js';
+import MainLabel from "../src/components/MainLabel/MainLabel.js";
 
 let app = document.getElementById("app");
 
 let button = new Button();
 let input = new Input();
-let loginForm = new LoginForm();
+let form = new Form();
 
 //app.innerHTML = button.render({'text': 'Hello there'});
 //app.innerHTML = input.render({'type': 'password', 'placeholder': 'Пароль'});
-let render_value = loginForm.render({
+let renderedForm = form.render({
   'inputs': [
-      {'type': 'text', 'placeholder': 'Почта'},
-      {'type': 'password', 'placeholder': 'Пароль'},
+      new Input().render({'type': 'text', 'placeholder': 'Почта'}),
+      new Input().render({'type': 'password', 'placeholder': 'Пароль'}),
   ],
-  'button': {'text': 'Вход'}
+  'button': new Button().render({'text': 'Вход'})
 });
 
-console.log(render_value)
+let render_value = new LoginView().render({
+    'header': new MainLabel().render({'text': 'PICKle'}),
+    'form': renderedForm,
+    'signupHref': 'signup',
+    'error': 'Неправильно введен логин или пароль.Введите пароль заново. что-то пошло не так'
+    })
 
 app.innerHTML = render_value

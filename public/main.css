@@ -1,6 +1,8 @@
 @import '../src/components/Button/Button.css';
 @import '../src/components/Input/Input.css';
 @import '../src/components/Form/Form.css';
+@import '../src/components/MainLabel/MainLabel.css';
+@import '../src/view/LoginView/LoginView.css';
 
 :root {
     --bg-color: #f6f6f6;
@@ -10,4 +12,9 @@
     --fg-head-color: #2e2e2e;
     --btn-color: #0095f6;
     --btn-clicked-color: #4cb4f8;
+    --field_error_border: #e64646;
+}
+
+body {
+    background: var(--bg-color);
 }

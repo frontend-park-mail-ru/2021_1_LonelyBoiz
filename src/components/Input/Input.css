@@ -17,3 +17,13 @@
 .input-block__input_border {
     border: solid 1px var(--border-color);
 }
+
+.input-block__input:focus {
+    outline: none;
+    border: solid 1px var(--border-sel-color);
+}
+
+.input-block__input_error {
+    border: solid 1px var(--field_error_border);
+}
+

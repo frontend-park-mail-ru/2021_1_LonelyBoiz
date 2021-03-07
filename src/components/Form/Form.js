@@ -1,7 +1,7 @@
 import Input from '../Input/Input.js'
 import Button from '../Button/Button.js'
 
-const formTemplate = 'LoginForm.hbs'
+const formTemplate = 'Form.hbs'
 
 /**
  * @class
@@ -18,16 +18,12 @@ class Form {
         this.template = Handlebars.templates[formTemplate];
     }
 
+    /**
+     * Отображает компонент ввода
+     * @param {Object} context - Контекст с массивом вводов и кнопкой
+     */
     render(context) {
-        this.context = {
-            inputs: [
-                new Input().render(context.inputs[0]),
-                new Input().render(context.inputs[1]),
-            ],
-            button: new Button().render(context.button)
-        }
-
-        return this.template(this.context)
+        return this.template(context)
     }
 }
 
