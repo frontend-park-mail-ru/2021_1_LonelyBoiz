@@ -9,14 +9,26 @@
 	color: var(--second-text-color);
 }
 
-.input-group__input {
-	box-sizing: border-box;
-	color: var(--second-text-color);
-	background: var(--input-color);
+.input {
+	background: var(--bg-color);
+	padding: 0;
 	width: 100%;
 	display: block;
 	text-indent: 10px;
-	border-radius: 5px;
 	height: 36px;
-	font-size: var(--content-font-size);
+	font-size: 12px;
+}
+
+.input {
+	border-radius: 5px;
+	border: solid 1px var(--border-color);
+}
+
+.input_gray {
+	background: var(--input-color);
+}
+
+.input:focus {
+	outline: none;
+	border: solid 1px var(--border-sel-color);
 }

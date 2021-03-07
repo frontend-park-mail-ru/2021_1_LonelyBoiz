@@ -30,7 +30,7 @@
 }
 
 .message_user {
-	background-color: var(--main-bg-color);
+	background-color: var(--bg-color);
 	margin-right: 10px;
 	margin-left: auto;
 }
