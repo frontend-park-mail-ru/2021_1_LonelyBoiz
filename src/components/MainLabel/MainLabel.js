@@ -13,19 +13,14 @@ class MainLabel {
 	 */
 	constructor() {
 		this.template = Handlebars.templates['MainLabel.hbs'];
-		this.context = {
-			text: '',
-		};
 	}
 
 	/**
 	 * @render
 	 * @this  {MainLabel}
-	 * @param {Object} context {}
 	 */
-	render(context) {
-		this.context = context;
-		return this.template(this.context);
+	render() {
+		return this.template();
 	}
 }
 

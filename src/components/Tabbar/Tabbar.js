@@ -11,15 +11,6 @@ class Tabbar {
 	 */
 	constructor() {
 		this.template = Handlebars.templates['Tabbar.hbs'];
-		this.context = {
-			icons: [
-				{
-					iconClasses: '',
-					size: 28,
-					src: 'logo.png',
-				},
-			],
-		};
 	}
 
 	/**
@@ -28,8 +19,7 @@ class Tabbar {
 	 * @param {Object[]} context {icons:[{iconClasses='', size=28, src='logo.png', href}]}
 	 */
 	render(context) {
-		this.context = context;
-		return this.template(this.context);
+		return this.template(context);
 	}
 }
 

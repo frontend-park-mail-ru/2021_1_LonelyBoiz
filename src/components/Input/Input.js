@@ -1,27 +1,29 @@
-const inputTemplate = 'Input.hbs';
-
 /**
  * @class
- * Компонента ввода
+ * Компонента Input
  */
 class Input {
-    /**
-     * Создает экземпляр ввода
-     *
-     * @constructor
-     * @this  {Input}
-     */
-    constructor () {
-        this.template = Handlebars.templates[inputTemplate];
-    }
+	/**
+	 * Создает экземпляр Input
+	 *
+	 * @constructor
+	 * @this  {Input}
+	 */
+	constructor() {
+		this.template = Handlebars.templates['Input.hbs'];
+	}
 
-    /**
-     * Отображает компонент ввода
-     * @param {Object} context - Контекст с тектом и типом
-     */
-    render (context) {
-        return this.template(context);
-    }
+	/**
+	 * @render
+	 * @this  {Input}
+	 * @param {Object} context {type, placeholder}
+	 */
+	render(context) {
+		if (!context.type) {
+			context.type = 'text';
+		}
+		return this.template(context);
+	}
 }
 
 export default Input;

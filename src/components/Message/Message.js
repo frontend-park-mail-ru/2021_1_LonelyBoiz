@@ -11,19 +11,15 @@ class Message {
 	 */
 	constructor() {
 		this.template = Handlebars.templates['Message.hbs'];
-		this.context = {
-			usersMessage: false,
-		};
 	}
 
 	/**
 	 * @render
 	 * @this  {Message}
-	 * @param {Object} context [text, usersMessage=false]
+	 * @param {Object} context {text, usersMessage}
 	 */
 	render(context) {
-		this.context = context;
-		return this.template(this.context);
+		return this.template(context);
 	}
 }
 

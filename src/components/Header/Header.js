@@ -13,18 +13,16 @@ class Header {
 	 */
 	constructor() {
 		this.template = Handlebars.templates['Header.hbs'];
-		this.context = {};
 	}
 	
 	/**
 	 * @render
 	 * @this  {Header}
-	 * @param {Object} context {}
 	 */
-	render(context) {
-		this.context = context;
+	render() {
+		let context = {};
 		const tabbar = new Tabbar();
-		this.context.tabbar = tabbar.render({
+		context.Tabbar = tabbar.render({
 			icons: [
 				{ iconClasses: '', size: 28, src: 'icon/home_fill.svg' },
 				{
@@ -39,8 +37,8 @@ class Header {
 		});
 
 		const mainLabel = new MainLabel();
-		this.context.MainLabel = mainLabel.render();
-		return this.template(this.context);
+		context.MainLabel = mainLabel.render();
+		return this.template(context);
 	}
 }
 
