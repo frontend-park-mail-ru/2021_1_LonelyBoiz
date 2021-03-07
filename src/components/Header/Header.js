@@ -10,8 +10,6 @@ class Header {
 	 *
 	 * @constructor
 	 * @this  {Header}
-	 * @param context
-	 * @param parent
 	 */
 	constructor() {
 		this.template = Handlebars.templates['Header.hbs'];

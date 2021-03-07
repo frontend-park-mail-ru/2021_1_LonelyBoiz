@@ -8,8 +8,6 @@ class Tabbar {
 	 *
 	 * @constructor
 	 * @this  {Tabbar}
-	 * @param {Object[]} context {icons:[{iconClasses='', size=28, src='logo.png', href}]}
-	 * @param parent
 	 */
 	constructor() {
 		this.template = Handlebars.templates['Tabbar.hbs'];
@@ -24,6 +22,13 @@ class Tabbar {
 		};
 	}
 
+	/**
+	 * Задает контекст
+	 *
+	 * @setContext
+	 * @this  {Tabbar}
+	 * @param {Object[]} context {icons:[{iconClasses='', size=28, src='logo.png', href}]}
+	 */
 	setContext(context) {
 		this.context = context;
 	}

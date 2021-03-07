@@ -8,8 +8,6 @@ class InfoRow {
 	 *
 	 * @constructor
 	 * @this  {InfoRow}
-	 * @param {Object} context {iconSrc, text=''}
-	 * @param parent
 	 */
 	constructor() {
 		this.template = Handlebars.templates['InfoRow.hbs'];
@@ -18,6 +16,13 @@ class InfoRow {
 		};
 	}
 
+	/**
+	 * Задает контекст
+	 *
+	 * @setContext
+	 * @this  {InfoRow}
+	 * @param {Object} context {iconSrc, text=''}
+	 */
 	setContext(context) {
 		this.context = context;
 	}
