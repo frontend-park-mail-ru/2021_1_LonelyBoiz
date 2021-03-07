@@ -16,7 +16,7 @@ class Input {
 	/**
 	 * @render
 	 * @this  {Input}
-	 * @param {Object} context {type, placeholder, bg_gray}
+	 * @param {Object} context {type="text", placeholder, bg_gray, defaultValue}
 	 */
 	render(context) {
 		if (!context.type) {

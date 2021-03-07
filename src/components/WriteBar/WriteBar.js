@@ -1,4 +1,4 @@
-import Input from "../Input/Input.js"
+import Input from '../Input/Input.js';
 /**
  * @class
  * Компонента WriteBar
@@ -18,9 +18,14 @@ class WriteBar {
 	 * @render
 	 * @this  {WriteBar}
 	 */
-	render(context) {
-        const input = new Input();
-		context.Input = input.render({placeholder:"Сообщение", bg_gray:true})
+	render() {
+		const input = new Input();
+		let context = {
+			Input: input.render({
+				placeholder: 'Сообщение',
+				bg_gray: true,
+			}),
+		};
 		return this.template(context);
 	}
 }
