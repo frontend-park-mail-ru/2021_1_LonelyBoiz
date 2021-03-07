@@ -1,5 +1,5 @@
 :root {
-	--main-bg-color: #f6f6f6;
+	--bg-color: #f6f6f6;
 	--white-bg-color: #ffffff;
 	--primary-text-color: #2e2e2e;
 	--secondary-text-color: #818c99;
@@ -16,4 +16,7 @@
 	--header-height: 54px;
 	--content-font-size: 14px;
 	--border: solid 1px var(--border-color);
+	--border-sel-color: #adadad;
+	--primary-text-color: #2e2e2e;
+	--btn-color: #0095f6;
 }

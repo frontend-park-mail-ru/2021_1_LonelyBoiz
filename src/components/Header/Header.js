@@ -1,5 +1,5 @@
 import Tabbar from '../Tabbar/Tabbar.js';
-import MainSlogan from '../MainSlogan/MainSlogan.js';
+import MainLabel from '../MainLabel/MainLabel.js';
 /**
  * @class
  * Компонента Header
@@ -39,8 +39,8 @@ class Header {
 		});
 		this.context.tabbar = tabbar.render();
 
-		const mainSlogan = new MainSlogan();
-		this.context.mainSlogan = mainSlogan.render();
+		const mainLabel = new MainLabel();
+		this.context.MainLabel = mainLabel.render();
 		return this.template(this.context);
 	}
 }
