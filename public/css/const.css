@@ -19,4 +19,14 @@
 	--border-sel-color: #adadad;
 	--primary-text-color: #2e2e2e;
 	--btn-color: #0095f6;
+	--text_action_counter: #818c99;
+	--text_link: #4986cc;
+	--text_link_highlighted_background: #000000;
+	--text_muted: #2c2d2e;
+	--text_name: #4986cc;
+	--text_placeholder: #818c99;
+	--text_primary: #000000;
+	--text_secondary: #818c99;
+	--text_subhead: #6d7885;
+	--text_tertiary: #99a2ad;
 }
