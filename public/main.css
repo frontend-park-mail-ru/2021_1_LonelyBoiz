@@ -1,0 +1,11 @@
+@import '../src/components/Button/Button.css';
+
+:root {
+    --bg-color: #f6f6f6;
+    --border-color: #d7d7d7;
+    --border-sel-color: #adadad;
+    --bg2-color: #ffffff;
+    --fg-head-color: #2e2e2e;
+    --btn-color: #0095f6;
+    --btn-clicked-color: #4cb4f8;
+}

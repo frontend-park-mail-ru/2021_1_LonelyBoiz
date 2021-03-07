@@ -1,15 +1,10 @@
-const express = require('express');
+'use restrict';
 
+const express = require('express');
+const path = require('path');
 const app = express();
 
-app.use(express.static('static'));
-
-app.use('/', function (request, response) {
-	response.redirect('/home.html');
-});
-
-app.use('/index', function (request, response) {
-	response.redirect('/home.html');
-});
+const staticPath = path.resolve(__dirname);
+app.use('/', express.static(staticPath));
 
 app.listen(3000);
