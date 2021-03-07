@@ -24,7 +24,7 @@ class Header {
 	render(context) {
 		this.context = context;
 		const tabbar = new Tabbar();
-		tabbar.setContext({
+		this.context.tabbar = tabbar.render({
 			icons: [
 				{ iconClasses: '', size: 28, src: 'icon/home_fill.svg' },
 				{
@@ -37,7 +37,6 @@ class Header {
 				{ iconClasses: 'avatar', size: 28, src: 'img/logo.png' },
 			],
 		});
-		this.context.tabbar = tabbar.render();
 
 		const mainLabel = new MainLabel();
 		this.context.MainLabel = mainLabel.render();
