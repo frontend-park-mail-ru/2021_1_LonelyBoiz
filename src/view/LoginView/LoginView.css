@@ -1,0 +1,47 @@
+.app {
+    text-align: center;
+    padding: 50px 0;
+}
+
+.login-block {
+    text-align: center;
+    background: var(--bg2-color);
+    padding: 30px 0 30px;
+    margin: 0 auto 10px auto;
+    display: block;
+    width: 350px;
+}
+
+.login-block_border {
+    border: solid 1px var(--border-color);
+}
+
+.login-block__header {
+    margin: 20px auto 35px;
+}
+
+.login-block__form {
+    padding: 0 35px
+}
+
+.login-block_footer {
+    padding: 20px 0;
+}
+
+.login-block__link {
+    text-decoration: none;
+    color: var(--btn-color);
+    font-family: 'Roboto';
+    font-size: 14px;
+}
+
+.login-block__error {
+    padding: 20px 0;
+    color: red;
+    font-family: 'Roboto';
+    font-size: 13px;
+}
+
+.login-block__error-hidden {
+    display: none;
+}

@@ -1,0 +1,29 @@
+.input-block {
+    padding: 5px 5px;
+}
+
+.input-block__input {
+    background: var(--bg-color);
+    padding: 0;
+    width: 100%;
+    display: block;
+    text-indent: 10px;
+    border-radius: 5px;
+    height: 36px;
+    font-size: 12px;
+    box-sizing: border-box;
+}
+
+.input-block__input_border {
+    border: solid 1px var(--border-color);
+}
+
+.input-block__input:focus {
+    outline: none;
+    border: solid 1px var(--border-sel-color);
+}
+
+.input-block__input_error {
+    border: solid 1px var(--field_error_border);
+}
+
