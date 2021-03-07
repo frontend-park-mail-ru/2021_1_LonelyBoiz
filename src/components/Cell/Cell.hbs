@@ -1,0 +1,23 @@
+<div class="cell bottom-border">
+    {{#if avatar}}
+    <div class="cell__avatar">
+        <img class="icon avatar avatar_l" src="{{avatar}}" />
+    </div>
+    {{/if}}
+    <div class="cell__in">
+        <div class="cell__content Text Text--w-semibold">
+            <div class="cell__children">
+                {{{children}}}
+            </div>
+            <div class="cell__after">
+                {{{after}}}
+            </div>
+        </div>
+        <div class="cell__text Text Text--w-medium">
+            {{text}}
+        </div>
+        <div class="Caption Caption--w-regular Caption--l-1 cell__caption">
+            {{{caption}}}
+        </div>
+    </div>
+</div>
