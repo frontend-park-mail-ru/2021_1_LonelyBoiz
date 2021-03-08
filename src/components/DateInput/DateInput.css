@@ -1,0 +1,19 @@
+.date-block {
+    display: flex;
+}
+
+.date-block__item {
+    flex-grow: 1;
+}
+
+.date-block__item_month {
+    flex-grow: 4;
+}
+
+.date-block__item_day {
+    flex-grow: 1;
+}
+
+.date-block__item_year {
+    flex-grow: 2;
+}
