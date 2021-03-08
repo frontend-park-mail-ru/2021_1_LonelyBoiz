@@ -12,7 +12,7 @@ class EventBus {
      * @this  {EventBus}
      */
     constructor () {
-        this.map = new Map()
+        this.map = new Map();
     }
 
     /**
@@ -22,10 +22,10 @@ class EventBus {
      */
     static getInstance () {
         if (!EventBus.instance) {
-            EventBus.instance = new EventBus()
+            EventBus.instance = new EventBus();
         }
 
-        return EventBus.instance
+        return EventBus.instance;
     }
 
     /**
@@ -36,11 +36,11 @@ class EventBus {
      */
     connect (event, callback) {
         if (this.map.has(event)) {
-            this.map.get(event).add(callback)
+            this.map.get(event).add(callback);
         } else {
-            const set = new Set()
-            set.add(callback)
-            this.map.set(event, set)
+            const set = new Set();
+            set.add(callback);
+            this.map.set(event, set);
         }
     }
 
@@ -52,7 +52,7 @@ class EventBus {
      */
     disconnect (event, callback) {
         if (this.map.has(event)) {
-            this.map.get(event).delete(callback)
+            this.map.get(event).delete(callback);
         }
     }
 
@@ -65,10 +65,10 @@ class EventBus {
     emit (event, data = {}) {
         if (this.map.has(event)) {
             this.map.get(event).forEach((callback, _) => {
-                callback(data)
-            })
+                callback(data);
+            });
         }
     }
 }
 
-export default EventBus.getInstance()
+export default EventBus.getInstance();

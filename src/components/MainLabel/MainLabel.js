@@ -1,4 +1,4 @@
-const mainLabelTemplate = 'MainLabel.hbs'
+const mainLabelTemplate = 'MainLabel.hbs';
 
 /**
  * @class
@@ -12,15 +12,15 @@ class MainLabel {
      * @this  {MainLabel}
      */
     constructor () {
-        this.template = Handlebars.templates[mainLabelTemplate]
+        this.template = Handlebars.templates[mainLabelTemplate];
     }
 
     /**
      * Отображает компонент логотипа
      */
     render () {
-        return this.template({})
+        return this.template({});
     }
 }
 
-export default MainLabel
+export default MainLabel;

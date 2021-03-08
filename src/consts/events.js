@@ -5,6 +5,6 @@ const Events = {
     passwordValidationFailed: 'passwordValidationFailed',
     passwordMatchFailed: 'passwordMatchFailed',
     dateValidationFailed: 'dateValidationFailed'
-}
+};
 
-export default Events
+export default Events;

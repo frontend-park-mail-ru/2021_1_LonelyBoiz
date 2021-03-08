@@ -1,4 +1,4 @@
-const buttonTemplate = 'Button.hbs'
+const buttonTemplate = 'Button.hbs';
 
 /**
  * @class
@@ -12,7 +12,7 @@ class Button {
      * @this  {Button}
      */
     constructor () {
-        this.template = Handlebars.templates[buttonTemplate]
+        this.template = Handlebars.templates[buttonTemplate];
     }
 
     /**
@@ -20,8 +20,8 @@ class Button {
      * @param {Object} context - Контекст с тектом и типом
      */
     render (context) {
-        return this.template(context)
+        return this.template(context);
     }
 }
 
-export default Button
+export default Button;

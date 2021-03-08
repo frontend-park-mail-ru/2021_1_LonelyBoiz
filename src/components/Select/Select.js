@@ -1,4 +1,4 @@
-const select = 'Select.hbs'
+const select = 'Select.hbs';
 
 /**
  * @class
@@ -12,15 +12,15 @@ class Select {
      * @this  {Select}
      */
     constructor () {
-        this.template = Handlebars.templates[select]
+        this.template = Handlebars.templates[select];
     }
 
     /**
      * Отображает компонент выбора опций
      */
     render (context) {
-        return this.template(context)
+        return this.template(context);
     }
 }
 
-export default Select
+export default Select;

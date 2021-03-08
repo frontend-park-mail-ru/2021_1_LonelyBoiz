@@ -1,4 +1,4 @@
-const formTemplate = 'Form.hbs'
+const formTemplate = 'Form.hbs';
 
 /**
  * @class
@@ -12,7 +12,7 @@ class Form {
      * @this  {Form}
      */
     constructor () {
-        this.template = Handlebars.templates[formTemplate]
+        this.template = Handlebars.templates[formTemplate];
     }
 
     /**
@@ -20,8 +20,8 @@ class Form {
      * @param {Object} context - Контекст с массивом вводов и кнопкой
      */
     render (context) {
-        return this.template(context)
+        return this.template(context);
     }
 }
 
-export default Form
+export default Form;

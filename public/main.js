@@ -7,8 +7,8 @@ import Select from '../src/components/Select/Select.js'
 import LoginView from '../src/view/LoginView/LoginView.js';
 import SignupView from '../src/view/SignupView/SignupView.js';
 
-import EventBus from "../src/utils/eventBus.js";
-import Events from "../src/consts/events.js";
+import EventBus from '../src/utils/eventBus.js';
+import Events from '../src/consts/events.js';
 
 
 const app = document.getElementById("app");

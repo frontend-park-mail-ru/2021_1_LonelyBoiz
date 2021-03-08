@@ -1,4 +1,4 @@
-const signupViewTemplate = 'SignupView.hbs'
+const signupViewTemplate = 'SignupView.hbs';
 
 /**
  * @class
@@ -12,7 +12,7 @@ class SignupView {
      * @this  {SignupView}
      */
     constructor () {
-        this.template = Handlebars.templates[signupViewTemplate]
+        this.template = Handlebars.templates[signupViewTemplate];
     }
 
     /**
@@ -21,8 +21,8 @@ class SignupView {
      *
      */
     render (context) {
-        return this.template(context)
+        return this.template(context);
     }
 }
 
-export default SignupView
+export default SignupView;
