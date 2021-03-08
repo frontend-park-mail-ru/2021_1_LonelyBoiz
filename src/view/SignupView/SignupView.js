@@ -11,17 +11,18 @@ class SignupView {
      * @constructor
      * @this  {SignupView}
      */
-    constructor() {
-        this.template = Handlebars.templates[signupViewTemplate];
+    constructor () {
+        this.template = Handlebars.templates[signupViewTemplate]
     }
 
     /**
      * Отображает страницу регистрации
      * @param {Object} context - форма с полями ввода и кнопкой
+     *
      */
-    render(context) {
-        return this.template(context);
+    render (context) {
+        return this.template(context)
     }
 }
 
-export default SignupView;
+export default SignupView

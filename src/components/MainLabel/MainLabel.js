@@ -5,22 +5,22 @@ const mainLabelTemplate = 'MainLabel.hbs'
  * Компонента логотипа
  */
 class MainLabel {
-	/**
-	 * Создает экземпляр MainLabel
-	 *
-	 * @constructor
-	 * @this  {MainLabel}
-	 */
-	constructor() {
-		this.template = Handlebars.templates[mainLabelTemplate];
-	}
+    /**
+     * Создает экземпляр MainLabel
+     *
+     * @constructor
+     * @this  {MainLabel}
+     */
+    constructor () {
+        this.template = Handlebars.templates[mainLabelTemplate]
+    }
 
-	/**
-	 * Отображает компонент логотипа
-	 */
-	render() {
-		return this.template({});
-	}
+    /**
+     * Отображает компонент логотипа
+     */
+    render () {
+        return this.template({})
+    }
 }
 
-export default MainLabel;
+export default MainLabel

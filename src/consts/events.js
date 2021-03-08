@@ -4,7 +4,7 @@ const Events = {
     nameValidationFailed: 'nameValidationFailed',
     passwordValidationFailed: 'passwordValidationFailed',
     passwordMatchFailed: 'passwordMatchFailed',
-    dateValidationFailed: 'dateValidationFailed',
+    dateValidationFailed: 'dateValidationFailed'
 }
 
 export default Events

@@ -48,10 +48,10 @@ const renderValue = new SignupView().render({
 
 app.innerHTML = renderValue
 
-function onSubmit(data) {
+function onButtonSubmit(data) {
     console.log('hello world')
 }
 
-EventBus.connect(Events.formSubmitted, onSubmit)
+EventBus.connect(Events.formSubmitted, onButtonSubmit)
 const button = document.querySelector('.button-block__button')
 button.addEventListener('click', (e) => {e.preventDefault(); EventBus.emit(Events.formSubmitted);})

@@ -11,21 +11,21 @@ class EventBus {
      * @constructor
      * @this  {EventBus}
      */
-    constructor() {
-        this.map = new Map();
+    constructor () {
+        this.map = new Map()
     }
 
     /**
      * Выдает экземпляр синглтона. В случае отсутствия - создает
      *
-     * @returns {EventBus} экземпляр объекта
+     * @return {EventBus} экземпляр объекта
      */
-    static getInstance() {
+    static getInstance () {
         if (!EventBus.instance) {
-            EventBus.instance = new EventBus();
+            EventBus.instance = new EventBus()
         }
 
-        return EventBus.instance;
+        return EventBus.instance
     }
 
     /**
@@ -34,13 +34,13 @@ class EventBus {
      * @param  {string} event - Кастомное событие
      * @param  {Function} callback - Обработчик, который привязывается к событию
      */
-    connect(event, callback) {
+    connect (event, callback) {
         if (this.map.has(event)) {
-            this.map.get(event).add(callback);
+            this.map.get(event).add(callback)
         } else {
-            const set = new Set();
-            set.add(callback);
-            this.map.set(event, set);
+            const set = new Set()
+            set.add(callback)
+            this.map.set(event, set)
         }
     }
 
@@ -50,9 +50,9 @@ class EventBus {
      * @param  {string} event - Кастомное событие
      * @param  {Function} callback - Обработчик, который отвязывается от события
      */
-    disconnect(event, callback) {
+    disconnect (event, callback) {
         if (this.map.has(event)) {
-            this.map.get(event).delete(callback);
+            this.map.get(event).delete(callback)
         }
     }
 
@@ -62,11 +62,13 @@ class EventBus {
      * @param  {string} event - Кастомное событие
      * @param  {Object} data - Данные для обработчиков
      */
-    emit(event, data={}) {
+    emit (event, data = {}) {
         if (this.map.has(event)) {
-            this.map.get(event).forEach((callback, _) => {callback(data)});
+            this.map.get(event).forEach((callback, _) => {
+                callback(data)
+            })
         }
     }
 }
 
-export default EventBus.getInstance();
+export default EventBus.getInstance()

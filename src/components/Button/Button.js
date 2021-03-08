@@ -1,3 +1,5 @@
+import Handlebars from ''
+
 const buttonTemplate = 'Button.hbs'
 
 /**
@@ -11,15 +13,15 @@ class Button {
      * @constructor
      * @this  {Button}
      */
-    constructor() {
-        this.template = Handlebars.templates[buttonTemplate];
+    constructor () {
+        this.template = Handlebars.templates[buttonTemplate]
     }
 
     /**
      * Отображает компонент кнопким
      * @param {Object} context - Контекст с тектом и типом
      */
-    render(context) {
+    render (context) {
         return this.template(context)
     }
 }
