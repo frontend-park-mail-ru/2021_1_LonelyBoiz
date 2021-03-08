@@ -24,12 +24,11 @@ class MessageBox {
 		const writeBar = new WriteBar();
 		context.WriteBar = writeBar.render();
 
-		context.Messages = [];
 		const message = new Message();
-		for (let i in context.messages) {
-			context.Messages.push(message.render(context.messages[i]));
-		}
-		
+		context.Messages = context.messages.map((item, i) => {
+			return message.render(item);
+		});
+
 		return this.template(context);
 	}
 }

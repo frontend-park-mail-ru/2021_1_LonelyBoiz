@@ -10,6 +10,7 @@
 
 .avatar {
 	position: relative;
+	object-fit: cover;
 	top: 1px;
 	border-radius: 50%;
 	width: 32px;

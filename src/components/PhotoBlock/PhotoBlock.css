@@ -1,0 +1,78 @@
+.photo-block {
+	position: relative;
+}
+
+.photo-block__img {
+	z-index: 1;
+	display: block;
+	width: 100%;
+}
+
+.photo-block__img_border-radius-top {
+	border-radius: 10px 10px 0 0;
+}
+
+.photo-block__img_border-radius-left {
+	border-radius: 10px 0 0 10px;
+}
+
+.photo-block__arrows {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	z-index: 2;
+}
+
+.photo-block__arrow {
+	position: relative;
+	border-radius: 50%;
+	background-color: var(--arrow-color);
+	width: 27px;
+	height: 27px;
+	top: 50%;
+}
+
+.photo-block__arrow:hover {
+	background-color: var(--arrow-color-hover);
+	cursor: pointer;
+}
+
+.photo-block__arrow__icon {
+	width: 9px;
+	height: 11px;
+	margin: auto;
+	line-height: 27px;
+}
+
+.photo-block__arrow_left {
+	margin-left: 10px;
+}
+
+.photo-block__arrow_rigth {
+	margin-left: auto;
+	margin-right: 10px;
+}
+
+.photo-block__points {
+	position: absolute;
+	width: calc(100% - 5px);
+	height: 2px;
+	display: flex;
+	margin: 5px;
+	z-index: 2;
+}
+
+.photo-block__point {
+	width: 100%;
+	border-radius: 4px;
+	margin-right: 5px;
+}
+
+.photo-block__point_active {
+	background-color: var(--point-color_active);
+}
+
+.photo-block__point_disabled {
+	background-color: var(--point-color_disabled);
+}

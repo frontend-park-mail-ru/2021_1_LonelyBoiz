@@ -16,7 +16,7 @@ class Tabbar {
 	/**
 	 * @render
 	 * @this  {Tabbar}
-	 * @param {Object[]} context {icons:[{iconClasses='', size=28, src='logo.png', href}]}
+	 * @param {Object[]} context {icons:[{iconClasses="", size=28, src="logo.png", href}]}
 	 */
 	render(context) {
 		return this.template(context);
