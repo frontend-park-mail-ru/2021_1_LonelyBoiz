@@ -1,5 +1,3 @@
-import Handlebars from ''
-
 const buttonTemplate = 'Button.hbs'
 
 /**
