@@ -7,6 +7,10 @@ import Select from '../src/components/Select/Select.js'
 import LoginView from '../src/view/LoginView/LoginView.js';
 import SignupView from '../src/view/SignupView/SignupView.js';
 
+import EventBus from '../src/utils/eventBus.js';
+import Events from '../src/consts/events.js';
+
+
 const app = document.getElementById("app");
 
 const months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
@@ -43,3 +47,11 @@ const renderValue = new SignupView().render({
 
 
 app.innerHTML = renderValue
+
+function onButtonSubmit(data) {
+    console.log('hello world')
+}
+
+EventBus.connect(Events.formSubmitted, onButtonSubmit)
+const button = document.querySelector('.button-block__button')
+button.addEventListener('click', (e) => {e.preventDefault(); EventBus.emit(Events.formSubmitted);})

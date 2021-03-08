@@ -1,4 +1,4 @@
-const inputTemplate = 'Input.hbs'
+const inputTemplate = 'Input.hbs';
 
 /**
  * @class
@@ -11,7 +11,7 @@ class Input {
      * @constructor
      * @this  {Input}
      */
-    constructor() {
+    constructor () {
         this.template = Handlebars.templates[inputTemplate];
     }
 
@@ -19,9 +19,9 @@ class Input {
      * Отображает компонент ввода
      * @param {Object} context - Контекст с тектом и типом
      */
-    render(context) {
-        return this.template(context)
+    render (context) {
+        return this.template(context);
     }
 }
 
-export default Input
+export default Input;

@@ -1,4 +1,4 @@
-const signupViewTemplate = 'SignupView.hbs'
+const signupViewTemplate = 'SignupView.hbs';
 
 /**
  * @class
@@ -11,15 +11,16 @@ class SignupView {
      * @constructor
      * @this  {SignupView}
      */
-    constructor() {
+    constructor () {
         this.template = Handlebars.templates[signupViewTemplate];
     }
 
     /**
      * Отображает страницу регистрации
      * @param {Object} context - форма с полями ввода и кнопкой
+     *
      */
-    render(context) {
+    render (context) {
         return this.template(context);
     }
 }

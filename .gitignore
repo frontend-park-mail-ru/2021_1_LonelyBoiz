@@ -191,3 +191,5 @@ fabric.properties
 .idea
 
 *.precompiled.js
+
+package-lock.json

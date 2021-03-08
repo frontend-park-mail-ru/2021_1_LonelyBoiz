@@ -1,4 +1,4 @@
-const loginViewTemplate = 'LoginView.hbs'
+const loginViewTemplate = 'LoginView.hbs';
 
 /**
  * @class
@@ -11,7 +11,7 @@ class LoginView {
      * @constructor
      * @this  {LoginView}
      */
-    constructor() {
+    constructor () {
         this.template = Handlebars.templates[loginViewTemplate];
     }
 
@@ -19,7 +19,7 @@ class LoginView {
      * Отображает страницу логина
      * @param {Object} context - форма с полями ввода и кнопкой
      */
-    render(context) {
+    render (context) {
         return this.template(context);
     }
 }

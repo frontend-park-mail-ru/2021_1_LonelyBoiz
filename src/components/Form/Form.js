@@ -1,7 +1,4 @@
-import Input from '../Input/Input.js'
-import Button from '../Button/Button.js'
-
-const formTemplate = 'Form.hbs'
+const formTemplate = 'Form.hbs';
 
 /**
  * @class
@@ -14,7 +11,7 @@ class Form {
      * @constructor
      * @this  {Form}
      */
-    constructor() {
+    constructor () {
         this.template = Handlebars.templates[formTemplate];
     }
 
@@ -22,9 +19,9 @@ class Form {
      * Отображает компонент ввода
      * @param {Object} context - Контекст с массивом вводов и кнопкой
      */
-    render(context) {
-        return this.template(context)
+    render (context) {
+        return this.template(context);
     }
 }
 
-export default Form
+export default Form;
