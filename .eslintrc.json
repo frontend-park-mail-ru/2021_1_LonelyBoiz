@@ -16,7 +16,9 @@
     },
     "parser": "babel-eslint",
     "rules": {
-        "indent": ["error", 4]
+        "indent": ["error", 4],
+        "semi": ["error", "always"],
+        "quotes": ["error", "single"]
     },
     "globals": {
         "Handlebars": "readonly"
