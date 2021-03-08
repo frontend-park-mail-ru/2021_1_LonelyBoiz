@@ -1,0 +1,47 @@
+.app {
+    text-align: center;
+    padding: 100px 0;
+}
+
+.signup-block {
+    text-align: center;
+    background: var(--bg2-color);
+    padding: 30px 0 30px;
+    margin: 0 auto 10px auto;
+    display: block;
+    width: 350px;
+}
+
+.signup-block_border {
+    border: solid 1px var(--border-color);
+}
+
+.signup-block__header {
+    margin: 20px auto 35px;
+}
+
+.signup-block__form {
+    padding: 0 35px
+}
+
+.signup-block_footer {
+    padding: 20px 0;
+}
+
+.signup-block__link {
+    text-decoration: none;
+    color: var(--btn-color);
+    font-family: 'Roboto';
+    font-size: 14px;
+}
+
+.signup-block__error {
+    padding: 20px 0;
+    color: red;
+    font-family: 'Roboto';
+    font-size: 13px;
+}
+
+.signup-block__error-hidden {
+    display: none;
+}
