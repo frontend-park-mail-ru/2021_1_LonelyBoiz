@@ -2,7 +2,10 @@
 @import '../src/components/Input/Input.css';
 @import '../src/components/Form/Form.css';
 @import '../src/components/MainLabel/MainLabel.css';
+@import '../src/components/DateInput/DateInput.css';
+@import '../src/components/Select/Select.css';
 @import '../src/view/LoginView/LoginView.css';
+@import '../src/view/SignupView/SignupView.css';
 
 :root {
     --bg-color: #f6f6f6;
@@ -13,6 +16,8 @@
     --btn-color: #0095f6;
     --btn-clicked-color: #4cb4f8;
     --field_error_border: #e64646;
+    --text_placeholder: #818c99;
+    --second-text-color: #6d7885;
 }
 
 body {
