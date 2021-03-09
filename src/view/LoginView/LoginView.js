@@ -1,3 +1,8 @@
+import MainLabel from '../../components/MainLabel/MainLabel.js';
+import Form from '../../components/Form/Form.js';
+import Input from '../../components/Input/Input.js';
+import Button from '../../components/Button/Button.js';
+
 const loginViewTemplate = 'LoginView.hbs';
 
 /**
@@ -10,17 +15,29 @@ class LoginView {
      *
      * @constructor
      * @this  {LoginView}
+     * @param {Object} context контекст для страницы логина
      */
-    constructor() {
+    constructor(context) {
         this.template = Handlebars.templates[loginViewTemplate];
+        this.root = document.getElementById('app');
+        this.context = context;
     }
 
     /**
      * Отображает страницу логина
-     * @param {Object} context - форма с полями ввода и кнопкой
      */
-    render(context) {
-        return this.template(context);
+    show() {
+        this.context.header = new MainLabel().render();
+
+        this.context.form = new Form({
+            inputs: [
+                new Input({ type: 'text', placeholder: 'Почта', id: 'mail' }).render(),
+                new Input({ type: 'password', placeholder: 'Пароль', id: 'password' }).render()
+            ],
+            button: new Button({ text: 'Вход' }).render()
+        }).render();
+
+        this.root.innerHTML = this.template(this.context);
     }
 }
 

@@ -10,17 +10,19 @@ class Form {
      *
      * @constructor
      * @this  {Form}
+     * @param {Object} context контекст для формы
      */
-    constructor() {
+    constructor(context) {
         this.template = Handlebars.templates[formTemplate];
+        this.context = context;
     }
 
     /**
      * Отображает компонент ввода
-     * @param {Object} context - Контекст с массивом вводов и кнопкой
+     * @returns {String} Построенный компонент
      */
-    render(context) {
-        return this.template(context);
+    render() {
+        return this.template(this.context);
     }
 }
 

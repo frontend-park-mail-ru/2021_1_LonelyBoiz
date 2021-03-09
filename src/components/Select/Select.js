@@ -19,7 +19,7 @@ class Select {
 
     /**
      * Отображает компонент выбора опций
-     * @returns {Object} Построенный компонент
+     * @returns {String} Построенный компонент
      */
     render() {
         return this.template(this.context);

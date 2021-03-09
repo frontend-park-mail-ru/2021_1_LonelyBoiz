@@ -14,12 +14,12 @@ class Input {
      */
     constructor(context) {
         this.template = Handlebars.templates[inputTemplate];
-        this.context = context || { type: 'text' };
+        this.context = context;
     }
 
     /**
      * Отображает компонент ввода
-     * @returns {string} Построенный компонент
+     * @returns {String} Построенный компонент
      */
     render() {
         return this.template(this.context);

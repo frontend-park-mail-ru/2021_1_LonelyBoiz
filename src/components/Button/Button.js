@@ -14,20 +14,12 @@ class Button {
      */
     constructor(context) {
         this.template = Handlebars.templates[buttonTemplate];
-        this.context = context || {
-            mode: 'primary'
-        };
-        if (this.context.mode && this.context.mode === 'secondary') {
-            this.context.secondary = true;
-        }
-        if (this.context.mode && this.context.mode === 'primary') {
-            this.context.primary = true;
-        }
+        this.context = context;
     }
 
     /**
      * Отображает компонент кнопким
-     * @returns {Object} Построенный компонент
+     * @returns {String} Построенный компонент
      */
     render() {
         return this.template(this.context);
