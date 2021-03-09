@@ -16,5 +16,6 @@
 @import '../../src/components/Card/Card.css';
 @import '../../src/components/PhotoBlock/PhotoBlock.css';
 @import '../../src/components/InfoBlock/InfoBlock.css';
-@import '../../src/components/SeacrhFilter/SeacrhFilter.css';
 @import '../../src/components/FormItem/FormItem.css';
+@import '../../src/components/Select/Select.css';
+@import '../../src/components/DateInput/DateInput.css';

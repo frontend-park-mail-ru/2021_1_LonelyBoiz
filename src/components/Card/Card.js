@@ -17,8 +17,7 @@ class Card {
 		this.template = Handlebars.templates['Card.hbs'];
 		this.context = context;
 
-		// {button["like", "return", "message", "cancel"]], borderRadiusBottom|borderRadiusRight}
-		let infoBlockContext = {
+		this.context.infoBlockContext = {
 			...this.context.user,
 			info: {},
 			title: this.context.user.name,
@@ -42,8 +41,7 @@ class Card {
 			infoBlockContext.title += `, ${this.context.user.age}`;
 		}
 
-		// {photos:[], activePhotoId, disableLeftArrow, disableRightArrow, borderRadiusTop|borderRadiusLeft}
-		let photoBlockContext = {
+		this.context.photoBlockContext = {
 			photos: this.context.photos,
 			borderRadiusTop: this.context.vertical,
 			borderRadiusLeft: this.context.horizontal,

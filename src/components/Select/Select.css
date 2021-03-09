@@ -1,9 +1,4 @@
-.select-block {
-    padding: 5px 5px;
-}
-
 .select-block__select {
-    font-family: 'Roboto';
     font-size: 12px;
     font-weight: lighter;
     color: rgba(109, 120, 133, 0.7);
@@ -17,6 +12,7 @@
 .select-block__select:focus {
     color: var(--fg-head-color);
     border: none;
+    outline: none;
 }
 
 .select-block__select_icon {

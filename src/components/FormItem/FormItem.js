@@ -8,7 +8,7 @@ class FormItem {
 	 *
 	 * @constructor
 	 * @this  {FormItem}
-	 * @param {Object} context {top, bottom, children}
+	 * @param {Object} context {top, bottom, children, valid|error}
 	 */
 	constructor(context) {
 		this.template = Handlebars.templates['FormItem.hbs'];
