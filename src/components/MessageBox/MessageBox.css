@@ -1,11 +1,9 @@
 .message-chat {
-	/* background-color: var(--white-bg-color); */
 	height: 100%;
 	width: 100%;
 }
 
 .message-chat__list {
-	/* background-color: var(--white-bg-color); */
 	height: 100%;
 	overflow: auto;
 	display: flex;
@@ -22,7 +20,6 @@
 }
 
 .message-chat__writebar {
-	/* background-color: var(--white-bg-color); */
 	position: absolute;
 	bottom: 0px;
 	width: 100%;
