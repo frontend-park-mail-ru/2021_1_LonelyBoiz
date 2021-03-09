@@ -7,7 +7,7 @@
  */
 export function validateMail(mail) {
     if (mail.length > 255) {
-        return false
+        return false;
     }
 
     const re = /^[\w-\\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
@@ -22,10 +22,10 @@ export function validateMail(mail) {
  */
 export function validatePassword(pass) {
     if (pass.length > 64) {
-        return false
+        return false;
     }
 
-    const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/g
+    const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/g;
     return re.exec(pass) !== null;
 }
 
@@ -58,7 +58,7 @@ export function validateBirthday(birthday) {
 
 export function validatePasswordRepeat(pass1, pass2) {
     if (pass1.length === 0) {
-        return false
+        return false;
     }
 
     return pass1 === pass2;

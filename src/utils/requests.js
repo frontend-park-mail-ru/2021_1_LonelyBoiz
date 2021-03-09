@@ -8,17 +8,17 @@ import backendLocation from '../consts/config.js';
  * @param {Object} body тело запроса
  * @return {Promise}
  */
-export function request(method='GET', route='/', body=null) {
-    let options = {
-        'method': method,
-        'mode': 'cors',
-        'credentials': 'include',
-    }
+export function request(method = 'GET', route = '/', body = null) {
+    const options = {
+        method: method,
+        mode: 'cors',
+        credentials: 'include'
+    };
 
     if (body) {
-        options.headers =  {
+        options.headers = {
             'Content-type': 'application/json'
-        }
+        };
         options.body = JSON.stringify(body);
     }
 

@@ -22,10 +22,10 @@ class SignupController extends BaseController {
      * @constructor
      * @this  {SignupController}
      */
-    constructor () {
+    constructor() {
         super(new SignupView({
-            'loginHref': 'login',
-        }))
+            loginHref: 'login'
+        }));
 
         eventBus.connect(Events.mailValidationFailed, this.onMailValidationError);
         eventBus.connect(Events.nameValidationFailed, this.onNameValidationError);
@@ -35,14 +35,14 @@ class SignupController extends BaseController {
         eventBus.connect(Events.formError, this.onFormError);
         eventBus.connect(Events.formSubmitted, this.onSubmit);
         this.registerListener({
-            'element': document.querySelector('.button-block__button'),
-            'type': 'click',
-            'listener': (e) => {e.preventDefault(); eventBus.emit(Events.formSubmitted);}
+            element: document.querySelector('.button-block__button'),
+            type: 'click',
+            listener: (e) => { e.preventDefault(); eventBus.emit(Events.formSubmitted); }
         });
         this.registerListener({
-            'element': document.querySelector('.signup-block__link'),
-            'type': 'click',
-            'listener': (e) => {e.preventDefault(); eventBus.emit(Events.routeToLoginPage)}
+            element: document.querySelector('.signup-block__link'),
+            type: 'click',
+            listener: (e) => { e.preventDefault(); eventBus.emit(Events.routeToLoginPage); }
         });
     }
 
@@ -53,18 +53,18 @@ class SignupController extends BaseController {
         let validForms = 0;
         const mail = document.getElementById('mail');
         if (!validateMail(mail.value)) {
-            eventBus.emit(Events.mailValidationFailed, {'text': 'Некорректная почта'})
+            eventBus.emit(Events.mailValidationFailed, { text: 'Некорректная почта' });
         } else {
-            mail.classList.remove('input-block__input_error')
+            mail.classList.remove('input-block__input_error');
             validForms += 1;
         }
 
         const name = document.getElementById('name');
         if (!validateName(name.value)) {
-            eventBus.emit(Events.nameValidationFailed, {'text': 'Имя должно состоять только из букв'})
+            eventBus.emit(Events.nameValidationFailed, { text: 'Имя должно состоять только из букв' });
         } else {
-            name.classList.remove('input-block__input_error')
-            validForms += 1
+            name.classList.remove('input-block__input_error');
+            validForms += 1;
         }
 
         const monthsSelect = document.getElementById('months');
@@ -72,20 +72,20 @@ class SignupController extends BaseController {
         const yearsSelect = document.getElementById('years');
         const date = new Date(yearsSelect.options[yearsSelect.selectedIndex].label, monthsSelect.value, daysSelect.value + 1);
         if (!validateBirthday(date)) {
-            eventBus.emit(Events.dateValidationFailed, {'text': 'Регистрация доступна только совершеннолетним'})
+            eventBus.emit(Events.dateValidationFailed, { text: 'Регистрация доступна только совершеннолетним' });
         } else {
             [monthsSelect, daysSelect, yearsSelect]
-                .forEach((select) => {select.classList.remove('select-block__select_error')});
+                .forEach((select) => { select.classList.remove('select-block__select_error'); });
             validForms += 1;
         }
 
         const password = document.getElementById('password');
         if (!validatePassword(password.value)) {
             eventBus.emit(Events.passwordValidationFailed, {
-            'text': 'Пароль должен:\nБыть  написан на латинице\n' +
+                text: 'Пароль должен:\nБыть  написан на латинице\n' +
             'Использовать как минимум 1 заглавную букву\n' +
             'Использовать как минимум 1 цифру\n'
-        });
+            });
         } else {
             password.classList.remove('input-block__input_error');
             validForms += 1;
@@ -94,8 +94,8 @@ class SignupController extends BaseController {
         const passwordRepeat = document.getElementById('password_repeat');
         if (!validatePasswordRepeat(password.value, passwordRepeat.value)) {
             eventBus.emit(Events.passwordMatchFailed, {
-                'text': 'Пароли не совпадают'
-            })
+                text: 'Пароли не совпадают'
+            });
         } else {
             passwordRepeat.classList.remove('input-block__input_error');
             validForms += 1;
@@ -109,15 +109,15 @@ class SignupController extends BaseController {
         errorBlock.classList.add('signup-block__error-hidden');
 
         sendSignUpData({
-            'mail': mail,
-            'name': name,
-            'birthday': date.getTime(),
-            'password': password,
-            'passwordRepeat': passwordRepeat
+            mail: mail,
+            name: name,
+            birthday: date.getTime(),
+            password: password,
+            passwordRepeat: passwordRepeat
         })
             .then((json) => {
                 if (json.error) {
-                    eventBus.emit(Events.formError)
+                    eventBus.emit(Events.formError);
                 } else {
                     this.storage.setItem('u-id', json.id);
                     eventBus.emit(Events.routeToHomePage);
@@ -166,7 +166,7 @@ class SignupController extends BaseController {
     onBirthdayValidationError(data) {
         const selects = document.querySelectorAll('.select-block__select');
 
-        selects.forEach((select) => {select.classList.add('select-block__select_error')});
+        selects.forEach((select) => { select.classList.add('select-block__select_error'); });
 
         if (data) {
             const errorBlock = document.querySelector('.signup-block__error');

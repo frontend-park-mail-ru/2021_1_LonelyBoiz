@@ -10,7 +10,7 @@ class BaseController {
      * @this  {BaseController}
      * @params {Object} view страница для отображения
      */
-    constructor (view) {
+    constructor(view) {
         this.view = view;
         this.view.show();
         this.eventListeners = [];
@@ -32,8 +32,8 @@ class BaseController {
      */
     deleteListeners() {
         this.eventListeners = this.eventListeners.reduce((empty, curr) => {
-            curr.element.removeEventListener(curr.type, curr.listener)
-            return empty
+            curr.element.removeEventListener(curr.type, curr.listener);
+            return empty;
         }, []);
     }
 }

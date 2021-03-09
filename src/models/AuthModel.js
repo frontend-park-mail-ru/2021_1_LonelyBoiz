@@ -1,4 +1,4 @@
-import { postRequest } from "../utils/requests.js";
+import { postRequest } from '../utils/requests.js';
 
 /**
  * Отправляет данные для входа
@@ -9,7 +9,7 @@ import { postRequest } from "../utils/requests.js";
 export function sendLoginData(data) {
     return postRequest('/login', data)
         .then(response => {
-            return response.json()
+            return response.json();
         });
 }
 
@@ -22,6 +22,6 @@ export function sendLoginData(data) {
 export function sendSignUpData(data) {
     return postRequest('/signup', data)
         .then(response => {
-            return response.json()
+            return response.json();
         });
 }

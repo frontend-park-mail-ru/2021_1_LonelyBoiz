@@ -30,7 +30,7 @@
 
 .login-block__link {
     text-decoration: none;
-    color: var(--btn-color);
+    color: var(--button-color_primary);
     font-size: 14px;
 }
 

@@ -16,24 +16,24 @@ class LoginController extends BaseController {
      * @constructor
      * @this  {LoginController}
      */
-    constructor () {
+    constructor() {
         super(new LoginView({
-            'signupHref': 'signup',
-        }))
+            signupHref: 'signup'
+        }));
 
         eventBus.connect(Events.mailValidationFailed, this.onMailValidationError);
         eventBus.connect(Events.passwordValidationFailed, this.onPasswordValidationError);
         eventBus.connect(Events.formError, this.onFormError);
         eventBus.connect(Events.formSubmitted, this.onSubmit);
         this.registerListener({
-            'element': document.querySelector('.button-block__button'),
-            'type': 'click',
-            'listener': (e) => {e.preventDefault(); eventBus.emit(Events.formSubmitted);}
+            element: document.querySelector('.button-block__button'),
+            type: 'click',
+            listener: (e) => { e.preventDefault(); eventBus.emit(Events.formSubmitted); }
         });
         this.registerListener({
-            'element': document.querySelector('.login-block__link'),
-            'type': 'click',
-            'listener': (e) => {e.preventDefault(); eventBus.emit(Events.routeToSignupPage)}
+            element: document.querySelector('.login-block__link'),
+            type: 'click',
+            listener: (e) => { e.preventDefault(); eventBus.emit(Events.routeToSignupPage); }
         });
     }
 
@@ -44,9 +44,9 @@ class LoginController extends BaseController {
         let validForms = 0;
         const mail = document.getElementById('mail');
         if (!validateMail(mail.value)) {
-            eventBus.emit(Events.mailValidationFailed)
+            eventBus.emit(Events.mailValidationFailed);
         } else {
-            mail.classList.remove('input-block__input_error')
+            mail.classList.remove('input-block__input_error');
             validForms += 1;
         }
 
@@ -59,20 +59,20 @@ class LoginController extends BaseController {
         }
 
         if (validForms < 2) {
-            eventBus.emit(Events.formError, {'text': 'Неверный логин или пароль'})
+            eventBus.emit(Events.formError, { text: 'Неверный логин или пароль' });
             return;
         }
 
         const errorBlock = document.querySelector('.login-block__error');
         errorBlock.classList.add('login-block__error-hidden');
 
-        sendLoginData({'mail': mail, 'password': password})
+        sendLoginData({ mail: mail, password: password })
             .then((json) => {
                 if (json.error) {
-                    eventBus.emit(Events.formError, {'text': 'Неверный логин или пароль'})
+                    eventBus.emit(Events.formError, { text: 'Неверный логин или пароль' });
                 } else {
                     this.storage.setItem('u-id', json.id);
-                    eventBus.emit(Events.routeToHomePage)
+                    eventBus.emit(Events.routeToHomePage);
                 }
             })
             .catch((reason) => console.log('error:', reason));

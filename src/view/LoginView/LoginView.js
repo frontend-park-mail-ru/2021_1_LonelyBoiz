@@ -17,7 +17,7 @@ class LoginView {
      * @this  {LoginView}
      * @param {Object} context контекст для страницы логина
      */
-    constructor (context) {
+    constructor(context) {
         this.template = Handlebars.templates[loginViewTemplate];
         this.root = document.getElementById('app');
         this.context = context;
@@ -26,7 +26,7 @@ class LoginView {
     /**
      * Отображает страницу логина
      */
-    show () {
+    show() {
         this.context.header = new MainLabel().render();
 
         this.context.form = new Form({

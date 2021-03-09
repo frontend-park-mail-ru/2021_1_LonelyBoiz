@@ -14,7 +14,7 @@ class DateInput {
      * @this  {DateInput}
      * @param {Object} context контекст для установки даты
      */
-    constructor (context) {
+    constructor(context) {
         this.template = Handlebars.templates[dateInput];
         this.context = context;
         this.months = ['Январь', 'Февраль', 'Март',
@@ -36,7 +36,7 @@ class DateInput {
      * Отображает компонент установки даты
      * @returns {String} Построенный компонент
      */
-    render () {
+    render() {
         this.context.monthSelect = new Select({ id: this.context.monthsId, title: 'Месяцы:', options: this.months }).render();
         this.context.daySelect = new Select({ id: this.context.daysId, title: 'Дни:', options: this.days }).render();
         this.context.yearSelect = new Select({ id: this.context.yearsId, title: 'Годы:', options: this.years }).render();

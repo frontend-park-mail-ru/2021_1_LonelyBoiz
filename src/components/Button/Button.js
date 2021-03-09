@@ -12,7 +12,7 @@ class Button {
      * @this  {Button}
      * @param {Object} context {text, mode:"primary"|"secondary"}
      */
-    constructor (context) {
+    constructor(context) {
         this.template = Handlebars.templates[buttonTemplate];
         this.context = context;
     }
@@ -21,7 +21,7 @@ class Button {
      * Отображает компонент кнопким
      * @returns {String} Построенный компонент
      */
-    render () {
+    render() {
         return this.template(this.context);
     }
 }

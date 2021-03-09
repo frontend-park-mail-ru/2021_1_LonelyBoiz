@@ -8,7 +8,7 @@ const Events = {
     dateValidationFailed: 'dateValidationFailed',
     routeToHomePage: 'routeToHomePage',
     routeToLoginPage: 'routeToLoginPage',
-    routeToSignupPage: 'routeToSignupPage',
+    routeToSignupPage: 'routeToSignupPage'
 };
 
 export default Events;
