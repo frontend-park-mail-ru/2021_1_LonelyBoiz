@@ -10,17 +10,27 @@ class Button {
      *
      * @constructor
      * @this  {Button}
+     * @param {Object} context {text, mode:"primary"|"secondary"}
      */
-    constructor () {
+    constructor(context) {
         this.template = Handlebars.templates[buttonTemplate];
+        this.context = context || {
+            mode: 'primary'
+        };
+        if (this.context.mode && this.context.mode === 'secondary') {
+            this.context.secondary = true;
+        }
+        if (this.context.mode && this.context.mode === 'primary') {
+            this.context.primary = true;
+        }
     }
 
     /**
      * Отображает компонент кнопким
-     * @param {Object} context - Контекст с тектом и типом
+     * @returns {Object} Построенный компонент
      */
-    render (context) {
-        return this.template(context);
+    render() {
+        return this.template(this.context);
     }
 }
 

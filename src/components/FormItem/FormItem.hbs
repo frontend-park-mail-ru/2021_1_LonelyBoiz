@@ -1,0 +1,19 @@
+<div id="{{id}}" class="form-item {{#if valid}}form-item_valid{{/if}}{{#if error}}form-item_error{{/if}}">
+    {{#if top}}
+    <div class="form-item__top Subhead Subhead--w-regular">
+        {{top}}
+    </div>
+    {{/if}}
+
+    {{#if children}}
+    <div class="form-item__children">
+        {{{children}}}
+    </div>
+    {{/if}}
+
+    {{#if bottom}}
+    <div class="form-item__bottom qweasd Caption--l-1 Caption--w-regular">
+        {{bottom}}
+    </div>
+    {{/if}}
+</div>

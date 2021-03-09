@@ -11,7 +11,7 @@ class Form {
      * @constructor
      * @this  {Form}
      */
-    constructor () {
+    constructor() {
         this.template = Handlebars.templates[formTemplate];
     }
 
@@ -19,7 +19,7 @@ class Form {
      * Отображает компонент ввода
      * @param {Object} context - Контекст с массивом вводов и кнопкой
      */
-    render (context) {
+    render(context) {
         return this.template(context);
     }
 }

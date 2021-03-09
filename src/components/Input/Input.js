@@ -10,17 +10,19 @@ class Input {
      *
      * @constructor
      * @this  {Input}
+     * @param {Object} context контекст для ввода  {type="text", placeholder, bg_gray, defaultValue}
      */
-    constructor () {
+    constructor(context) {
         this.template = Handlebars.templates[inputTemplate];
+        this.context = context || { type: 'text' };
     }
 
     /**
      * Отображает компонент ввода
-     * @param {Object} context - Контекст с тектом и типом
+     * @returns {string} Построенный компонент
      */
-    render (context) {
-        return this.template(context);
+    render() {
+        return this.template(this.context);
     }
 }
 

@@ -5,23 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signup</title>
     <link href=' http://fonts.googleapis.com/css?family=Roboto+Mono' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="css/signup.css">
+    <link rel="stylesheet" href="css/button.css">
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/input.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/div.css">
 </head>
 <body>
-<div class="application">
-    <div class="form-block form-block_border">
-        <h1 class="form-block__header">PICKle</h1>
-        <form class="form-block__form" action="" method="">
-            <input class="form-block__input form-block__input_border" type="text" placeholder="Телефон, почта">
-            <input class="form-block__input form-block__input_border" type="text" placeholder="Имя">
-            <input class="form-block__input form-block__input_border" type="text" placeholder="Логин">
-            <input class="form-block__input form-block__input_border" type="password" placeholder="Пароль">
-            <button class="form-block__button" type="submit">Зарегестрироваться</button>
-        </form>
+    <div class="application">
+        <div class="form-block styled-border">
+            <h1 class="form-block__header">PICKle</h1>
+            <form class="form-block__form" action="" method="">
+                <div class="mb-3">
+                    <input class="input" type="text" placeholder="Телефон, почта">
+                </div>
+                <div class="mb-3">
+                    <input class="input" type="text" placeholder="Имя">
+                </div>
+                <div class="mb-3">
+                    <input class="input" type="text" placeholder="Логин">
+                </div>
+                <div class="mb-3">
+                    <input class="input" type="password" placeholder="Пароль">
+                </div>
+                <div class="mb-6 mt-6">
+                    <button class="button button_border" type="submit">Зарегестрироваться</button>
+                </div>
+            </form>
+        </div>
+        <div class="form-block styled-border form-block_footer">
+            Уже есть аккаунт? <a class="form-block__link" href="signup">Вход</a>
+        </div>
     </div>
-    <div class="form-block form-block_border form-block_footer">
-        Уже есть аккаунт? <a class="form-block__link" href="signup">Вход</a>
-    </div>
-</div>
 </body>
 </html>

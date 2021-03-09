@@ -6,6 +6,10 @@
     flex-grow: 1;
 }
 
+.date-block__item:not(:last-child) {
+    padding-right: 10px;
+}
+
 .date-block__item_month {
     flex-grow: 4;
 }

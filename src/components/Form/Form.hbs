@@ -1,10 +1,12 @@
 <form class="form-block__form" action="" method="">
     <div class="form-block__inputs">
         {{#each inputs}}
+        <div class="p-5">
             {{{this}}}
+        </div>
         {{/each}}
     </div>
-    <div class="form-block__button">
+    <div class="form-block__button p-5">
         {{{button}}}
     </div>
 </form>

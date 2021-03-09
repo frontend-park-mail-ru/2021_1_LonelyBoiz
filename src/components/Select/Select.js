@@ -10,16 +10,19 @@ class Select {
      *
      * @constructor
      * @this  {Select}
+     * @param {Object} context контекст для выбора опций {title, options:[]}
      */
-    constructor () {
+    constructor(context) {
         this.template = Handlebars.templates[select];
+        this.context = context;
     }
 
     /**
      * Отображает компонент выбора опций
+     * @returns {Object} Построенный компонент
      */
-    render (context) {
-        return this.template(context);
+    render() {
+        return this.template(this.context);
     }
 }
 

@@ -1,0 +1,11 @@
+.card {
+	border-radius: 10px;
+}
+
+.card_vertical:not(:last-child) {
+	margin-bottom: 64px;
+}
+
+.card_horizontal {
+	display: flex;
+}

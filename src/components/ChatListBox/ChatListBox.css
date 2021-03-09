@@ -1,0 +1,21 @@
+.chats-list__header {
+	box-sizing: border-box;
+	border-bottom: var(--border);
+	width: 100%;
+	padding: 11px;
+}
+
+.chats-list__list {
+	height: 100%;
+	padding-left: 12px;
+	padding-right: 12px;
+	overflow: auto;
+}
+
+.chats-list__list__content {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 62px;
+	bottom: 0;
+}

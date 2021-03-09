@@ -1,0 +1,38 @@
+<div
+    class="info-block {{#if borderRadiusBottom}}info-block_border-radius-bottom{{/if}} {{#if borderRadiusRight}}info-block_border-radius-right{{/if}}">
+    <div class="info-block__top">
+        {{#if title}}
+        <div class="info-block__title bottom-border">
+            {{#if avatar}}
+            <div class="info-block__title-avatar">
+                <img class="icon avatar" width="32" height="32" src="{{avatar}}" />
+            </div>
+            {{/if}}
+            <div class="title info-block__title-text">{{title}}</div>
+            {{#if messageIconInTitle}}
+            <div class="info-block__title-icon">
+                <img class="icon inforow-icon" src="icon/message_stroke.svg" />
+            </div>
+            {{/if}}
+        </div>
+        {{/if}}
+        {{#if InfoRows}}
+        <div class="bottom-border">
+            {{/if}}
+            {{#each InfoRows}}
+            {{{this}}}
+            {{/each}}
+            {{#if InfoRows}}
+        </div>
+        {{/if}}
+
+        {{#if Description}}
+        <div class="">
+            {{{Description}}}
+        </div>
+        {{/if}}
+    </div>
+    <div class="info-block__bottom">
+        {{{Tabbar}}}
+    </div>
+</div>

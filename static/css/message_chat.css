@@ -2,14 +2,15 @@
 	height: 100%;
 	overflow: auto;
 	display: flex;
-	flex-direction: column-reverse;
+	flex-direction: column;
+	justify-content: flex-end;
 }
 
 .message-chat__list__contnet {
 	position: absolute;
 	left: 0;
 	right: 0;
-	top: 0;
+	top: 62px;
 	bottom: 66px;
 }
 
@@ -21,16 +22,14 @@
 
 .message {
 	max-width: 50%;
-	word-wrap: break-word;
 	border-radius: 10px;
 	padding: 10px;
 	margin: 7px;
-	margin-bottom: 7px;
 	border: var(--border);
 }
 
 .message_user {
-	background-color: var(--main-bg-color);
+	background-color: var(--bg-color);
 	margin-right: 10px;
 	margin-left: auto;
 }
@@ -41,6 +40,7 @@
 }
 
 .message-header {
+	background-color: var(--white-bg-color);
 	display: flex;
 	box-sizing: border-box;
 	border-bottom: var(--border);

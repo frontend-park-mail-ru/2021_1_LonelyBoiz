@@ -5,7 +5,7 @@
 
 .login-block {
     text-align: center;
-    background: var(--bg2-color);
+    background: var(--white-bg-color);
     padding: 30px 0 30px;
     margin: 0 auto 10px auto;
     display: block;
@@ -30,7 +30,7 @@
 
 .login-block__link {
     text-decoration: none;
-    color: var(--btn-color);
+    color: var(--button-color_primary);
     font-family: 'Roboto';
     font-size: 14px;
 }

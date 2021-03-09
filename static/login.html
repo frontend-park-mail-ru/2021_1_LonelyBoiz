@@ -6,18 +6,27 @@
     <title>Login</title>
     <link href=' http://fonts.googleapis.com/css?family=Roboto+Mono' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/button.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/input.css">
 </head>
 <body>
 <div class="application">
-    <div class="form-block form-block_border">
+    <div class="form-block styled-border">
         <h1 class="form-block__header">PICKle</h1>
         <form class="form-block__form" action="" method="">
-            <input class="form-block__input form-block__input_border" type="text" placeholder="Телефон, почта, логин">
-            <input class="form-block__input form-block__input_border" type="password" placeholder="Пароль">
-            <button class="form-block__button form-block__button_border" type="submit">Войти</button>
+            <div class="mb-3">
+                <input class="input" type="text" placeholder="Телефон, почта, логин">
+            </div>
+            <div class="mb-3">
+                <input class="input" type="password" placeholder="Пароль">
+            </div>
+            <div class="mb-6 mt-6">
+                <button class="button button_border" type="submit">Войти</button>
+            </div>
         </form>
     </div>
-    <div class="form-block form-block_border form-block_footer">
+    <div class="form-block styled-border form-block_footer">
         Нет аккаунта? <a class="form-block__link" href="signup">Регистрация</a>
     </div>
 </div>

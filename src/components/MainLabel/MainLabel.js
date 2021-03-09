@@ -1,5 +1,3 @@
-const mainLabelTemplate = 'MainLabel.hbs';
-
 /**
  * @class
  * Компонента логотипа
@@ -10,16 +8,19 @@ class MainLabel {
      *
      * @constructor
      * @this  {MainLabel}
+     * @param {Object} context
      */
-    constructor () {
-        this.template = Handlebars.templates[mainLabelTemplate];
+    constructor(context) {
+        this.template = Handlebars.templates['MainLabel.hbs'];
+        this.context = context || {};
     }
 
     /**
-     * Отображает компонент логотипа
+     * Отображает компонент
+     * @returns {string} Построенный компонент
      */
-    render () {
-        return this.template({});
+    render() {
+        return this.template(this.context);
     }
 }
 

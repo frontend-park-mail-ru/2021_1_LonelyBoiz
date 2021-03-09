@@ -1,0 +1,16 @@
+<div class="styled-border chats-list">
+    <div class="chats-list__header">
+        {{{Input}}}
+    </div>
+    <div class="chats-list__list__content">
+        <div class="chats-list__list">
+            {{#each Chats}}
+            <div>
+                {{{this}}}
+            </div>
+            {{else}}
+            Сообщений нет
+            {{/each}}
+        </div>
+    </div>
+</div>

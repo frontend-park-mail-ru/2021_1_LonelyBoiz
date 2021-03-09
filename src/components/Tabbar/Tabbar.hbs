@@ -1,0 +1,13 @@
+<div class="tabbar">
+    {{#each icons}}
+    <div class="tabbar__icon">
+        {{#if href}}
+            <a href="{{href}}">
+        {{/if}}
+        <img class="icon {{iconClasses}}" width="{{size}}" height="{{size}}" src="{{src}}" />
+        {{#if href}}
+            </a>
+        {{/if}}
+    </div>
+    {{/each}}
+</div>

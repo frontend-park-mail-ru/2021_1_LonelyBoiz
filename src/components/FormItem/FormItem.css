@@ -1,0 +1,23 @@
+.form-item {
+	padding: 10px 16px;
+	display: block;
+}
+
+.form-item__top {
+	padding-top: 2px;
+	padding-bottom: 8px;
+	color: var(--text_secondary);
+}
+
+.form-item__bottom {
+	color: var(--text_secondary);
+	padding-top: 8px;
+}
+
+.form-item_error .form-item__bottom {
+	color: var(--field_error_border);
+}
+
+.form-item_valid .form-item__bottom {
+	color: var(--field_valid_border);
+}
