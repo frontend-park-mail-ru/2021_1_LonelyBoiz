@@ -11,42 +11,7 @@ import EventBus from '../src/utils/eventBus.js';
 import Events from '../src/consts/events.js';
 
 
-const app = document.getElementById("app");
-
-const months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
-const days = Array.from({length: 30}, (_, i) => i + 1);
-const years = (start=1910, end=2021) => {
-    let range = []
-    for (let i = start; i < end; i++) {
-        range.push(i)
-    }
-    return range
-}
-
-const dateInput = new DateInput().render({'monthSelect': new Select().render({'title': 'Month:', 'options': months}),
-    'daySelect': new Select().render({'title': 'Day:', 'options': days}),
-    'yearSelect': new Select().render({'title': 'Year:', 'options': years})})
-
-const renderedForm = new Form().render({
-    'inputs': [
-        new Input().render({'type': 'text', 'placeholder': 'Почта'}),
-        new Input().render({'type': 'text', 'placeholder': 'Имя'}),
-        dateInput,
-        new Input().render({'type': 'password', 'placeholder': 'Пароль'}),
-        new Input().render({'type': 'password', 'placeholder': 'Повторите пароль'}),
-    ],
-    'button': new Button().render({'text': 'Вход'})
-});
-
-const renderValue = new SignupView().render({
-    'header': new MainLabel().render({'text': 'PICKle'}),
-    'form': renderedForm,
-    'signupHref': 'login',
-    'error': 'Неправильно введен логин или пароль.Введите пароль заново. что-то пошло не так'
-})
-
-
-app.innerHTML = renderValue
+const loginView = new LoginView({'signupHref': 'signup', 'error': 'error occurred'}).show();
 
 function onButtonSubmit(data) {
     console.log('hello world')
