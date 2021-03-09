@@ -19,3 +19,6 @@
 @import '../../src/components/FormItem/FormItem.css';
 @import '../../src/components/Select/Select.css';
 @import '../../src/components/DateInput/DateInput.css';
+@import '../../src/components/Form/Form.css';
+@import '../../src/view/LoginView/LoginView.css';
+@import '../../src/view/SignupView/SignupView.css';
