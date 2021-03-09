@@ -32,11 +32,11 @@ class SignupView {
 
         this.context.form = new Form({
             inputs: [
-                new Input({ type: 'text', placeholder: 'Почта' }).render(),
-                new Input({ type: 'text', placeholder: 'Имя' }).render(),
-                new DateInput({}).render(),
-                new Input({ type: 'password', placeholder: 'Пароль' }).render(),
-                new Input({ type: 'password', placeholder: 'Повторите пароль' }).render()
+                new Input({ type: 'text', placeholder: 'Почта', id: 'mail' }).render(),
+                new Input({ type: 'text', placeholder: 'Имя', id: 'name' }).render(),
+                new DateInput({'monthsId': 'months', 'daysId': 'days', 'yearsId': 'years'}).render(),
+                new Input({ type: 'password', placeholder: 'Пароль', id: 'password' }).render(),
+                new Input({ type: 'password', placeholder: 'Повторите пароль', id: 'password_repeat' }).render()
             ],
             button: new Button({ text: 'Вход' }).render()
         }).render();

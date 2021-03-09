@@ -31,8 +31,8 @@ class LoginView {
 
         this.context.form = new Form({
             inputs: [
-                new Input({ type: 'text', placeholder: 'Почта' }).render(),
-                new Input({ type: 'password', placeholder: 'Пароль' }).render()
+                new Input({ type: 'text', placeholder: 'Почта', id: 'mail' }).render(),
+                new Input({ type: 'password', placeholder: 'Пароль', id: 'password' }).render()
             ],
             button: new Button({ text: 'Вход' }).render()
         }).render();
