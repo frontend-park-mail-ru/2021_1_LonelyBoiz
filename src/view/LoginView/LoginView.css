@@ -30,15 +30,13 @@
 
 .login-block__link {
     text-decoration: none;
-    color: var(--button-color_primary);
-    font-family: 'Roboto';
+    color: var(--btn-color);
     font-size: 14px;
 }
 
 .login-block__error {
     padding: 20px 0;
     color: red;
-    font-family: 'Roboto';
     font-size: 13px;
 }
 

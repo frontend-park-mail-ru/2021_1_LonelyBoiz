@@ -11,7 +11,7 @@ import EventBus from '../src/utils/eventBus.js';
 import Events from '../src/consts/events.js';
 
 
-const loginView = new LoginView({'signupHref': 'signup', 'error': 'error occurred'}).show();
+const signupView = new SignupView({'signupHref': 'login', 'error': 'error occurred'}).show();
 
 function onButtonSubmit(data) {
     console.log('hello world')

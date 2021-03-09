@@ -28,6 +28,10 @@
 	border: none;
 }
 
+.button-block__button:focus {
+    outline: none;
+}
+
 .button-block__text {
 	font-size: 1em;
 	align-items: center;
