@@ -34,7 +34,7 @@ class DateInput {
 
     /**
      * Отображает компонент установки даты
-     * @returns {Object} Построенный компонент
+     * @returns {String} Построенный компонент
      */
     render () {
         this.context.monthSelect = new Select({ title: 'Месяцы:', options: this.months }).render();

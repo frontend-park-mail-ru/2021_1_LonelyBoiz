@@ -19,7 +19,7 @@ class Button {
 
     /**
      * Отображает компонент кнопким
-     * @returns {Object} Построенный компонент
+     * @returns {String} Построенный компонент
      */
     render () {
         return this.template(this.context);

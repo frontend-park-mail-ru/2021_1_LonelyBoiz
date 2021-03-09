@@ -23,7 +23,7 @@ class Form {
 
     /**
      * Отображает компонент ввода
-     * @returns {Object} Построенный компонент
+     * @returns {String} Построенный компонент
      */
 <<<<<<< HEAD
     render(context) {

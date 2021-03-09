@@ -19,7 +19,7 @@ class Input {
 
     /**
      * Отображает компонент ввода
-     * @returns {string} Построенный компонент
+     * @returns {String} Построенный компонент
      */
     render () {
         return this.template(this.context);
