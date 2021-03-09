@@ -10,23 +10,21 @@ class WriteBar {
 	 * @constructor
 	 * @this  {WriteBar}
 	 */
-	constructor() {
+	constructor(context) {
 		this.template = Handlebars.templates['WriteBar.hbs'];
+		this.context = context;
 	}
 
 	/**
-	 * @render
-	 * @this  {WriteBar}
+	 * Отображает компонент
+	 * @returns {string} Построенный компонент
 	 */
 	render() {
-		const input = new Input();
-		let context = {
-			Input: input.render({
-				placeholder: 'Сообщение',
-				bg_gray: true,
-			}),
-		};
-		return this.template(context);
+		this.context.Input = new Input({
+			placeholder: 'Сообщение',
+			bg_gray: true,
+		}).render();
+		return this.template(this.context);
 	}
 }
 

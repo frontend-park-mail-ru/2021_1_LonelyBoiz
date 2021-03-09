@@ -1,5 +1,6 @@
 import Counter from '../Counter/Counter.js';
 import Cell from '../Cell/Cell.js';
+
 /**
  * @class
  * Компонента ChatItem
@@ -10,40 +11,40 @@ class ChatItem {
 	 *
 	 * @constructor
 	 * @this  {ChatItem}
+	 * @param {Object} context {user:{name, avatar}, lastMessage:{text, time}, counter}
 	 */
-	constructor() {
+	constructor(context) {
+		this.context = context;
+		if (this.context.user) {
+			if (this.context.user.name) {
+				this.context.children = this.context.user.name;
+			}
+
+			if (this.context.user.avatar) {
+				this.context.avatar = this.context.user.avatar;
+			}
+		}
+
+		if (this.context.lastMessage && this.context.lastMessage.text) {
+			this.context.caption = this.context.lastMessage.text;
+			if (this.context.lastMessage.time) {
+				this.context.caption += ' ' + this.context.lastMessage.time;
+			}
+		}
 	}
 
 	/**
-	 * @render
-	 * @this  {ChatItem}
-	 * @param {Object} context {user:{name, avatar}, lastMessage:{text, time}, counter}
+	 * Отображает компонент
+	 * @returns {string} Построенный компонент
 	 */
-	render(context) {
-		if (context.user) {
-			if (context.user.name) {
-				context.children = context.user.name;
-			}
-
-			if (context.user.avatar) {
-				context.avatar = context.user.avatar;
-			}
+	render() {
+		if (this.context.counter) {
+			this.context.after = new Counter({
+				text: this.context.counter,
+			}).render();
 		}
 
-		if (context.lastMessage && context.lastMessage.text) {
-			context.caption = context.lastMessage.text;
-			if (context.lastMessage.time) {
-				context.caption += ' ' + context.lastMessage.time;
-			}
-		}
-
-		if (context.counter) {
-			const counter = new Counter();
-			context.after = counter.render({ text: context.counter });
-		}
-
-		const cell = new Cell();
-		return cell.render(context);
+		return new Cell(this.context).render();
 	}
 }
 

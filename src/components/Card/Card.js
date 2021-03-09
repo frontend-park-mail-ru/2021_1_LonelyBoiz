@@ -1,5 +1,6 @@
 import InfoBlock from '../InfoBlock/InfoBlock.js';
 import PhotoBlock from '../PhotoBlock/PhotoBlock.js';
+
 /**
  * @class
  * Компонента Card
@@ -10,57 +11,53 @@ class Card {
 	 *
 	 * @constructor
 	 * @this  {Card}
+	 * @param {Object} context {user:{name, age, avatar, geo, city, instagram, description}, photos:[], vertical, horizontal}
 	 */
-	constructor() {
+	constructor(context) {
 		this.template = Handlebars.templates['Card.hbs'];
+		this.context = context;
+
+		// {button["like", "return", "message", "cancel"]], borderRadiusBottom|borderRadiusRight}
+		let infoBlockContext = {
+			...this.context.user,
+			info: {},
+			title: this.context.user.name,
+			messageIconInTitle: this.context.vertical,
+			borderRadiusBottom: this.context.vertical,
+			borderRadiusRight: this.context.horizontal,
+			messageIconInTitle: this.context.vertical,
+			button: ['like', 'return', 'message', 'cancel'],
+		};
+
+		if (this.context.user.geo) {
+			infoBlockContext.info.geo = this.context.user.geo;
+		}
+		if (this.context.user.city) {
+			infoBlockContext.info.city = this.context.user.city;
+		}
+		if (this.context.user.instagram) {
+			infoBlockContext.info.instagram = this.context.user.instagram;
+		}
+		if (this.context.user.age) {
+			infoBlockContext.title += `, ${this.context.user.age}`;
+		}
+
+		// {photos:[], activePhotoId, disableLeftArrow, disableRightArrow, borderRadiusTop|borderRadiusLeft}
+		let photoBlockContext = {
+			photos: this.context.photos,
+			borderRadiusTop: this.context.vertical,
+			borderRadiusLeft: this.context.horizontal,
+		};
 	}
 
 	/**
-	 * @render
-	 * @this  {Card}
-	 * @param {Object} context {user:{name, age, avatar, geo, city, instagram, description}, photos:[], vertical, horizontal}
+	 * Отображает компонент
+	 * @returns {string} Построенный компонент
 	 */
-	render(context) {
-		const infoBlock = new InfoBlock();
-		// {button["like", "return", "message", "cancel"]], borderRadiusBottom|borderRadiusRight}
-		let infoBlockContext = {
-			...context.user,
-			info: {},
-			title: context.user.name,
-			messageIconInTitle: context.vertical,
-			borderRadiusBottom: context.vertical,
-			borderRadiusRight: context.horizontal,
-			messageIconInTitle: context.vertical,
-			button:["like", "return", "message", "cancel"]
-		};
-
-		if (context.user.geo) {
-			infoBlockContext.info.geo = context.user.geo;
-		}
-		if (context.user.city) {
-			infoBlockContext.info.city = context.user.city;
-		}
-		if (context.user.instagram) {
-			infoBlockContext.info.instagram = context.user.instagram;
-		}
-		if (context.user.age) {
-			infoBlockContext.title += `, ${context.user.age}`;
-		}
-
-		context.Info = infoBlock.render(infoBlockContext);
-
-		const photoBlock = new PhotoBlock();
-		// {photos:[], activePhotoId, disableLeftArrow, disableRightArrow, borderRadiusTop|borderRadiusLeft}
-		let photoBlockContext = {
-			photos: context.photos,
-			borderRadiusTop: context.vertical,
-			borderRadiusLeft: context.horizontal,
-		};
-		console.log(photoBlockContext)
-
-		context.Photo = photoBlock.render(photoBlockContext);
-
-		return this.template(context);
+	render() {
+		this.context.Info = new InfoBlock(infoBlockContext).render();
+		this.context.Photo = new PhotoBlock(photoBlockContext).render();
+		return this.template(this.context);
 	}
 }
 

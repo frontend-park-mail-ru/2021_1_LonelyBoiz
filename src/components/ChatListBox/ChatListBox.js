@@ -1,5 +1,6 @@
 import Input from '../Input/Input.js';
 import ChatItem from '../ChatItem/ChatItem.js';
+
 /**
  * @class
  * Компонента ChatListBox
@@ -10,29 +11,28 @@ class ChatListBox {
 	 *
 	 * @constructor
 	 * @this  {ChatListBox}
+	 * @param {Object} context {chats:[{user:{name, avatar}, lastMessage:{text, time}, counter}]}
 	 */
-	constructor() {
+	constructor(context) {
 		this.template = Handlebars.templates['ChatListBox.hbs'];
+		this.context = context;
 	}
 
 	/**
-	 * @render
-	 * @this  {ChatListBox}
-	 * @param {Object} context {chats:[{user:{name, avatar}, lastMessage:{text, time}, counter}]}
+	 * Отображает компонент
+	 * @returns {string} Построенный компонент
 	 */
-	render(context) {
-		const input = new Input();
-		context.Input = input.render({
+	render() {
+		this.context.Input = new Input({
 			placeholder: 'Поиск',
-		});
+		}).render();
 
-		context.Chats = [];
-		const chatItem = new ChatItem();
-		for (let i in context.chats) {
-			context.Chats.push(chatItem.render(context.chats[i]));
+		this.context.Chats = [];
+		for (let i in this.context.chats) {
+			this.context.Chats.push(new ChatItem(this.context.chats[i]).render());
 		}
 
-		return this.template(context);
+		return this.template(this.context);
 	}
 }
 

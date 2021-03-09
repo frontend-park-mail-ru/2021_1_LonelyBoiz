@@ -8,18 +8,19 @@ class Tabbar {
 	 *
 	 * @constructor
 	 * @this  {Tabbar}
+	 * @param {Object[]} context {icons:[{iconClasses="", size=28, src="logo.png", href}]}
 	 */
-	constructor() {
+	constructor(context) {
 		this.template = Handlebars.templates['Tabbar.hbs'];
+		this.context = context;
 	}
 
 	/**
-	 * @render
-	 * @this  {Tabbar}
-	 * @param {Object[]} context {icons:[{iconClasses="", size=28, src="logo.png", href}]}
+	 * Отображает компонент
+	 * @returns {string} Построенный компонент
 	 */
-	render(context) {
-		return this.template(context);
+	 render() {
+		return this.template(this.context);
 	}
 }
 

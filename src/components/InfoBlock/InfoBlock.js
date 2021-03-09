@@ -1,5 +1,6 @@
 import InfoRow from '../InfoRow/InfoRow.js';
 import Tabbar from '../Tabbar/Tabbar.js';
+
 /**
  * @class
  * Компонента InfoBlock
@@ -10,17 +11,18 @@ class InfoBlock {
 	 *
 	 * @constructor
 	 * @this  {InfoBlock}
+	 * @param {Object} context {avatar, title, messageIconInTitle, info:{city, geo, instagram}, description, button["like", "return", "message", "cancel"]], borderRadiusBottom|borderRadiusRight}
 	 */
-	constructor() {
+	constructor(context) {
 		this.template = Handlebars.templates['InfoBlock.hbs'];
+		this.context = context;
 	}
 
 	/**
-	 * @render
-	 * @this  {InfoBlock}
-	 * @param {Object} context {avatar, title, messageIconInTitle, info:{city, geo, instagram}, description, button["like", "return", "message", "cancel"]], borderRadiusBottom|borderRadiusRight}
+	 * Отображает компонент
+	 * @returns {string} Построенный компонент
 	 */
-	render(context) {
+	render() {
 		let infoRowsType = {
 			city: { iconSrc: 'icon/home_stroke.svg', text: 'Живет в:' },
 			geo: { iconSrc: 'icon/geo_stroke.svg', text: '' },
@@ -34,38 +36,35 @@ class InfoBlock {
 			cancel: 'icon/cancel.svg',
 		};
 
-		const infoRow = new InfoRow();
-		context.InfoRows = [];
-		for (const [key, value] of Object.entries(context.info)) {
+		this.context.InfoRows = [];
+		for (const [key, value] of Object.entries(this.context.info)) {
 			infoRowsType[key].text += value;
-			context.InfoRows.push(infoRow.render(infoRowsType[key]));
+			this.context.InfoRows.push(new InfoRow(infoRowsType[key]).render());
 		}
-		if (context.description) {
-			context.Description = infoRow.render({ text: context.description });
+		if (this.context.description) {
+			this.context.Description = new InfoRow({
+				text: this.context.description,
+			}).render();
 		}
 
-		const tabbar = new Tabbar();
 		if (
-			context.button &&
-			(typeof context.button == 'object' ||
-				typeof context.button == 'array') &&
-			context.button.length > 0
+			this.context.button &&
+			(typeof this.context.button == 'object' ||
+				typeof this.context.button == 'array') &&
+			this.context.button.length > 0
 		) {
-			context.Tabbar = tabbar.render({
-				icons: context.button.map((item, i) => {
+			this.context.Tabbar = new Tabbar({
+				icons: this.context.button.map((item, i) => {
 					return { size: 24, src: tabbarIcons[item] };
 				}),
-			});
+			}).render();
 		}
 
-		
-		context.Tabbar1 = tabbar.render({
-			icons: [
-				{ iconClasses: 'avatar', size: 28, src: 'img/logo.png' },
-			],
-		});
+		this.context.Tabbar1 = new Tabbar({
+			icons: [{ iconClasses: 'avatar', size: 28, src: 'img/logo.png' }],
+		}).render();
 
-		return this.template(context);
+		return this.template(this.context);
 	}
 }
 

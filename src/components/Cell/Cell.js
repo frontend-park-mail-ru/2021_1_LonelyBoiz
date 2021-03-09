@@ -8,18 +8,19 @@ class Cell {
 	 *
 	 * @constructor
 	 * @this  {Cell}
+	 * @param {Object} context {avatar, children, text, caption, after}
 	 */
-	constructor() {
+	constructor(context) {
 		this.template = Handlebars.templates['Cell.hbs'];
+		this.context = context;
 	}
 
 	/**
-	 * @render
-	 * @this  {Cell}
-	 * @param {Object} context {avatar, children, text, caption, after}
+	 * Отображает компонент
+	 * @returns {string} Построенный компонент
 	 */
-	render(context) {
-		return this.template(context);
+	render() {
+		return this.template(this.context);
 	}
 }
 

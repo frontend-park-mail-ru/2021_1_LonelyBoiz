@@ -1,5 +1,6 @@
 import WriteBar from '../WriteBar/WriteBar.js';
 import Message from '../Message/Message.js';
+
 /**
  * @class
  * Компонента MessageBox
@@ -10,26 +11,23 @@ class MessageBox {
 	 *
 	 * @constructor
 	 * @this  {MessageBox}
+	 * @param {Object} context {messages:[{text, usersMessage}], chatUser:{name, avatar}}
 	 */
-	constructor() {
+	constructor(context) {
 		this.template = Handlebars.templates['MessageBox.hbs'];
+		this.context = context;
 	}
 
 	/**
 	 * @render
 	 * @this  {MessageBox}
-	 * @param {Object} context {messages:[{text, usersMessage}], chatUser:{name, avatar}}
 	 */
-	render(context) {
-		const writeBar = new WriteBar();
-		context.WriteBar = writeBar.render();
-
-		const message = new Message();
+	render() {
+		context.WriteBar = new WriteBar().render();
 		context.Messages = context.messages.map((item, i) => {
-			return message.render(item);
+			return new Message(item).render();
 		});
-
-		return this.template(context);
+		return this.template(this.context);
 	}
 }
 

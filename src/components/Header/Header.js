@@ -10,19 +10,19 @@ class Header {
 	 *
 	 * @constructor
 	 * @this  {Header}
+	 * @param {Object} context
 	 */
-	constructor() {
+	constructor(context) {
 		this.template = Handlebars.templates['Header.hbs'];
+		this.context = context || {};
 	}
 	
 	/**
-	 * @render
-	 * @this  {Header}
+	 * Отображает компонент
+	 * @returns {string} Построенный компонент
 	 */
 	render() {
-		let context = {};
-		const tabbar = new Tabbar();
-		context.Tabbar = tabbar.render({
+		this.context.Tabbar = new Tabbar({
 			icons: [
 				{ iconClasses: '', size: 28, src: 'icon/home_fill.svg' },
 				{
@@ -34,11 +34,10 @@ class Header {
 				{ iconClasses: '', size: 28, src: 'icon/like_stroke.svg' },
 				{ iconClasses: 'avatar', size: 28, src: 'img/logo.png' },
 			],
-		});
+		}).render();
 
-		const mainLabel = new MainLabel();
-		context.MainLabel = mainLabel.render();
-		return this.template(context);
+		this.context.MainLabel = new MainLabel().render();
+		return this.template(this.context);
 	}
 }
 

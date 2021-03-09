@@ -8,18 +8,19 @@ class FormItem {
 	 *
 	 * @constructor
 	 * @this  {FormItem}
+	 * @param {Object} context {top, bottom, children}
 	 */
-	constructor() {
+	constructor(context) {
 		this.template = Handlebars.templates['FormItem.hbs'];
+		this.context = context;
 	}
 
 	/**
-	 * @render
-	 * @this  {FormItem}
-	 * @param {Object} context {top, bottom, children}
+	 * Отображает компонент
+	 * @returns {string} Построенный компонент
 	 */
-	render(context) {
-		return this.template(context);
+	render() {
+		return this.template(this.context);
 	}
 }
 

@@ -8,18 +8,19 @@ class Message {
 	 *
 	 * @constructor
 	 * @this  {Message}
+	 * @param {Object} context {text, usersMessage}
 	 */
-	constructor() {
+	constructor(context) {
 		this.template = Handlebars.templates['Message.hbs'];
+		this.context = context;
 	}
 
 	/**
-	 * @render
-	 * @this  {Message}
-	 * @param {Object} context {text, usersMessage}
+	 * Отображает компонент
+	 * @returns {string} Построенный компонент
 	 */
-	render(context) {
-		return this.template(context);
+	 render() {
+		return this.template(this.context);
 	}
 }
 

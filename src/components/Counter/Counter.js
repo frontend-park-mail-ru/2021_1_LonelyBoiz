@@ -8,18 +8,19 @@ class Counter {
 	 *
 	 * @constructor
 	 * @this  {Counter}
+	 * @param {Object} context {text}
 	 */
-	constructor() {
+	constructor(context) {
 		this.template = Handlebars.templates['Counter.hbs'];
+		this.context = context;
 	}
 
 	/**
-	 * @render
-	 * @this  {Counter}
-	 * @param {Object} context {text}
+	 * Отображает компонент
+	 * @returns {string} Построенный компонент
 	 */
-	render(context) {
-		return this.template(context);
+	render() {
+		return this.template(this.context);
 	}
 }
 
