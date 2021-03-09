@@ -19,7 +19,10 @@ class Input {
 	 * @param {Object} context {type="text", placeholder, bg_gray, defaultValue}
 	 */
 	render(context) {
-		if (!context.type) {
+		if (!context) {
+			context = {};
+		}
+		if (!context.text) {
 			context.type = 'text';
 		}
 		return this.template(context);

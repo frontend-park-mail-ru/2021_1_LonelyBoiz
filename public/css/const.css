@@ -29,4 +29,10 @@
 	--text_secondary: #818c99;
 	--text_subhead: #6d7885;
 	--text_tertiary: #99a2ad;
+	--field_background: #f2f3f5;
+	--field_border: rgba(0, 0, 0, 0.12);
+	--field_error_background: #faebeb;
+	--field_error_border: #e64646;
+	--field_text_placeholder: #818c99;
+	--field_valid_border: #4bb34b;
 }
