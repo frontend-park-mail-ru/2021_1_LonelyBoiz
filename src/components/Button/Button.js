@@ -14,7 +14,7 @@ class Button {
      */
     constructor (context) {
         this.template = Handlebars.templates[buttonTemplate];
-        this.context = context
+        this.context = context;
     }
 
     /**

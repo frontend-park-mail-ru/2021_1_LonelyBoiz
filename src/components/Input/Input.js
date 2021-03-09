@@ -14,7 +14,7 @@ class Input {
      */
     constructor (context) {
         this.template = Handlebars.templates[inputTemplate];
-        this.context = context
+        this.context = context;
     }
 
     /**

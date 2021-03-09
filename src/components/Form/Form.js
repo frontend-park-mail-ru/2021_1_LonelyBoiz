@@ -10,6 +10,7 @@ class Form {
      *
      * @constructor
      * @this  {Form}
+     * @param {Object} context контекст для формы
      */
 <<<<<<< HEAD
     constructor() {
@@ -22,7 +23,7 @@ class Form {
 
     /**
      * Отображает компонент ввода
-     * @param {Object} context - Контекст с массивом вводов и кнопкой
+     * @returns {Object} Построенный компонент
      */
 <<<<<<< HEAD
     render(context) {
