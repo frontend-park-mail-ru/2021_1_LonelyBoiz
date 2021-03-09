@@ -13,7 +13,7 @@ class Card {
      * @this  {Card}
      * @param {Object} context {user:{name, age, avatar, geo, city, instagram, description}, photos:[], vertical, horizontal}
      */
-    constructor (context) {
+    constructor(context) {
         this.template = Handlebars.templates['Card.hbs'];
         this.context = context;
 
@@ -51,7 +51,7 @@ class Card {
      * Отображает компонент
      * @returns {string} Построенный компонент
      */
-    render () {
+    render() {
         this.context.Info = new InfoBlock(this.context.infoBlockContext).render();
         this.context.Photo = new PhotoBlock(this.context.photoBlockContext).render();
         return this.template(this.context);

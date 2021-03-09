@@ -12,7 +12,7 @@ class FormList {
      * @this  {FormList}
      * @param {Object} context {formList:[top, children, bottom]}
      */
-    constructor (context) {
+    constructor(context) {
         this.template = Handlebars.templates['FormList.hbs'];
         this.context = context;
         this.context.FormList = this.context.formList.map((item, i) => {
@@ -24,7 +24,7 @@ class FormList {
      * Отображает компонент
      * @returns {string} Построенный компонент
      */
-    render () {
+    render() {
         return this.template(this.context);
     }
 }

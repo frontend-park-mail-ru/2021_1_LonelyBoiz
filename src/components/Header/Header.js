@@ -12,7 +12,7 @@ class Header {
      * @this  {Header}
      * @param {Object} context
      */
-    constructor (context) {
+    constructor(context) {
         this.template = Handlebars.templates['Header.hbs'];
         this.context = context || {};
     }
@@ -21,7 +21,7 @@ class Header {
      * Отображает компонент
      * @returns {string} Построенный компонент
      */
-    render () {
+    render() {
         this.context.Tabbar = new Tabbar({
             icons: [
                 { iconClasses: '', size: 28, src: 'icon/home_fill.svg' },

@@ -11,7 +11,7 @@ class SignupView {
      * @constructor
      * @this  {SignupView}
      */
-    constructor () {
+    constructor() {
         this.template = Handlebars.templates[signupViewTemplate];
     }
 
@@ -20,7 +20,7 @@ class SignupView {
      * @param {Object} context - форма с полями ввода и кнопкой
      *
      */
-    render (context) {
+    render(context) {
         return this.template(context);
     }
 }

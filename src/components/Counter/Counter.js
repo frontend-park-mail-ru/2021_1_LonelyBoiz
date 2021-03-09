@@ -10,7 +10,7 @@ class Counter {
      * @this  {Counter}
      * @param {Object} context {text}
      */
-    constructor (context) {
+    constructor(context) {
         this.template = Handlebars.templates['Counter.hbs'];
         this.context = context;
     }
@@ -19,7 +19,7 @@ class Counter {
      * Отображает компонент
      * @returns {string} Построенный компонент
      */
-    render () {
+    render() {
         return this.template(this.context);
     }
 }

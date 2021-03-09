@@ -13,7 +13,7 @@ class MessageBox {
      * @this  {MessageBox}
      * @param {Object} context {messages:[{text, usersMessage}], chatUser:{name, avatar}}
      */
-    constructor (context) {
+    constructor(context) {
         this.template = Handlebars.templates['MessageBox.hbs'];
         this.context = context;
     }
@@ -22,7 +22,7 @@ class MessageBox {
      * @render
      * @this  {MessageBox}
      */
-    render () {
+    render() {
         this.context.WriteBar = new WriteBar().render();
         this.context.Messages = this.context.messages.map((item, i) => {
             return new Message(item).render();

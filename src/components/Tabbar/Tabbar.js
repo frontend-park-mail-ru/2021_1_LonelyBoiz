@@ -10,7 +10,7 @@ class Tabbar {
      * @this  {Tabbar}
      * @param {Object[]} context {icons:[{iconClasses="", size=28, src="logo.png", href}]}
      */
-    constructor (context) {
+    constructor(context) {
         this.template = Handlebars.templates['Tabbar.hbs'];
         this.context = context;
     }
@@ -19,7 +19,7 @@ class Tabbar {
      * Отображает компонент
      * @returns {string} Построенный компонент
      */
-    render () {
+    render() {
         return this.template(this.context);
     }
 }

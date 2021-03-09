@@ -10,7 +10,7 @@ class FormItem {
      * @this  {FormItem}
      * @param {Object} context {top, bottom, children, valid|error}
      */
-    constructor (context) {
+    constructor(context) {
         this.template = Handlebars.templates['FormItem.hbs'];
         this.context = context;
     }
@@ -19,7 +19,7 @@ class FormItem {
      * Отображает компонент
      * @returns {string} Построенный компонент
      */
-    render () {
+    render() {
         return this.template(this.context);
     }
 }

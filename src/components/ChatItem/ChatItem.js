@@ -13,7 +13,7 @@ class ChatItem {
      * @this  {ChatItem}
      * @param {Object} context {user:{name, avatar}, lastMessage:{text, time}, counter}
      */
-    constructor (context) {
+    constructor(context) {
         this.context = context;
         if (this.context.user) {
             if (this.context.user.name) {
@@ -37,7 +37,7 @@ class ChatItem {
      * Отображает компонент
      * @returns {string} Построенный компонент
      */
-    render () {
+    render() {
         if (this.context.counter) {
             this.context.after = new Counter({
                 text: this.context.counter

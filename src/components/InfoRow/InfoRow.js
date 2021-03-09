@@ -10,7 +10,7 @@ class InfoRow {
      * @this  {InfoRow}
      * @param {Object} context {iconSrc, text}
      */
-    constructor (context) {
+    constructor(context) {
         this.template = Handlebars.templates['InfoRow.hbs'];
         this.context = context;
     }
@@ -19,7 +19,7 @@ class InfoRow {
      * Отображает компонент
      * @returns {string} Построенный компонент
      */
-    render () {
+    render() {
         return this.template(this.context);
     }
 }

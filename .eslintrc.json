@@ -3,13 +3,8 @@
         "browser": true,
         "es2021": true
     },
-    "extends": [
-        "standard",
-        "eslint:recommended"
-    ],
-    "plugins": [
-        "jsdoc"
-    ],
+    "extends": ["standard", "eslint:recommended"],
+    "plugins": ["jsdoc"],
     "parserOptions": {
         "ecmaVersion": 12,
         "sourceType": "module"
@@ -18,7 +13,8 @@
     "rules": {
         "indent": ["error", 4],
         "semi": ["error", "always"],
-        "quotes": ["error", "single"]
+        "quotes": ["error", "single"],
+        "space-before-function-paren": ["error", "never"]
     },
     "globals": {
         "Handlebars": "readonly"

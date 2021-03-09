@@ -10,7 +10,7 @@ class PhotoBlock {
      * @this  {PhotoBlock}
      * @param {Object} context {photos:[], activePhotoId, disableLeftArrow, disableRightArrow, borderRadiusTop|borderRadiusLeft}
      */
-    constructor (context) {
+    constructor(context) {
         this.template = Handlebars.templates['PhotoBlock.hbs'];
         this.context = context;
         this.context.Points = new Array(this.context.photos.length).fill(false);
@@ -29,7 +29,7 @@ class PhotoBlock {
      * Отображает компонент
      * @returns {string} Построенный компонент
      */
-    render () {
+    render() {
         return this.template(this.context);
     }
 }

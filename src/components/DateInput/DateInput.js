@@ -14,7 +14,7 @@ class DateInput {
      * @this  {DateInput}
      * @param {Object} context контекст для установки даты
      */
-    constructor (context) {
+    constructor(context) {
         this.template = Handlebars.templates[dateInput];
         this.context = context || {};
         this.months = [
@@ -46,7 +46,7 @@ class DateInput {
      * Отображает компонент установки даты
      * @returns {Object} Построенный компонент
      */
-    render () {
+    render() {
         this.context.monthSelect = new Select({
             title: 'Месяцы:',
             options: this.months

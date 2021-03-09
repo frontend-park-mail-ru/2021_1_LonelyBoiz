@@ -13,7 +13,7 @@ class ChatListBox {
      * @this  {ChatListBox}
      * @param {Object} context {chats:[{user:{name, avatar}, lastMessage:{text, time}, counter}]}
      */
-    constructor (context) {
+    constructor(context) {
         this.template = Handlebars.templates['ChatListBox.hbs'];
         this.context = context;
     }
@@ -22,7 +22,7 @@ class ChatListBox {
      * Отображает компонент
      * @returns {string} Построенный компонент
      */
-    render () {
+    render() {
         this.context.Input = new Input({
             placeholder: 'Поиск'
         }).render();

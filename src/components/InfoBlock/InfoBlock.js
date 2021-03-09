@@ -13,7 +13,7 @@ class InfoBlock {
      * @this  {InfoBlock}
      * @param {Object} context {avatar, title, messageIconInTitle, info:{city, geo, instagram}, description, button["like", "return", "message", "cancel"]], borderRadiusBottom|borderRadiusRight}
      */
-    constructor (context) {
+    constructor(context) {
         this.template = Handlebars.templates['InfoBlock.hbs'];
         this.context = context;
     }
@@ -22,7 +22,7 @@ class InfoBlock {
      * Отображает компонент
      * @returns {string} Построенный компонент
      */
-    render () {
+    render() {
         const infoRowsType = {
             city: { iconSrc: 'icon/home_stroke.svg', text: 'Живет в:' },
             geo: { iconSrc: 'icon/geo_stroke.svg', text: '' },

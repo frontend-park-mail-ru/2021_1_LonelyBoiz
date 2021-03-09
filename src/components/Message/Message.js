@@ -10,7 +10,7 @@ class Message {
      * @this  {Message}
      * @param {Object} context {text, usersMessage}
      */
-    constructor (context) {
+    constructor(context) {
         this.template = Handlebars.templates['Message.hbs'];
         this.context = context;
     }
@@ -19,7 +19,7 @@ class Message {
      * Отображает компонент
      * @returns {string} Построенный компонент
      */
-    render () {
+    render() {
         return this.template(this.context);
     }
 }

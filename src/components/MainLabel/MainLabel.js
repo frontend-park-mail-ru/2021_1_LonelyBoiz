@@ -10,7 +10,7 @@ class MainLabel {
      * @this  {MainLabel}
      * @param {Object} context
      */
-    constructor (context) {
+    constructor(context) {
         this.template = Handlebars.templates['MainLabel.hbs'];
         this.context = context || {};
     }
@@ -19,7 +19,7 @@ class MainLabel {
      * Отображает компонент
      * @returns {string} Построенный компонент
      */
-    render () {
+    render() {
         return this.template(this.context);
     }
 }

@@ -11,7 +11,7 @@ class EventBus {
      * @constructor
      * @this  {EventBus}
      */
-    constructor () {
+    constructor() {
         this.map = new Map();
     }
 
@@ -20,7 +20,7 @@ class EventBus {
      *
      * @return {EventBus} экземпляр объекта
      */
-    static getInstance () {
+    static getInstance() {
         if (!EventBus.instance) {
             EventBus.instance = new EventBus();
         }
@@ -34,7 +34,7 @@ class EventBus {
      * @param  {string} event - Кастомное событие
      * @param  {Function} callback - Обработчик, который привязывается к событию
      */
-    connect (event, callback) {
+    connect(event, callback) {
         if (this.map.has(event)) {
             this.map.get(event).add(callback);
         } else {
@@ -50,7 +50,7 @@ class EventBus {
      * @param  {string} event - Кастомное событие
      * @param  {Function} callback - Обработчик, который отвязывается от события
      */
-    disconnect (event, callback) {
+    disconnect(event, callback) {
         if (this.map.has(event)) {
             this.map.get(event).delete(callback);
         }
@@ -62,7 +62,7 @@ class EventBus {
      * @param  {string} event - Кастомное событие
      * @param  {Object} data - Данные для обработчиков
      */
-    emit (event, data = {}) {
+    emit(event, data = {}) {
         if (this.map.has(event)) {
             this.map.get(event).forEach((callback, _) => {
                 callback(data);
