@@ -54,6 +54,7 @@ class SignupController extends BaseController {
         const mail = document.getElementById('mail');
         if (!validateMail(mail.value)) {
             eventBus.emit(Events.mailValidationFailed, { text: 'Некорректная почта' });
+            return;
         } else {
             mail.classList.remove('input-block__input_error');
             validForms += 1;
@@ -62,6 +63,7 @@ class SignupController extends BaseController {
         const name = document.getElementById('name');
         if (!validateName(name.value)) {
             eventBus.emit(Events.nameValidationFailed, { text: 'Имя должно состоять только из букв' });
+            return;
         } else {
             name.classList.remove('input-block__input_error');
             validForms += 1;
@@ -73,6 +75,7 @@ class SignupController extends BaseController {
         const date = new Date(yearsSelect.options[yearsSelect.selectedIndex].label, monthsSelect.value, daysSelect.value + 1);
         if (!validateBirthday(date)) {
             eventBus.emit(Events.dateValidationFailed, { text: 'Регистрация доступна только совершеннолетним' });
+            return;
         } else {
             [monthsSelect, daysSelect, yearsSelect]
                 .forEach((select) => { select.classList.remove('select-block__select_error'); });
@@ -86,6 +89,7 @@ class SignupController extends BaseController {
             'Использовать как минимум 1 заглавную букву\n' +
             'Использовать как минимум 1 цифру\n'
             });
+            return;
         } else {
             password.classList.remove('input-block__input_error');
             validForms += 1;
@@ -96,6 +100,7 @@ class SignupController extends BaseController {
             eventBus.emit(Events.passwordMatchFailed, {
                 text: 'Пароли не совпадают'
             });
+            return;
         } else {
             passwordRepeat.classList.remove('input-block__input_error');
             validForms += 1;
