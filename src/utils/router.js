@@ -17,6 +17,13 @@ class Router {
         this.routes = new Map();
         this.controller = null;
         eventBus.connect(Events.routeChange, this.changeRoute.bind(this));
+
+        document.getElementById('app').addEventListener('click', (e) => {
+            e.preventDefault();
+            if (e.target.dataset.routlink) {
+                this.changeRoute(e.target.dataset.routlink);
+            }
+        });
     }
 
     /**
@@ -31,7 +38,9 @@ class Router {
         if (!controller) {
             controller = this.routes.get(Routes.homeRoute);
             chosenRoute = Routes.homeRoute;
-            if (!controller) { return; }
+            if (!controller) {
+                return;
+            }
         }
 
         if (this.controller === null) {

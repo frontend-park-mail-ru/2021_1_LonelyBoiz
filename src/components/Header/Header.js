@@ -1,6 +1,7 @@
 import Tabbar from '../Tabbar/Tabbar.js';
 import MainLabel from '../MainLabel/MainLabel.js';
 import headerIcons from '../../consts/headerIcons.js';
+import Routes from '../../consts/routes.js';
 
 /**
  * @class
@@ -31,14 +32,14 @@ class Header {
         this.context.Tabbar = new Tabbar({
             icons: [
                 {
-                    href: '/',
+                    href: Routes.homeRoute,
                     size: 28,
                     src: `icon/home_${
                         activeIcon === headerIcons.home ? 'fill' : 'stroke'
                     }.svg`
                 },
                 {
-                    href: '/message',
+                    href: Routes.messageRoute,
                     size: 28,
                     src: `icon/send_message_${
                         activeIcon === headerIcons.send_message
@@ -47,7 +48,7 @@ class Header {
                     }.svg`
                 },
                 {
-                    href: '/search',
+                    href: Routes.searchRoute,
                     size: 28,
                     src: `icon/location_${
                         activeIcon === headerIcons.search ? 'fill' : 'stroke'
@@ -60,12 +61,12 @@ class Header {
                     }.svg`
                 },
                 {
-                    href: '/settings',
+                    href: Routes.settingsRoute,
                     size: 28,
                     src: 'icon/settings.svg'
                 },
                 {
-                    href: '',
+                    href: Routes.homeRoute,
                     iconClasses: 'avatar',
                     size: 28,
                     src: 'img/logo.png'

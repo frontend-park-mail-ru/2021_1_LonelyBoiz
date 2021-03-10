@@ -33,7 +33,14 @@ class SettingsController extends BaseController {
      */
     constructor() {
         super(new SettingsView());
+    }
 
+    /**
+     * Запускает контроллер
+     */
+    start() {
+        this.view.show();
+        
         eventBus.connect(Events.formSubmitted, this.onSubmit);
         this.registerListener({
             element: document.getElementById('input_avatar__button'),
@@ -105,7 +112,7 @@ class SettingsController extends BaseController {
             monthsSelect.value,
             parseInt(daysSelect.value) + 1
         );
-        console.log(date)
+        console.log(date);
 
         if (!validateMail(mail.value)) {
             formItemSetParams({
@@ -122,7 +129,7 @@ class SettingsController extends BaseController {
         }
 
         if (!validateName(name.value)) {
-            console.log(nameFormItem)
+            console.log(nameFormItem);
             formItemSetParams({
                 element: nameFormItem,
                 newStatus: 'error',
@@ -165,7 +172,7 @@ class SettingsController extends BaseController {
             });
         }
 
-        if (!validatePasswordRepeat(password.value, passwordRepeat.value)){
+        if (!validatePasswordRepeat(password.value, passwordRepeat.value)) {
             formItemSetParams({
                 element: passwordRepeatFormItem,
                 newStatus: 'error',
@@ -179,7 +186,7 @@ class SettingsController extends BaseController {
             });
         }
 
-        if (!validateBirthday(date)){
+        if (!validateBirthday(date)) {
             formItemSetParams({
                 element: settingsBirthdayFormItem,
                 newStatus: 'error',

@@ -1,9 +1,20 @@
 .main-label {
-	font-weight: bold;
-	font-size: 32px;
-	color: var(--primary-text-color);
+    font-weight: bold;
+    font-size: 32px;
+    color: var(--primary-text-color);
 }
 
-.label-href{
-	text-decoration: none;
+.label-href {
+    text-decoration: none;
+    color: var(--primary-text-color);
+}
+
+.label-href:visited {
+    text-decoration: none;
+    color: var(--primary-text-color);
+}
+
+.label-href:active {
+    text-decoration: none;
+    color: var(--primary-text-color);
 }

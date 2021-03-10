@@ -17,7 +17,13 @@ class SearchController extends BaseController {
      */
     constructor() {
         super(new SearchView());
+    }
 
+    /**
+     * Запускает контроллер
+     */
+    start() {
+        this.view.show();
         this.addCards();
 
         eventBus.connect(Events.formInput, this.addCards);

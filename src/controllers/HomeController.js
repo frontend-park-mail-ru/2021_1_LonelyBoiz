@@ -17,6 +17,13 @@ class HomeController extends BaseController {
      */
     constructor() {
         super(new HomeView());
+    }
+
+    /**
+     * Запускает контроллер
+     */
+    start() {
+        this.view.show();
         this.setCard();
     }
 
