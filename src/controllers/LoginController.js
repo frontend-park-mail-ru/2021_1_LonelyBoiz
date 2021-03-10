@@ -3,7 +3,7 @@ import BaseController from './BaseController.js';
 import LoginView from '../view/LoginView/LoginView.js';
 import eventBus from '../utils/eventBus.js';
 import Events from '../consts/events.js';
-import Routes from "../consts/routes.js";
+import Routes from '../consts/routes.js';
 import { validateMail, validatePassword } from '../utils/validation.js';
 
 /**
@@ -21,14 +21,13 @@ class LoginController extends BaseController {
         super(new LoginView({
             signupHref: 'signup'
         }));
-
     }
 
     /**
      * Запускает контроллер
      */
     start() {
-        this.view.show()
+        this.view.show();
 
         eventBus.connect(Events.mailValidationFailed, this.onMailValidationError);
         eventBus.connect(Events.passwordValidationFailed, this.onPasswordValidationError);

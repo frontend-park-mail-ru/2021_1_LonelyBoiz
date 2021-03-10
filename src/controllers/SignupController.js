@@ -2,7 +2,7 @@ import { sendSignUpData } from '../models/AuthModel.js';
 import BaseController from './BaseController.js';
 import SignupView from '../view/SignupView/SignupView.js';
 import eventBus from '../utils/eventBus.js';
-import Routes from "../consts/routes.js";
+import Routes from '../consts/routes.js';
 import Events from '../consts/events.js';
 import {
     validateMail,

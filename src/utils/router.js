@@ -1,5 +1,5 @@
 import Routes from '../consts/routes.js';
-import Events from "../consts/events.js";
+import Events from '../consts/events.js';
 import eventBus from '../utils/eventBus.js';
 
 /**
@@ -52,7 +52,7 @@ class Router {
      * @params {Object} controller контроллер страницы
      */
     addRoute(route, controller) {
-        this.routes.set(route, controller)
+        this.routes.set(route, controller);
     }
 }
 
