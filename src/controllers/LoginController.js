@@ -3,6 +3,7 @@ import BaseController from './BaseController.js';
 import LoginView from '../view/LoginView/LoginView.js';
 import eventBus from '../utils/eventBus.js';
 import Events from '../consts/events.js';
+import Routes from "../consts/routes.js";
 import { validateMail, validatePassword } from '../utils/validation.js';
 
 /**
@@ -21,6 +22,14 @@ class LoginController extends BaseController {
             signupHref: 'signup'
         }));
 
+    }
+
+    /**
+     * Запускает контроллер
+     */
+    start() {
+        this.view.show()
+
         eventBus.connect(Events.mailValidationFailed, this.onMailValidationError);
         eventBus.connect(Events.passwordValidationFailed, this.onPasswordValidationError);
         eventBus.connect(Events.formError, this.onFormError);
@@ -33,8 +42,19 @@ class LoginController extends BaseController {
         this.registerListener({
             element: document.querySelector('.login-block__link'),
             type: 'click',
-            listener: (e) => { e.preventDefault(); eventBus.emit(Events.routeToSignupPage); }
+            listener: (e) => { e.preventDefault(); eventBus.emit(Events.routeChange, Routes.signupRoute); }
         });
+    }
+
+    /**
+     * Завершает контроллер
+     */
+    finish() {
+        eventBus.disconnect(Events.mailValidationFailed, this.onMailValidationError);
+        eventBus.disconnect(Events.passwordValidationFailed, this.onPasswordValidationError);
+        eventBus.disconnect(Events.formError, this.onFormError);
+        eventBus.disconnect(Events.formSubmitted, this.onSubmit);
+        this.deleteListeners();
     }
 
     /**
@@ -72,7 +92,7 @@ class LoginController extends BaseController {
                     eventBus.emit(Events.formError, { text: 'Неверный логин или пароль' });
                 } else {
                     this.storage.setItem('u-id', json.id);
-                    eventBus.emit(Events.routeToHomePage);
+                    eventBus.emit(Events.routeChange, Routes.homeRoute);
                 }
             })
             .catch((reason) => console.log('error:', reason));

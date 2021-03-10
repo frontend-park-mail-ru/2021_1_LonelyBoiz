@@ -12,9 +12,22 @@ class BaseController {
      */
     constructor(view) {
         this.view = view;
-        this.view.show();
         this.eventListeners = [];
         this.storage = window.localStorage;
+    }
+
+    /**
+     * Запускает контроллер
+     */
+    start() {
+        this.view.show();
+    }
+
+    /**
+     * Завершает контроллер
+     */
+    finish() {
+        this.deleteListeners();
     }
 
     /**
