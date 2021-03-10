@@ -53,7 +53,34 @@ class HomeController extends BaseController {
                 }
             })
             .catch((reason) => {
-                console.error('getCurentUsersData - error: ', reason);
+                const json = {
+                    name: 'Denis',
+                    mail: 'wd055@mail.ru',
+                    city: 'Moscow',
+                    instagram: 'denis_vlas',
+                    sex: 'female',
+                    datePreference: 'male',
+                    birthday: '2000-02-03'
+                };
+                const card = new Card({
+                    user: {
+                        name: json.name,
+                        avatar: json.avatar,
+                        geo: json.geo,
+                        city: json.city,
+                        instagram: json.instagram,
+                        description: json.description
+                    },
+                    photos: [
+                        'img/img.png',
+                        'img/img.png',
+                        'img/img.png',
+                        'img/img.png',
+                        'img/img.png'
+                    ],
+                    horizontal: true
+                }).render();
+                document.getElementById('home-card').innerHTML = card;        console.error('getCurentUsersData - error: ', reason);
             });
     }
 }

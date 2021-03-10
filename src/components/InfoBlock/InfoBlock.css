@@ -3,7 +3,7 @@
 	background-color: var(--white-bg-color);
 	padding: 5px 12px 10px 12px;
 	padding-bottom: 60px;
-	width: 500px;
+	min-width: 300px;
 }
 
 .info-block_border-radius-bottom {

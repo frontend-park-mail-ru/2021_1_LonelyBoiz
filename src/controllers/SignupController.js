@@ -140,15 +140,15 @@ class SignupController extends BaseController {
         errorBlock.classList.add('signup-block__error-hidden');
 
         sendSignUpData({
-            mail: mail,
-            name: name,
+            mail: mail.value,
+            name: name.value,
             birthday: date.getTime(),
-            password: password,
-            passwordRepeat: passwordRepeat
+            password: password.value,
+            passwordRepeat: passwordRepeat.value
         })
             .then((json) => {
                 if (json.error) {
-                    eventBus.emit(Events.formError);
+                    eventBus.emit(Events.formError, { text: json.error });
                 } else {
                     this.storage.setItem('u-id', json.id);
                     eventBus.emit(Events.routeChange, Routes.homeRoute);
