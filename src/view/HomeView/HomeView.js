@@ -1,4 +1,5 @@
 import Header from '../../components/Header/Header.js';
+import headerIcons from '../../consts/headerIcons.js';
 
 const homeViewTemplate = 'HomeView.hbs';
 
@@ -24,7 +25,10 @@ class HomeView {
      * Отображает страницу
      */
     show() {
-        this.context.Header = new Header().render();
+        this.context.Header = new Header({
+            activeIcon: headerIcons.home
+        }).render();
+
         this.root.innerHTML = this.template(this.context);
     }
 }

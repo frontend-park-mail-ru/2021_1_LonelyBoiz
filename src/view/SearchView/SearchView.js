@@ -1,6 +1,7 @@
 import Input from '../../components/Input/Input.js';
 import FormList from '../../components/FormList/FormList.js';
 import Header from '../../components/Header/Header.js';
+import headerIcons from '../../consts/headerIcons.js';
 
 const searchViewTemplate = 'SearchView.hbs';
 
@@ -26,14 +27,17 @@ class SearchView {
      * Отображает страницу
      */
     show() {
-        this.context.Header = new Header().render();
+        this.context.Header = new Header({
+            activeIcon: headerIcons.search
+        }).render();
+
         this.context.SearchFilter = new FormList({
             id: 'filter__form',
             formList: [
                 {
                     top: 'Имя',
                     children: new Input({
-                        id:"test1",
+                        id: 'test1',
                         placeholder: 'Имя'
                     }).render()
                 },

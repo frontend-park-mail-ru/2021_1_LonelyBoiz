@@ -1,6 +1,7 @@
 .message-chat {
 	height: 100%;
 	width: 100%;
+	box-sizing: border-box;
 }
 
 .message-chat__list {
@@ -29,7 +30,7 @@
 	display: flex;
 	box-sizing: border-box;
 	border-bottom: var(--border);
-	height: 61px;
+	height: 60px;
 	width: 100%;
 	padding: 12px;
 }

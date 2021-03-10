@@ -1,0 +1,17 @@
+.content_message {
+    height: 89vh;
+}
+
+.chats-list {
+    position: relative;
+    min-width: 300px;
+    width: 300px;
+    background-color: var(--white-bg-color);
+}
+
+.message-chat {
+    position: relative;
+    width: 600px;
+    max-width: 600px;
+    background-color: var(--white-bg-color);
+}

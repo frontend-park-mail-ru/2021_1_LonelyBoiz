@@ -2,7 +2,7 @@
     {{#each icons}}
     <div class="tabbar__icon">
         {{#if href}}
-        <a href="{{href}}">
+        <a class="tabbar tabbar_href" href="{{href}}">
             {{/if}}
             <img class="icon {{iconClasses}}" width="{{size}}" height="{{size}}" src="{{src}}" />
             {{#if href}}

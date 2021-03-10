@@ -12,7 +12,7 @@ class Header {
      *
      * @constructor
      * @this  {Header}
-     * @param {Object} context {activeIcon:headerIcons}
+     * @param {{activeIcon:headerIcons}} context
      */
     constructor(context) {
         this.template = Handlebars.templates['Header.hbs'];
@@ -30,20 +30,46 @@ class Header {
         const activeIcon = this.context.activeIcon;
         this.context.Tabbar = new Tabbar({
             icons: [
-                { iconClasses: '', size: 28, src: `icon/home_${activeIcon === headerIcons.home ? 'fill' : 'stroke'}.svg` },
                 {
-                    iconClasses: '',
+                    href: '/',
                     size: 28,
-                    src: `icon/send_message_${activeIcon === headerIcons.send_message ? 'fill' : 'stroke'}.svg`
+                    src: `icon/home_${
+                        activeIcon === headerIcons.home ? 'fill' : 'stroke'
+                    }.svg`
                 },
                 {
-                    iconClasses: '',
+                    href: '/message',
                     size: 28,
-                    src: `icon/location_${activeIcon === headerIcons.location ? 'fill' : 'stroke'}.svg`
+                    src: `icon/send_message_${
+                        activeIcon === headerIcons.send_message
+                            ? 'fill'
+                            : 'stroke'
+                    }.svg`
                 },
-                { iconClasses: '', size: 28, src: `icon/like_${activeIcon === headerIcons.like ? 'fill' : 'stroke'}.svg` },
-                { iconClasses: '', size: 28, src: 'icon/settings.svg' },
-                { iconClasses: 'avatar', size: 28, src: 'img/logo.png' }
+                {
+                    href: '/search',
+                    size: 28,
+                    src: `icon/location_${
+                        activeIcon === headerIcons.search ? 'fill' : 'stroke'
+                    }.svg`
+                },
+                {
+                    size: 28,
+                    src: `icon/like_${
+                        activeIcon === headerIcons.like ? 'fill' : 'stroke'
+                    }.svg`
+                },
+                {
+                    href: '/settings',
+                    size: 28,
+                    src: 'icon/settings.svg'
+                },
+                {
+                    href: '',
+                    iconClasses: 'avatar',
+                    size: 28,
+                    src: 'img/logo.png'
+                }
             ]
         }).render();
 

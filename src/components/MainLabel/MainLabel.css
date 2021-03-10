@@ -3,3 +3,7 @@
 	font-size: 32px;
 	color: var(--primary-text-color);
 }
+
+.label-href{
+	text-decoration: none;
+}

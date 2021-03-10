@@ -5,6 +5,7 @@ import Button from '../../components/Button/Button.js';
 import DateInput from '../../components/DateInput/DateInput.js';
 import Header from '../../components/Header/Header.js';
 import FormItem from '../../components/FormItem/FormItem.js';
+import headerIcons from '../../consts/headerIcons.js';
 
 const settingsTemplate = 'SettingsView.hbs';
 
@@ -30,7 +31,9 @@ class Settings {
      * Отображает страницу
      */
     show() {
-        this.context.Header = new Header().render();
+        this.context.Header = new Header({
+            activeIcon: headerIcons.settings
+        }).render();
 
         this.context.Settings = new FormList({
             id: 'settings__form',
