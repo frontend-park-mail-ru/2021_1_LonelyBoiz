@@ -1,0 +1,11 @@
+.settings {
+    padding: 24px 20px;
+    width: 500px;
+    background-color: var(--white-bg-color);
+}
+
+.settings__title {
+    padding: 12px;
+    padding-top: 0;
+    text-align: center;
+}

@@ -1,4 +1,5 @@
 import Input from '../Input/Input.js';
+
 /**
  * @class
  * Компонента WriteBar
@@ -12,7 +13,7 @@ class WriteBar {
      */
     constructor(context) {
         this.template = Handlebars.templates['WriteBar.hbs'];
-        this.context = context;
+        this.context = context || {};
     }
 
     /**

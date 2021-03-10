@@ -39,4 +39,7 @@
 	--button-color_secondary_clicked: #f8f8fa;
 	--button-color_secondary_clicked_text: #29a3f5a1;
 	--button-color_secondary_hover: #e0e1e4;
+	--button-color_destructive: #e64646;
+	--button-color_destructive_clicked: #e25252e0;
+	--button-color_destructive_hover: #d13535;
 }

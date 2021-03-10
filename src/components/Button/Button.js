@@ -10,11 +10,26 @@ class Button {
      *
      * @constructor
      * @this  {Button}
-     * @param {Object} context {text, mode:"primary"|"secondary"}
+     * @param {Object} context {type:"button"|"submit", id, text, mode:"primary"|"secondary"|"destructive"}
      */
     constructor(context) {
         this.template = Handlebars.templates[buttonTemplate];
-        this.context = context;
+        this.context = context || {
+            mode: 'primary',
+            type: 'submit'
+        };
+        if (!this.context.type) {
+            this.context.type = 'submit';
+        }
+        if (this.context.mode && this.context.mode === 'secondary') {
+            this.context.secondary = true;
+        }
+        if (this.context.mode && this.context.mode === 'primary') {
+            this.context.primary = true;
+        }
+        if (this.context.mode && this.context.mode === 'destructive') {
+            this.context.destructive = true;
+        }
     }
 
     /**

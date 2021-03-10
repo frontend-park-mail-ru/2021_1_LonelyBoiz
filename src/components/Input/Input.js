@@ -10,11 +10,15 @@ class Input {
      *
      * @constructor
      * @this  {Input}
-     * @param {Object} context контекст для ввода  {type="text", placeholder, bg_gray, defaultValue}
+     * @param {Object} context контекст для ввода {id, accept, type="text", placeholder, bg_gray, defaultValue, minValue}
      */
     constructor(context) {
         this.template = Handlebars.templates[inputTemplate];
-        this.context = context;
+        this.context = context || { type: 'text' };
+
+        if (this.context.type && this.context.type === 'file') {
+            this.context.isFile = true;
+        }
     }
 
     /**

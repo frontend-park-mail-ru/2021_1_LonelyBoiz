@@ -3,6 +3,7 @@
 	border-bottom: var(--border);
 	width: 100%;
 	padding: 11px;
+	height: 60px;
 }
 
 .chats-list__list {

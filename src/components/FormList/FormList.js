@@ -10,7 +10,7 @@ class FormList {
      *
      * @constructor
      * @this  {FormList}
-     * @param {Object} context {formList:[top, children, bottom]}
+     * @param {Object} context {id, formList:[top, children, bottom]}
      */
     constructor(context) {
         this.template = Handlebars.templates['FormList.hbs'];

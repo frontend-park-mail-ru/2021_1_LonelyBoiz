@@ -17,10 +17,20 @@ class DateInput {
     constructor(context) {
         this.template = Handlebars.templates[dateInput];
         this.context = context;
-        this.months = ['Январь', 'Февраль', 'Март',
-            'Апрель', 'Май', 'Июнь',
-            'Июль', 'Август', 'Сентябрь',
-            'Октябрь', 'Ноябрь', 'Декабрь'];
+        this.months = [
+            'Январь',
+            'Февраль',
+            'Март',
+            'Апрель',
+            'Май',
+            'Июнь',
+            'Июль',
+            'Август',
+            'Сентябрь',
+            'Октябрь',
+            'Ноябрь',
+            'Декабрь'
+        ];
 
         this.days = Array.from({ length: 30 }, (_, i) => i + 1);
         this.years = (start = 1910, end = new Date().getFullYear() - 17) => {

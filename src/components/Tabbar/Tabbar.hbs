@@ -2,11 +2,11 @@
     {{#each icons}}
     <div class="tabbar__icon">
         {{#if href}}
-            <a href="{{href}}">
-        {{/if}}
-        <img class="icon {{iconClasses}}" width="{{size}}" height="{{size}}" src="{{src}}" />
-        {{#if href}}
-            </a>
+        <a class="tabbar header-href" data-routlink="{{href}}" href="{{href}}">
+            {{/if}}
+            <img class="icon {{iconClasses}}" data-routlink="{{href}}" width="{{size}}" height="{{size}}" src="{{src}}" />
+            {{#if href}}
+        </a>
         {{/if}}
     </div>
     {{/each}}
