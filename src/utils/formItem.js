@@ -15,10 +15,10 @@ export function formItemSetParams(data) {
         return item.classList;
     });
     if (data.newStatus) {
-        if (data.newStatus == 'valid') {
+        if (data.newStatus === 'valid') {
             data.element.classList.add('form-item_valid');
             data.element.classList.remove('form-item_error');
-        } else if (data.newStatus == 'error') {
+        } else if (data.newStatus === 'error') {
             data.element.classList.add('form-item_error');
             data.element.classList.remove('form-item_valid');
         } else {
@@ -28,7 +28,7 @@ export function formItemSetParams(data) {
     }
 
     if ('newTop' in data) {
-        if (data.newTop.length == 0) {
+        if (data.newTop.length === 0) {
             childrens[0].classList.add('hiden');
         } else {
             childrens[0].classList.remove('hiden');
@@ -37,16 +37,16 @@ export function formItemSetParams(data) {
     }
 
     if ('newChild' in data) {
-        if (data.newChild.length == 0) {
+        if (data.newChild.length === 0) {
             childrens[1].classList.add('hiden');
         } else {
             childrens[1].classList.remove('hiden');
         }
         childrens[1].innerHTML = data.newChild;
     }
-    
+
     if ('newBottom' in data) {
-        if (data.newBottom.length == 0) {
+        if (data.newBottom.length === 0) {
             childrens[2].classList.add('hiden');
         } else {
             childrens[2].classList.remove('hiden');

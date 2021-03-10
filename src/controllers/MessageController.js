@@ -1,7 +1,5 @@
 import BaseController from './BaseController.js';
 import MessageView from '../view/MessageView/MessageView.js';
-import eventBus from '../utils/eventBus.js';
-import Events from '../consts/events.js';
 
 /**
  * @class
@@ -16,10 +14,6 @@ class MessageController extends BaseController {
      */
     constructor() {
         super(new MessageView());
-    }
-
-    setCard() {
-        document.getElementById('home-card').innerHTML;
     }
 }
 

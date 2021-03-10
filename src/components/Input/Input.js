@@ -16,7 +16,7 @@ class Input {
         this.template = Handlebars.templates[inputTemplate];
         this.context = context || { type: 'text' };
 
-        if (this.context.type && this.context.type == 'file') {
+        if (this.context.type && this.context.type === 'file') {
             this.context.isFile = true;
         }
     }

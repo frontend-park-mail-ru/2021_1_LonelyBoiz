@@ -46,13 +46,13 @@ class SettingsController extends BaseController {
                     document.getElementById('settings_instagram').value =
                         json.instagram;
                     document.getElementById('settings_sex').value =
-                        json.sex == 'female' ? 1 : 0;
+                        json.sex === 'female' ? 1 : 0;
                     document.getElementById('settings_datePreference').value =
-                        json.datePreference == 'female'
+                        json.datePreference === 'female'
                             ? 1
-                            : json.datePreference == 'male'
-                            ? 0
-                            : 2;
+                            : json.datePreference === 'male'
+                                ? 0
+                                : 2;
                     document.getElementById(
                         'settings_months'
                     ).value = date.getMonth();
@@ -104,17 +104,17 @@ class SettingsController extends BaseController {
             'settings_instagram_form-item'
         );
         const sex = document.getElementById('settings_sex');
-        const sexFormItem = document.getElementById('settings_sex_form-item');
+        // const sexFormItem = document.getElementById('settings_sex_form-item');
         const datePreference = document.getElementById(
             'settings_datePreference'
         );
-        const datePreferenceFormItem = document.getElementById(
-            'settings_datePreference_form-item'
-        );
+        // const datePreferenceFormItem = document.getElementById(
+        //     'settings_datePreference_form-item'
+        // );
         const passwordOld = document.getElementById('settings_password_old');
-        const passwordOldFormItem = document.getElementById(
-            'settings_password_old_form-item'
-        );
+        // const passwordOldFormItem = document.getElementById(
+        //     'settings_password_old_form-item'
+        // );
         const password = document.getElementById('settings_password_new');
         const passwordFormItem = document.getElementById(
             'settings_password_new_form-item'
@@ -239,13 +239,13 @@ class SettingsController extends BaseController {
                 description: description.value,
                 city: city.value,
                 instagram: instagram.value,
-                sex: sex.value == 0 ? 'male' : 'female',
+                sex: sex.value === 0 ? 'male' : 'female',
                 datePreference:
-                    datePreference.value == 0
+                    datePreference.value === 0
                         ? 'male'
-                        : datePreference.value == 1
-                        ? 'female'
-                        : 'both',
+                        : datePreference.value === 1
+                            ? 'female'
+                            : 'both',
                 passwordOld: passwordOld.value,
                 password: password.value,
                 passwordRepeat: passwordRepeat.value,

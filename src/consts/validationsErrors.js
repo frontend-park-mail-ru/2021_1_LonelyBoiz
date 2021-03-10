@@ -7,7 +7,7 @@ const Errors = {
         'Использовать как минимум 1 заглавную букву\n' +
         'Использовать как минимум 1 цифру\n',
     passwordRepeat: 'Пароли не совпадают',
-    passwordOld: 'Неправльный пароль',
+    passwordOld: 'Неправльный пароль'
 };
 
 export default Errors;
