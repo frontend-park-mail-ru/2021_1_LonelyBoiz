@@ -71,7 +71,6 @@ class SettingsController extends BaseController {
             element: document.getElementById('input_avatar__button'),
             type: 'click',
             listener: (e) => {
-                // e.preventDefault();
                 document.getElementById('input_avatar').click();
             }
         });
@@ -104,17 +103,10 @@ class SettingsController extends BaseController {
             'settings_instagram_form-item'
         );
         const sex = document.getElementById('settings_sex');
-        // const sexFormItem = document.getElementById('settings_sex_form-item');
         const datePreference = document.getElementById(
             'settings_datePreference'
         );
-        // const datePreferenceFormItem = document.getElementById(
-        //     'settings_datePreference_form-item'
-        // );
         const passwordOld = document.getElementById('settings_password_old');
-        // const passwordOldFormItem = document.getElementById(
-        //     'settings_password_old_form-item'
-        // );
         const password = document.getElementById('settings_password_new');
         const passwordFormItem = document.getElementById(
             'settings_password_new_form-item'

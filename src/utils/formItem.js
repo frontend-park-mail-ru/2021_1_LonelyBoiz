@@ -29,27 +29,27 @@ export function formItemSetParams(data) {
 
     if ('newTop' in data) {
         if (data.newTop.length === 0) {
-            childrens[0].classList.add('hiden');
+            childrens[0].classList.add('hidden');
         } else {
-            childrens[0].classList.remove('hiden');
+            childrens[0].classList.remove('hidden');
         }
         childrens[0].innerHTML = data.newTop;
     }
 
     if ('newChild' in data) {
         if (data.newChild.length === 0) {
-            childrens[1].classList.add('hiden');
+            childrens[1].classList.add('hidden');
         } else {
-            childrens[1].classList.remove('hiden');
+            childrens[1].classList.remove('hidden');
         }
         childrens[1].innerHTML = data.newChild;
     }
 
     if ('newBottom' in data) {
         if (data.newBottom.length === 0) {
-            childrens[2].classList.add('hiden');
+            childrens[2].classList.add('hidden');
         } else {
-            childrens[2].classList.remove('hiden');
+            childrens[2].classList.remove('hidden');
         }
         childrens[2].innerHTML = data.newBottom;
     }
