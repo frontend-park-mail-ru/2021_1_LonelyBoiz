@@ -1,7 +1,9 @@
 <div class="form-list">
-    {{#each FormList}}
-    {{{this}}}
-    {{else}}
-    Настроек нет
-    {{/each}}
+    <form id="{{id}}">
+        {{#each FormList}}
+        {{{this}}}
+        {{else}}
+        Настроек нет
+        {{/each}}
+    </form>
 </div>

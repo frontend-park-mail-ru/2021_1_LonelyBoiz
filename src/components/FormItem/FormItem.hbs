@@ -1,19 +1,11 @@
 <div id="{{id}}" class="form-item {{#if valid}}form-item_valid{{/if}}{{#if error}}form-item_error{{/if}}">
-    {{#if top}}
-    <div class="form-item__top Subhead Subhead--w-regular">
+    <div class="form-item__top Subhead Subhead--w-regular {{#unless top}}hiden{{/unless}}">
         {{top}}
     </div>
-    {{/if}}
-
-    {{#if children}}
-    <div class="form-item__children">
+    <div class="form-item__children {{#unless children}}hiden{{/unless}}">
         {{{children}}}
     </div>
-    {{/if}}
-
-    {{#if bottom}}
-    <div class="form-item__bottom qweasd Caption--l-1 Caption--w-regular">
+    <div class="form-item__bottom Caption--l-1 Caption--w-regular {{#unless bottom}}hiden{{/unless}}">
         {{bottom}}
     </div>
-    {{/if}}
 </div>

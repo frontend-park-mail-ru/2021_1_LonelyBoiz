@@ -22,3 +22,6 @@
 @import '../../src/components/Form/Form.css';
 @import '../../src/view/LoginView/LoginView.css';
 @import '../../src/view/SignupView/SignupView.css';
+@import '../../src/view/SearchView/SearchView.css';
+@import '../../src/view/SettingsView/SettingsView.css';
+@import '../../src/view/HomeView/HomeView.css';

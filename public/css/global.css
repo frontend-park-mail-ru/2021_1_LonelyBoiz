@@ -3,17 +3,9 @@ body {
     background-color: var(--bg-color);
 }
 
-#app {
-    display: block;
-    height: 100%;
-    width: 100%;
-}
-
 .content {
     display: flex;
     justify-content: center;
-    margin-left: auto;
-    margin-right: auto;
     margin-top: calc(var(--header-height) + 15px);
     font-size: var(--content-font-size);
 }
@@ -77,4 +69,8 @@ body {
 
 .p-5 {
     padding: 5px;
+}
+
+.hiden {
+    display: none;
 }
