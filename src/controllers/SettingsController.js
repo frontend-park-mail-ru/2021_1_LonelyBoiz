@@ -27,7 +27,7 @@ class SettingsController extends BaseController {
      */
     constructor() {
         super(new SettingsView());
-        this.file = null
+        this.file = null;
         this.toBase64 = file => new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.readAsDataURL(file);
@@ -44,7 +44,7 @@ class SettingsController extends BaseController {
     onLogOut() {
         window.localStorage.removeItem('u-id');
         window.localStorage.setItem('u-avatar', 'img/img.png');
-        eventBus.emit(Events.routeChange, Routes.loginRoute)
+        eventBus.emit(Events.routeChange, Routes.loginRoute);
     }
 
     /**
@@ -57,14 +57,13 @@ class SettingsController extends BaseController {
             element: document.getElementById('input_avatar'),
             type: 'change',
             listener: this.onFileUpload.bind(this)
-        })
+        });
 
         this.registerListener({
             element: document.getElementById('logout'),
             type: 'click',
             listener: this.onLogOut.bind(this)
-        })
-
+        });
 
         getCurentUsersData()
             .then((json) => {
@@ -120,9 +119,9 @@ class SettingsController extends BaseController {
     onFileUpload(e) {
         this.toBase64(e.currentTarget.files[0])
             .then((data) => {
-                this.file = data
+                this.file = data;
                 window.localStorage.setItem('u-avatar', data);
-                document.querySelector('.u-avatar-header').src = data
+                document.querySelector('.u-avatar-header').src = data;
             })
             .catch((e) => console.error(e));
     }
@@ -268,7 +267,7 @@ class SettingsController extends BaseController {
         }
 
         if (success) {
-            let tmpForm = {
+            const tmpForm = {
                 name: name.value,
                 mail: mail.value,
                 description: description.value,
@@ -279,8 +278,8 @@ class SettingsController extends BaseController {
                     parseInt(datePreference.value) === 0
                         ? 'male'
                         : parseInt(datePreference.value) === 1
-                        ? 'female'
-                        : 'both',
+                            ? 'female'
+                            : 'both',
                 passwordOld: passwordOld.value,
                 password: password.value,
                 passwordRepeat: passwordRepeat.value,

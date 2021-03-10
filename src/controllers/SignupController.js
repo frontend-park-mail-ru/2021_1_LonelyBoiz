@@ -152,7 +152,7 @@ class SignupController extends BaseController {
                 } else {
                     window.localStorage.setItem('u-id', json.id);
                     if (json.avatar) {
-                        window.localStorage.setItem('u-avatar', json.avatar)
+                        window.localStorage.setItem('u-avatar', json.avatar);
                     }
                     eventBus.emit(Events.routeChange, Routes.homeRoute);
                 }

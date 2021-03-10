@@ -53,7 +53,7 @@ class Router {
 
         if (!window.localStorage.getItem('u-id') && chosenRoute !== Routes.loginRoute && chosenRoute !== Routes.signupRoute) {
             chosenRoute = Routes.loginRoute;
-            this.controller = this.routes.get(chosenRoute)
+            this.controller = this.routes.get(chosenRoute);
         }
 
         document.location.hash = chosenRoute;

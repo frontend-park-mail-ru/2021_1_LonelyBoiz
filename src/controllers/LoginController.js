@@ -63,7 +63,7 @@ class LoginController extends BaseController {
         let validForms = 0;
         const mail = document.getElementById('mail');
         if (!validateMail(mail.value)) {
-            eventBus.emit(Events.formError, {text: 'Неверный логин или пароль'});
+            eventBus.emit(Events.formError, { text: 'Неверный логин или пароль' });
         } else {
             mail.classList.remove('input-block__input_error');
             validForms += 1;
@@ -71,7 +71,7 @@ class LoginController extends BaseController {
 
         const password = document.getElementById('password');
         if (!validatePassword(password.value)) {
-            eventBus.emit(Events.formError, {text: 'Неверный логин или пароль'});
+            eventBus.emit(Events.formError, { text: 'Неверный логин или пароль' });
         } else {
             password.classList.remove('input-block__input_error');
             validForms += 1;
@@ -92,7 +92,7 @@ class LoginController extends BaseController {
                 } else {
                     window.localStorage.setItem('u-id', json.id);
                     if (json.avatar) {
-                        window.localStorage.setItem('u-avatar', json.avatar)
+                        window.localStorage.setItem('u-avatar', json.avatar);
                     }
                     eventBus.emit(Events.routeChange, Routes.homeRoute);
                 }

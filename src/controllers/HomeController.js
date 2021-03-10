@@ -71,11 +71,11 @@ class HomeController extends BaseController {
                         description: json.description
                     },
                     photos: [
-                         window.localStorage.getItem('u-avatar'),
+                        window.localStorage.getItem('u-avatar')
                     ],
                     horizontal: true
                 }).render();
-                document.getElementById('home-card').innerHTML = card;        console.error('getCurentUsersData - error: ', reason);
+                document.getElementById('home-card').innerHTML = card; console.error('getCurentUsersData - error: ', reason);
             });
     }
 }
