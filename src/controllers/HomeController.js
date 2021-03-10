@@ -33,7 +33,7 @@ class HomeController extends BaseController {
                     const card = new Card({
                         user: {
                             name: json.name,
-                            // age: 20,
+                            age: 20,
                             avatar: json.avatar,
                             geo: json.geo,
                             city: json.city,
