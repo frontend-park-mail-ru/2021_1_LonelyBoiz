@@ -94,7 +94,11 @@ class SignupController extends BaseController {
         const monthsSelect = document.getElementById('months');
         const daysSelect = document.getElementById('days');
         const yearsSelect = document.getElementById('years');
-        const date = new Date(yearsSelect.options[yearsSelect.selectedIndex].label, monthsSelect.value, daysSelect.value + 1);
+        const date = new Date(
+            yearsSelect.options[yearsSelect.selectedIndex].label,
+            monthsSelect.value,
+            parseInt(daysSelect.value) + 1
+        );
         if (!validateBirthday(date)) {
             eventBus.emit(Events.dateValidationFailed, { text: 'Регистрация доступна только совершеннолетним' });
             return;
