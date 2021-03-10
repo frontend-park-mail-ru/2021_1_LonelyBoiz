@@ -6,9 +6,7 @@ const Events = {
     passwordValidationFailed: 'passwordValidationFailed',
     passwordMatchFailed: 'passwordMatchFailed',
     dateValidationFailed: 'dateValidationFailed',
-    routeToHomePage: 'routeToHomePage',
-    routeToLoginPage: 'routeToLoginPage',
-    routeToSignupPage: 'routeToSignupPage'
+    routeChange: 'routeChange'
 };
 
 export default Events;

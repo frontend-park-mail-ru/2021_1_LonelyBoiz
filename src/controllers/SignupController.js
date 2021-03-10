@@ -2,6 +2,7 @@ import { sendSignUpData } from '../models/AuthModel.js';
 import BaseController from './BaseController.js';
 import SignupView from '../view/SignupView/SignupView.js';
 import eventBus from '../utils/eventBus.js';
+import Routes from '../consts/routes.js';
 import Events from '../consts/events.js';
 import {
     validateMail,
@@ -26,6 +27,13 @@ class SignupController extends BaseController {
         super(new SignupView({
             loginHref: 'login'
         }));
+    }
+
+    /**
+     * Запускает контроллер
+     */
+    start() {
+        this.view.show();
 
         eventBus.connect(Events.mailValidationFailed, this.onMailValidationError);
         eventBus.connect(Events.nameValidationFailed, this.onNameValidationError);
@@ -42,8 +50,22 @@ class SignupController extends BaseController {
         this.registerListener({
             element: document.querySelector('.signup-block__link'),
             type: 'click',
-            listener: (e) => { e.preventDefault(); eventBus.emit(Events.routeToLoginPage); }
+            listener: (e) => { e.preventDefault(); eventBus.emit(Events.routeChange, Routes.loginRoute); }
         });
+    }
+
+    /**
+     * Завершает контроллер
+     */
+    finish() {
+        eventBus.disconnect(Events.mailValidationFailed, this.onMailValidationError);
+        eventBus.disconnect(Events.nameValidationFailed, this.onNameValidationError);
+        eventBus.disconnect(Events.dateValidationFailed, this.onBirthdayValidationError);
+        eventBus.disconnect(Events.passwordValidationFailed, this.onPasswordValidationError);
+        eventBus.disconnect(Events.passwordMatchFailed, this.onPasswordRepeatValidationError);
+        eventBus.disconnect(Events.formError, this.onFormError);
+        eventBus.disconnect(Events.formSubmitted, this.onSubmit);
+        this.deleteListeners();
     }
 
     /**
@@ -72,7 +94,11 @@ class SignupController extends BaseController {
         const monthsSelect = document.getElementById('months');
         const daysSelect = document.getElementById('days');
         const yearsSelect = document.getElementById('years');
-        const date = new Date(yearsSelect.options[yearsSelect.selectedIndex].label, monthsSelect.value, daysSelect.value + 1);
+        const date = new Date(
+            yearsSelect.options[yearsSelect.selectedIndex].label,
+            monthsSelect.value,
+            parseInt(daysSelect.value) + 1
+        );
         if (!validateBirthday(date)) {
             eventBus.emit(Events.dateValidationFailed, { text: 'Регистрация доступна только совершеннолетним' });
             return;
@@ -125,7 +151,7 @@ class SignupController extends BaseController {
                     eventBus.emit(Events.formError);
                 } else {
                     this.storage.setItem('u-id', json.id);
-                    eventBus.emit(Events.routeToHomePage);
+                    eventBus.emit(Events.routeChange, Routes.homeRoute);
                 }
             })
             .catch((reason) => console.log('error:', reason));
