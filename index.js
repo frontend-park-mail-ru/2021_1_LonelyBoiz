@@ -1,4 +1,5 @@
 'use restrict';
+var port = process.env.PORT || 3000;
 
 const express = require('express');
 const path = require('path');
@@ -11,4 +12,4 @@ app.get('/', (request, response) => {
 	response.redirect('/public/index.html');
 });
 
-app.listen(3000);
+app.listen(port);
