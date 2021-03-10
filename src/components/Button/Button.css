@@ -51,6 +51,14 @@
 	background: var(--button-color_secondary_hover);
 }
 
-.button-block_secondary .button-block__border {
-	border: none;
+.button-block_destructive .button-block__button {
+	background: var(--button-color_destructive);
+}
+
+.button-block_destructive .button-block__button:active {
+	background: var(--button-color_destructive_clicked);
+}
+
+.button-block_destructive .button-block__button:hover:not(:active) {
+	background: var(--button-color_destructive_hover);
 }
