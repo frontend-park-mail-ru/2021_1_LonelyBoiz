@@ -1,3 +1,3 @@
-const backendLocation = 'http://localhost:8000';
+const backendLocation = 'https://p1ckle.herokuapp.com';
 
 export default backendLocation;

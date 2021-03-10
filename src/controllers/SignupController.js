@@ -142,7 +142,7 @@ class SignupController extends BaseController {
         sendSignUpData({
             mail: mail.value,
             name: name.value,
-            birthday: date.getTime(),
+            birthday: date.getTime() / 1000,
             password: password.value,
             passwordRepeat: passwordRepeat.value
         })
@@ -150,7 +150,10 @@ class SignupController extends BaseController {
                 if (json.error) {
                     eventBus.emit(Events.formError, { text: json.error });
                 } else {
-                    this.storage.setItem('u-id', json.id);
+                    window.localStorage.setItem('u-id', json.id);
+                    if (json.avatar) {
+                        window.localStorage.setItem('u-avatar', json.avatar)
+                    }
                     eventBus.emit(Events.routeChange, Routes.homeRoute);
                 }
             })

@@ -1,6 +1,7 @@
 import BaseController from './BaseController.js';
 import SettingsView from '../view/SettingsView/SettingsView.js';
 import eventBus from '../utils/eventBus.js';
+import Routes from '../consts/routes.js';
 import Events from '../consts/events.js';
 import ValidationsErrors from '../consts/validationsErrors.js';
 import {
@@ -26,6 +27,24 @@ class SettingsController extends BaseController {
      */
     constructor() {
         super(new SettingsView());
+        this.file = null
+        this.toBase64 = file => new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
+    }
+
+    finish() {
+        this.deleteListeners();
+        eventBus.disconnect(Events.formSubmitted, this.onSubmit);
+    }
+
+    onLogOut() {
+        window.localStorage.removeItem('u-id');
+        window.localStorage.setItem('u-avatar', 'img/img.png');
+        eventBus.emit(Events.routeChange, Routes.loginRoute)
     }
 
     /**
@@ -33,6 +52,19 @@ class SettingsController extends BaseController {
      */
     start() {
         this.view.show();
+
+        this.registerListener({
+            element: document.getElementById('input_avatar'),
+            type: 'change',
+            listener: this.onFileUpload.bind(this)
+        })
+
+        this.registerListener({
+            element: document.getElementById('logout'),
+            type: 'click',
+            listener: this.onLogOut.bind(this)
+        })
+
 
         getCurentUsersData()
             .then((json) => {
@@ -43,6 +75,7 @@ class SettingsController extends BaseController {
                     document.getElementById('settings_name').value = json.name;
                     document.getElementById('settings_mail').value = json.mail;
                     document.getElementById('settings_city').value = json.city;
+                    document.getElementById('settings_description').value = json.description;
                     document.getElementById('settings_instagram').value =
                         json.instagram;
                     document.getElementById('settings_sex').value =
@@ -82,6 +115,16 @@ class SettingsController extends BaseController {
                 this.onSubmit(e);
             }
         });
+    }
+
+    onFileUpload(e) {
+        this.toBase64(e.currentTarget.files[0])
+            .then((data) => {
+                this.file = data
+                window.localStorage.setItem('u-avatar', data);
+                document.querySelector('.u-avatar-header').src = data
+            })
+            .catch((e) => console.error(e));
     }
 
     /**
@@ -225,24 +268,29 @@ class SettingsController extends BaseController {
         }
 
         if (success) {
-            setCurentUsersData({
+            let tmpForm = {
                 name: name.value,
                 mail: mail.value,
                 description: description.value,
                 city: city.value,
                 instagram: instagram.value,
-                sex: sex.value === 0 ? 'male' : 'female',
+                sex: parseInt(sex.value) === 0 ? 'male' : 'female',
                 datePreference:
-                    datePreference.value === 0
+                    parseInt(datePreference.value) === 0
                         ? 'male'
-                        : datePreference.value === 1
-                            ? 'female'
-                            : 'both',
+                        : parseInt(datePreference.value) === 1
+                        ? 'female'
+                        : 'both',
                 passwordOld: passwordOld.value,
                 password: password.value,
                 passwordRepeat: passwordRepeat.value,
-                birthday: date.toISOString()
-            })
+                birthday: date.getTime() / 1000
+            };
+            if (this.file !== null) {
+                tmpForm.avatar = this.file;
+            }
+
+            setCurentUsersData(tmpForm)
                 .then((json) => {
                     console.log('Success', json);
                 })

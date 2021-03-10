@@ -34,18 +34,14 @@ class HomeController extends BaseController {
                         user: {
                             name: json.name,
                             age: 20,
-                            avatar: json.avatar,
+                            avatar: window.localStorage.getItem('u-avatar'),
                             geo: json.geo,
                             city: json.city,
                             instagram: json.instagram,
                             description: json.description
                         },
                         photos: [
-                            'img/img.png',
-                            'img/img.png',
-                            'img/img.png',
-                            'img/img.png',
-                            'img/img.png'
+                            window.localStorage.getItem('u-avatar')
                         ],
                         horizontal: true
                     }).render();
@@ -55,6 +51,7 @@ class HomeController extends BaseController {
             .catch((reason) => {
                 const json = {
                     name: 'Denis',
+                    avatar: window.localStorage.getItem('u-avatar'),
                     mail: 'wd055@mail.ru',
                     city: 'Moscow',
                     instagram: 'denis_vlas',
@@ -63,6 +60,8 @@ class HomeController extends BaseController {
                     birthday: '2000-02-03'
                 };
                 const card = new Card({
+                    disableLeftArrow: true,
+                    disableRightArrow: true,
                     user: {
                         name: json.name,
                         avatar: json.avatar,
@@ -72,11 +71,7 @@ class HomeController extends BaseController {
                         description: json.description
                     },
                     photos: [
-                        'img/img.png',
-                        'img/img.png',
-                        'img/img.png',
-                        'img/img.png',
-                        'img/img.png'
+                         window.localStorage.getItem('u-avatar'),
                     ],
                     horizontal: true
                 }).render();
