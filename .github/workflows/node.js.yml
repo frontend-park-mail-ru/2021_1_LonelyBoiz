@@ -1,0 +1,45 @@
+name: Node.js CI/Deploy
+
+on: 
+  push:
+  pull_request:
+    types: [closed]
+
+jobs:
+  Linter:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [15.x]
+        
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install deps
+      run: npm i
+    - name: Linter check
+      run: npm run eslint-check
+
+  Deploy:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install deps
+      run: npm i
+    - name: Linter check
+      run: npm run eslint-check
+    - name: Deploy app
+      uses: akhileshns/heroku-deploy@master
+      with:
+        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+        heroku_app_name: lepick
+        heroku_email: wh75er@gmail.com
+      
+      
