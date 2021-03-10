@@ -41,6 +41,8 @@ class Card {
         }
 
         this.context.photoBlockContext = {
+            disableLeftArrow: this.context.disableLeftArrow,
+            disableRightArrow: this.context.disableRightArrow,
             photos: this.context.photos,
             borderRadiusTop: this.context.vertical,
             borderRadiusLeft: this.context.horizontal

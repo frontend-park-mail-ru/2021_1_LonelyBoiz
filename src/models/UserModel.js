@@ -8,7 +8,7 @@ import { patchRequest, getRequest } from '../utils/requests.js';
  * @return {Promise}
  */
 export function setUsersData(data, id) {
-    return patchRequest(`/user/${id}`, data).then((response) => {
+    return patchRequest(`/users/${id}`, data).then((response) => {
         return response.json();
     });
 }
@@ -21,7 +21,7 @@ export function setUsersData(data, id) {
  */
 export function setCurentUsersData(data) {
     const id = window.localStorage.getItem('u-id');
-    return patchRequest(`/user/${id}`, data).then((response) => {
+    return patchRequest(`/users/${id}`, data).then((response) => {
         return response.json();
     });
 }
@@ -32,7 +32,7 @@ export function setCurentUsersData(data) {
  * @return {Promise}
  */
 export function getUsersData(id) {
-    return getRequest(`/user/${id}`).then((response) => {
+    return getRequest(`/users/${id}`).then((response) => {
         return response.json();
     });
 }
@@ -44,7 +44,7 @@ export function getUsersData(id) {
  */
 export function getCurentUsersData() {
     const id = window.localStorage.getItem('u-id');
-    return getRequest(`/user/${id}`).then((response) => {
+    return getRequest(`/users/${id}`).then((response) => {
         return response.json();
     });
 }

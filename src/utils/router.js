@@ -24,6 +24,7 @@ class Router {
                 this.changeRoute(e.target.dataset.routlink);
             }
         });
+        window.localStorage.setItem('u-avatar', 'img/img.png');
     }
 
     /**
@@ -48,6 +49,11 @@ class Router {
         } else {
             this.controller.finish();
             this.controller = controller;
+        }
+
+        if (!window.localStorage.getItem('u-id') && chosenRoute !== Routes.loginRoute && chosenRoute !== Routes.signupRoute) {
+            chosenRoute = Routes.loginRoute;
+            this.controller = this.routes.get(chosenRoute);
         }
 
         document.location.hash = chosenRoute;

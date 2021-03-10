@@ -20,7 +20,7 @@ export function sendLoginData(data) {
  * @return {Promise}
  */
 export function sendSignUpData(data) {
-    return postRequest('/signup', data)
+    return postRequest('/users', data)
         .then(response => {
             return response.json();
         });

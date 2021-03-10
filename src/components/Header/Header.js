@@ -67,9 +67,9 @@ class Header {
                 },
                 {
                     href: Routes.homeRoute,
-                    iconClasses: 'avatar',
+                    iconClasses: 'avatar u-avatar-header',
                     size: 28,
-                    src: 'img/logo.png'
+                    src: window.localStorage.getItem('u-avatar')
                 }
             ]
         }).render();

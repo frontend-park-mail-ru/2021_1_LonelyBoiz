@@ -24,7 +24,7 @@ class InfoBlock {
      */
     render() {
         const infoRowsType = {
-            city: { iconSrc: 'icon/home_small_stroke.svg', text: 'Живет в:' },
+            city: { iconSrc: 'icon/home_small_stroke.svg', text: 'Живет в: ' },
             geo: { iconSrc: 'icon/geo_stroke.svg', text: '' },
             instagram: { iconSrc: 'icon/instagram_stroke.svg', text: '@' }
         };
