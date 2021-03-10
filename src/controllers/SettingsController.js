@@ -11,14 +11,7 @@ import {
     validatePasswordRepeat
 } from '../utils/validation.js';
 import { formItemSetParams } from '../utils/formItem.js';
-
-import Input from '../components/Input/Input.js';
-import FormList from '../components/FormList/FormList.js';
-import Select from '../components/Select/Select.js';
-import Button from '../components/Button/Button.js';
-import DateInput from '../components/DateInput/DateInput.js';
-import Header from '../components/Header/Header.js';
-import FormItem from '../components/FormItem/FormItem.js';
+import { getCurentUsersData, setCurentUsersData } from '../models/UserModel.js';
 
 /**
  * @class
@@ -40,7 +33,39 @@ class SettingsController extends BaseController {
      */
     start() {
         this.view.show();
-        
+
+        getCurentUsersData()
+            .then((json) => {
+                if (json.error) {
+                    eventBus.emit(Events.formError);
+                } else {
+                    const date = new Date(json.birthday);
+                    document.getElementById('settings_name').value = json.name;
+                    document.getElementById('settings_mail').value = json.mail;
+                    document.getElementById('settings_city').value = json.city;
+                    document.getElementById('settings_instagram').value =
+                        json.instagram;
+                    document.getElementById('settings_sex').value =
+                        json.sex == 'female' ? 1 : 0;
+                    document.getElementById('settings_datePreference').value =
+                        json.datePreference == 'female'
+                            ? 1
+                            : json.datePreference == 'male'
+                            ? 0
+                            : 2;
+                    document.getElementById(
+                        'settings_months'
+                    ).value = date.getMonth();
+                    document.getElementById('settings_days').value =
+                        date.getDate() - 1;
+                    document.getElementById('settings_years').value =
+                        new Date().getFullYear() - 18 - date.getFullYear();
+                }
+            })
+            .catch((reason) => {
+                console.error('getCurentUsersData - error: ', reason);
+            });
+
         eventBus.connect(Events.formSubmitted, this.onSubmit);
         this.registerListener({
             element: document.getElementById('input_avatar__button'),
@@ -48,7 +73,6 @@ class SettingsController extends BaseController {
             listener: (e) => {
                 // e.preventDefault();
                 document.getElementById('input_avatar').click();
-                onSubmit(e);
             }
         });
         this.registerListener({
@@ -112,9 +136,11 @@ class SettingsController extends BaseController {
             monthsSelect.value,
             parseInt(daysSelect.value) + 1
         );
-        console.log(date);
+
+        let success = true;
 
         if (!validateMail(mail.value)) {
+            success = false;
             formItemSetParams({
                 element: mailFormItem,
                 newStatus: 'error',
@@ -129,7 +155,7 @@ class SettingsController extends BaseController {
         }
 
         if (!validateName(name.value)) {
-            console.log(nameFormItem);
+            success = false;
             formItemSetParams({
                 element: nameFormItem,
                 newStatus: 'error',
@@ -158,7 +184,8 @@ class SettingsController extends BaseController {
             newStatus: 'valid'
         });
 
-        if (!validatePassword(password.value)) {
+        if (password.value.length > 0 && !validatePassword(password.value)) {
+            success = false;
             formItemSetParams({
                 element: passwordFormItem,
                 newStatus: 'error',
@@ -172,7 +199,11 @@ class SettingsController extends BaseController {
             });
         }
 
-        if (!validatePasswordRepeat(password.value, passwordRepeat.value)) {
+        if (
+            password.value.length > 0 &&
+            !validatePasswordRepeat(password.value, passwordRepeat.value)
+        ) {
+            success = false;
             formItemSetParams({
                 element: passwordRepeatFormItem,
                 newStatus: 'error',
@@ -187,6 +218,7 @@ class SettingsController extends BaseController {
         }
 
         if (!validateBirthday(date)) {
+            success = false;
             formItemSetParams({
                 element: settingsBirthdayFormItem,
                 newStatus: 'error',
@@ -198,6 +230,33 @@ class SettingsController extends BaseController {
                 newStatus: 'valid',
                 newBottom: ''
             });
+        }
+
+        if (success) {
+            setCurentUsersData({
+                name: name.value,
+                mail: mail.value,
+                description: description.value,
+                city: city.value,
+                instagram: instagram.value,
+                sex: sex.value == 0 ? 'male' : 'female',
+                datePreference:
+                    datePreference.value == 0
+                        ? 'male'
+                        : datePreference.value == 1
+                        ? 'female'
+                        : 'both',
+                passwordOld: passwordOld.value,
+                password: password.value,
+                passwordRepeat: passwordRepeat.value,
+                birthday: date.toISOString()
+            })
+                .then((json) => {
+                    console.log('Success', json);
+                })
+                .catch((reason) => {
+                    console.error(reason);
+                });
         }
     }
 }

@@ -125,7 +125,7 @@ class Settings {
                     children: new Input({
                         type: 'password',
                         id: 'settings_password_old',
-                        placeholder: 'Старый Пароль'
+                        placeholder: 'Старый пароль'
                     }).render()
                 },
                 {

@@ -17,6 +17,6 @@ router.addRoute(Routes.searchRoute, new SearchController());
 router.addRoute(Routes.loginRoute, new LoginController());
 router.addRoute(Routes.signupRoute, new SignupController());
 
-router.changeRoute(Routes.homeRoute);
+router.changeRoute(Routes.settingsRoute);
 
 const homeController = new HomeController();

@@ -19,8 +19,8 @@ class Router {
         eventBus.connect(Events.routeChange, this.changeRoute.bind(this));
 
         document.getElementById('app').addEventListener('click', (e) => {
-            e.preventDefault();
             if (e.target.dataset.routlink) {
+                e.preventDefault();
                 this.changeRoute(e.target.dataset.routlink);
             }
         });
