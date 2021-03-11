@@ -8,6 +8,8 @@ import SignupController from '../src/controllers/SignupController.js';
 import Routes from '../src/consts/routes.js';
 import Router from '../src/utils/router.js';
 
+import {getAuth} from "../src/models/AuthModel.js";
+
 const router = new Router();
 
 router.addRoute(Routes.homeRoute, new HomeController());
@@ -17,6 +19,24 @@ router.addRoute(Routes.searchRoute, new SearchController());
 router.addRoute(Routes.loginRoute, new LoginController());
 router.addRoute(Routes.signupRoute, new SignupController());
 
-router.changeRoute(Routes.settingsRoute);
-
-const homeController = new HomeController();
+getAuth()
+    .then((response) => {
+        console.log('Response: ', response, response.json)
+        if (response.ok) {
+            return response.json()
+        } else {
+            window.localStorage.removeItem('u-id');
+            window.localStorage.setItem('u-avatar', 'img/img.png');
+            router.changeRoute(Routes.loginRoute);
+        }
+    })
+    .then((json) => {
+        window.localStorage.setItem('u-id', json.id);
+        window.localStorage.setItem('u-avatar', json.avatar);
+        router.changeRoute(Routes.homeRoute);
+    })
+    .catch((error) => {
+        window.localStorage.removeItem('u-id');
+        window.localStorage.setItem('u-avatar', 'img/img.png');
+        console.error('Auth error: ', error);
+    });

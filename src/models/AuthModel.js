@@ -1,4 +1,4 @@
-import { postRequest } from '../utils/requests.js';
+import { postRequest, getRequest } from '../utils/requests.js';
 
 /**
  * Отправляет данные для входа
@@ -24,4 +24,12 @@ export function sendSignUpData(data) {
         .then(response => {
             return response.json();
         });
+}
+/**
+ * Отправляет запрос проверки авторизации
+ *
+ * @return {Promise}
+ */
+export function getAuth() {
+    return getRequest('/auth');
 }
