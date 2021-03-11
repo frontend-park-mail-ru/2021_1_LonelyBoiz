@@ -24,7 +24,7 @@ class Router {
                 this.changeRoute(e.target.dataset.routlink);
             }
         });
-        window.localStorage.setItem('u-avatar', 'img/img.png');
+
     }
 
     /**
