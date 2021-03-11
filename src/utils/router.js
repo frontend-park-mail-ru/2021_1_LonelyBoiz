@@ -24,7 +24,6 @@ class Router {
                 this.changeRoute(e.target.dataset.routlink);
             }
         });
-
     }
 
     /**
