@@ -1,5 +1,5 @@
 <div class="select-block">
-    <select {{#if id}}id="{{id}}" {{/if}} title="{{title}}"
+    <select {{#if id}}id="{{id}}" {{/if}} title="{{title}}" {{#if disabled}}disabled{{/if}}
         class="select-block__select select-block__select_icon select-block__select_border border-radius {{class}}">
         {{#each options}}
         <option title="{{this}}" value="{{@index}}" class="select-block__option">{{this}}</option>

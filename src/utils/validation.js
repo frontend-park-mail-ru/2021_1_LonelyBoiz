@@ -20,12 +20,10 @@ export function validateMail(mail) {
  * @return {Boolean} Истина, если прошла валидация
  */
 export function validatePassword(pass) {
-    if (pass.length > 64) {
+    if (pass.length > 64 || pass.length < 8) {
         return false;
     }
-
-    const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/g;
-    return re.exec(pass) !== null;
+    return true;
 }
 
 /**

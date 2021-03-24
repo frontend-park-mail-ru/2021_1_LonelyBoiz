@@ -2,7 +2,7 @@
     <div class="form-item__top Subhead Subhead--w-regular {{#unless top}}hidden{{/unless}}">
         {{top}}
     </div>
-    <div class="form-item__children {{#unless children}}hidden{{/unless}}">
+    <div class="form-item__children {{#if loading}}placeholder-item{{/if}} {{#unless children}}hidden{{/unless}}">
         {{{children}}}
     </div>
     <div class="form-item__bottom Caption--l-1 Caption--w-regular {{#unless bottom}}hidden{{/unless}}">

@@ -48,18 +48,21 @@ class DateInput {
      */
     render() {
         this.context.monthSelect = new Select({
+            disabled: this.context.disabled,
             id: this.context.monthsId,
             class: 'js__date-input__month',
             title: 'Месяц:',
             options: this.months
         }).render();
         this.context.daySelect = new Select({
+            disabled: this.context.disabled,
             id: this.context.daysId,
             class: 'js__date-input__day',
             title: 'День:',
             options: this.days
         }).render();
         this.context.yearSelect = new Select({
+            disabled: this.context.disabled,
             id: this.context.yearsId,
             class: 'js__date-input__year',
             title: 'Год:',

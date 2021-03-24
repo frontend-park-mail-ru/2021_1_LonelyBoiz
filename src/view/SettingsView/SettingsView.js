@@ -58,64 +58,79 @@ class Settings {
             new FormList({
                 formList: [
                     {
+                        loading: true,
                         top: 'Имя',
                         id: 'settings_name_form-item',
                         children: new Input({
+                            disabled: true,
                             id: 'settings_name',
                             placeholder: 'Имя'
                         }).render()
                     },
                     {
+                        loading: true,
                         top: 'Дата рождения',
                         id: 'settings_birthday_from-item',
-                        children: new DateInput({ id: 'settings_birthday' }).render()
+                        children: new DateInput({ disabled: true, id: 'settings_birthday' }).render()
                     },
                     {
+                        loading: true,
                         top: 'Почта',
                         id: 'settings_mail_form-item',
                         children: new Input({
+                            disabled: true,
                             type: 'mail',
                             id: 'settings_mail',
                             placeholder: 'Почта'
                         }).render()
                     },
                     {
+                        loading: true,
                         top: 'Описание профиля',
                         id: 'settings_description_form-item',
                         children: new Input({
+                            disabled: true,
                             id: 'settings_description',
                             placeholder: 'Описание'
                         }).render()
                     },
                     {
+                        loading: true,
                         top: 'Город',
                         id: 'settings_city_form-item',
                         children: new Input({
+                            disabled: true,
                             id: 'settings_city',
                             placeholder: 'Город'
                         }).render()
                     },
                     {
+                        loading: true,
                         top: 'Instagram',
                         id: 'settings_instagram_form-item',
                         children: new Input({
+                            disabled: true,
                             id: 'settings_instagram',
                             placeholder: 'Instagram'
                         }).render()
                     },
                     {
+                        loading: true,
                         top: 'Пол',
                         id: 'settings_sex_form-item',
                         children: new Select({
+                            disabled: true,
                             id: 'settings_sex',
                             title: 'Пол',
                             options: ['Мужской', 'Женский']
                         }).render()
                     },
                     {
+                        loading: true,
                         top: 'Пол соискателя',
                         id: 'settings_datePreference_form-item',
                         children: new Select({
+                            disabled: true,
                             id: 'settings_datePreference',
                             title: 'Пол соискателя',
                             options: ['Мужской', 'Женский', 'Оба']

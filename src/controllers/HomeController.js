@@ -26,8 +26,19 @@ class HomeController extends BaseController {
      */
     start() {
         this.view.show();
+        const card = new Card({
+            user: {},
+            photos: [],
+            horizontal: true
+        }).render();
+        document.getElementById('home-card').innerHTML = card;
+        document.getElementById('home-card').classList.add('placeholder-item');
+
         getCurentUsersData()
             .then((json) => {
+                document
+                    .getElementById('home-card')
+                    .classList.remove('placeholder-item');
                 if (json.error) {
                     eventBus.emit(Events.formError);
                 } else {

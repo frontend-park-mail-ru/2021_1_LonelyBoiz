@@ -163,7 +163,7 @@ class SignupController extends BaseController {
                 } else {
                     if (validResult.value && validResult.value !== null) {
                         if (key === 'birthday') {
-                            tmpForm[key] = validResult.value.getTime();
+                            tmpForm[key] = validResult.value.getTime() / 1000;
                         } else {
                             tmpForm[key] = validResult.value;
                         }

@@ -18,7 +18,7 @@
 }
 
 .form-item_valid .input-block__input {
-    border-color: var(--field_valid_border);
+    border-color: var(--border-color);
 }
 
 .input-block__input:focus {

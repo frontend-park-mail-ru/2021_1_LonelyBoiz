@@ -33,7 +33,7 @@ getAuth()
     .then((json) => {
         window.localStorage.setItem('u-id', json.id);
         window.localStorage.setItem('u-avatar', json.avatar);
-        router.changeRoute(Routes.settingsRoute);
+        router.changeRoute(Routes.homeRoute);
     })
     .catch((error) => {
         window.localStorage.removeItem('u-id');

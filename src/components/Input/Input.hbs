@@ -1,5 +1,7 @@
 <div class="input-block">
-    <input {{#if id}}id="{{id}}" {{/if}} class="input-block__input styled-border border-radius {{#if bg_gray}}input-block__bg_gray{{/if}}"
-        type="{{type}}" placeholder="{{placeholder}}" accept="{{accept}}" value="{{defaultValue}}" min="{{minValue}}">
+    <input {{#if id}}id="{{id}}" {{/if}}
+        class="input-block__input styled-border border-radius {{#if bg_gray}}input-block__bg_gray{{/if}}"
+        type="{{type}}" {{#if disabled}}disabled{{/if}} placeholder="{{placeholder}}" accept="{{accept}}"
+        value="{{defaultValue}}" min="{{minValue}}">
     {{#if isFile}}<label class="label-input-file">{{placeholder}}</label>{{/if}}
 </div>

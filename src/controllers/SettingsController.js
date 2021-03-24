@@ -131,6 +131,13 @@ class SettingsController extends BaseController {
                 if (json.error) {
                     eventBus.emit(Events.formError);
                 } else {
+                    document.querySelectorAll(':disabled').forEach((item) => {
+                        item.disabled = false;
+                    });
+                    document.querySelectorAll('.placeholder-item').forEach((item) => {
+                        item.classList.remove('placeholder-item');
+                    });
+
                     Object.entries(json).forEach((item, i) => {
                         const [key, value] = item;
                         switch (key) {
@@ -147,7 +154,7 @@ class SettingsController extends BaseController {
                         case 'birthday':
                             setDateById(
                                 this.settingsList[key].id,
-                                new Date(value)
+                                new Date(Number(value) * 1000)
                             );
                             break;
 
@@ -236,6 +243,7 @@ class SettingsController extends BaseController {
 
         Object.entries(this.settingsList).forEach((item, i) => {
             const [key, obj] = item;
+
             if (obj.validFunc && obj.validFunc !== null) {
                 let validResult = {};
                 switch (key) {
@@ -257,7 +265,7 @@ class SettingsController extends BaseController {
                 } else {
                     if (validResult.value && validResult.value !== null) {
                         if (key === 'birthday') {
-                            tmpForm[key] = validResult.value.getTime();
+                            tmpForm[key] = validResult.value.getTime() / 1000;
                         } else {
                             tmpForm[key] = validResult.value;
                         }

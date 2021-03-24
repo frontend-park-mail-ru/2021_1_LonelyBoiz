@@ -19,5 +19,5 @@
 }
 
 .form-item_valid .form-item__bottom {
-	color: var(--field_valid_border);
+	color: var(--text_secondary);
 }
