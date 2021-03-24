@@ -64,12 +64,23 @@ class HomeController extends BaseController {
                     }).render();
                     document.getElementById('home-card').innerHTML = card;
 
-                    const imgs = document.getElementsByClassName(
-                        'photo-block__img'
-                    );
-                    if (imgs.length > 0) {
-                        const rgbBackground = getAverageRGB(imgs[0]);
-                        imgs[0].style.backgroundColor = `rgb(${rgbBackground.r},${rgbBackground.g},${rgbBackground.b})`;
+                    const useBlure = false;
+                    if (useBlure) {
+                        const imgs = document.getElementsByClassName(
+                            'photo-block__img'
+                        );
+                        if (imgs.length > 0) {
+                            const rgbBackground = getAverageRGB(imgs[0]);
+                            imgs[0].style.backgroundColor = `rgb(${rgbBackground.r},${rgbBackground.g},${rgbBackground.b})`;
+                        }
+                    } else {
+                        const imgs = document.getElementsByClassName(
+                            'photo-block__bg-div'
+                        );
+                        if (imgs.length > 0) {
+                            imgs[0].style.backgroundColor = `black`;
+                            imgs[0].style.visibility = `visible`;
+                        }
                     }
                 }
             })

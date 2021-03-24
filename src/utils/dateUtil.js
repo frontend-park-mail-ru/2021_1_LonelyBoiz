@@ -21,13 +21,3 @@ export const getDateById = (id) => {
     );
     return date;
 };
-
-export const validateBirthdayById = (id) => {
-    // document.querySelector(`#${id} .js__date-input__day`).value =
-    //     date.getDate() - 1;
-    // document.querySelector(
-    //     `#${id} .js__date-input__month`
-    // ).value = date.getMonth();
-    // document.querySelector(`#${id} .js__date-input__year`).value =
-    //     new Date().getFullYear() - 18 - date.getFullYear();
-};
