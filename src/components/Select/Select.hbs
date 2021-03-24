@@ -1,7 +1,8 @@
 <div class="select-block">
-    <select id="{{id}}" title="{{title}}" class="select-block__select select-block__select_icon select-block__select_border">
+    <select {{#if id}}id="{{id}}" {{/if}} title="{{title}}"
+        class="select-block__select select-block__select_icon select-block__select_border border-radius {{class}}">
         {{#each options}}
-            <option title="{{this}}" value="{{@index}}" class="select-block__option">{{this}}</option>
+        <option title="{{this}}" value="{{@index}}" class="select-block__option">{{this}}</option>
         {{/each}}
     </select>
 </div>

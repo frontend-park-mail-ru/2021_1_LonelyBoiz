@@ -4,6 +4,7 @@ import eventBus from '../utils/eventBus.js';
 import Events from '../consts/events.js';
 import Card from '../components/Card/Card.js';
 import { getCurentUsersData } from '../models/UserModel.js';
+import { getAverageRGB } from '../utils/img.js';
 
 /**
  * @class
@@ -30,6 +31,7 @@ class HomeController extends BaseController {
                 if (json.error) {
                     eventBus.emit(Events.formError);
                 } else {
+                    console.log(json);
                     const card = new Card({
                         user: {
                             name: json.name,
@@ -40,12 +42,16 @@ class HomeController extends BaseController {
                             instagram: json.instagram,
                             description: json.description
                         },
-                        photos: [
-                            window.localStorage.getItem('u-avatar')
-                        ],
+                        photos: [window.localStorage.getItem('u-avatar')],
                         horizontal: true
                     }).render();
                     document.getElementById('home-card').innerHTML = card;
+
+                    const imgs = document.getElementsByClassName('photo-block__img');
+                    if (imgs.length > 0) {
+                        const rgbBackground = getAverageRGB(imgs[0]);
+                        imgs[0].style.backgroundColor = `rgb(${rgbBackground.r},${rgbBackground.g},${rgbBackground.b})`;
+                    }
                 }
             })
             .catch((reason) => {
@@ -70,12 +76,11 @@ class HomeController extends BaseController {
                         instagram: json.instagram,
                         description: json.description
                     },
-                    photos: [
-                        window.localStorage.getItem('u-avatar')
-                    ],
+                    photos: [window.localStorage.getItem('u-avatar')],
                     horizontal: true
                 }).render();
-                document.getElementById('home-card').innerHTML = card; console.error('getCurentUsersData - error: ', reason);
+                document.getElementById('home-card').innerHTML = card;
+                console.error('getCurentUsersData - error: ', reason);
             });
     }
 }

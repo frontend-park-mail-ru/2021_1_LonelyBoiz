@@ -1,4 +1,3 @@
-
 /**
  * Валидирует почту
  *
@@ -51,11 +50,20 @@ export function validateName(name) {
  * @return {Boolean} Истина, если прошла валидация
  */
 export function validateBirthday(birthday) {
-    const maxBirthDate = new Date(new Date().setFullYear(new Date().getFullYear() - 18));
+    const maxBirthDate = new Date(
+        new Date().setFullYear(new Date().getFullYear() - 18)
+    );
 
     return birthday - maxBirthDate < 0;
 }
 
+/**
+ * Валидирует повторный ввод пароля
+ *
+ * @param {String} pass1 строка первого пароля для валидации
+ * @param {String} pass2 строка второго пароля для валидации
+ * @return {Boolean} Истина, если прошла валидация
+ */
 export function validatePasswordRepeat(pass1, pass2) {
     if (pass1.length === 0) {
         return false;

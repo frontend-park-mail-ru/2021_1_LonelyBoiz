@@ -1,6 +1,6 @@
-.wrapper {
+.wrapper-login {
     text-align: center;
-    padding: 100px 0;
+    margin: 100px 0;
 }
 
 .login-block {
@@ -10,10 +10,6 @@
     margin: 0 auto 10px auto;
     display: block;
     width: 350px;
-}
-
-.login-block_border {
-    border: solid 1px var(--border-color);
 }
 
 .login-block__header {

@@ -1,17 +1,14 @@
 .select-block__select {
     font-size: 12px;
     font-weight: lighter;
-    color: var(--text_select);
     width: 100%;
     height: 36px;
     padding: 0 24px 0.1em 8px;
-    border-radius: 5px;
-    background: var(--bg-color);
 }
 
 .select-block__select:focus {
     color: var(--primary-text-color);
-    border: none;
+    border: solid 1px var(--border-sel-color);
     outline: none;
 }
 

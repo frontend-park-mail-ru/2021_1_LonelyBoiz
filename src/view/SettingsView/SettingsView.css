@@ -1,11 +1,22 @@
 .settings {
     padding: 24px 20px;
     width: 500px;
-    background-color: var(--white-bg-color);
+}
+
+.settings__block {
+    padding: 15px 10px;
 }
 
 .settings__title {
     padding: 12px;
     padding-top: 0;
     text-align: center;
+}
+
+.settings__photo {
+    width: 100%;
+    padding: 5px 15px;
+    box-sizing: border-box;
+    max-height: 300px;
+    object-fit: contain;
 }

@@ -8,7 +8,7 @@ import SignupController from '../src/controllers/SignupController.js';
 import Routes from '../src/consts/routes.js';
 import Router from '../src/utils/router.js';
 
-import {getAuth} from "../src/models/AuthModel.js";
+import { getAuth } from '../src/models/AuthModel.js';
 
 const router = new Router();
 
@@ -21,9 +21,9 @@ router.addRoute(Routes.signupRoute, new SignupController());
 
 getAuth()
     .then((response) => {
-        console.log('Response: ', response, response.json)
+        console.log('Response: ', response, response.json);
         if (response.ok) {
-            return response.json()
+            return response.json();
         } else {
             window.localStorage.removeItem('u-id');
             window.localStorage.setItem('u-avatar', 'img/img.png');
@@ -33,10 +33,11 @@ getAuth()
     .then((json) => {
         window.localStorage.setItem('u-id', json.id);
         window.localStorage.setItem('u-avatar', json.avatar);
-        router.changeRoute(Routes.homeRoute);
+        router.changeRoute(Routes.settingsRoute);
     })
     .catch((error) => {
         window.localStorage.removeItem('u-id');
         window.localStorage.setItem('u-avatar', 'img/img.png');
         console.error('Auth error: ', error);
+        router.changeRoute(Routes.loginRoute);
     });

@@ -11,9 +11,8 @@ export function formItemSetParams(data) {
     if (!data || !data.element) {
         return;
     }
-    const childrens = Array.from(data.element.childNodes).filter((item, i) => {
-        return item.classList;
-    });
+    const childrens = Array.from(data.element.children);
+
     if (data.newStatus) {
         if (data.newStatus === 'valid') {
             data.element.classList.add('form-item_valid');
