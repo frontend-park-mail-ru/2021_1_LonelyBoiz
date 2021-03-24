@@ -32,7 +32,7 @@ class HomeController extends BaseController {
                     eventBus.emit(Events.formError);
                 } else {
                     console.log(json);
-                    let user = {
+                    const user = {
                         name: json.name,
                         avatar: window.localStorage.getItem('u-avatar'),
                         geo: json.geo,
