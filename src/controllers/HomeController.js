@@ -78,8 +78,8 @@ class HomeController extends BaseController {
                             'photo-block__bg-div'
                         );
                         if (imgs.length > 0) {
-                            imgs[0].style.backgroundColor = `black`;
-                            imgs[0].style.visibility = `visible`;
+                            imgs[0].style.backgroundColor = 'black';
+                            imgs[0].style.visibility = 'visible';
                         }
                     }
                 }
