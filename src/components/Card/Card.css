@@ -1,5 +1,6 @@
 .card {
-	border-radius: 10px;
+	height: 100%;
+	width: 100%;
 }
 
 .card_vertical:not(:last-child) {

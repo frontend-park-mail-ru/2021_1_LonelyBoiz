@@ -1,5 +1,5 @@
 <div class="form-list">
-    <form id="{{id}}">
+    <form {{#if id}}id="{{id}}" {{/if}}>
         {{#each FormList}}
         {{{this}}}
         {{else}}

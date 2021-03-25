@@ -5,7 +5,7 @@ const homeViewTemplate = 'HomeView.hbs';
 
 /**
  * @class
- * Страница логина
+ * Главная страница
  */
 class HomeView {
     /**

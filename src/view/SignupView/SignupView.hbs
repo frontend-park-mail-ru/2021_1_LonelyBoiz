@@ -1,18 +1,14 @@
-<div class="wrapper">
-<div class="signup-block signup-block_border">
-    <div class="signup-block__header">
-        {{{header}}}
-    </div>
-    <div class="signup-block__form">
-        {{{form}}}
-        <div class="signup-block__error {{#unless error}}signup-block__error-hidden{{/unless}}">
-            {{#if error}}
-                {{error}}
-            {{/if}}
+<div class="wrapper-signup">
+    <div class="signup-block block">
+        <div class="signup-block__header">
+            {{{header}}}
+        </div>
+        <div class="signup-block__form">
+            {{{form}}}
+            {{{Submit}}}
         </div>
     </div>
-</div>
-<div class="signup-block signup-block_border signup-block_footer">
-    Есть аккаунт? <a class="signup-block__link" href={{loginHref}}>Войти</a>
-</div>
+    <div class="signup-block block signup-block_footer Caption--l-1 text_secondary">
+        Есть аккаунт? <a class="signup-block__link" href={{loginHref}}>Войти</a>
+    </div>
 </div>

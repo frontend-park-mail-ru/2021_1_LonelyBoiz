@@ -14,7 +14,7 @@ class Select {
      */
     constructor(context) {
         this.template = Handlebars.templates[select];
-        this.context = context;
+        this.context = context || {};
     }
 
     /**

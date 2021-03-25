@@ -16,7 +16,7 @@ class DateInput {
      */
     constructor(context) {
         this.template = Handlebars.templates[dateInput];
-        this.context = context;
+        this.context = context || {};
         this.months = [
             'Январь',
             'Февраль',
@@ -47,9 +47,27 @@ class DateInput {
      * @returns {String} Построенный компонент
      */
     render() {
-        this.context.monthSelect = new Select({ id: this.context.monthsId, title: 'Месяцы:', options: this.months }).render();
-        this.context.daySelect = new Select({ id: this.context.daysId, title: 'Дни:', options: this.days }).render();
-        this.context.yearSelect = new Select({ id: this.context.yearsId, title: 'Годы:', options: this.years }).render();
+        this.context.monthSelect = new Select({
+            disabled: this.context.disabled,
+            id: this.context.monthsId,
+            class: 'js__date-input__month',
+            title: 'Месяц:',
+            options: this.months
+        }).render();
+        this.context.daySelect = new Select({
+            disabled: this.context.disabled,
+            id: this.context.daysId,
+            class: 'js__date-input__day',
+            title: 'День:',
+            options: this.days
+        }).render();
+        this.context.yearSelect = new Select({
+            disabled: this.context.disabled,
+            id: this.context.yearsId,
+            class: 'js__date-input__year',
+            title: 'Год:',
+            options: this.years
+        }).render();
 
         return this.template(this.context);
     }

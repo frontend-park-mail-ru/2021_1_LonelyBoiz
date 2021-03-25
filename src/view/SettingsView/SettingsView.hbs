@@ -1,8 +1,13 @@
 <div id="content" class="content">
     {{{Header}}}
-    <div class="settings styled-border">
+    <div class="settings">
         <div class="Title Title--l-1 Title--w-bold settings__title p-5">Настройки</div>
-        {{{Settings}}}
+        {{#each SettingsGroup}}
+        <div class="bg_color_white mb-6 block settings__block">
+            {{{this}}}
+        </div>
+        {{/each}}
+        {{{Submit}}}
         {{{Logout}}}
     </div>
 </div>

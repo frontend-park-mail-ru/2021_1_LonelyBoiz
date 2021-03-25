@@ -1,5 +1,6 @@
 @import './const.css';
 @import './global.css';
+@import './animation.css';
 @import './Typography/Typography.css';
 @import '../../src/components/Button/Button.css';
 @import '../../src/components/Tabbar/Tabbar.css';

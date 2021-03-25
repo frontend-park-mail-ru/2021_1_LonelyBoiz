@@ -3,12 +3,10 @@
 }
 
 .input-block__input {
-    background: var(--bg-color);
     padding: 0;
     width: 100%;
     display: block;
     text-indent: 10px;
-    border-radius: 5px;
     height: 36px;
     font-size: 12px;
     box-sizing: border-box;
@@ -20,7 +18,7 @@
 }
 
 .form-item_valid .input-block__input {
-    border-color: var(--field_valid_border);
+    border-color: var(--border-color);
 }
 
 .input-block__input:focus {
@@ -38,11 +36,6 @@
 
 .input-block__bg_gray {
     background: var(--input-color);
-}
-
-.input-block__input:focus {
-    outline: none;
-    border: solid 1px var(--border-sel-color);
 }
 
 .input-block__input_error {

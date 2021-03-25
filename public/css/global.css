@@ -10,8 +10,29 @@ body {
     font-size: var(--content-font-size);
 }
 
+.bg_color_white {
+    background-color: var(--white-bg-color);
+}
+
+.text_secondary{
+    color: var(--text_secondary);
+}
+
+.text_primary{
+    color: var(--text_primary);
+}
+
+.block {
+    box-shadow: 0 30px 60px rgba(57, 57, 57, 0.1);
+    border-radius: 20px;
+}
+
 .styled-border {
     border: solid 1px var(--border-color);
+}
+
+.border-radius {
+    border-radius: 8px;
 }
 
 .title {
