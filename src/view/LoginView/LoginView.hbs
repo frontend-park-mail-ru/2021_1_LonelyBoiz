@@ -1,18 +1,18 @@
 <div class="wrapper-login">
-<div class="login-block block">
-    <div class="login-block__header">
-        {{{header}}}
-    </div>
-    <div class="login-block__form">
-        {{{form}}}
-        <div class="login-block__error {{#unless error}}login-block__error-hidden{{/unless}}">
-            {{#if error}}
+    <div class="login-block block">
+        <div class="login-block__header">
+            {{{header}}}
+        </div>
+        <div class="login-block__form">
+            {{{form}}}
+            <div class="login-block__error {{#unless error}}login-block__error-hidden{{/unless}}">
+                {{#if error}}
                 {{error}}
-            {{/if}}
+                {{/if}}
+            </div>
         </div>
     </div>
-</div>
-<div class="login-block block login-block_footer Caption--l-1 text_secondary">
-    Нет аккаунта? <a class="login-block__link" href={{signupHref}}>Регистрация</a>
-</div>
+    <div class="login-block block login-block_footer Caption--l-1 text_secondary">
+        Нет аккаунта? <a class="login-block__link" href={{signupHref}}>Регистрация</a>
+    </div>
 </div>
