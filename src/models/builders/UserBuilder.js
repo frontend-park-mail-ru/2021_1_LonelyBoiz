@@ -2,7 +2,7 @@ import UserModel from "../UserModel";
 
 class UserBuilder {
     constructor(){
-        this._id = 0
+        this._id = -1
         this._mail = ''
         this._name = ''
         this._birthday = 0
