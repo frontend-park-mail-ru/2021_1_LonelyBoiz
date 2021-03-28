@@ -1,5 +1,26 @@
 import { patchRequest, getRequest } from '../utils/requests.js';
 
+class UserModel {
+    constructor(builder) {
+        this.id = builder._id
+        this.mail = builder._mail
+        this.name = builder._name
+        this.birthday = builder._birthday
+        this.description = builder._description
+        this.city = builder._city
+        this.avatar = builder._avatar
+        this.instagram = builder._instagram
+        this.sex = builder._sex
+        this.datePreference = builder._datePreference
+    }
+
+    create() {
+
+    }
+}
+
+export default UserModel
+
 /**
  * Отправляет данные пользователя
  *
