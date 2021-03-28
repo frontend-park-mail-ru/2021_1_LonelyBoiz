@@ -19,8 +19,6 @@ router.addRoute(Routes.searchRoute, new SearchController());
 router.addRoute(Routes.loginRoute, new LoginController());
 router.addRoute(Routes.signupRoute, new SignupController());
 
-let currentRoute = window.location.href.toString().split(window.location.host)[1]
-
 getAuth()
     .then((response) => {
         console.log('Response: ', response, response.json);
@@ -36,11 +34,11 @@ getAuth()
         window.localStorage.setItem('u-avatar', json.avatar === '' ? 'img/img.png' : json.avatar);
     })
     .then((_) => {
-        router.start()
+        router.start();
     })
     .catch((error) => {
         window.localStorage.removeItem('u-id');
         window.localStorage.setItem('u-avatar', 'img/img.png');
         console.error('Auth error: ', error);
-        router.start()
+        router.start();
     })
