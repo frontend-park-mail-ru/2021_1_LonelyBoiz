@@ -3,7 +3,7 @@ const Routes = {
     signupRoute: '/signup',
     homeRoute: '/',
     settingsRoute: '/settings',
-    messageRoute: '/message',
+    messageRoute: '/messages',
     searchRoute: '/search'
 };
 

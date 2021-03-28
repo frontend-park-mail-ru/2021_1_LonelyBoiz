@@ -1,15 +1,16 @@
 'use restrict';
-var port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 
 const express = require('express');
 const path = require('path');
 const app = express();
 
-const staticPath = path.resolve(__dirname);
-app.use('/', express.static(staticPath));
+const projectDir = path.resolve(__dirname);
+app.use(express.static(path.join(projectDir, 'public')));
+app.use(express.static(projectDir));
 
-app.get('/', (request, response) => {
-	response.redirect('/public/index.html');
+app.get('*', (req, res) => {
+	res.location(req.originalUrl).sendFile(path.join(projectDir, 'public', 'index.html'));
 });
 
 app.listen(port);

@@ -27,17 +27,18 @@ getAuth()
         } else {
             window.localStorage.removeItem('u-id');
             window.localStorage.setItem('u-avatar', 'img/img.png');
-            router.changeRoute(Routes.loginRoute);
         }
     })
     .then((json) => {
         window.localStorage.setItem('u-id', json.id);
-        window.localStorage.setItem('u-avatar', json.avatar);
-        router.changeRoute(Routes.homeRoute);
+        window.localStorage.setItem('u-avatar', json.avatar === '' ? 'img/img.png' : json.avatar);
+    })
+    .then((_) => {
+        router.start();
     })
     .catch((error) => {
         window.localStorage.removeItem('u-id');
         window.localStorage.setItem('u-avatar', 'img/img.png');
         console.error('Auth error: ', error);
-        router.changeRoute(Routes.loginRoute);
-    });
+        router.start();
+    })
