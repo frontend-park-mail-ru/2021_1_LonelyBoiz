@@ -7,7 +7,7 @@ import Events from '../consts/events.js';
 import { sexEnum } from '../consts/sexEnum.js';
 import {
     validateForm,
-    registreForm,
+    checkForm,
     processingResultForms
 } from '../utils/form.js';
 import ScreenSpinnerClass from '../utils/ScreenSpinner.js';
@@ -117,9 +117,9 @@ class SignupController extends BaseController {
      * Валидирует поля и делает запрос на сервер
      */
     onSubmit(e) {
-        this.formSuccess = registreForm.call(this, this.signupList);
+        this.formSuccess = checkForm.call(this, this.signupList);
         const tmpForm = {};
-        Object.entries(this.signupList).forEach((item, i) => {
+        Object.entries(this.signupList).forEach((item) => {
             const [key, obj] = item;
             if (obj.value && obj.valid) {
                 tmpForm[key] = obj.value;

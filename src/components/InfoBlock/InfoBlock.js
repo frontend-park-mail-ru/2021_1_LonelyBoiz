@@ -50,7 +50,7 @@ class InfoBlock {
 
         if (this.context.button && this.context.button.length > 0) {
             this.context.Tabbar = new Tabbar({
-                icons: this.context.button.map((item, i) => {
+                icons: this.context.button.map((item) => {
                     return { size: 24, src: tabbarIcons[item] };
                 })
             }).render();

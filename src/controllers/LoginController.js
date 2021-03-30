@@ -6,7 +6,7 @@ import Events from '../consts/events.js';
 import Routes from '../consts/routes.js';
 import {
     validateForm,
-    registreForm,
+    checkForm,
     processingResultForms
 } from '../utils/form.js';
 import ScreenSpinnerClass from '../utils/ScreenSpinner.js';
@@ -96,9 +96,9 @@ class LoginController extends BaseController {
      * Валидирует поля и делает запрос на сервер
      */
     onSubmit() {
-        this.formSuccess = registreForm.call(this, this.loginList);
+        this.formSuccess = checkForm.call(this, this.loginList);
         const tmpForm = {};
-        Object.entries(this.loginList).forEach((item, i) => {
+        Object.entries(this.loginList).forEach((item) => {
             const [key, obj] = item;
             if (obj.value && obj.valid) {
                 tmpForm[key] = obj.value;

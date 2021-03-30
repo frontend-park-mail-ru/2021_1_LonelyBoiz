@@ -197,7 +197,7 @@ function validItem({ item, formList }) {
  * @param {Object[]} formList
  */
 export function validateForm(formList) {
-    Object.entries(formList).forEach((item, i) => {
+    Object.entries(formList).forEach((item) => {
         const [, obj] = item;
         this.registerListener({
             element: document.getElementById(obj.id),
@@ -214,9 +214,9 @@ export function validateForm(formList) {
  * @param {Object[]} formList
  * @returns {Boolean}
  */
-export function registreForm(formList) {
+export function checkForm(formList) {
     let success = true;
-    Object.entries(formList).forEach((item, i) => {
+    Object.entries(formList).forEach((item) => {
         if (validItem({ item, formList }) === false) {
             success = false;
         }
@@ -284,7 +284,7 @@ export const processingResultForms = ({
  * @param {Object[]} formList
  */
 export const fillForm = (data, formList) => {
-    Object.entries(data).forEach((item, i) => {
+    Object.entries(data).forEach((item) => {
         const [key, value] = item;
         switch (key) {
         case 'sex':

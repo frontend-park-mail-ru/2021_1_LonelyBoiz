@@ -15,7 +15,7 @@ class FormList {
     constructor(context) {
         this.template = Handlebars.templates['FormList.hbs'];
         this.context = context;
-        this.context.FormList = this.context.formList.map((item, i) => {
+        this.context.FormList = this.context.formList.map((item) => {
             return new FormItem(item).render();
         });
     }

@@ -5,7 +5,7 @@ import Routes from '../consts/routes.js';
 import Events from '../consts/events.js';
 import {
     validateForm,
-    registreForm,
+    checkForm,
     processingResultForms,
     fillForm
 } from '../utils/form.js';
@@ -213,9 +213,9 @@ class SettingsController extends BaseController {
      * Валидирует поля и делает запрос на сервер
      */
     onSubmit(e) {
-        this.formSuccess = registreForm.call(this, this.settingsList);
+        this.formSuccess = checkForm.call(this, this.settingsList);
         const tmpForm = {};
-        Object.entries(this.settingsList).forEach((item, i) => {
+        Object.entries(this.settingsList).forEach((item) => {
             const [key, obj] = item;
             if (obj.value && obj.valid) {
                 tmpForm[key] = obj.value;
