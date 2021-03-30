@@ -27,6 +27,9 @@ class HomeController extends BaseController {
     start() {
         this.view.show();
         const card = new Card({
+            disablePoints: true,
+            disableLeftArrow: true,
+            disableRightArrow: true,
             user: {},
             photos: [],
             horizontal: true
@@ -53,11 +56,14 @@ class HomeController extends BaseController {
                     };
                     if (json.birthday) {
                         user.age = Math.floor(
-                            (new Date() - new Date(json.birthday)) /
+                            (new Date() - new Date(json.birthday * 1000)) /
                                 (1000 * 3600 * 24 * 365)
                         );
                     }
                     const card = new Card({
+                        disablePoints: true,
+                        disableLeftArrow: true,
+                        disableRightArrow: true,
                         user: user,
                         photos: [window.localStorage.getItem('u-avatar')],
                         horizontal: true

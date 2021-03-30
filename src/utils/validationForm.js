@@ -3,15 +3,18 @@ import {
     validatePassword,
     validateName,
     validateBirthday,
-    validatePasswordRepeat
+    validatePasswordRepeat,
+    validateSex,
+    validateDatePreference,
+    validatePasswordOld
 } from './validation.js';
 import ValidationsErrors from '../consts/validationsErrors.js';
 import { formItemSetParams } from './formItem.js';
 import { getDateById } from './dateUtil.js';
-import { getKeyByValue } from './getKeyByValue.js';
+import getKeyByValue from './getKeyByValue.js';
 import { sexEnum, datePreferenceEnum } from '../consts/sexEnum.js';
 
-export function validateFormMail(id, formItemId) {
+export const validateFormMail = (id, formItemId) => {
     const mail = document.getElementById(id).value;
     const valid = validateMail(mail);
 
@@ -29,9 +32,9 @@ export function validateFormMail(id, formItemId) {
         });
     }
     return { valid: valid, value: mail };
-}
+};
 
-export function validateFormName(id, formItemId) {
+export const validateFormName = (id, formItemId) => {
     const name = document.getElementById(id).value;
     const valid = validateName(name);
 
@@ -49,9 +52,9 @@ export function validateFormName(id, formItemId) {
         });
     }
     return { valid: valid, value: name };
-}
+};
 
-export function validateFormBirthday(id, formItemId) {
+export const validateFormBirthday = (id, formItemId) => {
     const date = getDateById(id);
     const valid = validateBirthday(date);
 
@@ -69,9 +72,9 @@ export function validateFormBirthday(id, formItemId) {
         });
     }
     return { valid: valid, value: date };
-}
+};
 
-export function validateFormPassword(id, formItemId, required) {
+export const validateFormPassword = (id, formItemId, required) => {
     const pass = document.getElementById(id).value;
     const valid = validatePassword(pass) || (!required && pass.length === 0);
 
@@ -89,12 +92,12 @@ export function validateFormPassword(id, formItemId, required) {
         });
     }
     return { valid: valid, value: pass.length > 0 ? pass : null };
-}
+};
 
-export function validateFormPasswordOld(idPassOld, idPassNew, formItemId) {
+export const validateFormPasswordOld = (idPassOld, idPassNew, formItemId) => {
     const passOld = document.getElementById(idPassOld).value;
     const passNew = document.getElementById(idPassNew).value;
-    const valid = passOld.length > 0 || passNew.length === 0;
+    const valid = validatePasswordOld(passNew, passOld);
 
     if (!valid) {
         formItemSetParams({
@@ -110,14 +113,14 @@ export function validateFormPasswordOld(idPassOld, idPassNew, formItemId) {
         });
     }
     return { valid: valid, value: passOld.length > 0 ? passOld : null };
-}
+};
 
-export function validateFormPasswordRepeat(
+export const validateFormPasswordRepeat = (
     idPass1,
     idPass2,
     formItemId,
     required
-) {
+) => {
     const pass1 = document.getElementById(idPass1).value;
     const pass2 = document.getElementById(idPass2).value;
     const valid =
@@ -134,15 +137,15 @@ export function validateFormPasswordRepeat(
         formItemSetParams({
             element: document.getElementById(formItemId),
             newStatus: 'valid',
-            newBottom: ''
+            newBottom: ValidationsErrors.password
         });
     }
     return { valid: valid, value: pass2.length > 0 ? pass2 : null };
-}
+};
 
-export function validateFormSex(id, formItemId) {
+export const validateFormSex = (id, formItemId) => {
     const sex = document.getElementById(id).value;
-    const valid = sex.length > 0;
+    const valid = validateSex(sex);
 
     if (!valid) {
         formItemSetParams({
@@ -158,11 +161,11 @@ export function validateFormSex(id, formItemId) {
         });
     }
     return { valid: valid, value: getKeyByValue(sexEnum, parseInt(sex)) };
-}
+};
 
-export function validateFormDatePreference(id, formItemId) {
+export const validateFormDatePreference = (id, formItemId) => {
     const datePreference = document.getElementById(id).value;
-    const valid = datePreference.length > 0;
+    const valid = validateDatePreference(datePreference);
 
     if (!valid) {
         formItemSetParams({
@@ -181,4 +184,4 @@ export function validateFormDatePreference(id, formItemId) {
         valid: valid,
         value: getKeyByValue(datePreferenceEnum, parseInt(datePreference))
     };
-}
+};

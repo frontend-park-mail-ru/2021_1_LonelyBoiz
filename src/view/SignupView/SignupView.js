@@ -34,14 +34,8 @@ class SignupView {
         this.context.header = new MainLabel().render();
 
         this.context.form = new FormList({
+            id: 'signup__form',
             formList: [
-                {
-                    id: 'signup_name_form-item',
-                    children: new Input({
-                        id: 'name',
-                        placeholder: 'Имя'
-                    }).render()
-                },
                 {
                     top: 'Дата рождения',
                     id: 'signup_birthday_from-item',
@@ -50,8 +44,17 @@ class SignupView {
                     }).render()
                 },
                 {
+                    id: 'signup_name_form-item',
+                    children: new Input({
+                        required: true,
+                        id: 'name',
+                        placeholder: 'Имя'
+                    }).render()
+                },
+                {
                     id: 'signup_mail_form-item',
                     children: new Input({
+                        required: true,
                         type: 'mail',
                         id: 'mail',
                         placeholder: 'Почта'
@@ -61,6 +64,7 @@ class SignupView {
                     top: 'Пол',
                     id: 'signup_sex_form-item',
                     children: new Select({
+                        required: true,
                         id: 'sex',
                         title: 'Пол',
                         options: ['Мужской', 'Женский']
@@ -69,26 +73,28 @@ class SignupView {
                 {
                     id: 'signup_password_form-item',
                     children: new Input({
+                        required: true,
                         type: 'password',
                         id: 'password',
                         placeholder: 'Пароль'
-                    }).render(),
-                    bottom: validationsErrors.password
+                    }).render()
                 },
                 {
                     id: 'signup_password_repeat_form-item',
                     children: new Input({
+                        required: true,
                         type: 'password',
                         id: 'password_repeat',
                         placeholder: 'Пароль еще раз'
-                    }).render()
+                    }).render(),
+                    bottom: validationsErrors.password
                 }
             ]
         }).render();
 
         this.context.Submit = new FormItem({
             children: new Button({
-                id: 'signup__form',
+                id: 'signup__form-submit',
                 type: 'submit',
                 text: 'Регистрация'
             }).render()
