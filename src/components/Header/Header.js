@@ -49,14 +49,6 @@ class Header {
                             : Icons.send_message_stroke
                 },
                 {
-                    href: Routes.searchRoute,
-                    size: 28,
-                    src:
-                        activeIcon === headerIcons.search
-                            ? Icons.location_fill
-                            : Icons.location_stroke
-                },
-                {
                     size: 28,
                     src:
                         activeIcon === headerIcons.like

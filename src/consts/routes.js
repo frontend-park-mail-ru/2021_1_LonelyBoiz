@@ -4,7 +4,6 @@ const Routes = {
     homeRoute: '/',
     settingsRoute: '/settings',
     messageRoute: '/messages',
-    searchRoute: '/search'
 };
 
 export default Routes;

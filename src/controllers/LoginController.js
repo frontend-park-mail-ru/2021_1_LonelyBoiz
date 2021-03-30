@@ -6,6 +6,14 @@ import Events from '../consts/events.js';
 import Routes from '../consts/routes.js';
 import { validateMail, validatePassword } from '../utils/validation.js';
 
+import { sexEnum } from '../consts/sexEnum.js';
+import {
+    validateForm,
+    registreForm,
+    processingResultForms
+} from '../utils/form.js';
+import ScreenSpinnerClass from '../utils/ScreenSpinner.js';
+
 /**
  * @class
  * Контроллер логина
@@ -18,9 +26,25 @@ class LoginController extends BaseController {
      * @this  {LoginController}
      */
     constructor() {
-        super(new LoginView({
-            signupHref: 'signup'
-        }));
+        super(
+            new LoginView({
+                signupHref: 'signup'
+            })
+        );
+
+        this.formSuccess = false;
+        this.loginList = {
+            mail: {
+                id: 'mail',
+                formItemId: 'login_mail_form-item',
+                required: true
+            },
+            password: {
+                id: 'password',
+                formItemId: 'login_password_form-item',
+                required: true
+            }
+        };
     }
 
     /**
@@ -28,20 +52,39 @@ class LoginController extends BaseController {
      */
     start() {
         this.view.show();
+        validateForm.call(this, this.loginList);
+        this.formSubmit();
 
-        eventBus.connect(Events.mailValidationFailed, this.onMailValidationError);
-        eventBus.connect(Events.passwordValidationFailed, this.onPasswordValidationError);
-        eventBus.connect(Events.formError, this.onFormError);
-        eventBus.connect(Events.formSubmitted, this.onSubmit);
-        this.registerListener({
-            element: document.querySelector('.button-block__button'),
-            type: 'click',
-            listener: (e) => { e.preventDefault(); eventBus.emit(Events.formSubmitted); }
-        });
         this.registerListener({
             element: document.querySelector('.login-block__link'),
             type: 'click',
-            listener: (e) => { e.preventDefault(); eventBus.emit(Events.routeChange, Routes.signupRoute); }
+            listener: (e) => {
+                e.preventDefault();
+                eventBus.emit(Events.routeChange, Routes.signupRoute);
+            }
+        });
+    }
+
+    /**
+     * Подписывается на заполнение формы
+     */
+    formSubmit() {
+        this.registerListener({
+            element: document.getElementById('login__form'),
+            type: 'submit',
+            listener: (e) => {
+                e.preventDefault();
+                this.onSubmit(e);
+            }
+        });
+
+        this.registerListener({
+            element: document.getElementById('login__form-submit'),
+            type: 'click',
+            listener: (e) => {
+                e.preventDefault();
+                this.onSubmit(e);
+            }
         });
     }
 
@@ -49,10 +92,6 @@ class LoginController extends BaseController {
      * Завершает контроллер
      */
     finish() {
-        eventBus.disconnect(Events.mailValidationFailed, this.onMailValidationError);
-        eventBus.disconnect(Events.passwordValidationFailed, this.onPasswordValidationError);
-        eventBus.disconnect(Events.formError, this.onFormError);
-        eventBus.disconnect(Events.formSubmitted, this.onSubmit);
         this.deleteListeners();
     }
 
@@ -60,87 +99,39 @@ class LoginController extends BaseController {
      * Валидирует поля и делает запрос на сервер
      */
     onSubmit() {
-        let validForms = 0;
-        const mail = document.getElementById('mail');
-        if (!validateMail(mail.value)) {
-            eventBus.emit(Events.formError, { text: 'Неверный логин или пароль' });
-        } else {
-            mail.classList.remove('input-block__input_error');
-            validForms += 1;
+        this.formSuccess = registreForm.call(this, this.loginList);
+        const tmpForm = {};
+        Object.entries(this.loginList).forEach((item, i) => {
+            const [key, obj] = item;
+            if (obj.value && obj.valid) {
+                tmpForm[key] = obj.value;
+            }
+        });
+
+        if (this.formSuccess) {
+            const popout = new ScreenSpinnerClass({});
+            sendLoginData(tmpForm)
+                .finally(() => {
+                    popout.destroy();
+                })
+                .then((json) => {
+                    processingResultForms({
+                        data: json,
+                        errorBlockId: 'login-error',
+                        formList: this.signupList
+                    }).then((json) => {
+                        window.localStorage.setItem('u-id', json.id);
+                        if (json.avatar) {
+                            window.localStorage.setItem(
+                                'u-avatar',
+                                json.avatar
+                            );
+                        }
+                        eventBus.emit(Events.routeChange, Routes.homeRoute);
+                    });
+                })
+                .catch((reason) => console.log('error:', reason));
         }
-
-        const password = document.getElementById('password');
-        if (!validatePassword(password.value)) {
-            eventBus.emit(Events.formError, { text: 'Неверный логин или пароль' });
-        } else {
-            password.classList.remove('input-block__input_error');
-            validForms += 1;
-        }
-
-        if (validForms < 2) {
-            eventBus.emit(Events.formError, { text: 'Неверный логин или пароль' });
-            return;
-        }
-
-        const errorBlock = document.querySelector('.login-block__error');
-        errorBlock.classList.add('login-block__error-hidden');
-
-        sendLoginData({ mail: mail.value, password: password.value })
-            .then((json) => {
-                if (json.error) {
-                    eventBus.emit(Events.formError, { text: 'Неверный логин или пароль' });
-                } else {
-                    window.localStorage.setItem('u-id', json.id);
-                    if (json.avatar) {
-                        window.localStorage.setItem('u-avatar', json.avatar);
-                    }
-                    eventBus.emit(Events.routeChange, Routes.homeRoute);
-                }
-            })
-            .catch((reason) => console.log('error:', reason));
-    }
-
-    /**
-     * Обрабатывает ошибку валидации почты
-     *
-     * @params {Object} data объект с аргументами для обработчика
-     */
-    onMailValidationError(data) {
-        const mailInput = document.getElementById('mail');
-        mailInput.classList.add('input-block__input_error');
-
-        if (data) {
-            const errorBlock = document.querySelector('.login-block__error');
-            errorBlock.classList.remove('login-block__error-hidden');
-            errorBlock.textContent = data.text;
-        }
-    }
-
-    /**
-     * Обрабатывает ошибку валидации пароля
-     *
-     * @params {Object} data объект с аргументами для обработчика
-     */
-    onPasswordValidationError(data) {
-        const passwordInput = document.getElementById('password');
-        passwordInput.classList.add('input-block__input_error');
-
-        if (data) {
-            const errorBlock = document.querySelector('.login-block__error');
-            errorBlock.classList.remove('login-block__error-hidden');
-            errorBlock.textContent = data.text;
-        }
-    }
-
-    /**
-     * Обрабатывает ошибку формы
-     *
-     * @params {Object} data объект с аргументами для обработчика
-     */
-    onFormError(data) {
-        const errorBlock = document.querySelector('.login-block__error');
-        errorBlock.classList.remove('login-block__error-hidden');
-        errorBlock.textContent = data.text;
     }
 }
 

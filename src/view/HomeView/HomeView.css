@@ -4,6 +4,12 @@
     margin: auto auto;
 }
 
-.content__home{
+.content__home {
     padding-top: 0;
+}
+
+.content__search {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }

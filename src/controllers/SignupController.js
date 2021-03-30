@@ -117,9 +117,7 @@ class SignupController extends BaseController {
      * Валидирует поля и делает запрос на сервер
      */
     onSubmit(e) {
-        console.log(this.signupList, this.formSuccess);
         this.formSuccess = registreForm.call(this, this.signupList);
-        console.log(this.signupList, this.formSuccess);
         const tmpForm = {};
         Object.entries(this.signupList).forEach((item, i) => {
             const [key, obj] = item;
@@ -127,7 +125,6 @@ class SignupController extends BaseController {
                 tmpForm[key] = obj.value;
             }
         });
-        console.log(tmpForm);
 
         if (this.formSuccess) {
             const popout = new ScreenSpinnerClass({});

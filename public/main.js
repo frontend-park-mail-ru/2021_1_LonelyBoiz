@@ -1,4 +1,3 @@
-import SearchController from '../src/controllers/SearchController.js';
 import HomeController from '../src/controllers/HomeController.js';
 import SettingsController from '../src/controllers/SettingsController.js';
 import MessageController from '../src/controllers/MessageController.js';
@@ -15,7 +14,6 @@ const router = new Router();
 router.addRoute(Routes.homeRoute, new HomeController());
 router.addRoute(Routes.settingsRoute, new SettingsController());
 router.addRoute(Routes.messageRoute, new MessageController());
-router.addRoute(Routes.searchRoute, new SearchController());
 router.addRoute(Routes.loginRoute, new LoginController());
 router.addRoute(Routes.signupRoute, new SignupController());
 
