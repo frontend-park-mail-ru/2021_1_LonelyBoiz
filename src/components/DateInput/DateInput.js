@@ -52,21 +52,24 @@ class DateInput {
             id: this.context.monthsId,
             class: 'js__date-input__month',
             title: 'Месяц:',
-            options: this.months
+            options: this.months,
+            required: this.context.required
         }).render();
         this.context.daySelect = new Select({
             disabled: this.context.disabled,
             id: this.context.daysId,
             class: 'js__date-input__day',
             title: 'День:',
-            options: this.days
+            options: this.days,
+            required: this.context.required
         }).render();
         this.context.yearSelect = new Select({
             disabled: this.context.disabled,
             id: this.context.yearsId,
             class: 'js__date-input__year',
             title: 'Год:',
-            options: this.years
+            options: this.years,
+            required: this.context.required
         }).render();
 
         return this.template(this.context);

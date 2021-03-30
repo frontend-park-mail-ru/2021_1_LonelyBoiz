@@ -8,7 +8,7 @@ class PhotoBlock {
      *
      * @constructor
      * @this  {PhotoBlock}
-     * @param {Object} context {photos:[], activePhotoId, disableLeftArrow, disableRightArrow, borderRadiusTop|borderRadiusLeft}
+     * @param {{photos:[], activePhotoId, disableLeftArrow, disableRightArrow, borderRadiusTop, borderRadiusLeft, disablePoints}} context
      */
     constructor(context) {
         this.template = Handlebars.templates['PhotoBlock.hbs'];

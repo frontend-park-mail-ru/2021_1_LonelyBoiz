@@ -1,5 +1,6 @@
 import InfoRow from '../InfoRow/InfoRow.js';
 import Tabbar from '../Tabbar/Tabbar.js';
+import Icons from '../../consts/icons.js';
 
 /**
  * @class
@@ -24,16 +25,16 @@ class InfoBlock {
      */
     render() {
         const infoRowsType = {
-            city: { iconSrc: 'icon/home_small_stroke.svg', text: 'Живет в: ' },
-            geo: { iconSrc: 'icon/geo_stroke.svg', text: '' },
-            instagram: { iconSrc: 'icon/instagram_stroke.svg', text: '@' }
+            city: { iconSrc: Icons.home_small_stroke, text: 'Живет в: ' },
+            geo: { iconSrc: Icons.geo_stroke, text: '' },
+            instagram: { iconSrc: Icons.instagram_stroke, text: '@' }
         };
 
         const tabbarIcons = {
-            like: 'icon/like_stroke.svg',
-            return: 'icon/arrow_return_left.svg',
-            message: 'icon/message_stroke.svg',
-            cancel: 'icon/cancel.svg'
+            like: Icons.like_stroke,
+            return: Icons.arrow_return_left,
+            message: Icons.message_stroke,
+            cancel: Icons.cancel
         };
 
         this.context.InfoRows = [];
@@ -47,10 +48,7 @@ class InfoBlock {
             }).render();
         }
 
-        if (
-            this.context.button &&
-            this.context.button.length > 0
-        ) {
+        if (this.context.button && this.context.button.length > 0) {
             this.context.Tabbar = new Tabbar({
                 icons: this.context.button.map((item, i) => {
                     return { size: 24, src: tabbarIcons[item] };

@@ -11,7 +11,7 @@ class Card {
      *
      * @constructor
      * @this  {Card}
-     * @param {Object} context {user:{name, age, avatar, geo, city, instagram, description}, photos:[], vertical, horizontal}
+     * @param {{user:{name, age, avatar, geo, city, instagram, description}, photos:[], vertical, horizontal, disableLeftArrow, disableRightArrow, disablePoints}} context
      */
     constructor(context) {
         this.template = Handlebars.templates['Card.hbs'];
@@ -41,6 +41,7 @@ class Card {
         }
 
         this.context.photoBlockContext = {
+            disablePoints: this.context.disablePoints,
             disableLeftArrow: this.context.disableLeftArrow,
             disableRightArrow: this.context.disableRightArrow,
             photos: this.context.photos,
@@ -54,8 +55,12 @@ class Card {
      * @returns {string} Построенный компонент
      */
     render() {
-        this.context.Info = new InfoBlock(this.context.infoBlockContext).render();
-        this.context.Photo = new PhotoBlock(this.context.photoBlockContext).render();
+        this.context.Info = new InfoBlock(
+            this.context.infoBlockContext
+        ).render();
+        this.context.Photo = new PhotoBlock(
+            this.context.photoBlockContext
+        ).render();
         return this.template(this.context);
     }
 }

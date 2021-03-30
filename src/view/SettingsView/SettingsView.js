@@ -52,10 +52,14 @@ class Settings {
                                 accept: '.jpg,.jpeg,.png'
                             }).render()
                         }).render()
+                    },
+                    {
+                        id: 'settings__new-photo'
                     }
                 ]
             }).render(),
             new FormList({
+                id: 'settings__form',
                 formList: [
                     {
                         loading: true,
@@ -71,7 +75,10 @@ class Settings {
                         loading: true,
                         top: 'Дата рождения',
                         id: 'settings_birthday_from-item',
-                        children: new DateInput({ disabled: true, id: 'settings_birthday' }).render()
+                        children: new DateInput({
+                            disabled: true,
+                            id: 'settings_birthday'
+                        }).render()
                     },
                     {
                         loading: true,
@@ -130,6 +137,7 @@ class Settings {
                         top: 'Пол соискателя',
                         id: 'settings_datePreference_form-item',
                         children: new Select({
+                            required: true,
                             disabled: true,
                             id: 'settings_datePreference',
                             title: 'Пол соискателя',
@@ -157,21 +165,28 @@ class Settings {
                             type: 'password',
                             id: 'settings_password_new',
                             placeholder: 'Новый пароль'
-                        }).render(),
-                        bottom: validationsErrors.password
+                        }).render()
                     },
                     {
-                        top: 'Новый пароль еще раз',
                         id: 'settings_password_new_repeat_form-item',
                         children: new Input({
                             type: 'password',
                             id: 'settings_password_new_repeat',
                             placeholder: 'Новый пароль еще раз'
-                        }).render()
+                        }).render(),
+                        bottom: validationsErrors.password
                     }
                 ]
             }).render()
         ];
+
+        this.context.Submit = new FormItem({
+            children: new Button({
+                id: 'settings__form-submit',
+                type: 'submit',
+                text: 'Сохранить'
+            }).render()
+        }).render();
 
         this.context.Logout = new FormItem({
             children: new Button({
@@ -179,14 +194,6 @@ class Settings {
                 id: 'logout',
                 type: 'button',
                 text: 'Выйти'
-            }).render()
-        }).render();
-
-        this.context.Submit = new FormItem({
-            children: new Button({
-                id: 'settings__form',
-                type: 'submit',
-                text: 'Сохранить'
             }).render()
         }).render();
 
