@@ -32,12 +32,16 @@
     border: solid 1px var(--border-color);
 }
 
-.select-block__select_error {
-    border: solid 1px var(--field_error_border);
-}
-
 .select-block__option {
     font-family: inherit;
     color: inherit;
     font-size: 12px;
+}
+
+.form-item_error .select-block__select_border {
+    border-color: var(--field_error_border);
+}
+
+.form-item_valid .select-block__select_border {
+    border-color: var(--border-color);
 }

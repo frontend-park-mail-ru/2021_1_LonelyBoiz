@@ -1,4 +1,15 @@
 .home-card {
-    max-width: 800px;
-    max-height: 500px;
+    max-width: 90%;
+    max-height: 80%;
+    margin: auto auto;
+}
+
+.content__home {
+    padding-top: 0;
+}
+
+.content__search {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }

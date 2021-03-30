@@ -1,7 +1,8 @@
 import MainLabel from '../../components/MainLabel/MainLabel.js';
-import Form from '../../components/Form/Form.js';
 import Input from '../../components/Input/Input.js';
 import Button from '../../components/Button/Button.js';
+import FormList from '../../components/FormList/FormList.js';
+import FormItem from '../../components/FormItem/FormItem.js';
 
 const loginViewTemplate = 'LoginView.hbs';
 
@@ -29,12 +30,36 @@ class LoginView {
     show() {
         this.context.header = new MainLabel().render();
 
-        this.context.form = new Form({
-            inputs: [
-                new Input({ type: 'text', placeholder: 'Почта', id: 'mail' }).render(),
-                new Input({ type: 'password', placeholder: 'Пароль', id: 'password' }).render()
-            ],
-            button: new Button({ text: 'Вход' }).render()
+        this.context.form = new FormList({
+            id: 'login__form',
+            formList: [
+                {
+                    id: 'login_mail_form-item',
+                    children: new Input({
+                        required: true,
+                        type: 'mail',
+                        id: 'mail',
+                        placeholder: 'Почта'
+                    }).render()
+                },
+                {
+                    id: 'login_password_form-item',
+                    children: new Input({
+                        required: true,
+                        type: 'password',
+                        id: 'password',
+                        placeholder: 'Пароль'
+                    }).render()
+                }
+            ]
+        }).render();
+
+        this.context.Submit = new FormItem({
+            children: new Button({
+                id: 'login__form-submit',
+                type: 'submit',
+                text: 'Вход'
+            }).render()
         }).render();
 
         this.root.innerHTML = this.template(this.context);

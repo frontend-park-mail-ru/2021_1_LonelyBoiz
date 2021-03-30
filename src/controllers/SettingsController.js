@@ -1,21 +1,16 @@
 import BaseController from './BaseController.js';
 import SettingsView from '../view/SettingsView/SettingsView.js';
 import eventBus from '../utils/eventBus.js';
-import { setDateById } from '../utils/dateUtil.js';
 import Routes from '../consts/routes.js';
 import Events from '../consts/events.js';
-import { sexEnum, datePreferenceEnum } from '../consts/sexEnum.js';
 import {
-    validateFormMail,
-    validateFormPassword,
-    validateFormName,
-    validateFormBirthday,
-    validateFormPasswordRepeat,
-    validateFormSex,
-    validateFormDatePreference,
-    validateFormPasswordOld
-} from '../utils/validationForm.js';
+    validateForm,
+    checkForm,
+    processingResultForms,
+    fillForm
+} from '../utils/form.js';
 import { getCurentUsersData, setCurentUsersData } from '../models/UserModel.js';
+import ScreenSpinnerClass from '../utils/ScreenSpinner.js';
 
 /**
  * @class
@@ -39,16 +34,17 @@ class SettingsController extends BaseController {
                 reader.onerror = (error) => reject(error);
             });
 
+        this.formSuccess = false;
         this.settingsList = {
             name: {
                 id: 'settings_name',
                 formItemId: 'settings_name_form-item',
-                validFunc: validateFormName
+                required: true
             },
             mail: {
                 id: 'settings_mail',
                 formItemId: 'settings_mail_form-item',
-                validFunc: validateFormMail
+                required: true
             },
             description: {
                 id: 'settings_description',
@@ -65,32 +61,31 @@ class SettingsController extends BaseController {
             sex: {
                 id: 'settings_sex',
                 formItemId: 'settings_sex_form-item',
-                validFunc: validateFormSex
+                required: true
             },
             datePreference: {
                 id: 'settings_datePreference',
                 formItemId: 'settings_datePreference_form-item',
-                validFunc: validateFormDatePreference
+                required: true
             },
             passwordOld: {
                 id: 'settings_password_old',
                 formItemId: 'settings_password_old_form-item',
-                validFunc: validateFormPasswordOld
+                required: true
             },
             password: {
                 id: 'settings_password_new',
-                formItemId: 'settings_password_new_form-item',
-                validFunc: validateFormPassword
+                formItemId: 'settings_password_new_form-item'
             },
             passwordRepeat: {
                 id: 'settings_password_new_repeat',
                 formItemId: 'settings_password_new_repeat_form-item',
-                validFunc: validateFormPasswordRepeat
+                required: true
             },
             birthday: {
                 id: 'settings_birthday',
                 formItemId: 'settings_birthday_from-item',
-                validFunc: validateFormBirthday
+                required: true
             }
         };
     }
@@ -111,8 +106,8 @@ class SettingsController extends BaseController {
      */
     start() {
         this.view.show();
-
-        this.registerInputListener();
+        validateForm.call(this, this.settingsList);
+        this.formSubmit();
 
         this.registerListener({
             element: document.getElementById('input_avatar'),
@@ -126,53 +121,6 @@ class SettingsController extends BaseController {
             listener: this.onLogOut.bind(this)
         });
 
-        getCurentUsersData()
-            .then((json) => {
-                if (json.error) {
-                    eventBus.emit(Events.formError);
-                } else {
-                    document.querySelectorAll(':disabled').forEach((item) => {
-                        item.disabled = false;
-                    });
-                    document.querySelectorAll('.placeholder-item').forEach((item) => {
-                        item.classList.remove('placeholder-item');
-                    });
-
-                    Object.entries(json).forEach((item, i) => {
-                        const [key, value] = item;
-                        switch (key) {
-                        case 'sex':
-                            document.getElementById(
-                                this.settingsList[key].id
-                            ).value = sexEnum[value];
-                            break;
-                        case 'datePreference':
-                            document.getElementById(
-                                this.settingsList[key].id
-                            ).value = datePreferenceEnum[value];
-                            break;
-                        case 'birthday':
-                            setDateById(
-                                this.settingsList[key].id,
-                                new Date(Number(value) * 1000)
-                            );
-                            break;
-
-                        default:
-                            if (this.settingsList[key]) {
-                                document.getElementById(
-                                    this.settingsList[key].id
-                                ).value = value;
-                            }
-                            break;
-                        }
-                    });
-                }
-            })
-            .catch((reason) => {
-                console.error('getCurentUsersData - error: ', reason);
-            });
-
         this.registerListener({
             element: document.getElementById('input_avatar__button'),
             type: 'click',
@@ -181,40 +129,64 @@ class SettingsController extends BaseController {
             }
         });
 
+        this.fillFormData();
+    }
+
+    /**
+     * Заполняет поля формы данными пользователя
+     */
+    fillFormData() {
+        getCurentUsersData()
+            .then((json) => {
+                if (json.error) {
+                    eventBus.emit(Events.formError);
+                } else {
+                    document.querySelectorAll(':disabled').forEach((item) => {
+                        item.disabled = false;
+                    });
+
+                    document
+                        .querySelectorAll('.placeholder-item')
+                        .forEach((item) => {
+                            item.classList.remove('placeholder-item');
+                        });
+
+                    fillForm(json, this.settingsList);
+                }
+            })
+            .catch((reason) => {
+                console.error('getCurentUsersData - error: ', reason);
+            });
+    }
+
+    /**
+     * Подписывается на заполнение формы
+     */
+    formSubmit() {
         this.registerListener({
-            element: document.getElementById('settings__form'),
+            element: document.getElementById('settings__form-submit'),
             type: 'click',
             listener: (e) => {
                 e.preventDefault();
                 this.onSubmit(e);
             }
         });
-    }
 
-    registerInputListener() {
-        Object.entries(this.settingsList).forEach((item, i) => {
-            const [key, obj] = item;
-            if (obj.validFunc && obj.validFunc !== null) {
-                this.registerListener({
-                    element: document.getElementById(obj.id),
-                    type: 'change',
-                    listener: (e) => {
-                        switch (key) {
-                        case 'passwordRepeat':
-                        case 'passwordOld':
-                            obj.validFunc(
-                                obj.id,
-                                this.settingsList.password.id,
-                                obj.formItemId
-                            );
-                            break;
+        this.registerListener({
+            element: document.getElementById('settings__form'),
+            type: 'submit',
+            listener: (e) => {
+                e.preventDefault();
+                this.onSubmit(e);
+            }
+        });
 
-                        default:
-                            obj.validFunc(obj.id, obj.formItemId);
-                            break;
-                        }
-                    }
-                });
+        this.registerListener({
+            element: document.getElementById('settings__pass'),
+            type: 'submit',
+            listener: (e) => {
+                e.preventDefault();
+                this.onSubmit(e);
             }
         });
     }
@@ -224,12 +196,15 @@ class SettingsController extends BaseController {
             .then((data) => {
                 this.file = data;
 
-                const img = new Image();
+                const img = document.createElement('img');
                 img.src = data;
+                img.id = 'settings__new-photo';
                 img.classList += 'settings__photo';
 
-                const photoForm = document.getElementById('settings__photo');
-                photoForm.appendChild(img);
+                const photoForm = document.getElementById(
+                    'settings__new-photo'
+                );
+                photoForm.replaceWith(img);
             })
             .catch((e) => console.error(e));
     }
@@ -238,59 +213,39 @@ class SettingsController extends BaseController {
      * Валидирует поля и делает запрос на сервер
      */
     onSubmit(e) {
-        let success = true;
+        this.formSuccess = checkForm.call(this, this.settingsList);
         const tmpForm = {};
-
-        Object.entries(this.settingsList).forEach((item, i) => {
+        Object.entries(this.settingsList).forEach((item) => {
             const [key, obj] = item;
-
-            if (obj.validFunc && obj.validFunc !== null) {
-                let validResult = {};
-                switch (key) {
-                case 'passwordRepeat':
-                case 'passwordOld':
-                    validResult = obj.validFunc(
-                        obj.id,
-                        this.settingsList.password.id,
-                        obj.formItemId
-                    );
-                    break;
-
-                default:
-                    validResult = obj.validFunc(obj.id, obj.formItemId);
-                    break;
-                }
-                if (!validResult.valid) {
-                    success = false;
-                } else {
-                    if (validResult.value && validResult.value !== null) {
-                        if (key === 'birthday') {
-                            tmpForm[key] = validResult.value.getTime() / 1000;
-                        } else {
-                            tmpForm[key] = validResult.value;
-                        }
-                    }
-                }
-            } else {
-                tmpForm[key] = document.getElementById(obj.id).value;
+            if (obj.value && obj.valid) {
+                tmpForm[key] = obj.value;
             }
         });
 
-        if (success) {
+        if (this.formSuccess) {
             if (this.file !== null) {
                 tmpForm.avatar = this.file;
             }
 
-            setCurentUsersData(tmpForm)
-                .then((json) => {
-                    console.log('Success', json);
+            const popout = new ScreenSpinnerClass({});
 
-                    if (this.file !== null) {
-                        window.localStorage.setItem('u-avatar', this.file);
-                        document.querySelector(
-                            '.u-avatar-header'
-                        ).src = this.file;
-                    }
+            setCurentUsersData(tmpForm)
+                .finally(() => {
+                    popout.destroy();
+                })
+                .then((json) => {
+                    processingResultForms({
+                        data: json,
+                        errorBlockId: 'settings-error',
+                        formList: this.settingsList
+                    }).then((json) => {
+                        if (this.file !== null) {
+                            window.localStorage.setItem('u-avatar', this.file);
+                            document.querySelector(
+                                '.u-avatar-header'
+                            ).src = this.file;
+                        }
+                    });
                 })
                 .catch((reason) => {
                     console.error(reason);

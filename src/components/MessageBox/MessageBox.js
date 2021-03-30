@@ -24,7 +24,7 @@ class MessageBox {
      */
     render() {
         this.context.WriteBar = new WriteBar().render();
-        this.context.Messages = this.context.messages.map((item, i) => {
+        this.context.Messages = this.context.messages.map((item) => {
             return new Message(item).render();
         });
         return this.template(this.context);

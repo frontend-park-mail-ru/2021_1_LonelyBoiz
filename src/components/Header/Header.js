@@ -2,6 +2,7 @@ import Tabbar from '../Tabbar/Tabbar.js';
 import MainLabel from '../MainLabel/MainLabel.js';
 import headerIcons from '../../consts/headerIcons.js';
 import Routes from '../../consts/routes.js';
+import Icons from '../../consts/icons.js';
 
 /**
  * @class
@@ -34,36 +35,30 @@ class Header {
                 {
                     href: Routes.homeRoute,
                     size: 28,
-                    src: `icon/home_${
-                        activeIcon === headerIcons.home ? 'fill' : 'stroke'
-                    }.svg`
+                    src:
+                        activeIcon === headerIcons.home
+                            ? Icons.home_fill
+                            : Icons.home_stroke
                 },
                 {
                     href: Routes.messageRoute,
                     size: 28,
-                    src: `icon/send_message_${
+                    src:
                         activeIcon === headerIcons.send_message
-                            ? 'fill'
-                            : 'stroke'
-                    }.svg`
-                },
-                {
-                    href: Routes.searchRoute,
-                    size: 28,
-                    src: `icon/location_${
-                        activeIcon === headerIcons.search ? 'fill' : 'stroke'
-                    }.svg`
+                            ? Icons.send_message_fill
+                            : Icons.send_message_stroke
                 },
                 {
                     size: 28,
-                    src: `icon/like_${
-                        activeIcon === headerIcons.like ? 'fill' : 'stroke'
-                    }.svg`
+                    src:
+                        activeIcon === headerIcons.like
+                            ? Icons.like_fill
+                            : Icons.like_stroke
                 },
                 {
                     href: Routes.settingsRoute,
                     size: 28,
-                    src: 'icon/settings.svg'
+                    src: Icons.settings
                 },
                 {
                     href: Routes.homeRoute,

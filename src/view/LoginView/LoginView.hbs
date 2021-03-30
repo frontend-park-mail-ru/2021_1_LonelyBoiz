@@ -5,11 +5,8 @@
         </div>
         <div class="login-block__form">
             {{{form}}}
-            <div class="login-block__error {{#unless error}}login-block__error-hidden{{/unless}}">
-                {{#if error}}
-                {{error}}
-                {{/if}}
-            </div>
+            {{{Submit}}}
+            <div class="error form-item Caption--l-1 Caption--w-regular" id="login-error"></div>
         </div>
     </div>
     <div class="login-block block login-block_footer Caption--l-1 text_secondary">

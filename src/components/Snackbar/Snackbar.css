@@ -1,0 +1,79 @@
+.snackbar {
+    user-select: none;
+    z-index: 101;
+    position: fixed;
+    bottom: 0;
+    left: auto;
+    width: 100%;
+}
+
+.snackbar__in {
+    padding: 8px;
+    transition: -webkit-transform 320ms cubic-bezier(.4,0,.2,1);
+}
+
+.snackbar-closing .snackbar__in {
+    transform: translate3d(0, 140%, 0);
+}
+
+.snackbar__body {
+    box-sizing: border-box;
+    padding: 12px 16px;
+    min-height: 56px;
+    display: flex;
+    align-items: center;
+    background: var(--white-bg-color);
+    box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.08);
+}
+
+.snackbar__before {
+    margin-left: -4px;
+    margin-right: 12px;
+}
+
+.snackbar__after {
+    margin-right: -4px;
+    margin-left: 12px;
+}
+
+.snackbar__content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.snackbar__content-text {
+    flex: 1;
+    color: var(--text_primary);
+}
+
+.snackbar__action {
+    margin-right: -16px;
+    position: relative;
+    top: 2px;
+}
+
+.snackbar-desktop {
+    max-width: 328px;
+    left: 0;
+    bottom: 0;
+}
+
+.snackbar-desktop .snackbar__in {
+    padding: 12px;
+    animation-name: animation-snackbar-intro-horizontal;
+}
+
+.snackbar-desktop.snackbar-closing .snackbar__in {
+    transform: translate3d(-140%, 0, 0);
+}
+
+@keyframes animation-snackbar-intro-horizontal {
+    from {
+        transform: translate3d(-140%, 0, 0);
+    }
+
+    to {
+        transform: translate3d(0, 0, 0);
+    }
+}

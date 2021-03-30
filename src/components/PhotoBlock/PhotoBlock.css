@@ -5,10 +5,11 @@
     display: flex;
     justify-content: center;
     flex-direction: row;
+    z-index: 1;
 }
 
 .photo-block__bg-div {
-	visibility: hidden;
+    visibility: hidden;
 }
 
 .photo-block__bg-img {
@@ -29,6 +30,7 @@
     display: block;
     width: 100%;
     object-fit: contain;
+    padding: 4px;
 }
 
 .photo-block__img_border-radius-top {

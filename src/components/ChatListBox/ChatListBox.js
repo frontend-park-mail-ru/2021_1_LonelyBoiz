@@ -15,7 +15,7 @@ class ChatListBox {
      */
     constructor(context) {
         this.template = Handlebars.templates['ChatListBox.hbs'];
-        this.context = context;
+        this.context = context || {};
     }
 
     /**

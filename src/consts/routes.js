@@ -3,8 +3,7 @@ const Routes = {
     signupRoute: '/signup',
     homeRoute: '/',
     settingsRoute: '/settings',
-    messageRoute: '/messages',
-    searchRoute: '/search'
+    messageRoute: '/messages'
 };
 
 export default Routes;

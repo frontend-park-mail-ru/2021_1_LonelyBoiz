@@ -4,14 +4,13 @@ import SignupView from '../view/SignupView/SignupView.js';
 import eventBus from '../utils/eventBus.js';
 import Routes from '../consts/routes.js';
 import Events from '../consts/events.js';
+import { sexEnum } from '../consts/sexEnum.js';
 import {
-    validateFormMail,
-    validateFormPassword,
-    validateFormName,
-    validateFormBirthday,
-    validateFormPasswordRepeat,
-    validateFormSex
-} from '../utils/validationForm.js';
+    validateForm,
+    checkForm,
+    processingResultForms
+} from '../utils/form.js';
+import ScreenSpinnerClass from '../utils/ScreenSpinner.js';
 
 /**
  * @class
@@ -31,36 +30,37 @@ class SignupController extends BaseController {
             })
         );
 
+        this.formSuccess = false;
         this.signupList = {
             name: {
                 id: 'name',
                 formItemId: 'signup_name_form-item',
-                validFunc: validateFormName
+                required: true
             },
             mail: {
                 id: 'mail',
                 formItemId: 'signup_mail_form-item',
-                validFunc: validateFormMail
+                required: true
             },
             sex: {
                 id: 'sex',
                 formItemId: 'signup_sex_form-item',
-                validFunc: validateFormSex
+                required: true,
+                value: String(sexEnum.male)
             },
             password: {
                 id: 'password',
                 formItemId: 'signup_password_form-item',
-                validFunc: validateFormPassword
+                required: true
             },
             passwordRepeat: {
                 id: 'password_repeat',
                 formItemId: 'signup_password_repeat_form-item',
-                validFunc: validateFormPasswordRepeat
+                required: true
             },
             birthday: {
                 id: 'birthday',
-                formItemId: 'signup_birthday_from-item',
-                validFunc: validateFormBirthday
+                formItemId: 'signup_birthday_from-item'
             }
         };
     }
@@ -70,16 +70,8 @@ class SignupController extends BaseController {
      */
     start() {
         this.view.show();
-        this.registerInputListener();
-
-        this.registerListener({
-            element: document.getElementById('signup__form'),
-            type: 'click',
-            listener: (e) => {
-                e.preventDefault();
-                this.onSubmit(e);
-            }
-        });
+        validateForm.call(this, this.signupList);
+        this.formSubmit();
 
         this.registerListener({
             element: document.querySelector('.signup-block__link'),
@@ -92,94 +84,61 @@ class SignupController extends BaseController {
     }
 
     /**
+     * Подписывается на заполнение формы
+     */
+    formSubmit() {
+        this.registerListener({
+            element: document.getElementById('signup__form'),
+            type: 'submit',
+            listener: (e) => {
+                e.preventDefault();
+                this.onSubmit(e);
+            }
+        });
+
+        this.registerListener({
+            element: document.getElementById('signup__form-submit'),
+            type: 'click',
+            listener: (e) => {
+                e.preventDefault();
+                this.onSubmit(e);
+            }
+        });
+    }
+
+    /**
      * Завершает контроллер
      */
     finish() {
         this.deleteListeners();
     }
 
-    registerInputListener() {
-        Object.entries(this.signupList).forEach((item, i) => {
-            const [key, obj] = item;
-            if (obj.validFunc && obj.validFunc !== null) {
-                this.registerListener({
-                    element: document.getElementById(obj.id),
-                    type: 'change',
-                    listener: (e) => {
-                        switch (key) {
-                        case 'passwordRepeat':
-                            obj.validFunc(
-                                obj.id,
-                                this.signupList.password.id,
-                                obj.formItemId
-                            );
-                            break;
-
-                        default:
-                            obj.validFunc(obj.id, obj.formItemId);
-                            break;
-                        }
-                    }
-                });
-            }
-        });
-    }
-
     /**
      * Валидирует поля и делает запрос на сервер
      */
     onSubmit(e) {
-        let success = true;
+        this.formSuccess = checkForm.call(this, this.signupList);
         const tmpForm = {};
-
-        Object.entries(this.signupList).forEach((item, i) => {
+        Object.entries(this.signupList).forEach((item) => {
             const [key, obj] = item;
-            if (obj.validFunc && obj.validFunc !== null) {
-                let validResult = {};
-                switch (key) {
-                case 'passwordRepeat':
-                    validResult = obj.validFunc(
-                        obj.id,
-                        this.signupList.password.id,
-                        obj.formItemId,
-                        true
-                    );
-                    break;
-
-                case 'password':
-                    validResult = obj.validFunc(
-                        obj.id,
-                        obj.formItemId,
-                        true
-                    );
-                    break;
-
-                default:
-                    validResult = obj.validFunc(obj.id, obj.formItemId);
-                    break;
-                }
-                if (!validResult.valid) {
-                    success = false;
-                } else {
-                    if (validResult.value && validResult.value !== null) {
-                        if (key === 'birthday') {
-                            tmpForm[key] = validResult.value.getTime() / 1000;
-                        } else {
-                            tmpForm[key] = validResult.value;
-                        }
-                    }
-                }
-            } else {
-                tmpForm[key] = document.getElementById(obj.id).value;
+            if (obj.value && obj.valid) {
+                tmpForm[key] = obj.value;
             }
         });
 
-        if (success) {
+        if (this.formSuccess) {
+            const popout = new ScreenSpinnerClass({});
+
             sendSignUpData(tmpForm)
+                .finally(() => {
+                    popout.destroy();
+                })
                 .then((json) => {
-                    if (json.error) {
-                        eventBus.emit(Events.formError, { text: json.error });
-                    } else {
+                    processingResultForms({
+                        data: json,
+                        errorBlockId: 'signup-error',
+                        formList: this.signupList
+                    }).then((json) => {
                         window.localStorage.setItem('u-id', json.id);
                         if (json.avatar) {
                             window.localStorage.setItem(
@@ -188,7 +147,7 @@ class SignupController extends BaseController {
                             );
                         }
                         eventBus.emit(Events.routeChange, Routes.homeRoute);
-                    }
+                    });
                 })
                 .catch((reason) => console.log('error:', reason));
         }

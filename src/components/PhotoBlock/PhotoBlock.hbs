@@ -1,5 +1,7 @@
 <div
     class="photo-block {{#if borderRadiusTop}}photo-block__img_border-radius-top{{/if}} {{#if borderRadiusLeft}}photo-block__img_border-radius-left{{/if}}">
+
+    {{#unless disablePoints}}
     <div class="photo-block__points">
         {{#each Points}}
         {{#if this}}
@@ -9,6 +11,8 @@
         {{/if}}
         {{/each}}
     </div>
+    {{/unless}}
+
     <div class="photo-block__arrows">
         {{#unless disableLeftArrow}}
         <div class="photo-block__arrow photo-block__arrow_left">
@@ -27,7 +31,8 @@
     </div>
     <img class="photo-block__img {{#if borderRadiusTop}}photo-block__img_border-radius-top{{/if}} {{#if borderRadiusLeft}}photo-block__img_border-radius-left{{/if}}"
         src="{{photo}}" />
-    <div class="photo-block__bg photo-block__bg-div {{#if borderRadiusTop}}photo-block__img_border-radius-top{{/if}} {{#if borderRadiusLeft}}photo-block__img_border-radius-left{{/if}}">
+    <div
+        class="photo-block__bg photo-block__bg-div {{#if borderRadiusTop}}photo-block__img_border-radius-top{{/if}} {{#if borderRadiusLeft}}photo-block__img_border-radius-left{{/if}}">
         <img class="photo-block__bg photo-block__bg-img" src="{{photo}}" />
     </div>
 </div>
