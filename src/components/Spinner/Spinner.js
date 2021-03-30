@@ -1,4 +1,5 @@
 import Icons from '../../consts/icons.js';
+import SpinnerSize from '../../consts/spinnerSize.js';
 
 /**
  * @class
@@ -21,23 +22,23 @@ class Spinner {
 
         switch (this.context.size) {
         case 'large':
-            this.context.height = 44;
-            this.context.width = 44;
+            this.context.height = SpinnerSize.large;
+            this.context.width = SpinnerSize.large;
             this.context.src = Icons.spinner_44;
             break;
         case 'medium':
-            this.context.height = 32;
-            this.context.width = 32;
+            this.context.height = SpinnerSize.medium;
+            this.context.width = SpinnerSize.medium;
             this.context.src = Icons.spinner_32;
             break;
         case 'small':
-            this.context.height = 16;
-            this.context.width = 16;
+            this.context.height = SpinnerSize.small;
+            this.context.width = SpinnerSize.small;
             this.context.src = Icons.spinner_16;
             break;
         default:
-            this.context.height = 24;
-            this.context.width = 24;
+            this.context.height = SpinnerSize.regular;
+            this.context.width = SpinnerSize.regular;
             this.context.src = Icons.spinner_24;
             break;
         }
