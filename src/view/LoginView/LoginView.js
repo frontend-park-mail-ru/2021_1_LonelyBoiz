@@ -30,7 +30,6 @@ class LoginView {
     show() {
         this.context.header = new MainLabel().render();
 
-
         this.context.form = new FormList({
             id: 'login__form',
             formList: [
@@ -62,7 +61,6 @@ class LoginView {
                 text: 'Вход'
             }).render()
         }).render();
-
 
         this.root.innerHTML = this.template(this.context);
     }

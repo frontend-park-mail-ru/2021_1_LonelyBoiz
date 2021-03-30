@@ -4,9 +4,6 @@ import LoginView from '../view/LoginView/LoginView.js';
 import eventBus from '../utils/eventBus.js';
 import Events from '../consts/events.js';
 import Routes from '../consts/routes.js';
-import { validateMail, validatePassword } from '../utils/validation.js';
-
-import { sexEnum } from '../consts/sexEnum.js';
 import {
     validateForm,
     registreForm,
