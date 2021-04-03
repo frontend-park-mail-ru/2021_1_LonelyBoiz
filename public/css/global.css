@@ -136,3 +136,8 @@ body {
 .notifications .snackbar {
     position: unset;
 }
+
+.svg-icon{
+    color: var(--primary-text-color);
+    display: contents;
+}

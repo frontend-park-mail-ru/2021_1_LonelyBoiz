@@ -1,5 +1,5 @@
 import PopoutWrapper from '../components/PopoutWrapper/PopoutWrapper.js';
-import Listener from './listener.js';
+import Listener from './Listener.js';
 import { disableScroll, enableScroll } from './scroll.js';
 
 /**

@@ -3,10 +3,10 @@ import FormList from '../../components/FormList/FormList.js';
 import Select from '../../components/Select/Select.js';
 import Button from '../../components/Button/Button.js';
 import DateInput from '../../components/DateInput/DateInput.js';
-import Header from '../../components/Header/Header.js';
 import FormItem from '../../components/FormItem/FormItem.js';
-import headerIcons from '../../consts/headerIcons.js';
 import validationsErrors from '../../consts/validationsErrors.js';
+import BaseView from '../BaseView.js';
+import Views from '../../consts/views.js';
 
 const settingsTemplate = 'SettingsView.hbs';
 
@@ -14,7 +14,7 @@ const settingsTemplate = 'SettingsView.hbs';
  * @class
  * Страница настроек
  */
-class Settings {
+class Settings extends BaseView {
     /**
      * Создает экземпляр Settings
      *
@@ -23,8 +23,8 @@ class Settings {
      * @param {Object} context
      */
     constructor(context) {
+        super(Views.Settings);
         this.template = Handlebars.templates[settingsTemplate];
-        this.root = document.getElementById('app');
         this.context = context || {};
     }
 
@@ -32,10 +32,7 @@ class Settings {
      * Отображает страницу
      */
     show() {
-        this.context.Header = new Header({
-            activeIcon: headerIcons.settings
-        }).render();
-
+        super.show();
         this.context.SettingsGroup = [
             new FormList({
                 id: 'settings__photo',

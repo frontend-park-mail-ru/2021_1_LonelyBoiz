@@ -1,6 +1,6 @@
 import InfoRow from '../InfoRow/InfoRow.js';
 import Tabbar from '../Tabbar/Tabbar.js';
-import Icons from '../../consts/icons.js';
+import { Icons } from '../../consts/icons.js';
 
 /**
  * @class

@@ -8,7 +8,7 @@ class BaseController {
      *
      * @constructor
      * @this  {BaseController}
-     * @params {Object} view страница для отображения
+     * @param {View} view страница для отображения
      */
     constructor(view) {
         this.view = view;

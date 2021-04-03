@@ -8,11 +8,17 @@ class Tabbar {
      *
      * @constructor
      * @this  {Tabbar}
-     * @param {Object[]} context {icons:[{iconClasses="", size=28, src="logo.png", href}]}
+     * @param {{ icons: {iconClasses:"", size:28, src:"logo.png", href, iconCode, idDiv, idHref}[]}} context
      */
     constructor(context) {
         this.template = Handlebars.templates['Tabbar.hbs'];
         this.context = context;
+        context.icons.forEach((item) => {
+            if (item.iconCode && item.size) {
+                item.iconCode = item.iconCode.replaceAll(/width="\d+"/g, `width="${item.size}"`);
+                item.iconCode = item.iconCode.replaceAll(/height="\d+"/g, `height="${item.size}"`);
+            }
+        });
     }
 
     /**

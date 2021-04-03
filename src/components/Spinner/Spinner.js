@@ -1,4 +1,4 @@
-import Icons from '../../consts/icons.js';
+import { Icons } from '../../consts/icons.js';
 import SpinnerSize from '../../consts/spinnerSize.js';
 
 /**

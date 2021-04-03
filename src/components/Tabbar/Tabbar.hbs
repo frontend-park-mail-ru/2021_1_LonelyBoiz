@@ -2,9 +2,22 @@
     {{#each icons}}
     <div class="tabbar__icon">
         {{#if href}}
-        <a class="tabbar header-href" data-routlink="{{href}}" href="{{href}}">
+        <a class="tabbar header-href" data-routlink="{{href}}" href="{{href}}" id="{{idHref}}">
             {{/if}}
-            <img class="icon {{iconClasses}}" data-routlink="{{href}}" width="{{size}}" height="{{size}}" src="{{src}}" />
+            {{#if iconCode}}
+            <div class="icon svg-icon {{iconClasses}}" width="{{size}}" height="{{size}}" id="{{idDiv}}">
+                {{{iconCode}}}
+            </div>
+            {{else}}
+            <img 
+                class="icon {{iconClasses}}"
+                data-routlink="{{href}}"
+                width="{{size}}"
+                height="{{size}}"
+                src="{{src}}" 
+                id="{{idDiv}}"
+            />
+            {{/if}}
             {{#if href}}
         </a>
         {{/if}}

@@ -11,11 +11,11 @@ import { getAuth } from '../src/models/AuthModel.js';
 
 const router = new Router();
 
+router.addRoute(Routes.loginRoute, new LoginController());
+router.addRoute(Routes.signupRoute, new SignupController());
 router.addRoute(Routes.homeRoute, new HomeController());
 router.addRoute(Routes.settingsRoute, new SettingsController());
 router.addRoute(Routes.messageRoute, new MessageController());
-router.addRoute(Routes.loginRoute, new LoginController());
-router.addRoute(Routes.signupRoute, new SignupController());
 
 getAuth()
     .then((response) => {

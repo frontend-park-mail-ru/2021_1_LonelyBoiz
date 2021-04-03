@@ -3,6 +3,8 @@ import Input from '../../components/Input/Input.js';
 import Button from '../../components/Button/Button.js';
 import FormList from '../../components/FormList/FormList.js';
 import FormItem from '../../components/FormItem/FormItem.js';
+import BaseView from '../BaseView.js';
+import Views from '../../consts/views.js';
 
 const loginViewTemplate = 'LoginView.hbs';
 
@@ -10,7 +12,7 @@ const loginViewTemplate = 'LoginView.hbs';
  * @class
  * Страница логина
  */
-class LoginView {
+class LoginView extends BaseView {
     /**
      * Создает экземпляр LoginView
      *
@@ -19,8 +21,8 @@ class LoginView {
      * @param {Object} context контекст для страницы логина
      */
     constructor(context) {
+        super(Views.Login);
         this.template = Handlebars.templates[loginViewTemplate];
-        this.root = document.getElementById('app');
         this.context = context;
     }
 
@@ -28,6 +30,7 @@ class LoginView {
      * Отображает страницу логина
      */
     show() {
+        super.show();
         this.context.header = new MainLabel().render();
 
         this.context.form = new FormList({

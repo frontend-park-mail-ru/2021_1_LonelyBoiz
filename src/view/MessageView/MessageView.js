@@ -1,7 +1,7 @@
-import Header from '../../components/Header/Header.js';
 import MessageBox from '../../components/MessageBox/MessageBox.js';
 import ChatListBox from '../../components/ChatListBox/ChatListBox.js';
-import headerIcons from '../../consts/headerIcons.js';
+import BaseView from '../BaseView.js';
+import Views from '../../consts/views.js';
 
 const messageViewTemplate = 'MessageView.hbs';
 
@@ -9,7 +9,7 @@ const messageViewTemplate = 'MessageView.hbs';
  * @class
  * Страница логина
  */
-class MessageView {
+class MessageView extends BaseView {
     /**
      * Создает экземпляр MessageView
      *
@@ -18,8 +18,8 @@ class MessageView {
      * @param {Object} context
      */
     constructor(context) {
+        super(Views.Messages);
         this.template = Handlebars.templates[messageViewTemplate];
-        this.root = document.getElementById('app');
         this.context = context || {};
     }
 
@@ -27,10 +27,7 @@ class MessageView {
      * Отображает страницу
      */
     show() {
-        this.context.Header = new Header({
-            activeIcon: headerIcons.send_message
-        }).render();
-
+        super.show();
         this.context.ChatList = new ChatListBox({
             chats: [
                 {
