@@ -124,20 +124,19 @@ body {
     margin: 0;
 }
 
-.notifications {
-    user-select: none;
-    z-index: 101;
-    position: fixed;
-    bottom: 0;
-    left: auto;
-    width: 100%;
-}
-
-.notifications .snackbar {
-    position: unset;
-}
-
-.svg-icon{
+.svg-icon {
     color: var(--primary-text-color);
     display: contents;
+}
+
+.active-icon {
+    color: var(--primary-text-color);
+}
+
+.disable-icon {
+    color: var(--muted-text-color);
+}
+
+.shadow_button {
+    box-shadow: var(--shadow_button);
 }

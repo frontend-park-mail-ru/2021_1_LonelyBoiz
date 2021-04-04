@@ -26,7 +26,7 @@ class PopoutWrapperClass extends Listener {
     /**
      * Удаляет всплывающее окно
      *
-     * @this  {Spinner}
+     * @this  {PopoutWrapperClass}
      */
     destroy() {
         enableScroll();
@@ -37,7 +37,7 @@ class PopoutWrapperClass extends Listener {
     /**
      * Создает всплывающее окно
      *
-     * @this  {Spinner}
+     * @this  {PopoutWrapperClass}
      */
     _draw() {
         disableScroll();

@@ -43,4 +43,5 @@
 	--button-color_destructive_clicked: #e25252e0;
 	--button-color_destructive_hover: #d13535;
 	--tabbar_background: #f9f9f9;
+	--shadow_button: 0 12px 40px 0 rgb(0 16 61 / 12%);
 }

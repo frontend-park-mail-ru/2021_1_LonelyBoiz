@@ -75,7 +75,7 @@ class BaseView extends Listener {
                                 iconCode: icon.iconCode,
                                 idDiv: icon.idDiv,
                                 idHref: icon.idHref,
-                                iconClasses: 'js__home-icon'
+                                iconClasses: 'js__header-icon'
                             };
                         }),
                         {
@@ -116,25 +116,27 @@ class BaseView extends Listener {
      * Отображает страницу
      */
     show() {
+        const headerElement = document.getElementById('header');
+        
         switch (this.view) {
         case Views.Login:
         case Views.SignUp:
-            document.getElementById('header').hidden = true;
+            headerElement.hidden = true;
             break;
         default:
-            document.getElementById('header').hidden = false;
+            headerElement.hidden = false;
             Object.entries(
-                document.getElementsByClassName('js__home-icon')
+                document.getElementsByClassName('js__header-icon')
             ).forEach((item) => {
                 const [, element] = item;
-                element.style.setProperty(
-                    'color',
-                    'var(--primary-text-color)'
-                );
+                element.classList.add('active-icon');
+                element.classList.remove('disable-icon');
             });
-            document
-                .getElementById(`home-icon__${this.view}`)
-                .style.setProperty('color', 'var(--muted-text-color)');
+            const element = document.getElementById(
+                `home-icon__${this.view}`
+            );
+            element.classList.add('disable-icon');
+            element.classList.remove('active-icon');
             break;
         }
     }

@@ -23,8 +23,7 @@ class Card {
             title: this.context.user.name,
             messageIconInTitle: this.context.vertical,
             borderRadiusBottom: this.context.vertical,
-            borderRadiusRight: this.context.horizontal,
-            button: ['like', 'return', 'message', 'cancel']
+            borderRadiusRight: this.context.horizontal
         };
 
         if (this.context.user.geo) {

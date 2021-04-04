@@ -9,7 +9,7 @@
 
 .snackbar__in {
     padding: 8px;
-    transition: -webkit-transform 320ms cubic-bezier(.4,0,.2,1);
+    transition: -webkit-transform 320ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .snackbar-closing .snackbar__in {
@@ -23,7 +23,6 @@
     display: flex;
     align-items: center;
     background: var(--white-bg-color);
-    box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.08);
 }
 
 .snackbar__before {

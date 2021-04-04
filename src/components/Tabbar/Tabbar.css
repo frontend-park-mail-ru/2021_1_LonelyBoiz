@@ -1,8 +1,7 @@
 .tabbar__icon {
     box-sizing: border-box;
     height: var(--header-height);
-    padding-top: 8px;
-    padding-bottom: 8px;
+    padding: 8px 13px;
     display: flex;
     flex-direction: column;
     justify-content: center;

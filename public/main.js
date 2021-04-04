@@ -1,13 +1,15 @@
 import HomeController from '../src/controllers/HomeController.js';
 import SettingsController from '../src/controllers/SettingsController.js';
 import MessageController from '../src/controllers/MessageController.js';
-
 import LoginController from '../src/controllers/LoginController.js';
 import SignupController from '../src/controllers/SignupController.js';
 import Routes from '../src/consts/routes.js';
 import Router from '../src/utils/router.js';
+import Notifications from '../src/utils/Notifications.js';
 
 import { getAuth } from '../src/models/AuthModel.js';
+
+const notifications = Notifications;
 
 const router = new Router();
 

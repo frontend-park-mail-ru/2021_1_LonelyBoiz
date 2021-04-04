@@ -21,6 +21,7 @@ class Notifications {
         const newElem = document.createElement('div');
         newElem.id = 'notifications';
         newElem.classList.add('notifications');
+        newElem.classList.add('snackbar-desktop');
 
         this.rootElement = document
             .getElementsByTagName('body')[0]
@@ -45,14 +46,13 @@ class Notifications {
      * @param {{ children: Any, duration?: Number }} param0
      */
     push({ children, duration = 4000 }) {
+        const rootElement = Notifications.getInstance().rootElement;
         const insertionElem = document.createElement('div');
         insertionElem.innerHTML = new Snackbar({
             children,
             closing: true
         }).render();
-        const newElem = Notifications.getInstance().rootElement.appendChild(
-            insertionElem
-        );
+        const newElem = rootElement.insertBefore(insertionElem, rootElement.firstChild);
 
         setTimeout(() => {
             newElem.children[0].classList.remove('snackbar-closing');

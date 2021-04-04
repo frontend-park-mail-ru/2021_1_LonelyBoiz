@@ -32,8 +32,8 @@ class BaseController {
 
     /**
      * Цепляет обработчик к событию и сохранят его
-     *
-     * @params {Object} subscriber объект, который хранит в себе информацию о владельце
+     * @this  {BaseController}
+     * @param {{element, type, listener}} subscriber объект, который хранит в себе информацию о владельце
      */
     registerListener(subscriber) {
         subscriber.element.addEventListener(subscriber.type, subscriber.listener);

@@ -1,8 +1,10 @@
 @import './const.css';
 @import './global.css';
 @import './animation.css';
+@import './notifications.css';
 @import './Typography/Typography.css';
 @import '/src/components/Button/Button.css';
+@import '/src/components/ChatItem/ChatItem.css';
 @import '/src/components/Tabbar/Tabbar.css';
 @import '/src/components/InfoRow/InfoRow.css';
 @import '/src/components/MainLabel/MainLabel.css';
