@@ -1,0 +1,28 @@
+.svg-icon {
+    color: var(--primary-text-color);
+    display: contents;
+}
+
+.active-icon {
+    color: var(--primary-text-color);
+}
+
+.disable-icon {
+    color: var(--muted-text-color);
+}
+
+.error-icon {
+    color: var(--field_error_border);
+}
+
+.valid-icon {
+    color: var(--field_valid_border);
+}
+
+.gray-icon {
+    color: var(--text_placeholder);
+}
+
+.pointer-icon {
+    cursor: pointer;
+}
