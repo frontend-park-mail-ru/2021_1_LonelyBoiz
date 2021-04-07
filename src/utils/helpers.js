@@ -3,13 +3,23 @@ export function addIfNotEq(field, condition) {
 }
 
 export function filterObject(obj, condition) {
-    let result = {}
+    const result = {};
 
     for (const [key, value] of Object.entries(obj)) {
         if (condition(value)) {
-            result[key] = value
+            result[key] = value;
         }
     }
 
-    return result
+    return result;
+}
+
+export function parseJson(response) {
+    return response.json().then(json => {
+        return {
+            status: response.status,
+            ok: response.ok,
+            json
+        };
+    });
 }
