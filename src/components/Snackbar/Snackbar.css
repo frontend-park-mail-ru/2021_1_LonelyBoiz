@@ -25,6 +25,14 @@
     background: var(--white-bg-color);
 }
 
+.snackbar__before,
+.snackbar__after {
+    width: 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .snackbar__before {
     margin-left: -4px;
     margin-right: 12px;

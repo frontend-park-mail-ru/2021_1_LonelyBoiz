@@ -11,7 +11,7 @@ class ChatItem {
      *
      * @constructor
      * @this  {ChatItem}
-     * @param {Object} context {user:{name, avatar}, lastMessage:{text, time}, counter}
+     * @param {{user:{name, avatar}, lastMessage:{text, time: String}, counter}} context
      */
     constructor(context) {
         this.context = context;
@@ -26,9 +26,9 @@ class ChatItem {
         }
 
         if (this.context.lastMessage && this.context.lastMessage.text) {
-            this.context.caption = this.context.lastMessage.text;
+            this.context.caption = `<div class="chat-item__last-message">${this.context.lastMessage.text}</div>`;
             if (this.context.lastMessage.time) {
-                this.context.caption += ' ' + this.context.lastMessage.time;
+                this.context.caption += `<div class="chat-item__time">${this.context.lastMessage.time}</div>`;
             }
         }
     }

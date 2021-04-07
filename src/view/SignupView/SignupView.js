@@ -58,7 +58,7 @@ class SignupView extends BaseView {
                     id: 'signup_mail_form-item',
                     children: new Input({
                         required: true,
-                        type: 'mail',
+                        type: 'email',
                         id: 'mail',
                         placeholder: 'Почта'
                     }).render()

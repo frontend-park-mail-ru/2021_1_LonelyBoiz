@@ -129,7 +129,7 @@ body {
     box-shadow: var(--shadow_button);
 }
 
-.center-placeholder-label{
+.center-placeholder-label {
     text-align: center;
     width: 100%;
     position: absolute;

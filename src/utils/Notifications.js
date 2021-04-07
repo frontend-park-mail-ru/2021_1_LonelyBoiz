@@ -43,21 +43,29 @@ class Notifications {
 
     /**
      * Добавляет уведомление
-     * @param {{ children: Any, duration?: Number }} param0
+     * @param {{ before: Any, children: Any, after: Any, duration?: Number }} param0
      */
-    push({ children, duration = 4000 }) {
+    push({ before, children, after, duration = 4000 }) {
         const rootElement = Notifications.getInstance().rootElement;
         const insertionElem = document.createElement('div');
         insertionElem.innerHTML = new Snackbar({
+            before,
             children,
+            after,
             closing: true
         }).render();
-        const newElem = rootElement.insertBefore(insertionElem, rootElement.firstChild);
+
+        const newElem = rootElement.insertBefore(
+            insertionElem.firstChild,
+            rootElement.firstChild
+        );
+
+        console.log(newElem);
 
         setTimeout(() => {
-            newElem.children[0].classList.remove('snackbar-closing');
+            newElem.classList.remove('snackbar-closing');
             setTimeout(() => {
-                newElem.children[0].classList.add('snackbar-closing');
+                newElem.classList.add('snackbar-closing');
                 setTimeout(() => {
                     newElem.remove();
                 }, 500);

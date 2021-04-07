@@ -1,3 +1,5 @@
+import IconClass from '../Icon/Icon.js';
+
 /**
  * @class
  * Компонента Tabbar
@@ -12,12 +14,9 @@ class Tabbar {
      */
     constructor(context) {
         this.template = Handlebars.templates['Tabbar.hbs'];
-        this.context = context;
-        context.icons.forEach((item) => {
-            if (item.iconCode && item.size) {
-                item.iconCode = item.iconCode.replaceAll(/width="\d+"/g, `width="${item.size}"`);
-                item.iconCode = item.iconCode.replaceAll(/height="\d+"/g, `height="${item.size}"`);
-            }
+        this.context = context || {};
+        this.context.icons = context.icons.map((item) => {
+            return { ...item, icon: new IconClass(item).render() };
         });
     }
 

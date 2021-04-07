@@ -117,13 +117,13 @@ class BaseView extends Listener {
      */
     show() {
         const headerElement = document.getElementById('header');
-        
+
         switch (this.view) {
         case Views.Login:
         case Views.SignUp:
             headerElement.hidden = true;
             break;
-        default:
+        default: {
             headerElement.hidden = false;
             Object.entries(
                 document.getElementsByClassName('js__header-icon')
@@ -132,12 +132,11 @@ class BaseView extends Listener {
                 element.classList.add('active-icon');
                 element.classList.remove('disable-icon');
             });
-            const element = document.getElementById(
-                `home-icon__${this.view}`
-            );
+            const element = document.getElementById(`home-icon__${this.view}`);
             element.classList.add('disable-icon');
             element.classList.remove('active-icon');
             break;
+        }
         }
     }
 }

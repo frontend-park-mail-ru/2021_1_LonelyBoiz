@@ -28,31 +28,8 @@ class MessageView extends BaseView {
      */
     show() {
         super.show();
-        this.context.ChatList = new ChatListBox({
-            chats: [
-                {
-                    user: { name: 'Name asda', avatar: 'img/logo.png' },
-                    lastMessage: { text: 'asd', time: '2 m' },
-                    counter: 1000
-                },
-                {
-                    user: { name: 'Name asda', avatar: 'img/logo.png' },
-                    lastMessage: { text: 'asd', time: '2 m' },
-                    counter: 1000
-                }
-            ]
-        }).render();
-
-        this.context.Message = new MessageBox({
-            messages: [
-                { text: 'qwe' },
-                { text: 'qwe', usersMessage: true },
-                { text: 'qwe' },
-                { text: 'qwe', usersMessage: true }
-            ],
-            chatUser: { name: 'asd', avatar: 'img/logo.png' }
-        }).render();
-
+        this.context.ChatList = new ChatListBox().render();
+        this.context.Message = new MessageBox().render();
         this.root.innerHTML = this.template(this.context);
     }
 }

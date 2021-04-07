@@ -83,7 +83,7 @@ class Settings extends BaseView {
                         id: 'settings_mail_form-item',
                         children: new Input({
                             disabled: true,
-                            type: 'mail',
+                            type: 'email',
                             id: 'settings_mail',
                             placeholder: 'Почта'
                         }).render()

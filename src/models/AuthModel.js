@@ -8,7 +8,7 @@ import { postRequest, getRequest } from '../utils/requests.js';
  */
 export function sendLoginData(data) {
     return postRequest('/login', data)
-        .then(response => {
+        .then((response) => {
             return response.json();
         });
 }
@@ -21,7 +21,7 @@ export function sendLoginData(data) {
  */
 export function sendSignUpData(data) {
     return postRequest('/users', data)
-        .then(response => {
+        .then((response) => {
             return response.json();
         });
 }
