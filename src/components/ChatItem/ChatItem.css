@@ -1,0 +1,20 @@
+.chat-item__last-message {
+    color: var(--second-text-color);
+    margin-right: 10px;
+    text-overflow: ellipsis;
+    max-width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.chat-item__time::before {
+    margin-right: 10px;
+    margin-bottom: 3px;
+    display: inline-block;
+    content: '';
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    height: 0.2rem;
+    width: 0.2rem;
+    background-color: var(--muted-text-color);
+}

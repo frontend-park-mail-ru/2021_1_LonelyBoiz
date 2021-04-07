@@ -11,6 +11,8 @@ import {
 } from '../utils/form.js';
 import { getCurentUsersData, setCurentUsersData } from '../models/UserModel.js';
 import ScreenSpinnerClass from '../utils/ScreenSpinner.js';
+import { IconsSrc } from '../consts/icons.js';
+import IconClass from '../components/Icon/Icon.js';
 
 /**
  * @class
@@ -217,7 +219,7 @@ class SettingsController extends BaseController {
         const tmpForm = {};
         Object.entries(this.settingsList).forEach((item) => {
             const [key, obj] = item;
-            if (obj.value && obj.valid) {
+            if ((obj.value && obj.valid) || !obj.required) {
                 tmpForm[key] = obj.value;
             }
         });
@@ -235,7 +237,7 @@ class SettingsController extends BaseController {
                 })
                 .then((json) => {
                     processingResultForms({
-                        data: json,
+                        data: json || {},
                         errorBlockId: 'settings-error',
                         formList: this.settingsList
                     }).then((json) => {
@@ -249,6 +251,13 @@ class SettingsController extends BaseController {
                 })
                 .catch((reason) => {
                     console.error(reason);
+                    eventBus.emit(Events.pushNotifications, {
+                        before: new IconClass({
+                            iconCode: IconsSrc.error_circle,
+                            iconClasses: 'error-icon'
+                        }).render(),
+                        children: 'Что-то не то с интернетом('
+                    });
                 });
         }
     }

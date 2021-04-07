@@ -1,4 +1,4 @@
-import { Icons } from '../../consts/icons.js';
+import { IconsSrc } from '../../consts/icons.js';
 import SpinnerSize from '../../consts/spinnerSize.js';
 
 /**
@@ -11,7 +11,10 @@ class Spinner {
      *
      * @constructor
      * @this  {Spinner}
-     * @param {{ size: 'small' | 'regular' | 'large' | 'medium' }} context
+     * @param {{
+     * size: 'small' | 'regular' | 'large' | 'medium',
+     * classes:String
+     * }} context
      */
     constructor(context) {
         this.template = Handlebars.templates['Spinner.hbs'];
@@ -24,22 +27,22 @@ class Spinner {
         case 'large':
             this.context.height = SpinnerSize.large;
             this.context.width = SpinnerSize.large;
-            this.context.src = Icons.spinner_44;
+            this.context.src = IconsSrc.spinner_44;
             break;
         case 'medium':
             this.context.height = SpinnerSize.medium;
             this.context.width = SpinnerSize.medium;
-            this.context.src = Icons.spinner_32;
+            this.context.src = IconsSrc.spinner_32;
             break;
         case 'small':
             this.context.height = SpinnerSize.small;
             this.context.width = SpinnerSize.small;
-            this.context.src = Icons.spinner_16;
+            this.context.src = IconsSrc.spinner_16;
             break;
         default:
             this.context.height = SpinnerSize.regular;
             this.context.width = SpinnerSize.regular;
-            this.context.src = Icons.spinner_24;
+            this.context.src = IconsSrc.spinner_24;
             break;
         }
     }

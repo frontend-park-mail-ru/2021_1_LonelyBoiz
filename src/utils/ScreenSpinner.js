@@ -13,7 +13,7 @@ class ScreenSpinnerClass extends PopoutWrapperClass {
      * @this  {ScreenSpinnerClass}
      * @param {{ block: Boolean, showBg: Boolean }} context
      */
-    constructor({ children, block = true, showBg = false }) {
+    constructor({ block = true, showBg = false }) {
         super({
             children: new ScreenSpinner().render(),
             block: block,

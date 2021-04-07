@@ -40,7 +40,7 @@ class LoginView extends BaseView {
                     id: 'login_mail_form-item',
                     children: new Input({
                         required: true,
-                        type: 'mail',
+                        type: 'email',
                         id: 'mail',
                         placeholder: 'Почта'
                     }).render()

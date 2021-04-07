@@ -1,17 +1,18 @@
+// https://codepen.io/nzbin/pen/GGrXbp
 /**
  * @class
- * Компонента Cell
+ * Компонента DotFlashing
  */
-class Cell {
+class DotFlashing {
     /**
-     * Создает экземпляр Cell
+     * Создает экземпляр DotFlashing
      *
      * @constructor
-     * @this  {Cell}
+     * @this  {DotFlashing}
      * @param {Object} context {avatar, children, text, caption, after}
      */
     constructor(context) {
-        this.template = Handlebars.templates['Cell.hbs'];
+        this.template = Handlebars.templates['DotFlashing.hbs'];
         this.context = context || {};
     }
 
@@ -24,4 +25,4 @@ class Cell {
     }
 }
 
-export default Cell;
+export default DotFlashing;

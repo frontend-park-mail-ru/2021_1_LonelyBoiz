@@ -1,8 +1,6 @@
 import Card from '../components/Card/Card.js';
 import Listener from './Listener.js';
 import { getAverageRGB } from '../utils/img.js';
-import eventBus from './eventBus.js';
-import Events from '../consts/events.js';
 
 /**
  * @class
@@ -107,7 +105,7 @@ class CardClass extends Listener {
                         .parentNode,
                     type: 'click',
                     listener: (e) => {
-                        funcDislike(e);
+                        this.funcDislike(e);
                     }
                 });
             }
@@ -118,7 +116,7 @@ class CardClass extends Listener {
                         .parentNode,
                     type: 'click',
                     listener: (e) => {
-                        funcLike(e);
+                        this.funcLike(e);
                     }
                 });
             }
@@ -129,7 +127,7 @@ class CardClass extends Listener {
                         .parentNode,
                     type: 'click',
                     listener: (e) => {
-                        funcReturn(e);
+                        this.funcReturn(e);
                     }
                 });
             }

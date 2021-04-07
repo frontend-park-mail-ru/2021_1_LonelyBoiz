@@ -4,20 +4,7 @@
         {{#if href}}
         <a class="tabbar header-href" data-routlink="{{href}}" href="{{href}}" id="{{idHref}}">
             {{/if}}
-            {{#if iconCode}}
-            <div class="icon svg-icon {{iconClasses}}" width="{{size}}" height="{{size}}" id="{{idDiv}}">
-                {{{iconCode}}}
-            </div>
-            {{else}}
-            <img 
-                class="icon {{iconClasses}}"
-                data-routlink="{{href}}"
-                width="{{size}}"
-                height="{{size}}"
-                src="{{src}}" 
-                id="{{idDiv}}"
-            />
-            {{/if}}
+            {{{icon}}}
             {{#if href}}
         </a>
         {{/if}}

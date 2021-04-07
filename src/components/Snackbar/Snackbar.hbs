@@ -1,17 +1,21 @@
 <div class="snackbar {{#if desktop}}snackbar-desktop{{/if}} {{#if closing}}snackbar-closing{{/if}}">
     <div class="snackbar__in">
         <div class="snackbar__body border-radius shadow_button">
+            {{#if before}}
             <div class="snackbar__before">
                 {{{before}}}
             </div>
+            {{/if}}
 
             <div class="snackbar__content">
-                <text weight="regular" class="snackbar__content-text">{{{children}}}</text>
+                <text weight="regular" class="snackbar__content-text Text">{{{children}}}</text>
             </div>
 
+            {{#if after}}
             <div class="snackbar__after">
                 {{{after}}}
             </div>
+            {{/if}}
         </div>
     </div>
 </div>

@@ -1,4 +1,6 @@
 import Input from '../Input/Input.js';
+import { IconsSrc } from '../../consts/icons.js';
+import IconClass from '../Icon/Icon.js';
 
 /**
  * @class
@@ -25,6 +27,12 @@ class WriteBar {
             placeholder: 'Сообщение',
             bg_gray: true
         }).render();
+
+        this.context.SendMessageIcon = new IconClass({
+            iconCode: IconsSrc.send_message_stroke,
+            iconClasses: 'pointer-icon'
+        }).render();
+
         return this.template(this.context);
     }
 }

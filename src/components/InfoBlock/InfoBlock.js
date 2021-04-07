@@ -1,7 +1,7 @@
 import InfoRow from '../InfoRow/InfoRow.js';
 import Tabbar from '../Tabbar/Tabbar.js';
 import { Icons } from '../../consts/icons.js';
-import { HomeIcons, HomeIconsSrc } from '../../consts/homeCommands.js';
+import { HomeIconsSrc } from '../../consts/homeCommands.js';
 
 /**
  * @class
@@ -42,7 +42,7 @@ class InfoBlock {
             }).render();
         }
 
-        if (this.context.buttons) {
+        if (this.context.buttons && Object.entries(this.context.buttons).length > 0) {
             this.context.Tabbar = new Tabbar({
                 icons: Object.entries(this.context.buttons).map((item) => {
                     const [key, value] = item;

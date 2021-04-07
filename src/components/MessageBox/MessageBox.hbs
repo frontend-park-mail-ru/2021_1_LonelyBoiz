@@ -1,22 +1,20 @@
-<div class="message-chat styled-border">
-    <div class="message-header">
-        {{#if chatUser.avatar}}
-        <div class="message-header__avatar">
-            <img class="icon avatar avatar_l" src="{{chatUser.avatar}}" />
-        </div>
-        {{/if}}
-        <div class="message-header__title">{{chatUser.name}}</div>
+<div class="message-header">
+    <div class="message-header__avatar">
+        <img class="icon avatar avatar_l" src="{{chatUser.avatar}}" />
     </div>
-    <div class="message-chat__writebar">
-        {{{WriteBar}}}
-    </div>
-    <div class="message-chat__list__contnet">
-        <div class="message-chat__list">
-            {{#each Messages}}
-            {{{this}}}
-            {{else}}
+    <div class="message-header__title">{{chatUser.name}}</div>
+</div>
+<div class="message-chat__writebar">
+    {{{WriteBar}}}
+</div>
+<div class="message-chat__list__contnet">
+    <div class="message-chat__list">
+        {{#each Messages}}
+        {{{this}}}
+        {{else}}
+        <div class="center-placeholder-label" id="message-chat__no-message">
             Сообщений нет
-            {{/each}}
         </div>
+        {{/each}}
     </div>
 </div>

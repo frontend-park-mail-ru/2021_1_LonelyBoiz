@@ -20,7 +20,7 @@ class HomeController extends BaseController {
         super(new HomeView());
         this.id = 'home-card';
         this.userData = {};
-        this.card;
+        this.card = null;
     }
 
     finish() {
