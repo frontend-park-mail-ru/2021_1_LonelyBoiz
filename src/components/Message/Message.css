@@ -13,6 +13,9 @@
 .message_user .message__text {
     background-color: var(--bg-color);
 }
+.message_user .message__text {
+	background-color: var(--bg-color);
+}
 
 .message_user {
     flex-direction: row-reverse;
@@ -26,6 +29,12 @@
 }
 
 .message__smile-icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.message__smile-icon{
     display: flex;
     flex-direction: column;
     justify-content: center;
