@@ -15,7 +15,8 @@
         "semi": ["error", "always"],
         "quotes": ["error", "single"],
         "space-before-function-paren": ["error", "never"],
-        "eol-last": ["error", "always"]
+        "eol-last": ["error", "always"],
+        "no-new": 0
     },
     "globals": {
         "Handlebars": "readonly"

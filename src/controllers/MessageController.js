@@ -6,7 +6,7 @@ import IconClass from '../components/Icon/Icon.js';
 import Spinner from '../components/Spinner/Spinner.js';
 import { IconsSrc } from '../consts/icons.js';
 import Listener from '../utils/Listener.js';
-import EmojiesClass from '../utils/Emojies.js';
+import EmojiesPopup from '../utils/Emojies.js';
 import EmojiesList from '../consts/emojies.js';
 
 /**
@@ -498,7 +498,7 @@ class MessageController extends BaseController {
                 element: insertionElem.children[0],
                 type: 'click',
                 listener: (e) => {
-                    new EmojiesClass((key) => {
+                    new EmojiesPopup((key) => {
                         this.setEmojies(insertionElem, key);
                     });
                 }

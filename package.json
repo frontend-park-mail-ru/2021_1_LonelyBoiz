@@ -11,6 +11,9 @@
     "compile-hbs": "handlebars ./src/*/*/*.hbs -f ./src/hbs.precompiled.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "pre-commit": [
+    "eslint-check"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/frontend-park-mail-ru/2021_1_LonelyBoiz.git"
@@ -33,6 +36,7 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsdoc": "^32.2.0",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.3.1"
+    "eslint-plugin-promise": "^4.3.1",
+    "pre-commit": "^1.2.2"
   }
 }

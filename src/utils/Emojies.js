@@ -1,19 +1,18 @@
 import PopoutWrapperClass from './PopoutWrapper.js';
-import ScreenSpinner from '../components/ScreenSpinner/ScreenSpinner.js';
 import Emojies from '../components/Emojies/Emojies.js';
 import IconClass from '../components/Icon/Icon.js';
 import EmojiesList from '../consts/emojies.js';
 
 /**
  * @class
- * EmojiesClass
+ * EmojiesPopup
  */
-class EmojiesClass extends PopoutWrapperClass {
+class EmojiesPopup extends PopoutWrapperClass {
     /**
      * Создает экземпляр всплывающего окна со смайликами
      *
      * @constructor
-     * @this  {EmojiesClass}
+     * @this  {EmojiesPopup}
      * @callback callback
      */
     constructor(callback) {
@@ -21,7 +20,7 @@ class EmojiesClass extends PopoutWrapperClass {
             return { iconCode: item[1], idDiv: i, key: item[0] };
         });
 
-        let iconsElems = [[], []];
+        const iconsElems = [[], []];
         icons.forEach((item, i) => {
             iconsElems[Math.trunc(i / 3)][i % 3] = new IconClass(item).render();
         });
@@ -48,4 +47,4 @@ class EmojiesClass extends PopoutWrapperClass {
     }
 }
 
-export default EmojiesClass;
+export default EmojiesPopup;
