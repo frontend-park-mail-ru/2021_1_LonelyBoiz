@@ -5,6 +5,9 @@ import Message from '../components/Message/Message.js';
 import IconClass from '../components/Icon/Icon.js';
 import Spinner from '../components/Spinner/Spinner.js';
 import { IconsSrc } from '../consts/icons.js';
+import Listener from '../utils/Listener.js';
+import EmojiesClass from '../utils/Emojies.js';
+import EmojiesList from '../consts/emojies.js';
 
 /**
  * @class
@@ -22,20 +25,23 @@ class MessageController extends BaseController {
         this.activeChat = null;
         this.chats = [];
         this.messages = [];
-        this.chatsListElem = null;
-        this.messageListElem = null;
-        this.noChatsListElem = null;
-        this.noMessageListElem = null;
-        this.headerIconElem = null;
-        this.headerTitleElem = null;
-        this.headerElem = null;
-        this.writeBarElem = null;
-        this.writeBarIconElem = null;
-        this.writeBarInputElem = null;
+        this.elements = {
+            chatsList: null,
+            messageList: null,
+            noChatsList: null,
+            noMessageList: null,
+            headerIcon: null,
+            headerTitle: null,
+            header: null,
+            writeBar: null,
+            writeBarIcon: null,
+            writeBarInput: null
+        };
         this.sendingMessage = false;
         this.loaderChats = false;
         this.endChats = false;
         this.endChat = false;
+        this.emojeisListener = new Listener();
     }
 
     start() {
@@ -55,83 +61,6 @@ class MessageController extends BaseController {
                     time: '2 м'
                 },
                 chatId: 10
-            },
-            {
-                user: {
-                    avatar: 'img/img.png',
-                    name: 'Не Красивое имя'
-                },
-                lastMessage: {
-                    text: 'Приветик',
-                    time: '2 м'
-                },
-                chatId: 12
-            },
-            {
-                user: {
-                    avatar: 'img/img.png',
-                    name: 'Не Красивое имя'
-                },
-                lastMessage: {
-                    text: 'Приветик',
-                    time: '2 м'
-                },
-                chatId: 12
-            },
-            {
-                user: {
-                    avatar: 'img/img.png',
-                    name: 'Не Красивое имя'
-                },
-                lastMessage: {
-                    text: 'Приветик',
-                    time: '2 м'
-                },
-                chatId: 12
-            },
-            {
-                user: {
-                    avatar: 'img/img.png',
-                    name: 'Не Красивое имя'
-                },
-                lastMessage: {
-                    text: 'Приветик',
-                    time: '2 м'
-                },
-                chatId: 12
-            },
-            {
-                user: {
-                    avatar: 'img/img.png',
-                    name: 'Не Красивое имя'
-                },
-                lastMessage: {
-                    text: 'Приветик',
-                    time: '2 м'
-                },
-                chatId: 12
-            },
-            {
-                user: {
-                    avatar: 'img/img.png',
-                    name: 'Не Красивое имя'
-                },
-                lastMessage: {
-                    text: 'Приветик',
-                    time: '2 м'
-                },
-                chatId: 12
-            },
-            {
-                user: {
-                    avatar: 'img/img.png',
-                    name: 'Не Красивое имя'
-                },
-                lastMessage: {
-                    text: 'Приветик',
-                    time: '2 м'
-                },
-                chatId: 12
             },
             {
                 user: {
@@ -310,225 +239,11 @@ class MessageController extends BaseController {
                 text: 'asdqw',
                 usersMessage: true,
                 messageId: 10
-            },
-            {
-                text: 'qweqweq',
-                usersMessage: false
-            },
-            {
-                text: 'asdqw',
-                usersMessage: true,
-                messageId: 10
-            },
-            {
-                text: 'qweqweq',
-                usersMessage: false
-            },
-            {
-                text: 'asdqw',
-                usersMessage: true,
-                messageId: 10
-            },
-            {
-                text: 'qweqweq',
-                usersMessage: false
-            },
-            {
-                text: 'asdqw',
-                usersMessage: true,
-                messageId: 10
-            },
-            {
-                text: 'qweqweq',
-                usersMessage: false
-            },
-            {
-                text: 'asdqw',
-                usersMessage: true,
-                messageId: 10
-            },
-            {
-                text: 'qweqweq',
-                usersMessage: false
-            },
-            {
-                text: 'asdqw',
-                usersMessage: true,
-                messageId: 10
-            },
-            {
-                text: 'qweqweq',
-                usersMessage: false
-            },
-            {
-                text: 'asdqw',
-                usersMessage: true,
-                messageId: 10
-            },
-            {
-                text: 'qweqweq',
-                usersMessage: false
-            },
-            {
-                text: 'asdqw',
-                usersMessage: true,
-                messageId: 10
-            },
-            {
-                text: 'qweqweq',
-                usersMessage: false
-            },
-            {
-                text: 'asdqw',
-                usersMessage: true,
-                messageId: 10
-            },
-            {
-                text: 'qweqweq',
-                usersMessage: false
-            },
-            {
-                text: 'asdqw',
-                usersMessage: true,
-                messageId: 10
-            },
-            {
-                text: 'qweqweq',
-                usersMessage: false
-            },
-            {
-                text: 'asdqw',
-                usersMessage: true,
-                messageId: 10
-            },
-            {
-                text: 'qweqweq',
-                usersMessage: false
-            },
-            {
-                text: 'asdqw',
-                usersMessage: true,
-                messageId: 10
-            },
-            {
-                text: 'qweqweq',
-                usersMessage: false
-            },
-            {
-                text: 'asdqw',
-                usersMessage: true,
-                messageId: 10
-            },
-            {
-                text: 'qweqweq',
-                usersMessage: false
-            },
-            {
-                text: 'asdqw',
-                usersMessage: true,
-                messageId: 10
-            },
-            {
-                text: 'qweqweq',
-                usersMessage: false
-            },
-            {
-                text: 'asdqw',
-                usersMessage: true,
-                messageId: 10
-            },
-            {
-                text: 'qweqweq',
-                usersMessage: false
-            },
-            {
-                text: 'asdqw',
-                usersMessage: true,
-                messageId: 10
-            },
-            {
-                text: 'qweqweq',
-                usersMessage: false
-            },
-            {
-                text: 'asdqw',
-                usersMessage: true,
-                messageId: 10
-            },
-            {
-                text: 'qweqweq',
-                usersMessage: false
-            },
-            {
-                text: 'asdqw',
-                usersMessage: true,
-                messageId: 10
-            },
-            {
-                text: 'qweqweq',
-                usersMessage: false
-            },
-            {
-                text: 'asdqw',
-                usersMessage: true,
-                messageId: 10
-            },
-            {
-                text: 'qweqweq',
-                usersMessage: false
-            },
-            {
-                text: 'asdqw',
-                usersMessage: true,
-                messageId: 10
-            },
-            {
-                text: 'qweqweq',
-                usersMessage: false
-            },
-            {
-                text: 'asdqw',
-                usersMessage: true,
-                messageId: 10
-            },
-            {
-                text: 'qweqweq',
-                usersMessage: false
-            },
-            {
-                text: 'asdqw',
-                usersMessage: true,
-                messageId: 10
-            },
-            {
-                text: 'qweqweq',
-                usersMessage: false
-            },
-            {
-                text: 'asdqw',
-                usersMessage: true,
-                messageId: 10
-            },
-            {
-                text: 'qweqweq',
-                usersMessage: false
-            },
-            {
-                text: 'asdqw',
-                usersMessage: true,
-                messageId: 10
-            },
-            {
-                text: 'qweqweq',
-                usersMessage: false
-            },
-            {
-                text: 'zxczxcx'
             }
         ];
 
         this.registerListener({
-            element: this.writeBarIconElem,
+            element: this.elements.writeBarIcon,
             type: 'click',
             listener: (e) => {
                 this.sendMessage();
@@ -536,7 +251,7 @@ class MessageController extends BaseController {
         });
 
         this.registerListener({
-            element: this.messageListElem,
+            element: this.elements.messageList,
             type: 'scroll',
             listener: (e) => {
                 const element = e.currentTarget;
@@ -547,7 +262,7 @@ class MessageController extends BaseController {
         });
 
         this.registerListener({
-            element: this.chatsListElem,
+            element: this.elements.chatsList,
             type: 'scroll',
             listener: (e) => {
                 const element = e.currentTarget;
@@ -565,40 +280,48 @@ class MessageController extends BaseController {
         this.onScrollTopChats();
     }
 
+    finish() {
+        this.emojeisListener.deleteListeners();
+    }
+
     setElements() {
-        this.chatsListElem = document.querySelector('.chats-list__list');
-        this.messageListElem = document.querySelector('.message-chat__list');
-        this.noChatsListElem = document.getElementById(
+        this.elements.chatsList = document.querySelector('.chats-list__list');
+        this.elements.messageList = document.querySelector(
+            '.message-chat__list'
+        );
+        this.elements.noChatsList = document.getElementById(
             'chats-list__no-message'
         );
-        this.noMessageListElem = document.getElementById(
+        this.elements.noMessageList = document.getElementById(
             'message-chat__no-message'
         );
-        this.noChatSelectedListElem = document.getElementById(
+        this.elements.noChatSelectedList = document.getElementById(
             'message-chat__no-chat-selected'
         );
-        this.headerIconElem = document.querySelector(
+        this.elements.headerIcon = document.querySelector(
             '.message-chat .message-header .icon'
         );
-        this.headerTitleElem = document.querySelector(
+        this.elements.headerTitle = document.querySelector(
             '.message-chat .message-header .message-header__title'
         );
-        this.writeBarIconElem = document.querySelector(
+        this.elements.writeBarIcon = document.querySelector(
             '.message-chat .message-chat__writebar .write-bar__icon'
         );
-        this.writeBarInputElem = document.querySelector(
+        this.elements.writeBarInput = document.querySelector(
             '.message-chat .message-chat__writebar .input-block__input'
         );
-        this.headerElem = document.querySelector('.message-header');
-        this.writeBarElem = document.querySelector('.message-chat__writebar');
+        this.elements.header = document.querySelector('.message-header');
+        this.elements.writeBar = document.querySelector(
+            '.message-chat__writebar'
+        );
     }
 
     onScrollTopChat() {
         if (!this.loaderChat && !this.endChat) {
             this.loaderChat = true;
-            const insertionElem = this.messageListElem.insertBefore(
+            const insertionElem = this.elements.messageList.insertBefore(
                 this.getLoaderSpinner(),
-                this.messageListElem.firstChild
+                this.elements.messageList.firstChild
             );
 
             setTimeout(() => {
@@ -612,9 +335,9 @@ class MessageController extends BaseController {
 
     onScrollTopChats() {
         if (!this.loaderChats && !this.endChats) {
-            this.noChatsListElem.hidden = true;
+            this.elements.noChatsList.hidden = true;
             this.loaderChats = true;
-            const insertionElem = this.chatsListElem.appendChild(
+            const insertionElem = this.elements.chatsList.appendChild(
                 this.getLoaderSpinner()
             );
 
@@ -641,7 +364,7 @@ class MessageController extends BaseController {
                 tmp.dataset.chatId = item.chatId;
             }
 
-            const insertionElem = this.chatsListElem.appendChild(tmp);
+            const insertionElem = this.elements.chatsList.appendChild(tmp);
             this.chats.push({ ...item, elem: insertionElem });
 
             this.registerListener({
@@ -653,9 +376,9 @@ class MessageController extends BaseController {
             });
         });
         if (this.chats.length > 0) {
-            this.noChatsListElem.hidden = true;
+            this.elements.noChatsList.hidden = true;
         } else {
-            this.noChatsListElem.hidden = false;
+            this.elements.noChatsList.hidden = false;
         }
     }
 
@@ -663,6 +386,7 @@ class MessageController extends BaseController {
 
     openChat(chatId) {
         this.clearMessages();
+        this.emojeisListener.deleteListeners();
         document.querySelectorAll('.cell').forEach((item) => {
             item.style.backgroundColor = 'unset';
         });
@@ -680,8 +404,8 @@ class MessageController extends BaseController {
         }
 
         this.activeChat = currentChat;
-        this.headerIconElem.src = currentChat.user.avatar;
-        this.headerTitleElem.innerHTML = currentChat.user.name;
+        this.elements.headerIcon.src = currentChat.user.avatar;
+        this.elements.headerTitle.innerHTML = currentChat.user.name;
 
         this.hiddenChat(false);
         this.onScrollTopChat();
@@ -689,7 +413,7 @@ class MessageController extends BaseController {
 
     clearMessages() {
         this.hiddenChat(true);
-        this.messageListElem.innerHTML = '';
+        this.elements.messageList.innerHTML = '';
         this.messages = [];
     }
 
@@ -700,7 +424,7 @@ class MessageController extends BaseController {
         if (this.sendingMessage) {
             return;
         }
-        const value = this.writeBarInputElem.value;
+        const value = this.elements.writeBarInput.value;
         if (value.length === 0) {
             return;
         }
@@ -709,7 +433,7 @@ class MessageController extends BaseController {
 
         setTimeout(() => {
             this.setSendingMessage(false);
-            this.writeBarInputElem.value = '';
+            this.elements.writeBarInput.value = '';
             this.addMessages([{ text: value, usersMessage: true }], true);
         }, 150);
     }
@@ -721,17 +445,26 @@ class MessageController extends BaseController {
     setSendingMessage(set) {
         this.sendingMessage = set;
         if (set) {
-            this.writeBarInputElem.readOnly = true;
-            this.writeBarIconElem.innerHTML = new Spinner({
+            this.elements.writeBarInput.readOnly = true;
+            this.elements.writeBarIcon.innerHTML = new Spinner({
                 classes: 'gray-icon'
             }).render();
         } else {
-            this.writeBarInputElem.readOnly = false;
-            this.writeBarIconElem.innerHTML = new IconClass({
+            this.elements.writeBarInput.readOnly = false;
+            this.elements.writeBarIcon.innerHTML = new IconClass({
                 iconCode: IconsSrc.send_message_stroke,
                 iconClasses: 'pointer-icon'
             }).render();
         }
+    }
+
+    /**
+     * Сохраняет икноку у сообщения
+     * @param {Object} messageElem
+     * @param {String} emojieId
+     */
+    setEmojies(messageElem, key) {
+        messageElem.children[0].children[0].innerHTML = EmojiesList[key];
     }
 
     /**
@@ -740,7 +473,7 @@ class MessageController extends BaseController {
      * @param {Boolean} newMessages
      */
     addMessages(messages, newMessages) {
-        const prevScrollHeight = this.messageListElem.scrollHeight;
+        const prevScrollHeight = this.elements.messageList.scrollHeight;
 
         messages.forEach((item) => {
             const tmpDiv = document.createElement('div');
@@ -752,26 +485,36 @@ class MessageController extends BaseController {
 
             let insertionElem;
             if (newMessages) {
-                insertionElem = this.messageListElem.appendChild(tmp);
+                insertionElem = this.elements.messageList.appendChild(tmp);
             } else {
-                insertionElem = this.messageListElem.insertBefore(
+                insertionElem = this.elements.messageList.insertBefore(
                     tmp,
-                    this.messageListElem.firstChild
+                    this.elements.messageList.firstChild
                 );
             }
             this.messages.push({ ...item, elem: insertionElem });
+
+            this.emojeisListener.registerListener({
+                element: insertionElem.children[0],
+                type: 'click',
+                listener: (e) => {
+                    new EmojiesClass((key) => {
+                        this.setEmojies(insertionElem, key);
+                    });
+                }
+            });
         });
 
-        const newScrollHeight = this.messageListElem.scrollHeight;
-        this.messageListElem.scrollTo({
+        const newScrollHeight = this.elements.messageList.scrollHeight;
+        this.elements.messageList.scrollTo({
             top: newScrollHeight - prevScrollHeight,
             behavior: 'auto'
         });
 
         if (this.messages.length > 0) {
-            this.noMessageListElem.hidden = true;
+            this.elements.noMessageList.hidden = true;
         } else {
-            this.noMessageListElem.hidden = false;
+            this.elements.noMessageList.hidden = false;
         }
     }
 
@@ -782,10 +525,10 @@ class MessageController extends BaseController {
      * @param {Boolean} hidden
      */
     hiddenChat(hidden) {
-        this.writeBarElem.hidden = hidden;
-        this.headerElem.style.visibility = hidden ? 'hidden' : 'unset';
-        this.messageListElem.hidden = hidden;
-        this.noChatSelectedListElem.hidden = !hidden;
+        this.elements.writeBar.hidden = hidden;
+        this.elements.header.style.visibility = hidden ? 'hidden' : 'unset';
+        this.elements.messageList.hidden = hidden;
+        this.elements.noChatSelectedList.hidden = !hidden;
     }
 
     /**
