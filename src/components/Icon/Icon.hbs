@@ -1,0 +1,8 @@
+{{#if iconCode}}
+<div class="icon svg-icon {{iconClasses}}" style="width:{{size}}px; height:{{size}}px" id="{{idDiv}}">
+    {{{iconCode}}}
+</div>
+{{else}}
+<img class="icon {{iconClasses}}" data-routlink="{{href}}" width="{{size}}" height="{{size}}" src="{{src}}"
+    id="{{idDiv}}" />
+{{/if}}

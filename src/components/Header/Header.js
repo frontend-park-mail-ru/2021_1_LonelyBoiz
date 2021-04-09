@@ -1,8 +1,8 @@
 import Tabbar from '../Tabbar/Tabbar.js';
 import MainLabel from '../MainLabel/MainLabel.js';
-import headerIcons from '../../consts/headerIcons.js';
+import HeadersItems from '../../consts/headersItems.js';
 import Routes from '../../consts/routes.js';
-import Icons from '../../consts/icons.js';
+import { Icons } from '../../consts/icons.js';
 
 /**
  * @class
@@ -14,7 +14,7 @@ class Header {
      *
      * @constructor
      * @this  {Header}
-     * @param {{activeIcon:headerIcons}} context
+     * @param {{activeIcon:HeadersItems, Tabbar: any}} context
      */
     constructor(context) {
         this.template = Handlebars.templates['Header.hbs'];
@@ -30,44 +30,46 @@ class Header {
      */
     render() {
         const activeIcon = this.context.activeIcon;
-        this.context.Tabbar = new Tabbar({
-            icons: [
-                {
-                    href: Routes.homeRoute,
-                    size: 28,
-                    src:
-                        activeIcon === headerIcons.home
-                            ? Icons.home_fill
-                            : Icons.home_stroke
-                },
-                {
-                    href: Routes.messageRoute,
-                    size: 28,
-                    src:
-                        activeIcon === headerIcons.send_message
-                            ? Icons.send_message_fill
-                            : Icons.send_message_stroke
-                },
-                {
-                    size: 28,
-                    src:
-                        activeIcon === headerIcons.like
-                            ? Icons.like_fill
-                            : Icons.like_stroke
-                },
-                {
-                    href: Routes.settingsRoute,
-                    size: 28,
-                    src: Icons.settings
-                },
-                {
-                    href: Routes.homeRoute,
-                    iconClasses: 'avatar u-avatar-header',
-                    size: 28,
-                    src: window.localStorage.getItem('u-avatar')
-                }
-            ]
-        }).render();
+        this.context.Tabbar =
+            this.context.Tabbar ||
+            new Tabbar({
+                icons: [
+                    {
+                        href: Routes.homeRoute,
+                        size: 28,
+                        src:
+                            activeIcon === HeadersItems.home
+                                ? Icons.home_fill
+                                : Icons.home_stroke
+                    },
+                    {
+                        href: Routes.messageRoute,
+                        size: 28,
+                        src:
+                            activeIcon === HeadersItems.send_message
+                                ? Icons.send_message_fill
+                                : Icons.send_message_stroke
+                    },
+                    {
+                        size: 28,
+                        src:
+                            activeIcon === HeadersItems.like
+                                ? Icons.like_fill
+                                : Icons.like_stroke
+                    },
+                    {
+                        href: Routes.settingsRoute,
+                        size: 28,
+                        src: Icons.settings
+                    },
+                    {
+                        href: Routes.homeRoute,
+                        iconClasses: 'avatar u-avatar-header',
+                        size: 28,
+                        src: window.localStorage.getItem('u-avatar')
+                    }
+                ]
+            }).render();
 
         this.context.MainLabel = new MainLabel().render();
         return this.template(this.context);

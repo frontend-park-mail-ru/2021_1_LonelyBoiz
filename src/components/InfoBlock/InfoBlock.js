@@ -1,6 +1,7 @@
 import InfoRow from '../InfoRow/InfoRow.js';
 import Tabbar from '../Tabbar/Tabbar.js';
-import Icons from '../../consts/icons.js';
+import { Icons } from '../../consts/icons.js';
+import { HomeIconsSrc } from '../../consts/homeCommands.js';
 
 /**
  * @class
@@ -12,7 +13,7 @@ class InfoBlock {
      *
      * @constructor
      * @this  {InfoBlock}
-     * @param {Object} context {avatar, title, messageIconInTitle, info:{city, geo, instagram}, description, button["like", "return", "message", "cancel"]], borderRadiusBottom|borderRadiusRight}
+     * @param {{avatar, title, messageIconInTitle, info:{city, geo, instagram}, description, buttons:{like:'active'|'disable', dislike:'active'|'disable', return:'active'|'disable'}, borderRadiusBottom, borderRadiusRight}} context
      */
     constructor(context) {
         this.template = Handlebars.templates['InfoBlock.hbs'];
@@ -30,13 +31,6 @@ class InfoBlock {
             instagram: { iconSrc: Icons.instagram_stroke, text: '@' }
         };
 
-        const tabbarIcons = {
-            like: Icons.like_stroke,
-            return: Icons.arrow_return_left,
-            message: Icons.message_stroke,
-            cancel: Icons.cancel
-        };
-
         this.context.InfoRows = [];
         for (const [key, value] of Object.entries(this.context.info)) {
             infoRowsType[key].text += value;
@@ -48,10 +42,23 @@ class InfoBlock {
             }).render();
         }
 
-        if (this.context.button && this.context.button.length > 0) {
+        if (
+            this.context.buttons &&
+            Object.entries(this.context.buttons).length > 0
+        ) {
             this.context.Tabbar = new Tabbar({
-                icons: this.context.button.map((item) => {
-                    return { size: 24, src: tabbarIcons[item] };
+                icons: Object.entries(this.context.buttons).map((item) => {
+                    const [key, value] = item;
+                    return {
+                        size: 24,
+                        iconCode: HomeIconsSrc[key],
+                        idDiv: `home-commands__${key}`,
+                        iconClasses: `${value}-icon ${
+                            value === 'active'
+                                ? 'info-block__commands-icon_cursor'
+                                : ''
+                        }`
+                    };
                 })
             }).render();
         }

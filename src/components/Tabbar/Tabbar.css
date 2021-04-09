@@ -1,29 +1,29 @@
 .tabbar__icon {
-	box-sizing: border-box;
-	height: var(--header-height);
-	padding-top: 8px;
-	padding-bottom: 8px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
+    box-sizing: border-box;
+    height: var(--header-height);
+    padding: 8px 13px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: black;
 }
 
 .avatar {
-	position: relative;
-	object-fit: cover;
-	top: 1px;
-	border-radius: 50%;
-	width: 32px;
-	height: 32px;
-	margin-bottom: 4px;
+    position: relative;
+    object-fit: cover;
+    top: 1px;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    margin-bottom: 4px;
 }
 
 .avatar_l {
-	width: 42px;
-	height: 42px;
+    width: 42px;
+    height: 42px;
 }
 
 .tabbar {
-	display: flex;
-	justify-content: space-around;
+    display: flex;
+    justify-content: space-around;
 }

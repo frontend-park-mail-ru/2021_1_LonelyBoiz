@@ -1,5 +1,5 @@
 import PopoutWrapper from '../components/PopoutWrapper/PopoutWrapper.js';
-import Listener from './listener.js';
+import Listener from './Listener.js';
 import { disableScroll, enableScroll } from './scroll.js';
 
 /**
@@ -26,7 +26,7 @@ class PopoutWrapperClass extends Listener {
     /**
      * Удаляет всплывающее окно
      *
-     * @this  {Spinner}
+     * @this  {PopoutWrapperClass}
      */
     destroy() {
         enableScroll();
@@ -37,7 +37,7 @@ class PopoutWrapperClass extends Listener {
     /**
      * Создает всплывающее окно
      *
-     * @this  {Spinner}
+     * @this  {PopoutWrapperClass}
      */
     _draw() {
         disableScroll();

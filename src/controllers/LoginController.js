@@ -4,6 +4,8 @@ import LoginView from '../view/LoginView/LoginView.js';
 import eventBus from '../utils/eventBus.js';
 import Events from '../consts/events.js';
 import Routes from '../consts/routes.js';
+import { IconsSrc } from '../consts/icons.js';
+import IconClass from '../components/Icon/Icon.js';
 import {
     validateForm,
     checkForm,
@@ -112,8 +114,9 @@ class LoginController extends BaseController {
                     popout.destroy();
                 })
                 .then((json) => {
+                    console.log(json);
                     processingResultForms({
-                        data: json,
+                        data: json || {},
                         errorBlockId: 'login-error',
                         formList: this.signupList
                     }).then((json) => {
@@ -127,7 +130,16 @@ class LoginController extends BaseController {
                         eventBus.emit(Events.routeChange, Routes.homeRoute);
                     });
                 })
-                .catch((reason) => console.log('error:', reason));
+                .catch((reason) => {
+                    console.error('error:', reason);
+                    eventBus.emit(Events.pushNotifications, {
+                        before: new IconClass({
+                            iconCode: IconsSrc.error_circle,
+                            iconClasses: 'error-icon'
+                        }).render(),
+                        children: 'Что-то не то с интернетом('
+                    });
+                });
         }
     }
 }

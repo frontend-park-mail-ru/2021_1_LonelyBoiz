@@ -6,6 +6,8 @@ import FormList from '../../components/FormList/FormList.js';
 import Select from '../../components/Select/Select.js';
 import FormItem from '../../components/FormItem/FormItem.js';
 import validationsErrors from '../../consts/validationsErrors.js';
+import BaseView from '../BaseView.js';
+import Views from '../../consts/views.js';
 
 const signupViewTemplate = 'SignupView.hbs';
 
@@ -13,7 +15,7 @@ const signupViewTemplate = 'SignupView.hbs';
  * @class
  * Страница логина
  */
-class SignupView {
+class SignupView extends BaseView {
     /**
      * Создает экземпляр signupView
      *
@@ -22,8 +24,8 @@ class SignupView {
      * @param {Object} context контекст для страницы регистрации
      */
     constructor(context) {
+        super(Views.SignUp);
         this.template = Handlebars.templates[signupViewTemplate];
-        this.root = document.getElementById('app');
         this.context = context;
     }
 
@@ -31,6 +33,7 @@ class SignupView {
      * Отображает страницу регистрации
      */
     show() {
+        super.show();
         this.context.header = new MainLabel().render();
 
         this.context.form = new FormList({
@@ -55,7 +58,7 @@ class SignupView {
                     id: 'signup_mail_form-item',
                     children: new Input({
                         required: true,
-                        type: 'mail',
+                        type: 'email',
                         id: 'mail',
                         placeholder: 'Почта'
                     }).render()

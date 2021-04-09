@@ -1,5 +1,5 @@
-import Header from '../../components/Header/Header.js';
-import headerIcons from '../../consts/headerIcons.js';
+import BaseView from '../BaseView.js';
+import Views from '../../consts/views.js';
 
 const homeViewTemplate = 'HomeView.hbs';
 
@@ -7,7 +7,7 @@ const homeViewTemplate = 'HomeView.hbs';
  * @class
  * Главная страница
  */
-class HomeView {
+class HomeView extends BaseView {
     /**
      * Создает экземпляр HomeView
      *
@@ -16,8 +16,8 @@ class HomeView {
      * @param {Object} context
      */
     constructor(context) {
+        super(Views.Home);
         this.template = Handlebars.templates[homeViewTemplate];
-        this.root = document.getElementById('app');
         this.context = context || {};
     }
 
@@ -25,10 +25,7 @@ class HomeView {
      * Отображает страницу
      */
     show() {
-        this.context.Header = new Header({
-            activeIcon: headerIcons.home
-        }).render();
-
+        super.show();
         this.root.innerHTML = this.template(this.context);
     }
 }

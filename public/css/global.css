@@ -4,6 +4,7 @@ body {
 }
 
 .content {
+    margin-bottom: 12px;
     display: flex;
     justify-content: center;
     padding-top: calc(var(--header-height) + 15px);
@@ -27,6 +28,7 @@ body {
 .block {
     box-shadow: 0 16px 32px 0 rgba(0, 0, 0, 0.08), 0 0 8px 0 rgba(0, 0, 0, 0.08);
     box-shadow: 0 30px 60px rgba(57, 57, 57, 0.1);
+    box-shadow: 0 4px 32px 0 rgb(0 16 61 / 16%);
     border-radius: 20px;
 }
 
@@ -116,7 +118,6 @@ body {
     width: 100%;
     box-sizing: border-box;
     display: flex;
-    justify-content: center;
     flex-direction: column;
 }
 
@@ -124,15 +125,13 @@ body {
     margin: 0;
 }
 
-.notifications {
-    user-select: none;
-    z-index: 101;
-    position: fixed;
-    bottom: 0;
-    left: auto;
-    width: 100%;
+.shadow_button {
+    box-shadow: var(--shadow_button);
 }
 
-.notifications .snackbar {
-    position: unset;
+.center-placeholder-label {
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    top: 50%;
 }

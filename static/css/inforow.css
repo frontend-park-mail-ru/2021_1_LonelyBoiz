@@ -1,8 +1,0 @@
-.inforow {
-    display: flex;
-    color: var(--text_secondary);
-}
-
-.inforow__icon {
-    margin-right: 10px;
-}

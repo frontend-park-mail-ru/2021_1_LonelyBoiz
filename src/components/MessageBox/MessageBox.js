@@ -11,11 +11,11 @@ class MessageBox {
      *
      * @constructor
      * @this  {MessageBox}
-     * @param {Object} context {messages:[{text, usersMessage}], chatUser:{name, avatar}}
+     * @param {{ messages:[{text, usersMessage: Boolean}], chatUser:{name, avatar} }} context
      */
     constructor(context) {
         this.template = Handlebars.templates['MessageBox.hbs'];
-        this.context = context;
+        this.context = context || {};
     }
 
     /**
@@ -24,9 +24,12 @@ class MessageBox {
      */
     render() {
         this.context.WriteBar = new WriteBar().render();
-        this.context.Messages = this.context.messages.map((item) => {
-            return new Message(item).render();
-        });
+        this.context.Messages = [];
+        if (this.context.messages && this.context.messages.length > 0) {
+            this.context.messages.map((item) => {
+                return new Message(item).render();
+            });
+        }
         return this.template(this.context);
     }
 }

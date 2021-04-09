@@ -1,3 +1,8 @@
-<div class="message {{#if usersMessage}}message_user{{else}}message_other{{/if}}">
-    {{text}}
+<div class="message-content {{#if usersMessage}}message_user{{else}}message_other{{/if}}">
+    <div class="message__smile-icon-box message__smile-icon">
+        {{{SmileIcon}}}
+    </div>
+    <div class="message__text">
+        {{text}}
+    </div>
 </div>

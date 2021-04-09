@@ -12,7 +12,7 @@ class Cell {
      */
     constructor(context) {
         this.template = Handlebars.templates['Cell.hbs'];
-        this.context = context;
+        this.context = context || {};
     }
 
     /**

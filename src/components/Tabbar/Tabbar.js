@@ -1,3 +1,5 @@
+import IconClass from '../Icon/Icon.js';
+
 /**
  * @class
  * Компонента Tabbar
@@ -8,11 +10,14 @@ class Tabbar {
      *
      * @constructor
      * @this  {Tabbar}
-     * @param {Object[]} context {icons:[{iconClasses="", size=28, src="logo.png", href}]}
+     * @param {{ icons: {iconClasses:"", size:28, src:"logo.png", href, iconCode, idDiv, idHref}[]}} context
      */
     constructor(context) {
         this.template = Handlebars.templates['Tabbar.hbs'];
-        this.context = context;
+        this.context = context || {};
+        this.context.icons = context.icons.map((item) => {
+            return { ...item, icon: new IconClass(item).render() };
+        });
     }
 
     /**
