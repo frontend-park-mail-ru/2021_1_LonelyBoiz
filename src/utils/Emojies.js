@@ -20,8 +20,11 @@ class EmojiesPopup extends PopoutWrapperClass {
             return { iconCode: item[1], idDiv: i, key: item[0] };
         });
 
-        const iconsElems = [[], []];
+        const iconsElems = new Array(Math.ceil(icons.length / 3));
         icons.forEach((item, i) => {
+            if (!iconsElems[Math.trunc(i / 3)]) {
+                iconsElems[Math.trunc(i / 3)] = [];
+            }
             iconsElems[Math.trunc(i / 3)][i % 3] = new IconClass(item).render();
         });
 
