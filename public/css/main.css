@@ -29,6 +29,7 @@
 @import '/src/components/PopoutWrapper/PopoutWrapper.css';
 @import '/src/components/ScreenSpinner/ScreenSpinner.css';
 @import '/src/components/Snackbar/Snackbar.css';
+@import '/src/components/Emojies/Emojies.css';
 @import '/src/view/LoginView/LoginView.css';
 @import '/src/view/SignupView/SignupView.css';
 @import '/src/view/SettingsView/SettingsView.css';

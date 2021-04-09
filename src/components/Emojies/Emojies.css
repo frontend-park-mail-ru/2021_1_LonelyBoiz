@@ -1,0 +1,21 @@
+.emojies {
+    width: 300px;
+    height: 200px;
+    background: var(--tabbar_background);
+    box-shadow: var(--popout-shadow);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    font-size: 40px;
+}
+
+.emojies__row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.emojies__column {
+    margin: 12px;
+}

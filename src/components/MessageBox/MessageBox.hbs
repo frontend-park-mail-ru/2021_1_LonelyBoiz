@@ -8,13 +8,15 @@
     {{{WriteBar}}}
 </div>
 <div class="message-chat__list__contnet">
-    <div class="message-chat__list">
-        {{#each Messages}}
-        {{{this}}}
-        {{else}}
-        <div class="center-placeholder-label" id="message-chat__no-message">
-            Сообщений нет
+    <div class="message-chat__list__div">
+        <div class="message-chat__list">
+            {{#each Messages}}
+            {{{this}}}
+            {{else}}
+            <div class="center-placeholder-label" id="message-chat__no-message">
+                Сообщений нет
+            </div>
+            {{/each}}
         </div>
-        {{/each}}
     </div>
 </div>

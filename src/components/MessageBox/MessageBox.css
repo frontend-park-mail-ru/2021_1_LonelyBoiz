@@ -4,11 +4,27 @@
     box-sizing: border-box;
 }
 
-.message-chat__list {
+.message-chat__list::before {
+    margin-top: auto;
     height: 100%;
+}
+
+.message-chat__list {
+    height: fit-content;
     overflow: auto;
     display: flex;
     flex-direction: column;
+}
+
+.message-chat__list__div {
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
 .message-chat__list__contnet {
@@ -17,6 +33,8 @@
     right: 0;
     top: 62px;
     bottom: 66px;
+    display: flex;
+    flex-direction: column;
 }
 
 .message-chat__writebar {
