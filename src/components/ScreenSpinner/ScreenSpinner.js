@@ -1,4 +1,5 @@
 import Spinner from '../Spinner/Spinner.js';
+import template from './ScreenSpinner.hbs';
 
 /**
  * @class
@@ -13,7 +14,7 @@ class ScreenSpinner {
      * @param {} context
      */
     constructor(context) {
-        this.template = Handlebars.templates['ScreenSpinner.hbs'];
+        this.template = template;
         this.context = context || {};
     }
 

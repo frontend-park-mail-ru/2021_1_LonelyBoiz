@@ -1,4 +1,3 @@
-import { sendLoginData } from '../models/AuthModel.js';
 import BaseController from './BaseController.js';
 import LoginView from '../view/LoginView/LoginView.js';
 import eventBus from '../utils/eventBus.js';
@@ -6,6 +5,7 @@ import Events from '../consts/events.js';
 import Routes from '../consts/routes.js';
 import { IconsSrc } from '../consts/icons.js';
 import IconClass from '../components/Icon/Icon.js';
+import userModel from '../models/UserModel.js';
 import {
     validateForm,
     checkForm,
@@ -109,12 +109,12 @@ class LoginController extends BaseController {
 
         if (this.formSuccess) {
             const popout = new ScreenSpinnerClass({});
-            sendLoginData(tmpForm)
+            userModel.set(tmpForm).login()
                 .finally(() => {
                     popout.destroy();
                 })
-                .then((json) => {
-                    console.log(json);
+                .then((response) => {
+                    const json = response.json;
                     processingResultForms({
                         data: json || {},
                         errorBlockId: 'login-error',

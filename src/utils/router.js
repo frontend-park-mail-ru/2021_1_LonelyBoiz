@@ -1,6 +1,7 @@
 import Routes from '../consts/routes.js';
 import Events from '../consts/events.js';
 import eventBus from '../utils/eventBus.js';
+import userModel from '../models/UserModel.js';
 
 /**
  * @class
@@ -84,7 +85,7 @@ class Router {
             this.controller = controller;
         }
 
-        if (!window.localStorage.getItem('u-id') &&
+        if (userModel.isAuthorized() === false &&
         this.parsePath(this.currPath).route !== Routes.loginRoute &&
         this.parsePath(this.currPath).route !== Routes.signupRoute) {
             this.currPath = Routes.loginRoute;

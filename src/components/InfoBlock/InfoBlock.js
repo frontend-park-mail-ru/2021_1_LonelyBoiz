@@ -2,6 +2,7 @@ import InfoRow from '../InfoRow/InfoRow.js';
 import Tabbar from '../Tabbar/Tabbar.js';
 import { Icons } from '../../consts/icons.js';
 import { HomeIconsSrc } from '../../consts/homeCommands.js';
+import template from './InfoBlock.hbs';
 
 /**
  * @class
@@ -16,7 +17,7 @@ class InfoBlock {
      * @param {{avatar, title, messageIconInTitle, info:{city, geo, instagram}, description, buttons:{like:'active'|'disable', dislike:'active'|'disable', return:'active'|'disable'}, borderRadiusBottom, borderRadiusRight}} context
      */
     constructor(context) {
-        this.template = Handlebars.templates['InfoBlock.hbs'];
+        this.template = template;
         this.context = context;
     }
 

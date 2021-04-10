@@ -1,3 +1,5 @@
+import template from './Snackbar.hbs';
+
 /**
  * @class
  * Компонента Snackbar
@@ -11,7 +13,7 @@ class Snackbar {
      * @param {{ desktop: Boolean, closing: Boolean, before: Any, children: Any, after: Any }} context
      */
     constructor(context) {
-        this.template = Handlebars.templates['Snackbar.hbs'];
+        this.template = template;
         this.context = context || {};
         if (!this.context.desktop) {
             this.context.desktop = true;

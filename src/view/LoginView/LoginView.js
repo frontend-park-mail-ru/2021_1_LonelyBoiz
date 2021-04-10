@@ -5,8 +5,7 @@ import FormList from '../../components/FormList/FormList.js';
 import FormItem from '../../components/FormItem/FormItem.js';
 import BaseView from '../BaseView.js';
 import Views from '../../consts/views.js';
-
-const loginViewTemplate = 'LoginView.hbs';
+import template from './LoginView.hbs';
 
 /**
  * @class
@@ -22,7 +21,7 @@ class LoginView extends BaseView {
      */
     constructor(context) {
         super(Views.Login);
-        this.template = Handlebars.templates[loginViewTemplate];
+        this.template = template;
         this.context = context;
     }
 

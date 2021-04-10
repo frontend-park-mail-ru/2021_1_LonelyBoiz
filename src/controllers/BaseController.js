@@ -1,4 +1,5 @@
 import Listener from '../utils/Listener.js';
+import AppStorage from '../utils/AppStorage.js';
 
 /**
  * @class
@@ -15,7 +16,7 @@ class BaseController extends Listener {
     constructor(view) {
         super();
         this.view = view;
-        this.storage = window.localStorage;
+        this.storage = AppStorage;
     }
 
     /**

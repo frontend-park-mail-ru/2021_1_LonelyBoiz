@@ -1,4 +1,5 @@
 import IconClass from '../Icon/Icon.js';
+import template from './Tabbar.hbs';
 
 /**
  * @class
@@ -13,7 +14,7 @@ class Tabbar {
      * @param {{ icons: {iconClasses:"", size:28, src:"logo.png", href, iconCode, idDiv, idHref}[]}} context
      */
     constructor(context) {
-        this.template = Handlebars.templates['Tabbar.hbs'];
+        this.template = template;
         this.context = context || {};
         this.context.icons = context.icons.map((item) => {
             return { ...item, icon: new IconClass(item).render() };

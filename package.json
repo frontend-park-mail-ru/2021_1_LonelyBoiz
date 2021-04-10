@@ -8,8 +8,7 @@
     "eslint-init": "eslint --init",
     "eslint-check": "eslint ./src",
     "eslint-fix": "eslint --fix ./src",
-    "compile-hbs": "handlebars ./src/*/*/*.hbs -f ./src/hbs.precompiled.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack"
   },
   "pre-commit": [
     "eslint-check"
@@ -26,17 +25,28 @@
   },
   "homepage": "https://github.com/frontend-park-mail-ru/2021_1_LonelyBoiz#readme",
   "dependencies": {
+    "@babel/core": "^7.13.15",
+    "babel": "^6.23.0",
+    "babel-loader": "^8.2.2",
     "express": "^4.17.1",
-    "handlebars": "^4.7.7"
+    "handlebars": "^4.7.7",
+    "webpack": "^5.31.2",
+    "webpack-cli": "^4.6.0"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
     "babel-eslint": "^10.1.0",
+    "css-loader": "^5.2.1",
     "eslint": "^7.21.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsdoc": "^32.2.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.3.1",
+    "file-loader": "^6.2.0",
+    "handlebars-loader": "^1.7.1",
+    "html-webpack-plugin": "^5.3.1",
+    "mini-css-extract-plugin": "^1.4.1",
     "pre-commit": "^1.2.2"
   }
 }

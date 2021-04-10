@@ -1,4 +1,3 @@
-import { sendSignUpData } from '../models/AuthModel.js';
 import BaseController from './BaseController.js';
 import SignupView from '../view/SignupView/SignupView.js';
 import eventBus from '../utils/eventBus.js';
@@ -13,6 +12,7 @@ import {
 import ScreenSpinnerClass from '../utils/ScreenSpinner.js';
 import { IconsSrc } from '../consts/icons.js';
 import IconClass from '../components/Icon/Icon.js';
+import userModel from '../models/UserModel.js';
 
 /**
  * @class
@@ -131,11 +131,12 @@ class SignupController extends BaseController {
         if (this.formSuccess) {
             const popout = new ScreenSpinnerClass({});
 
-            sendSignUpData(tmpForm)
+            userModel.set(tmpForm).create()
                 .finally(() => {
                     popout.destroy();
                 })
-                .then((json) => {
+                .then((response) => {
+                    const json = response.json;
                     processingResultForms({
                         data: json || {},
                         errorBlockId: 'signup-error',

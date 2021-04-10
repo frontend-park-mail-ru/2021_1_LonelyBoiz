@@ -1,5 +1,7 @@
 import { IconsSrc } from '../../consts/icons.js';
 import IconClass from '../Icon/Icon.js';
+import template from './Message.hbs';
+
 /**
  * @class
  * Компонента Message
@@ -13,7 +15,7 @@ class Message {
      * @param {{text, usersMessage: Boolean}} context
      */
     constructor(context) {
-        this.template = Handlebars.templates['Message.hbs'];
+        this.template = template;
         this.context = context || {};
     }
 

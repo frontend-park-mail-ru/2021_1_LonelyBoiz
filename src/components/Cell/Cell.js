@@ -1,3 +1,5 @@
+import template from './Cell.hbs';
+
 /**
  * @class
  * Компонента Cell
@@ -11,7 +13,7 @@ class Cell {
      * @param {Object} context {avatar, children, text, caption, after}
      */
     constructor(context) {
-        this.template = Handlebars.templates['Cell.hbs'];
+        this.template = template;
         this.context = context || {};
     }
 

@@ -1,3 +1,5 @@
+import template from './FormItem.hbs';
+
 /**
  * @class
  * Компонента FormItem
@@ -11,7 +13,7 @@ class FormItem {
      * @param {Object} context {id, top, bottom, children, valid|error}
      */
     constructor(context) {
-        this.template = Handlebars.templates['FormItem.hbs'];
+        this.template = template;
         this.context = context;
     }
 

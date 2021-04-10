@@ -9,10 +9,11 @@ import {
     processingResultForms,
     fillForm
 } from '../utils/form.js';
-import { getCurentUsersData, setCurentUsersData } from '../models/UserModel.js';
 import ScreenSpinnerClass from '../utils/ScreenSpinner.js';
 import { IconsSrc } from '../consts/icons.js';
 import IconClass from '../components/Icon/Icon.js';
+import userModel from '../models/UserModel.js';
+import img from '../../public/img/img.png';
 
 /**
  * @class
@@ -98,67 +99,74 @@ class SettingsController extends BaseController {
     }
 
     onLogOut() {
-        window.localStorage.removeItem('u-id');
-        window.localStorage.setItem('u-avatar', 'img/img.png');
-        eventBus.emit(Events.routeChange, Routes.loginRoute);
+        userModel.logout().then(_ => {
+            window.localStorage.removeItem('u-id');
+            window.localStorage.setItem('u-avatar', img);
+            eventBus.emit(Events.routeChange, Routes.loginRoute);
+        });
     }
 
     /**
      * Запускает контроллер
      */
     start() {
-        this.view.show();
-        validateForm.call(this, this.settingsList);
-        this.formSubmit();
+        userModel.auth()
+            .then(response => {
+                if (!response.ok) {
+                    eventBus.emit(Events.routeChange, Routes.loginRoute);
+                }
+                this.view.show();
+                validateForm.call(this, this.settingsList);
+                this.formSubmit();
 
-        this.registerListener({
-            element: document.getElementById('input_avatar'),
-            type: 'change',
-            listener: this.onFileUpload.bind(this)
-        });
+                this.registerListener({
+                    element: document.getElementById('input_avatar'),
+                    type: 'change',
+                    listener: this.onFileUpload.bind(this)
+                });
 
-        this.registerListener({
-            element: document.getElementById('logout'),
-            type: 'click',
-            listener: this.onLogOut.bind(this)
-        });
+                this.registerListener({
+                    element: document.getElementById('logout'),
+                    type: 'click',
+                    listener: this.onLogOut.bind(this)
+                });
 
-        this.registerListener({
-            element: document.getElementById('input_avatar__button'),
-            type: 'click',
-            listener: (e) => {
-                document.getElementById('input_avatar').click();
-            }
-        });
+                this.registerListener({
+                    element: document.getElementById('input_avatar__button'),
+                    type: 'click',
+                    listener: (e) => {
+                        document.getElementById('input_avatar').click();
+                    }
+                });
 
-        this.fillFormData();
+                this.fillFormData();
+            })
+            .catch(reason => {
+                eventBus.emit(Events.routeChange, Routes.loginRoute);
+                console.error('Auth - error: ', reason);
+            });
     }
 
     /**
      * Заполняет поля формы данными пользователя
      */
     fillFormData() {
-        getCurentUsersData()
-            .then((json) => {
-                if (json.error) {
-                    eventBus.emit(Events.formError);
-                } else {
-                    document.querySelectorAll(':disabled').forEach((item) => {
-                        item.disabled = false;
-                    });
-
-                    document
-                        .querySelectorAll('.placeholder-item')
-                        .forEach((item) => {
-                            item.classList.remove('placeholder-item');
-                        });
-
-                    fillForm(json, this.settingsList);
-                }
-            })
-            .catch((reason) => {
-                console.error('getCurentUsersData - error: ', reason);
+        const json = userModel.getFilledData();
+        if (json.error) {
+            eventBus.emit(Events.formError);
+        } else {
+            document.querySelectorAll(':disabled').forEach((item) => {
+                item.disabled = false;
             });
+
+            document
+                .querySelectorAll('.placeholder-item')
+                .forEach((item) => {
+                    item.classList.remove('placeholder-item');
+                });
+
+            fillForm(json, this.settingsList);
+        }
     }
 
     /**
@@ -231,11 +239,12 @@ class SettingsController extends BaseController {
 
             const popout = new ScreenSpinnerClass({});
 
-            setCurentUsersData(tmpForm)
+            userModel.update(tmpForm)
                 .finally(() => {
                     popout.destroy();
                 })
-                .then((json) => {
+                .then((response) => {
+                    const json = response.json;
                     processingResultForms({
                         data: json || {},
                         errorBlockId: 'settings-error',

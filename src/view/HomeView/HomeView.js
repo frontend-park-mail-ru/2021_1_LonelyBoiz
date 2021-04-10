@@ -1,7 +1,6 @@
 import BaseView from '../BaseView.js';
 import Views from '../../consts/views.js';
-
-const homeViewTemplate = 'HomeView.hbs';
+import template from './HomeView.hbs';
 
 /**
  * @class
@@ -17,7 +16,7 @@ class HomeView extends BaseView {
      */
     constructor(context) {
         super(Views.Home);
-        this.template = Handlebars.templates[homeViewTemplate];
+        this.template = template;
         this.context = context || {};
     }
 

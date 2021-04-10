@@ -7,8 +7,7 @@ import FormItem from '../../components/FormItem/FormItem.js';
 import validationsErrors from '../../consts/validationsErrors.js';
 import BaseView from '../BaseView.js';
 import Views from '../../consts/views.js';
-
-const settingsTemplate = 'SettingsView.hbs';
+import template from './SettingsView.hbs';
 
 /**
  * @class
@@ -24,7 +23,7 @@ class Settings extends BaseView {
      */
     constructor(context) {
         super(Views.Settings);
-        this.template = Handlebars.templates[settingsTemplate];
+        this.template = template;
         this.context = context || {};
     }
 

@@ -1,3 +1,5 @@
+import template from './PhotoBlock.hbs';
+
 /**
  * @class
  * Компонента PhotoBlock
@@ -11,7 +13,7 @@ class PhotoBlock {
      * @param {{photos:[], activePhotoId, disableLeftArrow, disableRightArrow, borderRadiusTop, borderRadiusLeft, disablePoints}} context
      */
     constructor(context) {
-        this.template = Handlebars.templates['PhotoBlock.hbs'];
+        this.template = template;
         this.context = context;
         this.context.Points = new Array(this.context.photos.length).fill(false);
 

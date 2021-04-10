@@ -166,7 +166,7 @@ function validItem({ item, formList }) {
         if (validResult.value !== null && validResult.value !== undefined) {
             switch (key) {
             case 'birthday':
-                formList[key].value = validResult.value.getTime() / 1000;
+                formList[key].value = validResult.value.getTime();
                 break;
             case 'sex':
                 formList[key].value = getKeyByValue(
@@ -298,7 +298,7 @@ export const fillForm = (data, formList) => {
         case 'birthday':
             setDateById(
                 formList[key].id,
-                new Date(Number(value) * 1000)
+                new Date(Number(value))
             );
             break;
 

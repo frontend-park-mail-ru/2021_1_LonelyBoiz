@@ -1,4 +1,4 @@
-const buttonTemplate = 'Button.hbs';
+import template from './Button.hbs';
 
 /**
  * @class
@@ -13,7 +13,7 @@ class Button {
      * @param {Object} context {type:"button"|"submit", id, text, mode:"primary"|"secondary"|"destructive"}
      */
     constructor(context) {
-        this.template = Handlebars.templates[buttonTemplate];
+        this.template = template;
         this.context = context || {
             mode: 'primary',
             type: 'submit'

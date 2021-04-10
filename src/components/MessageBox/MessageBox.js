@@ -1,5 +1,6 @@
 import WriteBar from '../WriteBar/WriteBar.js';
 import Message from '../Message/Message.js';
+import template from './MessageBox.hbs';
 
 /**
  * @class
@@ -14,7 +15,7 @@ class MessageBox {
      * @param {{ messages:[{text, usersMessage: Boolean}], chatUser:{name, avatar} }} context
      */
     constructor(context) {
-        this.template = Handlebars.templates['MessageBox.hbs'];
+        this.template = template;
         this.context = context || {};
     }
 

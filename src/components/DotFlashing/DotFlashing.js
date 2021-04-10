@@ -1,3 +1,5 @@
+import template from './DotFlashing.hbs';
+
 // https://codepen.io/nzbin/pen/GGrXbp
 /**
  * @class
@@ -12,7 +14,7 @@ class DotFlashing {
      * @param {Object} context {avatar, children, text, caption, after}
      */
     constructor(context) {
-        this.template = Handlebars.templates['DotFlashing.hbs'];
+        this.template = template;
         this.context = context || {};
     }
 

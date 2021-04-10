@@ -2,8 +2,9 @@ import BaseController from './BaseController.js';
 import HomeView from '../view/HomeView/HomeView.js';
 import eventBus from '../utils/eventBus.js';
 import Events from '../consts/events.js';
-import { getCurentUsersData } from '../models/UserModel.js';
 import CardClass from '../utils/Card.js';
+import Routes from '../consts/routes.js';
+import userModel from '../models/UserModel.js';
 
 /**
  * @class
@@ -31,29 +32,30 @@ class HomeController extends BaseController {
      * Запускает контроллер
      */
     start() {
-        this.view.show();
-        this.drawLoaderPlaceholder();
+        userModel.auth()
+            .then(response => {
+                if (!response.ok) {
+                    eventBus.emit(Events.routeChange, Routes.loginRoute);
+                }
 
-        getCurentUsersData()
-            .then((json) => {
+                const json = response.json;
+
+                this.view.show();
+                this.drawLoaderPlaceholder();
+
                 if (json.error) {
                     eventBus.emit(Events.formError);
                 } else {
                     this.card.setPlaceHolder(false);
 
-                    console.log(json);
                     this.userData = json;
-
-                    this.userData.age = Math.floor(
-                        (new Date() - new Date(json.birthday * 1000)) /
-                            (1000 * 3600 * 24 * 365)
-                    );
 
                     this.redrawCard();
                 }
             })
-            .catch((reason) => {
-                console.error('getCurentUsersData - error: ', reason);
+            .catch(reason => {
+                eventBus.emit(Events.routeChange, Routes.loginRoute);
+                console.error('Auth - error: ', reason);
             });
     }
 

@@ -8,6 +8,11 @@ import { IconsSrc } from '../consts/icons.js';
 import Listener from '../utils/Listener.js';
 import EmojiesPopup from '../utils/Emojies.js';
 import EmojiesList from '../consts/emojies.js';
+import eventBus from '../utils/eventBus.js';
+import Events from '../consts/events.js';
+import Routes from '../consts/routes.js';
+import userModel from '../models/UserModel.js';
+import img from '../../public/img/img.png';
 
 /**
  * @class
@@ -45,239 +50,249 @@ class MessageController extends BaseController {
     }
 
     start() {
-        this.view.show();
-        this.setElements();
-        this.clearMessages();
-        this.hiddenChat(true);
-
-        this.chatDemoContent = [
-            {
-                user: {
-                    avatar: 'img/img.png',
-                    name: 'Красивое имя'
-                },
-                lastMessage: {
-                    text: 'Приветик',
-                    time: '2 м'
-                },
-                chatId: 10
-            },
-            {
-                user: {
-                    avatar: 'img/img.png',
-                    name: 'Не Красивое имя'
-                },
-                lastMessage: {
-                    text: 'Приветик',
-                    time: '2 м'
-                },
-                chatId: 12
-            },
-            {
-                user: {
-                    avatar: 'img/img.png',
-                    name: 'Не Красивое имя'
-                },
-                lastMessage: {
-                    text: 'Приветик',
-                    time: '2 м'
-                },
-                chatId: 12
-            },
-            {
-                user: {
-                    avatar: 'img/img.png',
-                    name: 'Не Красивое имя'
-                },
-                lastMessage: {
-                    text: 'Приветик',
-                    time: '2 м'
-                },
-                chatId: 12
-            },
-            {
-                user: {
-                    avatar: 'img/img.png',
-                    name: 'Не Красивое имя'
-                },
-                lastMessage: {
-                    text: 'Приветик',
-                    time: '2 м'
-                },
-                chatId: 12
-            },
-            {
-                user: {
-                    avatar: 'img/img.png',
-                    name: 'Не Красивое имя'
-                },
-                lastMessage: {
-                    text: 'Приветик',
-                    time: '2 м'
-                },
-                chatId: 12
-            },
-            {
-                user: {
-                    avatar: 'img/img.png',
-                    name: 'Не Красивое имя'
-                },
-                lastMessage: {
-                    text: 'Приветик',
-                    time: '2 м'
-                },
-                chatId: 12
-            },
-            {
-                user: {
-                    avatar: 'img/img.png',
-                    name: 'Не Красивое имя'
-                },
-                lastMessage: {
-                    text: 'Приветик',
-                    time: '2 м'
-                },
-                chatId: 12
-            },
-            {
-                user: {
-                    avatar: 'img/img.png',
-                    name: 'Не Красивое имя'
-                },
-                lastMessage: {
-                    text: 'Приветик',
-                    time: '2 м'
-                },
-                chatId: 12
-            },
-            {
-                user: {
-                    avatar: 'img/img.png',
-                    name: 'Не Красивое имя'
-                },
-                lastMessage: {
-                    text: 'Приветик',
-                    time: '2 м'
-                },
-                chatId: 12
-            },
-            {
-                user: {
-                    avatar: 'img/img.png',
-                    name: 'Не Красивое имя'
-                },
-                lastMessage: {
-                    text: 'Приветик',
-                    time: '2 м'
-                },
-                chatId: 12
-            },
-            {
-                user: {
-                    avatar: 'img/img.png',
-                    name: 'Не Красивое имя'
-                },
-                lastMessage: {
-                    text: 'Приветик',
-                    time: '2 м'
-                },
-                chatId: 12
-            }
-        ];
-
-        this.messageDemoContent = [
-            {
-                text: 'qweqweq',
-                usersMessage: false
-            },
-            {
-                text: 'asdqw',
-                usersMessage: true,
-                messageId: 10
-            },
-            {
-                text: 'qweqweq',
-                usersMessage: false
-            },
-            {
-                text: 'asdqw',
-                usersMessage: true,
-                messageId: 10
-            },
-            {
-                text: 'qweqweq',
-                usersMessage: false
-            },
-            {
-                text: 'asdqw',
-                usersMessage: true,
-                messageId: 10
-            },
-            {
-                text: 'qweqweq',
-                usersMessage: false
-            },
-            {
-                text: 'asdqw',
-                usersMessage: true,
-                messageId: 10
-            },
-            {
-                text: 'qweqweq',
-                usersMessage: false
-            },
-            {
-                text: 'asdqw',
-                usersMessage: true,
-                messageId: 10
-            },
-            {
-                text: 'qweqweq',
-                usersMessage: false
-            },
-            {
-                text: 'asdqw',
-                usersMessage: true,
-                messageId: 10
-            }
-        ];
-
-        this.registerListener({
-            element: this.elements.writeBarIcon,
-            type: 'click',
-            listener: (e) => {
-                this.sendMessage();
-            }
-        });
-
-        this.registerListener({
-            element: this.elements.messageList,
-            type: 'scroll',
-            listener: (e) => {
-                const element = e.currentTarget;
-                if (element.scrollTop <= 350) {
-                    this.onScrollTopChat();
+        userModel.auth()
+            .then((response) => {
+                if (!response.ok) {
+                    eventBus.emit(Events.routeChange, Routes.loginRoute);
                 }
-            }
-        });
+                this.view.show();
+                this.setElements();
+                this.clearMessages();
+                this.hiddenChat(true);
 
-        this.registerListener({
-            element: this.elements.chatsList,
-            type: 'scroll',
-            listener: (e) => {
-                const element = e.currentTarget;
-                if (
-                    element.scrollHeight -
-                        element.scrollTop -
-                        element.clientHeight <=
-                    150
-                ) {
-                    this.onScrollTopChats();
-                }
-            }
-        });
+                this.chatDemoContent = [
+                    {
+                        user: {
+                            avatar: img,
+                            name: 'Красивое имя'
+                        },
+                        lastMessage: {
+                            text: 'Приветик',
+                            time: '2 м'
+                        },
+                        chatId: 10
+                    },
+                    {
+                        user: {
+                            avatar: img,
+                            name: 'Не Красивое имя'
+                        },
+                        lastMessage: {
+                            text: 'Приветик',
+                            time: '2 м'
+                        },
+                        chatId: 12
+                    },
+                    {
+                        user: {
+                            avatar: img,
+                            name: 'Не Красивое имя'
+                        },
+                        lastMessage: {
+                            text: 'Приветик',
+                            time: '2 м'
+                        },
+                        chatId: 12
+                    },
+                    {
+                        user: {
+                            avatar: img,
+                            name: 'Не Красивое имя'
+                        },
+                        lastMessage: {
+                            text: 'Приветик',
+                            time: '2 м'
+                        },
+                        chatId: 12
+                    },
+                    {
+                        user: {
+                            avatar: img,
+                            name: 'Не Красивое имя'
+                        },
+                        lastMessage: {
+                            text: 'Приветик',
+                            time: '2 м'
+                        },
+                        chatId: 12
+                    },
+                    {
+                        user: {
+                            avatar: img,
+                            name: 'Не Красивое имя'
+                        },
+                        lastMessage: {
+                            text: 'Приветик',
+                            time: '2 м'
+                        },
+                        chatId: 12
+                    },
+                    {
+                        user: {
+                            avatar: img,
+                            name: 'Не Красивое имя'
+                        },
+                        lastMessage: {
+                            text: 'Приветик',
+                            time: '2 м'
+                        },
+                        chatId: 12
+                    },
+                    {
+                        user: {
+                            avatar: img,
+                            name: 'Не Красивое имя'
+                        },
+                        lastMessage: {
+                            text: 'Приветик',
+                            time: '2 м'
+                        },
+                        chatId: 12
+                    },
+                    {
+                        user: {
+                            avatar: img,
+                            name: 'Не Красивое имя'
+                        },
+                        lastMessage: {
+                            text: 'Приветик',
+                            time: '2 м'
+                        },
+                        chatId: 12
+                    },
+                    {
+                        user: {
+                            avatar: img,
+                            name: 'Не Красивое имя'
+                        },
+                        lastMessage: {
+                            text: 'Приветик',
+                            time: '2 м'
+                        },
+                        chatId: 12
+                    },
+                    {
+                        user: {
+                            avatar: img,
+                            name: 'Не Красивое имя'
+                        },
+                        lastMessage: {
+                            text: 'Приветик',
+                            time: '2 м'
+                        },
+                        chatId: 12
+                    },
+                    {
+                        user: {
+                            avatar: img,
+                            name: 'Не Красивое имя'
+                        },
+                        lastMessage: {
+                            text: 'Приветик',
+                            time: '2 м'
+                        },
+                        chatId: 12
+                    }
+                ];
 
-        this.onScrollTopChats();
+                this.messageDemoContent = [
+                    {
+                        text: 'qweqweq',
+                        usersMessage: false
+                    },
+                    {
+                        text: 'asdqw',
+                        usersMessage: true,
+                        messageId: 10
+                    },
+                    {
+                        text: 'qweqweq',
+                        usersMessage: false
+                    },
+                    {
+                        text: 'asdqw',
+                        usersMessage: true,
+                        messageId: 10
+                    },
+                    {
+                        text: 'qweqweq',
+                        usersMessage: false
+                    },
+                    {
+                        text: 'asdqw',
+                        usersMessage: true,
+                        messageId: 10
+                    },
+                    {
+                        text: 'qweqweq',
+                        usersMessage: false
+                    },
+                    {
+                        text: 'asdqw',
+                        usersMessage: true,
+                        messageId: 10
+                    },
+                    {
+                        text: 'qweqweq',
+                        usersMessage: false
+                    },
+                    {
+                        text: 'asdqw',
+                        usersMessage: true,
+                        messageId: 10
+                    },
+                    {
+                        text: 'qweqweq',
+                        usersMessage: false
+                    },
+                    {
+                        text: 'asdqw',
+                        usersMessage: true,
+                        messageId: 10
+                    }
+                ];
+
+                this.registerListener({
+                    element: this.elements.writeBarIcon,
+                    type: 'click',
+                    listener: (e) => {
+                        this.sendMessage();
+                    }
+                });
+
+                this.registerListener({
+                    element: this.elements.messageList,
+                    type: 'scroll',
+                    listener: (e) => {
+                        const element = e.currentTarget;
+                        if (element.scrollTop <= 350) {
+                            this.onScrollTopChat();
+                        }
+                    }
+                });
+
+                this.registerListener({
+                    element: this.elements.chatsList,
+                    type: 'scroll',
+                    listener: (e) => {
+                        const element = e.currentTarget;
+                        if (
+                            element.scrollHeight -
+                                element.scrollTop -
+                                element.clientHeight <=
+                            150
+                        ) {
+                            this.onScrollTopChats();
+                        }
+                    }
+                });
+
+                this.onScrollTopChats();
+            })
+            .catch(reason => {
+                eventBus.emit(Events.routeChange, Routes.loginRoute);
+                console.error('Auth - error: ', reason);
+            });
     }
 
     finish() {

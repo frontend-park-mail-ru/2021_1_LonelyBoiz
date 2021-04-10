@@ -1,4 +1,4 @@
-const select = 'Select.hbs';
+import template from './Select.hbs';
 
 /**
  * @class
@@ -13,7 +13,7 @@ class Select {
      * @param {Object} context контекст для выбора опций {title, options:[]}
      */
     constructor(context) {
-        this.template = Handlebars.templates[select];
+        this.template = template;
         this.context = context || {};
     }
 
