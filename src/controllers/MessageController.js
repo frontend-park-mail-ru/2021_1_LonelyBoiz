@@ -12,6 +12,7 @@ import eventBus from '../utils/eventBus.js';
 import Events from '../consts/events.js';
 import Routes from '../consts/routes.js';
 import userModel from '../models/UserModel.js';
+import img from '../../public/img/img.png';
 
 /**
  * @class
@@ -62,7 +63,7 @@ class MessageController extends BaseController {
                 this.chatDemoContent = [
                     {
                         user: {
-                            avatar: 'img/img.png',
+                            avatar: img,
                             name: 'Красивое имя'
                         },
                         lastMessage: {
@@ -73,7 +74,7 @@ class MessageController extends BaseController {
                     },
                     {
                         user: {
-                            avatar: 'img/img.png',
+                            avatar: img,
                             name: 'Не Красивое имя'
                         },
                         lastMessage: {
@@ -84,7 +85,7 @@ class MessageController extends BaseController {
                     },
                     {
                         user: {
-                            avatar: 'img/img.png',
+                            avatar: img,
                             name: 'Не Красивое имя'
                         },
                         lastMessage: {
@@ -95,7 +96,7 @@ class MessageController extends BaseController {
                     },
                     {
                         user: {
-                            avatar: 'img/img.png',
+                            avatar: img,
                             name: 'Не Красивое имя'
                         },
                         lastMessage: {
@@ -106,7 +107,7 @@ class MessageController extends BaseController {
                     },
                     {
                         user: {
-                            avatar: 'img/img.png',
+                            avatar: img,
                             name: 'Не Красивое имя'
                         },
                         lastMessage: {
@@ -117,7 +118,7 @@ class MessageController extends BaseController {
                     },
                     {
                         user: {
-                            avatar: 'img/img.png',
+                            avatar: img,
                             name: 'Не Красивое имя'
                         },
                         lastMessage: {
@@ -128,7 +129,7 @@ class MessageController extends BaseController {
                     },
                     {
                         user: {
-                            avatar: 'img/img.png',
+                            avatar: img,
                             name: 'Не Красивое имя'
                         },
                         lastMessage: {
@@ -139,7 +140,7 @@ class MessageController extends BaseController {
                     },
                     {
                         user: {
-                            avatar: 'img/img.png',
+                            avatar: img,
                             name: 'Не Красивое имя'
                         },
                         lastMessage: {
@@ -150,7 +151,7 @@ class MessageController extends BaseController {
                     },
                     {
                         user: {
-                            avatar: 'img/img.png',
+                            avatar: img,
                             name: 'Не Красивое имя'
                         },
                         lastMessage: {
@@ -161,7 +162,7 @@ class MessageController extends BaseController {
                     },
                     {
                         user: {
-                            avatar: 'img/img.png',
+                            avatar: img,
                             name: 'Не Красивое имя'
                         },
                         lastMessage: {
@@ -172,7 +173,7 @@ class MessageController extends BaseController {
                     },
                     {
                         user: {
-                            avatar: 'img/img.png',
+                            avatar: img,
                             name: 'Не Красивое имя'
                         },
                         lastMessage: {
@@ -183,7 +184,7 @@ class MessageController extends BaseController {
                     },
                     {
                         user: {
-                            avatar: 'img/img.png',
+                            avatar: img,
                             name: 'Не Красивое имя'
                         },
                         lastMessage: {

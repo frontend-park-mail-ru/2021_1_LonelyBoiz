@@ -3,6 +3,7 @@ import MainLabel from '../MainLabel/MainLabel.js';
 import HeadersItems from '../../consts/headersItems.js';
 import Routes from '../../consts/routes.js';
 import { Icons } from '../../consts/icons.js';
+import template from './Header.hbs';
 
 /**
  * @class
@@ -17,7 +18,7 @@ class Header {
      * @param {{activeIcon:HeadersItems, Tabbar: any}} context
      */
     constructor(context) {
-        this.template = Handlebars.templates['Header.hbs'];
+        this.template = template;
         this.context = context || { activeIcon: '' };
         if (!this.context.activeIcon) {
             this.context.activeIcon = '';

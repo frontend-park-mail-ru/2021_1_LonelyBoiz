@@ -1,4 +1,4 @@
-const inputTemplate = 'Input.hbs';
+import template from './Input.hbs';
 
 /**
  * @class
@@ -13,7 +13,7 @@ class Input {
      * @param {Object} context контекст для ввода {id, accept, type="text", placeholder, bg_gray, defaultValue, minValue}
      */
     constructor(context) {
-        this.template = Handlebars.templates[inputTemplate];
+        this.template = template;
         this.context = context || { type: 'text' };
 
         if (this.context.type && this.context.type === 'file') {

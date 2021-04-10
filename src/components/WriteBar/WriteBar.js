@@ -1,6 +1,7 @@
 import Input from '../Input/Input.js';
 import { IconsSrc } from '../../consts/icons.js';
 import IconClass from '../Icon/Icon.js';
+import template from './WriteBar.hbs';
 
 /**
  * @class
@@ -14,7 +15,7 @@ class WriteBar {
      * @this  {WriteBar}
      */
     constructor(context) {
-        this.template = Handlebars.templates['WriteBar.hbs'];
+        this.template = template;
         this.context = context || {};
     }
 

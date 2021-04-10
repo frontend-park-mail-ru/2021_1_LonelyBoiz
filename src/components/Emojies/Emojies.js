@@ -1,3 +1,5 @@
+import template from './Emojies.hbs';
+
 /**
  * @class
  * Компонента Emojies
@@ -11,7 +13,7 @@ class Emojies {
      * @param {{ emojies: [][] }} context
      */
     constructor(context) {
-        this.template = Handlebars.templates['Emojies.hbs'];
+        this.template = template;
         this.context = context || {};
     }
 

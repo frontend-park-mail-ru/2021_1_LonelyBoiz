@@ -1,5 +1,6 @@
 import InfoBlock from '../InfoBlock/InfoBlock.js';
 import PhotoBlock from '../PhotoBlock/PhotoBlock.js';
+import template from './Card.hbs';
 
 /**
  * @class
@@ -14,7 +15,7 @@ class Card {
      * @param {{user:{name, age, avatar, geo, city, instagram, description}, photos:[], vertical, horizontal, disableLeftArrow, disableRightArrow, disablePoints}} context
      */
     constructor(context) {
-        this.template = Handlebars.templates['Card.hbs'];
+        this.template = template;
         this.context = context;
 
         this.context.infoBlockContext = {

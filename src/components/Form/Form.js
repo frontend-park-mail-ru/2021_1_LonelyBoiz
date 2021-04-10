@@ -1,4 +1,4 @@
-const formTemplate = 'Form.hbs';
+import template from './Form.hbs';
 
 /**
  * @class
@@ -13,7 +13,7 @@ class Form {
      * @param {Object} context контекст для формы
      */
     constructor(context) {
-        this.template = Handlebars.templates[formTemplate];
+        this.template = template;
         this.context = context;
     }
 

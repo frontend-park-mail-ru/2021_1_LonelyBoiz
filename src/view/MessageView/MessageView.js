@@ -2,8 +2,7 @@ import MessageBox from '../../components/MessageBox/MessageBox.js';
 import ChatListBox from '../../components/ChatListBox/ChatListBox.js';
 import BaseView from '../BaseView.js';
 import Views from '../../consts/views.js';
-
-const messageViewTemplate = 'MessageView.hbs';
+import template from './MessageView.hbs';
 
 /**
  * @class
@@ -19,7 +18,7 @@ class MessageView extends BaseView {
      */
     constructor(context) {
         super(Views.Messages);
-        this.template = Handlebars.templates[messageViewTemplate];
+        this.template = template;
         this.context = context || {};
     }
 

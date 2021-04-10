@@ -1,3 +1,5 @@
+import template from './Counter.hbs';
+
 /**
  * @class
  * Компонента Counter
@@ -11,7 +13,7 @@ class Counter {
      * @param {Object} context {text}
      */
     constructor(context) {
-        this.template = Handlebars.templates['Counter.hbs'];
+        this.template = template;
         this.context = context;
     }
 

@@ -96,8 +96,6 @@ class UserModel {
             };
         }
 
-        console.log(this.data, data);
-
         return data;
     }
 
@@ -228,6 +226,9 @@ class UserModel {
         return HttpRequests.delete('/login', {})
             .then((response) => {
                 this.authorized = false;
+                for (const item of Object.entries(this.data)) {
+                    this.data[item.key] = undefined;
+                }
 
                 return {
                     json: {},

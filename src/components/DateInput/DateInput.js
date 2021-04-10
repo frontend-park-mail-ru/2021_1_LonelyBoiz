@@ -1,6 +1,5 @@
 import Select from '../Select/Select.js';
-
-const dateInput = 'DateInput.hbs';
+import template from './DateInput.hbs';
 
 /**
  * @class
@@ -15,7 +14,7 @@ class DateInput {
      * @param {Object} context контекст для установки даты
      */
     constructor(context) {
-        this.template = Handlebars.templates[dateInput];
+        this.template = template;
         this.context = context || {};
         this.months = [
             'Январь',

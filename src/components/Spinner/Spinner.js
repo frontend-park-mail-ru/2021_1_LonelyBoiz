@@ -1,5 +1,6 @@
 import { IconsSrc } from '../../consts/icons.js';
 import SpinnerSize from '../../consts/spinnerSize.js';
+import template from './Spinner.hbs';
 
 /**
  * @class
@@ -17,7 +18,7 @@ class Spinner {
      * }} context
      */
     constructor(context) {
-        this.template = Handlebars.templates['Spinner.hbs'];
+        this.template = template;
         this.context = context || { size: 'regular' };
         if (!this.context.size) {
             this.context.size = 'regular';

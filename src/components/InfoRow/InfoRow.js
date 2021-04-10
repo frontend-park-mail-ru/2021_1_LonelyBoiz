@@ -1,3 +1,5 @@
+import template from './InfoRow.hbs';
+
 /**
  * @class
  * Компонента InfoRow
@@ -11,7 +13,7 @@ class InfoRow {
      * @param {Object} context {iconSrc, text}
      */
     constructor(context) {
-        this.template = Handlebars.templates['InfoRow.hbs'];
+        this.template = template;
         this.context = context;
     }
 

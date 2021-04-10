@@ -1,5 +1,6 @@
 import Input from '../Input/Input.js';
 import ChatItem from '../ChatItem/ChatItem.js';
+import template from './ChatListBox.hbs';
 
 /**
  * @class
@@ -14,7 +15,7 @@ class ChatListBox {
      * @param {Object} context {chats:[{user:{name, avatar}, lastMessage:{text, time}, counter}]}
      */
     constructor(context) {
-        this.template = Handlebars.templates['ChatListBox.hbs'];
+        this.template = template;
         this.context = context || {};
     }
 

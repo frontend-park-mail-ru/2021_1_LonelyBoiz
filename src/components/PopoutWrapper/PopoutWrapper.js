@@ -1,3 +1,5 @@
+import template from './PopoutWrapper.hbs';
+
 /**
  * @class
  * Компонента PopoutWrapper
@@ -10,7 +12,7 @@ class PopoutWrapper {
      * @this  {PopoutWrapper}
      */
     constructor(context) {
-        this.template = Handlebars.templates['PopoutWrapper.hbs'];
+        this.template = template;
         this.context = context || {};
     }
 

@@ -1,3 +1,5 @@
+import template from './Icon.hbs';
+
 /**
  * @class
  * Компонента IconClass
@@ -11,7 +13,7 @@ class IconClass {
      * @param {{ iconClasses:"", size:28, src:"logo.png", href, iconCode, idDiv}} context
      */
     constructor(context) {
-        this.template = Handlebars.templates['Icon.hbs'];
+        this.template = template;
         this.context = context || {};
 
         if (!context.size) {

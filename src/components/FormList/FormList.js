@@ -1,4 +1,5 @@
 import FormItem from '../FormItem/FormItem.js';
+import template from './FormList.hbs';
 
 /**
  * @class
@@ -13,7 +14,7 @@ class FormList {
      * @param {Object} context {id, formList:[top, children, bottom]}
      */
     constructor(context) {
-        this.template = Handlebars.templates['FormList.hbs'];
+        this.template = template;
         this.context = context;
         this.context.FormList = this.context.formList.map((item) => {
             return new FormItem(item).render();

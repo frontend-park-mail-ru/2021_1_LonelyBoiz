@@ -13,6 +13,7 @@ import ScreenSpinnerClass from '../utils/ScreenSpinner.js';
 import { IconsSrc } from '../consts/icons.js';
 import IconClass from '../components/Icon/Icon.js';
 import userModel from '../models/UserModel.js';
+import img from '../../public/img/img.png';
 
 /**
  * @class
@@ -100,7 +101,7 @@ class SettingsController extends BaseController {
     onLogOut() {
         userModel.logout().then(_ => {
             window.localStorage.removeItem('u-id');
-            window.localStorage.setItem('u-avatar', 'img/img.png');
+            window.localStorage.setItem('u-avatar', img);
             eventBus.emit(Events.routeChange, Routes.loginRoute);
         });
     }

@@ -5,6 +5,7 @@ import LoginController from '../src/controllers/LoginController.js';
 import SignupController from '../src/controllers/SignupController.js';
 import Routes from '../src/consts/routes.js';
 import Router from '../src/utils/router.js';
+import './css/main.css';
 
 const router = new Router();
 

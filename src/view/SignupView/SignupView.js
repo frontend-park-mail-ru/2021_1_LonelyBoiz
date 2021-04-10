@@ -8,8 +8,7 @@ import FormItem from '../../components/FormItem/FormItem.js';
 import validationsErrors from '../../consts/validationsErrors.js';
 import BaseView from '../BaseView.js';
 import Views from '../../consts/views.js';
-
-const signupViewTemplate = 'SignupView.hbs';
+import template from './SignupView.hbs';
 
 /**
  * @class
@@ -25,7 +24,7 @@ class SignupView extends BaseView {
      */
     constructor(context) {
         super(Views.SignUp);
-        this.template = Handlebars.templates[signupViewTemplate];
+        this.template = template;
         this.context = context;
     }
 

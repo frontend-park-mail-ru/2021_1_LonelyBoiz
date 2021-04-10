@@ -1,3 +1,5 @@
+import template from './MainLabel.hbs';
+
 /**
  * @class
  * Компонента логотипа
@@ -11,7 +13,7 @@ class MainLabel {
      * @param {Object} context
      */
     constructor(context) {
-        this.template = Handlebars.templates['MainLabel.hbs'];
+        this.template = template;
         this.context = context || {};
     }
 
