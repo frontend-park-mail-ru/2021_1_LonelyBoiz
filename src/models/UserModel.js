@@ -103,6 +103,12 @@ class UserModel {
         return filterObject(this.getData(), (v) => { return v !== undefined; });
     }
 
+    clearData() {
+        for (const item of Object.entries(this.data)) {
+            this.data[item[0]] = undefined;
+        }
+    }
+
     /**
      * Создает пользователя
      *
@@ -226,9 +232,7 @@ class UserModel {
         return HttpRequests.delete('/login', {})
             .then((response) => {
                 this.authorized = false;
-                for (const item of Object.entries(this.data)) {
-                    this.data[item.key] = undefined;
-                }
+                this.clearData();
 
                 return {
                     json: {},
@@ -252,6 +256,7 @@ class UserModel {
             .then((response) => {
                 if (response.ok || response.status === 401) {
                     this.authorized = false;
+                    this.clearData();
                 }
                 return {
                     json: {},
