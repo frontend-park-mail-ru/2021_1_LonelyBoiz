@@ -194,3 +194,4 @@ fabric.properties
 
 package-lock.json
 *.precompiled.js
+stats.json
