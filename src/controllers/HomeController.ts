@@ -5,7 +5,9 @@ import Events from '../consts/events';
 import CardClass from '../utils/Card';
 import Routes from '../consts/routes';
 import userModel, { IUserModel } from '../models/UserModel';
+import feedModel from '../models/FeedModel';
 import Context from '../utils/Context';
+import { IResponseData } from '../utils/helpers';
 
 /**
  * @class
@@ -49,11 +51,22 @@ class HomeController extends BaseController {
 
                 if (json.error) {
                     eventBus.emit(Events.formError);
-                } else {
-                    this.card.setPlaceHolder(false);
-                    this.userData = <IUserModel>json;
-                    this.redrawCard();
                 }
+
+                feedModel.get()
+                    .then((response: IResponseData)  => {
+                        if (!response.ok) {
+                            eventBus.emit(Events.routeChange, Routes.loginRoute);
+                        }
+                        this.card.setPlaceHolder(false);
+
+                        this.userData = feedModel.getCurrent().json;
+
+                        this.redrawCard();
+                    })
+                    .catch((reason) => {
+                        console.error('Feed - error: ', reason);
+                    });
             })
             .catch((reason) => {
                 eventBus.emit(Events.routeChange, Routes.loginRoute);
@@ -80,7 +93,7 @@ class HomeController extends BaseController {
         this.destroyCard();
         this.card = new CardClass({
             user: this.userData,
-            photos: [window.localStorage.getItem('u-avatar')],
+            photos: this.userData.photos,
             id: this.id
         });
     }

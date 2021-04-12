@@ -44,7 +44,7 @@ class UserModel {
             birthday: builder.birthday,
             description: builder.description,
             city: builder.city,
-            avatar: builder.avatar,
+            photos: builder.photos,
             instagram: builder.instagram,
             sex: builder.sex,
             datePreference: builder.datePreference,
