@@ -8,7 +8,7 @@ import {
     checkForm,
     processingResultForms,
     fillForm,
-    IFormListItem
+    IFormList
 } from '../utils/form';
 import ScreenSpinnerClass from '../utils/ScreenSpinner';
 import { IconsSrc } from '../consts/icons';
@@ -18,20 +18,6 @@ import img from '@img/img.png';
 import BaseView from '../view/BaseView';
 import Context from '../utils/Context';
 
-export interface ISettingsList {
-    name?: IFormListItem;
-    mail?: IFormListItem;
-    description?: IFormListItem;
-    city?: IFormListItem;
-    instagram?: IFormListItem;
-    sex?: IFormListItem;
-    datePreference?: IFormListItem;
-    passwordOld?: IFormListItem;
-    password?: IFormListItem;
-    passwordRepeat?: IFormListItem;
-    birthday?: IFormListItem;
-}
-
 /**
  * @class
  * Контроллер логина
@@ -39,7 +25,7 @@ export interface ISettingsList {
 class SettingsController extends BaseController {
     formSuccess = false;
     file: string = null;
-    settingsList: ISettingsList = {
+    settingsList: IFormList = {
         name: {
             id: 'name',
             formItemId: 'name_form-item',
