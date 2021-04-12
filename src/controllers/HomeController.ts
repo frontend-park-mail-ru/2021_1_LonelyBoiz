@@ -5,6 +5,7 @@ import Events from '../consts/events';
 import CardClass from '../utils/Card';
 import Routes from '../consts/routes';
 import userModel, { IUserModel } from '../models/UserModel';
+import Context from '../utils/Context';
 
 /**
  * @class
@@ -32,7 +33,8 @@ class HomeController extends BaseController {
     /**
      * Запускает контроллер
      */
-    start(): void {
+    start(queryParams: Context): void {
+        this.queryParams = queryParams;
         userModel
             .auth()
             .then((response: Response) => {

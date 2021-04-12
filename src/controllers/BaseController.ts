@@ -1,6 +1,7 @@
 import Listener from '../utils/Listener';
 import AppStorage from '../utils/AppStorage';
 import BaseView from '../view/BaseView';
+import Context from '../utils/Context';
 
 interface IBaseController {
     view: BaseView;
@@ -13,6 +14,7 @@ interface IBaseController {
 class BaseController extends Listener {
     view: BaseView;
     storage = AppStorage;
+    queryParams: Context = {};
     /**
      * Создает экземпляр ввода
      *
@@ -28,7 +30,7 @@ class BaseController extends Listener {
     /**
      * Запускает контроллер
      */
-    start(): void {
+    start(queryParams: Context): void {
         this.view.show();
     }
 

@@ -49,7 +49,8 @@ class LoginController extends BaseController {
     /**
      * Запускает контроллер
      */
-    start(): void {
+    start(queryParams: Context): void {
+        this.queryParams = queryParams;
         this.view.show();
         validateForm.call(this, this.loginList);
         this.formSubmit();

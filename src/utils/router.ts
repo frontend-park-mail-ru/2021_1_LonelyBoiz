@@ -80,6 +80,7 @@ class Router {
         this.currPath = path;
 
         const splitedPath = this.parsePath(path);
+        const queryParams = this.queryParamsToObject(splitedPath.query);
         const route = splitedPath.route;
 
         let controller = this.routes.get(route);
@@ -110,7 +111,7 @@ class Router {
             );
         }
 
-        this.controller.start();
+        this.controller.start(queryParams);
     }
 
     /**
@@ -137,6 +138,16 @@ class Router {
         }
 
         return { route: splitedPath[0], query: '' };
+    }
+
+    queryParamsToObject(query) {
+        query = new URLSearchParams(query);
+        const obj = {};
+        for (const pair of query.entries()) {
+            obj[pair[0]] = pair[1];
+        }
+
+        return obj;
     }
 }
 

@@ -13,6 +13,7 @@ import ScreenSpinnerClass from '../utils/ScreenSpinner';
 import { IconsSrc } from '../consts/icons';
 import IconClass from '../components/Icon/Icon';
 import userModel from '../models/UserModel';
+import Context from '../utils/Context';
 
 /**
  * @class
@@ -58,7 +59,8 @@ class SignupController extends BaseController {
     /**
      * Запускает контроллер
      */
-    start(): void {
+    start(queryParams: Context): void {
+        this.queryParams = queryParams;
         this.view.show();
         validateForm.call(this, this.signupList);
         this.formSubmit();
