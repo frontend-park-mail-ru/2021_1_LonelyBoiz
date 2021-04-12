@@ -22,6 +22,7 @@ export interface IFormListItem {
     formItemId: string;
     required?: boolean;
     value?: Context;
+    valid?: boolean;
 }
 
 export interface IFormList {
@@ -276,7 +277,10 @@ export function checkForm(formList: IFormList): boolean {
  * @param {Context} description
  * @param {IFormList} formList
  */
-export const errorDescriptionForm = (description: Context, formList: IFormList): void => {
+export const errorDescriptionForm = (
+    description: Context,
+    formList: IFormList
+): void => {
     Object.entries(description).forEach((item) => {
         const [key, value] = item;
         if (key in formList && formList[key].formItemId) {

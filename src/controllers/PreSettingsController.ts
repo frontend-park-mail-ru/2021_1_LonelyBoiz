@@ -1,20 +1,21 @@
-import SettingsController, { ISettingsList } from './SettingsController';
+import SettingsController from './SettingsController';
 import PreSettings from '../view/PreSettingsView/PreSettingsView';
 import eventBus from '../utils/eventBus';
 import Routes from '../consts/routes';
 import Events from '../consts/events';
-import { validateForm, checkForm, processingResultForms } from '../utils/form';
+import { validateForm, checkForm, processingResultForms, IFormList } from '../utils/form';
 import ScreenSpinnerClass from '../utils/ScreenSpinner';
 import { IconsSrc } from '../consts/icons';
 import IconClass from '../components/Icon/Icon';
 import userModel from '../models/UserModel';
+import { datePreferenceEnum } from '../consts/sexEnum';
 
 /**
  * @class
  * Контроллер логина
  */
 class PreSettingsController extends SettingsController {
-    settingsList: ISettingsList = {
+    preSettingsList: IFormList = {
         name: {
             id: 'name',
             formItemId: 'name_form-item',
@@ -53,8 +54,12 @@ class PreSettingsController extends SettingsController {
                     eventBus.emit(Events.routeChange, Routes.loginRoute);
                 }
                 this.view.show();
-                validateForm.call(this, this.settingsList);
+                validateForm.call(this, this.preSettingsList);
                 this.formSubmit();
+
+                (<HTMLInputElement>(
+                    document.getElementById(this.preSettingsList.datePreference.id)
+                )).value = datePreferenceEnum.female;
             })
             .catch((reason) => {
                 eventBus.emit(Events.routeChange, Routes.loginRoute);
@@ -103,9 +108,9 @@ class PreSettingsController extends SettingsController {
      * Валидирует поля и делает запрос на сервер
      */
     onSubmit(): void {
-        this.formSuccess = checkForm.call(this, this.settingsList);
+        this.formSuccess = checkForm.call(this, this.preSettingsList);
         const tmpForm = {};
-        Object.entries(this.settingsList).forEach((item) => {
+        Object.entries(this.preSettingsList).forEach((item) => {
             const [key, obj] = item;
             if ((obj.value && obj.valid) || !obj.required) {
                 tmpForm[key] = obj.value;
@@ -129,7 +134,7 @@ class PreSettingsController extends SettingsController {
                     processingResultForms({
                         data: json || {},
                         errorBlockId: 'pre-settings-error',
-                        formList: this.settingsList
+                        formList: this.preSettingsList
                     }).then(() => {
                         if (this.file !== null) {
                             window.localStorage.setItem('u-avatar', this.file);

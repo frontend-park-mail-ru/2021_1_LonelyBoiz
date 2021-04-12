@@ -4,7 +4,6 @@ import SignupView from '../view/SignupView/SignupView';
 import eventBus from '../utils/eventBus';
 import Routes from '../consts/routes';
 import Events from '../consts/events';
-import { sexEnum } from '../consts/sexEnum';
 import {
     validateForm,
     checkForm,
@@ -23,21 +22,10 @@ class SignupController extends BaseController {
     formSuccess = false;
 
     signupList: ISettingsList = {
-        name: {
-            id: 'name',
-            formItemId: 'signup_name_form-item',
-            required: true
-        },
         mail: {
             id: 'mail',
             formItemId: 'signup_mail_form-item',
             required: true
-        },
-        sex: {
-            id: 'sex',
-            formItemId: 'signup_sex_form-item',
-            required: true,
-            value: String(sexEnum.male)
         },
         password: {
             id: 'password',

@@ -3,7 +3,6 @@ import Input from '../../components/Input/Input';
 import DateInput from '../../components/DateInput/DateInput';
 import Button from '../../components/Button/Button';
 import FormList from '../../components/FormList/FormList';
-import Select from '../../components/Select/Select';
 import FormItem from '../../components/FormItem/FormItem';
 import validationsErrors from '../../consts/validationsErrors';
 import BaseView from '../BaseView';
@@ -46,30 +45,12 @@ class SignupView extends BaseView {
                     }).render()
                 },
                 {
-                    id: 'signup_name_form-item',
-                    children: new Input({
-                        required: true,
-                        id: 'name',
-                        placeholder: 'Имя'
-                    }).render()
-                },
-                {
                     id: 'signup_mail_form-item',
                     children: new Input({
                         required: true,
                         type: 'email',
                         id: 'mail',
                         placeholder: 'Почта'
-                    }).render()
-                },
-                {
-                    top: 'Пол',
-                    id: 'signup_sex_form-item',
-                    children: new Select({
-                        required: true,
-                        id: 'sex',
-                        title: 'Пол',
-                        options: ['Мужской', 'Женский']
                     }).render()
                 },
                 {
