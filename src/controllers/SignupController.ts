@@ -1,5 +1,4 @@
 import BaseController from './BaseController';
-import { ISettingsList } from './SettingsController';
 import SignupView from '../view/SignupView/SignupView';
 import eventBus from '../utils/eventBus';
 import Routes from '../consts/routes';
@@ -7,7 +6,8 @@ import Events from '../consts/events';
 import {
     validateForm,
     checkForm,
-    processingResultForms
+    processingResultForms,
+    IFormList
 } from '../utils/form';
 import ScreenSpinnerClass from '../utils/ScreenSpinner';
 import { IconsSrc } from '../consts/icons';
@@ -22,7 +22,7 @@ import Context from '../utils/Context';
 class SignupController extends BaseController {
     formSuccess = false;
 
-    signupList: ISettingsList = {
+    signupList: IFormList = {
         mail: {
             id: 'mail',
             formItemId: 'signup_mail_form-item',
@@ -133,7 +133,7 @@ class SignupController extends BaseController {
                         data: json || {},
                         errorBlockId: 'signup-error',
                         formList: this.signupList
-                    }).then(_ => {
+                    }).then(() => {
                         eventBus.emit(Events.updateAvatar);
                         eventBus.emit(Events.routeChange, Routes.homeRoute);
                     });

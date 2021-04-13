@@ -31,6 +31,7 @@ class BaseController extends Listener {
      * Запускает контроллер
      */
     start(queryParams: Context): void {
+        this.queryParams = queryParams;
         this.view.show();
     }
 

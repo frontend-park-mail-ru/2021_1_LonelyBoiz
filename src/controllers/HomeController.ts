@@ -8,7 +8,6 @@ import userModel, { IUserModel } from '../models/UserModel';
 import feedModel from '../models/FeedModel';
 import { handleReactionPromise, getFeed } from '../utils/helpers';
 import Context from '../utils/Context';
-import { IResponseData } from '../utils/helpers';
 
 /**
  * @class
@@ -100,20 +99,20 @@ class HomeController extends BaseController {
         });
     }
 
-    onLike() {
+    onLike(): void {
         this.card.setPlaceHolder(true);
         feedModel.reactCurrent('like')
             .then(handleReactionPromise.bind(this))
-            .catch(likeReason => {
+            .catch((likeReason) => {
                 console.error('Like error - ', likeReason);
             });
     }
 
-    onDislike() {
+    onDislike(): void {
         this.card.setPlaceHolder(true);
         feedModel.reactCurrent('skip')
             .then(handleReactionPromise.bind(this))
-            .catch(likeReason => {
+            .catch((likeReason) => {
                 console.error('Like error - ', likeReason);
             });
     }

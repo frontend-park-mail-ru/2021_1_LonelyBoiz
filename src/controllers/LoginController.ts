@@ -122,7 +122,7 @@ class LoginController extends BaseController {
                         data: json || {},
                         errorBlockId: 'login-error',
                         formList: this.loginList
-                    }).then(_ => {
+                    }).then(() => {
                         eventBus.emit(Events.updateAvatar);
                         eventBus.emit(Events.routeChange, Routes.homeRoute);
                     });

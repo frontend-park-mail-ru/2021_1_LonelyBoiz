@@ -3,6 +3,7 @@ import Events from '../consts/events';
 import eventBus from '../utils/eventBus';
 import userModel from '../models/UserModel';
 import BaseController from '../controllers/BaseController';
+import Context from './Context';
 
 interface IPath {
     route: string;
@@ -140,10 +141,10 @@ class Router {
         return { route: splitedPath[0], query: '' };
     }
 
-    queryParamsToObject(query) {
-        query = new URLSearchParams(query);
+    queryParamsToObject(query: string): Context {
+        const urlQuery = new URLSearchParams(query);
         const obj = {};
-        for (const pair of query.entries()) {
+        for (const pair of urlQuery.entries()) {
             obj[pair[0]] = pair[1];
         }
 

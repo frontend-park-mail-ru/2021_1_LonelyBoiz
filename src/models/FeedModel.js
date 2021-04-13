@@ -1,5 +1,5 @@
-import HttpRequests from '../utils/requests.js';
-import { parseJson, getAllUsers } from '../utils/helpers.js';
+import HttpRequests from '../utils/requests';
+import { parseJson, getAllUsers } from '../utils/helpers';
 
 class FeedModel {
     static instance = null;

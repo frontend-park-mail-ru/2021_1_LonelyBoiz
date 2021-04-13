@@ -6,6 +6,7 @@ import {
     IResponseData
 } from '../utils/helpers';
 import Context from '../utils/Context';
+import backendLocation from '../consts/config';
 
 export interface IUserModel {
     id?: number;
@@ -14,7 +15,7 @@ export interface IUserModel {
     birthday?: string;
     description?: string;
     city?: string;
-    avatar?: string;
+    photos?: string[];
     instagram?: string;
     sex?: string;
     datePreference?: string;
@@ -23,7 +24,6 @@ export interface IUserModel {
     passwordOld?: string;
     age?: number;
 }
-import backendLocation from '../consts/config.js';
 
 class UserModel {
     static instance: UserModel = null;
@@ -81,7 +81,7 @@ class UserModel {
         case 'photos':
             console.log('received photos: ', value);
             if (value) {
-                value = value.map(v => backendLocation + '/images/' + v);
+                value = value.map((v: number) => backendLocation + '/images/' + String(v));
             }
             console.log('edited photos: ', value);
             return value;
@@ -310,7 +310,7 @@ class UserModel {
      * @param {String} photo - фотография
      * @return {Promise}
      */
-    uploadPhoto(photo) {
+    uploadPhoto(photo: string) {
         return HttpRequests.post('/images', photo)
             .then(parseJson)
             .then(response => {

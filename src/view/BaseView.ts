@@ -8,6 +8,8 @@ import { IconsSrc } from '../consts/icons';
 import Listener from '../utils/Listener';
 import Views from '../consts/views';
 import Context from '../utils/Context';
+import { updateAvatar } from '../utils/updateAvatar';
+import img from '@img/img.png';
 
 export type Template = (context: Context) => string;
 
@@ -117,7 +119,7 @@ class BaseView extends Listener {
                         icon: {
                             iconClasses: 'avatar u-avatar-header',
                             size: 28,
-                            src: window.localStorage.getItem('u-avatar')
+                            src: img
                         }
                     }
                 ]
@@ -146,6 +148,8 @@ class BaseView extends Listener {
                 }
             });
         });
+
+        eventBus.connect(Events.updateAvatar, updateAvatar);
     }
 
     /**
