@@ -6,6 +6,7 @@ import CardClass from '../utils/Card';
 import Routes from '../consts/routes';
 import userModel, { IUserModel } from '../models/UserModel';
 import feedModel from '../models/FeedModel';
+import { handleReactionPromise, getFeed } from '../utils/helpers';
 import Context from '../utils/Context';
 import { IResponseData } from '../utils/helpers';
 
@@ -56,25 +57,7 @@ class HomeController extends BaseController {
                     return;
                 }
 
-                feedModel.get()
-                    .then((feedResponse: IResponseData)  => {
-                        if (!feedResponse.ok) {
-                            eventBus.emit(Events.routeChange, Routes.loginRoute);
-                            return;
-                        }
-                        this.card.setPlaceHolder(false);
-
-                        this.userData = feedModel.getCurrent().json;
-                        if (!this.userData) {
-                            this.showEmptyFeed();
-                            return;
-                        }
-
-                        this.redrawCard();
-                    })
-                    .catch((reason) => {
-                        console.error('Feed - error: ', reason);
-                    });
+                getFeed.call(this);
             })
             .catch((reason) => {
                 eventBus.emit(Events.routeChange, Routes.loginRoute);
@@ -111,8 +94,28 @@ class HomeController extends BaseController {
         this.card = new CardClass({
             user: this.userData,
             photos: this.userData.photos,
-            id: this.id
+            id: this.id,
+            funcLike: this.onLike.bind(this),
+            funcDislike: this.onDislike.bind(this)
         });
+    }
+
+    onLike() {
+        this.card.setPlaceHolder(true);
+        feedModel.reactCurrent('like')
+            .then(handleReactionPromise.bind(this))
+            .catch(likeReason => {
+                console.error('Like error - ', likeReason);
+            });
+    }
+
+    onDislike() {
+        this.card.setPlaceHolder(true);
+        feedModel.reactCurrent('skip')
+            .then(handleReactionPromise.bind(this))
+            .catch(likeReason => {
+                console.error('Like error - ', likeReason);
+            });
     }
 }
 

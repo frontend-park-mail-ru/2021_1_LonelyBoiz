@@ -34,13 +34,28 @@ class FeedModel {
         return this.feed.json[current];
     }
 
-    get(count = 20) {
-        console.log('feed: ', this.feed, this.feed !== undefined);
-        if (this.feed !== undefined) {
-            return Promise.resolve(this.feed);
+    reactCurrent(reaction) {
+        if (this.feed === undefined || this.curr >= this.len) {
+            return Promise.reject(new Error('Feed is empty'));
         }
 
-        console.log('pass condition');
+        const body = {
+            userId: this.getCurrent().json.id,
+            reaction: reaction
+        };
+
+        return HttpRequests.post('/likes', body)
+            .then(parseJson)
+            .then(response => {
+                this.curr += 1;
+                return response;
+            });
+    }
+
+    get(count = 20) {
+        if (this.feed !== undefined && this.curr < this.len) {
+            return Promise.resolve(this.feed);
+        }
 
         return HttpRequests.get('/feed?count=' + count)
             .then(parseJson)
