@@ -259,7 +259,10 @@ class UserModel {
 
         return HttpRequests.delete('/login', {}).then((response) => {
             this.authorized = false;
-            this.clearData();
+            Object.entries(this.data).forEach((item) => {
+                const key = item[0];
+                this.data[key] = undefined;
+            });
 
             return {
                 json: {},
