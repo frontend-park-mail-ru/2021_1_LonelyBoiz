@@ -9,6 +9,7 @@
     padding: 10px;
     margin: 7px;
     border: var(--border);
+    color: var(--primary-text-color);
 }
 
 .message_user .message__text {

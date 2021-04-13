@@ -31,29 +31,15 @@
     background: var(--button-color_destructive);
 }
 
-.button-block__button:active,
-.button-block__button_primary .button-block__button:active {
-    background: var(--button-color_primary_clicked);
+.button-block__button:active {
+    opacity: 0.7;
 }
 
-.button-block_destructive .button-block__button:active {
-    background: var(--button-color_destructive_clicked);
+.button-block__button:hover:not(:active) {
+    opacity: 0.9;
 }
 
-.button-block_secondary .button-block__button:active {
-    background: var(--button-color_secondary_clicked);
-    color: var(--button-color_secondary_clicked_text);
-}
-
-.button-block__button:hover:not(:active),
-.button-block__button_primary .button-block__button:hover:not(:active) {
-    background: var(--button-color_primary_hover);
-}
-
-.button-block_destructive .button-block__button:hover:not(:active) {
-    background: var(--button-color_destructive_hover);
-}
-
-.button-block_secondary .button-block__button:hover:not(:active) {
-    background: var(--button-color_secondary_hover);
-}
+/* body[scheme='space_gray'] .button-block__button {
+    color: var(--second-text-color);
+    background: var(--input-color);
+} */

@@ -49,3 +49,8 @@ input[type='file'] {
 .label-input-file {
     cursor: pointer;
 }
+
+body[scheme='space_gray'] .input-block__input {
+    color: var(--second-text-color);
+    background: var(--input-color);
+}
