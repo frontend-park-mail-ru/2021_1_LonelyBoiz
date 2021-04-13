@@ -1,12 +1,12 @@
 .card {
-	height: 100%;
-	width: 100%;
+    height: 100%;
+    width: 100%;
 }
 
 .card_vertical:not(:last-child) {
-	margin-bottom: 64px;
+    margin-bottom: 64px;
 }
 
 .card_horizontal {
-	display: flex;
+    display: flex;
 }

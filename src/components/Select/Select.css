@@ -15,16 +15,17 @@
 .select-block__select_icon {
     -webkit-appearance: none;
     background-image:
-            linear-gradient(45deg, transparent 50%, var(--border-sel-color) 50%),
-            linear-gradient(135deg, var(--border-sel-color) 50%, transparent 50%);
+        linear-gradient(
+            45deg,
+            transparent 50%,
+            var(--border-sel-color) 50%
+        ),
+        linear-gradient(135deg, var(--border-sel-color) 50%, transparent 50%);
     background-position:
-            calc(100% - 10px) calc(1em + 2px),
-            calc(100% - 5px) calc(1em + 2px),
-            calc(100% - 2.5em) 0.5em;
-    background-size:
-            5px 5px,
-            5px 5px,
-            1px 1.5em;
+        calc(100% - 10px) calc(1em + 2px),
+        calc(100% - 5px) calc(1em + 2px),
+        calc(100% - 2.5em) 0.5em;
+    background-size: 5px 5px, 5px 5px, 1px 1.5em;
     background-repeat: no-repeat;
 }
 
@@ -44,4 +45,9 @@
 
 .form-item_valid .select-block__select_border {
     border-color: var(--border-color);
+}
+
+body[scheme='space_gray'] .select-block__select {
+    color: var(--second-text-color);
+    background: var(--input-color);
 }

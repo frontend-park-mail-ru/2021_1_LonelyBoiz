@@ -1,16 +1,16 @@
 .counter {
-	height: 24px;
+    height: 24px;
     min-width: 24px;
     border-radius: 12px;
-	display: flex;
+    display: flex;
     align-items: center;
     justify-content: center;
-	background-color: var(--counter-color);
-	color: white;
+    background-color: var(--counter-color);
+    color: white;
 }
 
 .counter__content {
-	width: 100%;
+    width: 100%;
     padding-left: 5px;
     padding-right: 5px;
     text-align: center;

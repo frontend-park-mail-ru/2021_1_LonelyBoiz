@@ -1,63 +1,45 @@
 .button-block__button {
-	cursor: pointer;
-	text-align: center;
-	width: 100%;
-	height: 36px;
-	display: block;
-	background: var(--button-color_primary);
-	color: var(--white-bg-color);
-	padding: 0 1.2em 0.1em;
-}
-
-.button-block__button:focus {
-	outline: none;
-}
-
-.button-block__button:active,
-.button-block__button_primary .button-block__button:active {
-	background: var(--button-color_primary_clicked);
-}
-
-.button-block__button:hover:not(:active),
-.button-block__button_primary .button-block__button:hover:not(:active) {
-	background: var(--button-color_primary_hover);
-}
-
-.button-block__border {
-	border: none;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
+    height: 36px;
+    display: block;
+    background: var(--button-color_primary);
+    color: var(--white-bg-color);
+    padding: 0 1.2em 0.1em;
 }
 
 .button-block__button:focus {
     outline: none;
 }
 
+.button-block__border {
+    border: none;
+}
+
 .button-block__text {
-	font-size: 1em;
-	align-items: center;
+    font-size: 1em;
+    align-items: center;
 }
 
 .button-block_secondary .button-block__button {
-	background: var(--button-color_secondary);
-	color: var(--button-color_secondary_text);
-}
-
-.button-block_secondary .button-block__button:active {
-	background: var(--button-color_secondary_clicked);
-	color: var(--button-color_secondary_clicked_text);
-}
-
-.button-block_secondary .button-block__button:hover:not(:active) {
-	background: var(--button-color_secondary_hover);
+    background: var(--button-color_secondary);
+    color: var(--button-color_secondary_text);
 }
 
 .button-block_destructive .button-block__button {
-	background: var(--button-color_destructive);
+    background: var(--button-color_destructive);
 }
 
-.button-block_destructive .button-block__button:active {
-	background: var(--button-color_destructive_clicked);
+.button-block__button:active {
+    opacity: 0.7;
 }
 
-.button-block_destructive .button-block__button:hover:not(:active) {
-	background: var(--button-color_destructive_hover);
+body[scheme='space_gray'] .button-block__button {
+    color: var(--second-text-color);
+    background: var(--input-color);
+}
+
+.button-block__button:hover:not(:active) {
+    opacity: 0.9;
 }

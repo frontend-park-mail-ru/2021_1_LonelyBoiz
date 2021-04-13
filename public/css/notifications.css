@@ -5,15 +5,12 @@
     bottom: 0;
     left: auto;
     width: 100%;
+    animation-name: animation-notifications-intro;
+    transition: -webkit-transform 320ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .notifications .snackbar {
     position: unset;
-}
-
-.notifications {
-    animation-name: animation-notifications-intro;
-    transition: -webkit-transform 320ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .notifications-new {

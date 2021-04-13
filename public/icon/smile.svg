@@ -1,4 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" id="smile_outline_28">
+<svg width="28" height="28" fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" id="smile_outline_28">
     <g fill="none" fill-rule="evenodd">
         <path d="M0 0h28v28H0z"></path>
         <path d="M14 26C7.373 26 2 20.627 2 14S7.373 2 14 2s12 5.373 12 12-5.373 12-12 12zm0-2c5.523 0 10-4.477 10-10S19.523 4 14 4 4 8.477 4 14s4.477 10 10 10zm-4.388-5.909a1 1 0 111.463-1.364 4 4 0 005.85.001 1 1 0 111.46 1.367 6 6 0 01-8.774-.003zm7.763-4.841a1.625 1.625 0 110-3.25 1.625 1.625 0 010 3.25zm-6.75 0a1.625 1.625 0 110-3.25 1.625 1.625 0 010 3.25z" fill="currentColor" fill-rule="nonzero"></path>

@@ -1,7 +1,9 @@
 <div class="message-content {{#if usersMessage}}message_user{{else}}message_other{{/if}}">
-    <div class="message__smile-icon-box message__smile-icon">
-        {{{SmileIcon}}}
-    </div>
+    {{#if emojieIcon}}
+        <div class="message__smile-icon-box message__smile-icon">
+            {{{emojieIcon}}}
+        </div>
+    {{/if}}
     <div class="message__text">
         {{text}}
     </div>
