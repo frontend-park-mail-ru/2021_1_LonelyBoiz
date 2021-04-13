@@ -17,4 +17,4 @@ router.addRoute(Routes.settingsRoute, new SettingsController());
 router.addRoute(Routes.preSettingsRoute, new PreSettingsController());
 router.addRoute(Routes.messageRoute, new MessageController());
 
-router.start()
+router.start();

@@ -20,7 +20,7 @@ class BaseController extends Listener {
      * @this  {BaseController}
      * @param {View} view страница для отображения
      */
-    constructor({ view }: IBaseController): void {
+    constructor({ view }: IBaseController) {
         super();
         this.view = view;
     }

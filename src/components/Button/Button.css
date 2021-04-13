@@ -35,11 +35,11 @@
     opacity: 0.7;
 }
 
+body[scheme='space_gray'] .button-block__button {
+    color: var(--second-text-color);
+    background: var(--input-color);
+}
+
 .button-block__button:hover:not(:active) {
     opacity: 0.9;
 }
-
-/* body[scheme='space_gray'] .button-block__button {
-    color: var(--second-text-color);
-    background: var(--input-color);
-} */
