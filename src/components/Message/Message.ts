@@ -31,11 +31,13 @@ class Message extends Component {
      * @returns {string} Построенный компонент
      */
     render(): string {
-        this.context.SmileIcon = new IconClass({
-            iconCode: IconsSrc.smile,
-            size: 28,
-            iconClasses: 'message__smile-icon gray-icon pointer-icon'
-        }).render();
+        if (!this.context.usersMessage) {
+            this.context.emojieIcon = new IconClass({
+                iconCode: IconsSrc.smile,
+                size: 28,
+                iconClasses: 'message__smile-icon gray-icon pointer-icon'
+            }).render();
+        }
         return this.template(this.context);
     }
 }
