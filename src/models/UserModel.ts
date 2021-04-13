@@ -75,19 +75,19 @@ class UserModel {
 
     receiveMiddleware(key: string, value: Context) {
         switch (key) {
-            case 'birthday':
-                return value * 1000;
-            default:
-                return value;
+        case 'birthday':
+            return value * 1000;
+        default:
+            return value;
         }
     }
 
     setMiddleware(key: string, value: Context) {
         switch (key) {
-            case 'birthday':
-                return value / 1000;
-            default:
-                return value;
+        case 'birthday':
+            return value / 1000;
+        default:
+            return value;
         }
     }
 
