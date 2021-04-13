@@ -23,6 +23,7 @@ export interface IUserModel {
     passwordOld?: string;
     age?: number;
 }
+import backendLocation from '../consts/config.js';
 
 class UserModel {
     static instance: UserModel = null;
@@ -77,6 +78,13 @@ class UserModel {
         switch (key) {
         case 'birthday':
             return value * 1000;
+        case 'photos':
+            console.log('received photos: ', value);
+            if (value) {
+                value = value.map(v => backendLocation + '/images/' + v);
+            }
+            console.log('edited photos: ', value);
+            return value;
         default:
             return value;
         }
@@ -185,11 +193,8 @@ class UserModel {
 
         let modifiedData: Context = {};
         for (const [key, value] of Object.entries(data)) {
-            if (key !== 'id' && key in currData) {
-                modifiedData[key] = addIfNotEq(
-                    this.setMiddleware(key, value),
-                    currData[key]
-                );
+            if (key !== 'id' && key !== 'photos' && key in currData) {
+                modifiedData[key] = addIfNotEq(this.setMiddleware(key, value), currData[key]);
             }
         }
 
@@ -297,6 +302,25 @@ class UserModel {
                 };
             }
         );
+    }
+
+    /**
+     * Добавляет фотографию к профилю
+     *
+     * @param {String} photo - фотография
+     * @return {Promise}
+     */
+    uploadPhoto(photo) {
+        return HttpRequests.post('/images', photo)
+            .then(parseJson)
+            .then(response => {
+                console.log('Model in uploading photo: ', this.data);
+                if (response.ok) {
+                    this.data.photos.push(backendLocation + '/images/' + response.json);
+                }
+
+                return response;
+            });
     }
 
     /**

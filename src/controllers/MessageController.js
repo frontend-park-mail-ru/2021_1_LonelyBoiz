@@ -56,6 +56,7 @@ class MessageController extends BaseController {
                 if (!response.ok) {
                     eventBus.emit(Events.routeChange, Routes.loginRoute);
                 }
+                eventBus.emit(Events.updateAvatar);
                 this.view.show();
                 this.setElements();
                 this.clearMessages();

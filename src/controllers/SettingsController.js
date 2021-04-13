@@ -13,7 +13,7 @@ import ScreenSpinnerClass from '../utils/ScreenSpinner.js';
 import { IconsSrc } from '../consts/icons.js';
 import IconClass from '../components/Icon/Icon.js';
 import userModel from '../models/UserModel.js';
-import img from '../../public/img/img.png';
+import feedModel from '../models/FeedModel.js';
 
 /**
  * @class
@@ -100,8 +100,8 @@ class SettingsController extends BaseController {
 
     onLogOut() {
         userModel.logout().then(_ => {
-            window.localStorage.removeItem('u-id');
-            window.localStorage.setItem('u-avatar', img);
+            feedModel.resetFeed();
+            eventBus.emit(Events.updateAvatar);
             eventBus.emit(Events.routeChange, Routes.loginRoute);
         });
     }
@@ -115,7 +115,9 @@ class SettingsController extends BaseController {
             .then(response => {
                 if (!response.ok) {
                     eventBus.emit(Events.routeChange, Routes.loginRoute);
+                    return;
                 }
+                eventBus.emit(Events.updateAvatar);
                 this.view.show();
                 validateForm.call(this, this.settingsList);
                 this.formSubmit();
@@ -235,7 +237,19 @@ class SettingsController extends BaseController {
 
         if (this.formSuccess) {
             if (this.file !== null) {
-                tmpForm.avatar = this.file;
+                tmpForm.photos = this.file;
+                userModel.uploadPhoto(this.file)
+                    .then(photoResponse => {
+                        if (!photoResponse.ok) {
+                            console.log('Failed to upload photo!');
+                            return;
+                        }
+                        eventBus.emit(Events.updateAvatar);
+                        console.log('Model after uploaded photo: ', userModel.getData());
+                    })
+                    .catch(photoReason => {
+                        console.error('Photo upload error - ', photoReason);
+                    });
             }
 
             const popout = new ScreenSpinnerClass({});
@@ -250,13 +264,6 @@ class SettingsController extends BaseController {
                         data: json || {},
                         errorBlockId: 'settings-error',
                         formList: this.settingsList
-                    }).then((json) => {
-                        if (this.file !== null) {
-                            window.localStorage.setItem('u-avatar', this.file);
-                            document.querySelector(
-                                '.u-avatar-header'
-                            ).src = this.file;
-                        }
                     });
                 })
                 .catch((reason) => {

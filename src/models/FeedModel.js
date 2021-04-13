@@ -26,20 +26,21 @@ class FeedModel {
 
     getCurrent() {
         if (this.feed === undefined || this.curr >= this.len) {
-            return this.get.json[0];
+            return {};
         }
 
         const current = this.curr;
-
-        this.curr += 1;
 
         return this.feed.json[current];
     }
 
     get(count = 20) {
+        console.log('feed: ', this.feed, this.feed !== undefined);
         if (this.feed !== undefined) {
-            return this.feed;
+            return Promise.resolve(this.feed);
         }
+
+        console.log('pass condition');
 
         return HttpRequests.get('/feed?count=' + count)
             .then(parseJson)
@@ -47,7 +48,7 @@ class FeedModel {
             .then(feed => {
                 this.feed = feed;
                 this.curr = 0;
-                this.len = count;
+                this.len = feed.json.length;
                 return this.feed;
             });
     }

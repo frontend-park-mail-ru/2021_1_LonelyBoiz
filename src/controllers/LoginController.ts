@@ -122,14 +122,8 @@ class LoginController extends BaseController {
                         data: json || {},
                         errorBlockId: 'login-error',
                         formList: this.loginList
-                    }).then((json: Context) => {
-                        window.localStorage.setItem('u-id', json.id);
-                        if (json.avatar) {
-                            window.localStorage.setItem(
-                                'u-avatar',
-                                json.avatar
-                            );
-                        }
+                    }).then(_ => {
+                        eventBus.emit(Events.updateAvatar);
                         eventBus.emit(Events.routeChange, Routes.homeRoute);
                     });
                 })

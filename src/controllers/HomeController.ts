@@ -42,7 +42,9 @@ class HomeController extends BaseController {
             .then((response: Response) => {
                 if (!response.ok) {
                     eventBus.emit(Events.routeChange, Routes.loginRoute);
+                    return;
                 }
+                eventBus.emit(Events.updateAvatar);
 
                 const json = response.json;
 
@@ -51,16 +53,22 @@ class HomeController extends BaseController {
 
                 if (json.error) {
                     eventBus.emit(Events.formError);
+                    return;
                 }
 
                 feedModel.get()
-                    .then((response: IResponseData)  => {
-                        if (!response.ok) {
+                    .then((feedResponse: IResponseData)  => {
+                        if (!feedResponse.ok) {
                             eventBus.emit(Events.routeChange, Routes.loginRoute);
+                            return;
                         }
                         this.card.setPlaceHolder(false);
 
                         this.userData = feedModel.getCurrent().json;
+                        if (!this.userData) {
+                            this.showEmptyFeed();
+                            return;
+                        }
 
                         this.redrawCard();
                     })
@@ -78,6 +86,15 @@ class HomeController extends BaseController {
         if (this.card) {
             this.card.destroy();
         }
+    }
+
+    showEmptyFeed(): void {
+        this.destroyCard();
+        this.card = new CardClass({
+            id: this.id,
+            buttons: {},
+            placeholder: false
+        });
     }
 
     drawLoaderPlaceholder(): void {

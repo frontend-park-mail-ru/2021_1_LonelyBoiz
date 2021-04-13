@@ -28,22 +28,30 @@ export function parseJson(response) {
 }
 
 export function getAllUsers(response) {
+    if (!response.ok) {
+        return response;
+    }
+    if (!response.json) {
+        return {
+            status: response.status,
+            ok: response.ok,
+            json: []
+        };
+    }
     const userPromises = [];
-    for (const uid in response.json) {
+    response.json.forEach(uid => {
         userPromises.push(HttpRequests.get('/users/' + uid)
             .then(parseJson)
-            .then(response => {
-                response.json.photos.forEach((v) => {
-                    v = backendLocation + '/images/' + v;
-                });
+            .then(userResponse => {
+                userResponse.json.photos = userResponse.json.photos.map(v => backendLocation + '/images/' + v);
                 return {
-                    status: response.status,
-                    ok: response.ok,
-                    json: response.json
+                    status: userResponse.status,
+                    ok: userResponse.ok,
+                    json: userResponse.json
                 };
             })
         );
-    }
+    });
 
     return Promise.all(userPromises)
         .then(users => {

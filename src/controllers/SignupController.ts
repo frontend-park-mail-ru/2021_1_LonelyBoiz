@@ -133,14 +133,8 @@ class SignupController extends BaseController {
                         data: json || {},
                         errorBlockId: 'signup-error',
                         formList: this.signupList
-                    }).then(() => {
-                        window.localStorage.setItem('u-id', json.id);
-                        if (json.avatar) {
-                            window.localStorage.setItem(
-                                'u-avatar',
-                                json.avatar
-                            );
-                        }
+                    }).then(_ => {
+                        eventBus.emit(Events.updateAvatar);
                         eventBus.emit(Events.routeChange, Routes.homeRoute);
                     });
                 })
