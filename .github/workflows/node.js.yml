@@ -23,6 +23,8 @@ jobs:
       run: npm i
     - name: Linter check
       run: npm run eslint-check
+    - name: CSS Linter check
+      run: npm run style-lint-check
 
   Deploy:
     if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
