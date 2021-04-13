@@ -44,13 +44,25 @@ class MessageController extends BaseController {
     activeChat: IChatItem = null;
     chats: IChat[] = [];
     messages: IMessage[] = [];
-    elements: IElements;
     sendingMessage = false;
     loaderChats = false;
     loaderChat = false;
     endChats = false;
     endChat = false;
     emojeisListener = new Listener();
+    elements: IElements = {
+        chatsList: null,
+        messageList: null,
+        noChatsList: null,
+        noMessageList: null,
+        headerIcon: null,
+        headerTitle: null,
+        header: null,
+        writeBar: null,
+        writeBarIcon: null,
+        writeBarInput: null,
+        noChatSelectedList: null
+    };
 
     /**
      * Создает экземпляр ввода

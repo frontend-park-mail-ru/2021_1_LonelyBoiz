@@ -1,12 +1,11 @@
 .inforow {
-	display: flex;
-
-	color: var(--text_secondary);
+    display: flex;
+    color: var(--text_secondary);
 }
 
 .inforow__icon {
-	display: flex;
-	justify-content: center;
-	flex-direction: column;
-	margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-right: 10px;
 }

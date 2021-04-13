@@ -99,7 +99,7 @@ class LoginController extends BaseController {
      */
     onSubmit(): void {
         this.formSuccess = checkForm.call(this, this.loginList);
-        let tmpForm: IFormList;
+        const tmpForm: IFormList = {};
         Object.entries(this.loginList).forEach((item) => {
             const [key, obj] = item;
             if (obj.value && obj.valid) {

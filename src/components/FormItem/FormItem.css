@@ -4,12 +4,12 @@
 }
 
 .form-item__top {
-    padding: 5px 0px 2px 5px;
+    padding: 5px 0 2px 5px;
     color: var(--text_secondary);
 }
 
 .form-item__bottom {
-    padding: 5px 0px 2px 5px;
+    padding: 5px 0 2px 5px;
     color: var(--text_secondary);
     padding-top: 8px;
 }

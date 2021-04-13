@@ -8,6 +8,8 @@
     "eslint-init": "eslint --init",
     "eslint-check": "eslint ./src",
     "eslint-fix": "eslint --fix ./src",
+    "style-lint-check": "npx stylelint **/*.css",
+    "style-lint-fix": "npx stylelint --fix **/*.css",
     "dev": "cross-env NODE_ENV=development webpack --mode development",
     "build": "cross-env NODE_ENV=production webpack --mode production",
     "watch": "cross-env NODE_ENV=development webpack --mode development --watch",
@@ -15,7 +17,8 @@
     "stats": "webpack --json > stats.json && webpack-bundle-analyzer stats.json"
   },
   "pre-commit": [
-    "eslint-check"
+    "eslint-check",
+    "style-lint-check"
   ],
   "repository": {
     "type": "git",
@@ -61,6 +64,8 @@
     "mini-css-extract-plugin": "^1.4.1",
     "pre-commit": "^1.2.2",
     "raw-loader": "^4.0.2",
+    "stylelint": "^13.12.0",
+    "stylelint-config-standard": "^21.0.0",
     "typescript": "^4.2.4",
     "webpack-bundle-analyzer": "^4.4.0",
     "webpack-dev-server": "^3.11.2"

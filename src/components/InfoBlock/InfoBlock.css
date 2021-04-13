@@ -25,7 +25,7 @@
 }
 
 .info-block__title-text {
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-size: 32px;
 }
 

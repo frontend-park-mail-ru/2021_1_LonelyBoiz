@@ -1,6 +1,7 @@
 body {
-    font-family: 'Roboto mono';
+    font-family: 'Roboto mono', sans-serif;
     background-color: var(--bg-color);
+    margin: 0;
 }
 
 .content {
@@ -119,10 +120,6 @@ body {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-}
-
-body {
-    margin: 0;
 }
 
 .shadow_button {

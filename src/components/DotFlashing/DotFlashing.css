@@ -48,6 +48,7 @@
     0% {
         background-color: var(--second-text-color);
     }
+
     50%,
     100% {
         background-color: var(--border-color);

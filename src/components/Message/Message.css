@@ -10,11 +10,9 @@
     margin: 7px;
     border: var(--border);
 }
+
 .message_user .message__text {
     background-color: var(--bg-color);
-}
-.message_user .message__text {
-	background-color: var(--bg-color);
 }
 
 .message_user {
@@ -37,10 +35,4 @@
 
 .message__smile-icon-box {
     height: 100%;
-}
-
-.message__smile-icon{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
