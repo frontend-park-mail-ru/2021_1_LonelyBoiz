@@ -49,7 +49,8 @@ class LoginController extends BaseController {
     /**
      * Запускает контроллер
      */
-    start(): void {
+    start(queryParams: Context): void {
+        this.queryParams = queryParams;
         this.view.show();
         validateForm.call(this, this.loginList);
         this.formSubmit();
@@ -121,14 +122,8 @@ class LoginController extends BaseController {
                         data: json || {},
                         errorBlockId: 'login-error',
                         formList: this.loginList
-                    }).then((json: Context) => {
-                        window.localStorage.setItem('u-id', json.id);
-                        if (json.avatar) {
-                            window.localStorage.setItem(
-                                'u-avatar',
-                                json.avatar
-                            );
-                        }
+                    }).then(() => {
+                        eventBus.emit(Events.updateAvatar);
                         eventBus.emit(Events.routeChange, Routes.homeRoute);
                     });
                 })

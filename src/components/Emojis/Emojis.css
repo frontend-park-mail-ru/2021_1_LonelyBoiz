@@ -1,4 +1,4 @@
-.emojies {
+.emojis {
     min-width: 300px;
     min-height: 200px;
     background: var(--tabbar_background);
@@ -11,12 +11,12 @@
     padding: 10px 8px;
 }
 
-.emojies__row {
+.emojis__row {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
 }
 
-.emojies__column {
+.emojis__column {
     margin: 12px;
 }

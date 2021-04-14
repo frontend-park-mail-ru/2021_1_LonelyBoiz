@@ -5,6 +5,9 @@ import Events from '../consts/events';
 import CardClass from '../utils/Card';
 import Routes from '../consts/routes';
 import userModel, { IUserModel } from '../models/UserModel';
+import feedModel from '../models/FeedModel';
+import { handleReactionPromise, getFeed } from '../utils/helpers';
+import Context from '../utils/Context';
 
 /**
  * @class
@@ -32,13 +35,16 @@ class HomeController extends BaseController {
     /**
      * Запускает контроллер
      */
-    start(): void {
+    start(queryParams: Context): void {
+        this.queryParams = queryParams;
         userModel
             .auth()
             .then((response: Response) => {
                 if (!response.ok) {
                     eventBus.emit(Events.routeChange, Routes.loginRoute);
+                    return;
                 }
+                eventBus.emit(Events.updateAvatar);
 
                 const json = response.json;
 
@@ -47,11 +53,10 @@ class HomeController extends BaseController {
 
                 if (json.error) {
                     eventBus.emit(Events.formError);
-                } else {
-                    this.card.setPlaceHolder(false);
-                    this.userData = <IUserModel>json;
-                    this.redrawCard();
+                    return;
                 }
+
+                getFeed.call(this);
             })
             .catch((reason) => {
                 eventBus.emit(Events.routeChange, Routes.loginRoute);
@@ -63,6 +68,15 @@ class HomeController extends BaseController {
         if (this.card) {
             this.card.destroy();
         }
+    }
+
+    showEmptyFeed(): void {
+        this.destroyCard();
+        this.card = new CardClass({
+            id: this.id,
+            buttons: {},
+            placeholder: false
+        });
     }
 
     drawLoaderPlaceholder(): void {
@@ -78,9 +92,29 @@ class HomeController extends BaseController {
         this.destroyCard();
         this.card = new CardClass({
             user: this.userData,
-            photos: [window.localStorage.getItem('u-avatar')],
-            id: this.id
+            photos: this.userData.photos,
+            id: this.id,
+            funcLike: this.onLike.bind(this),
+            funcDislike: this.onDislike.bind(this)
         });
+    }
+
+    onLike(): void {
+        this.card.setPlaceHolder(true);
+        feedModel.reactCurrent('like')
+            .then(handleReactionPromise.bind(this))
+            .catch((likeReason) => {
+                console.error('Like error - ', likeReason);
+            });
+    }
+
+    onDislike(): void {
+        this.card.setPlaceHolder(true);
+        feedModel.reactCurrent('skip')
+            .then(handleReactionPromise.bind(this))
+            .catch((likeReason) => {
+                console.error('Like error - ', likeReason);
+            });
     }
 }
 

@@ -6,6 +6,7 @@ import Routes from '../../consts/routes';
 import { Icons } from '../../consts/icons';
 import template from './Header.hbs';
 import './Header.css';
+import img from '@img/img.png';
 
 interface IHeader {
     activeIcon: string;
@@ -82,7 +83,7 @@ class Header extends Component {
                         icon: {
                             iconClasses: 'avatar u-avatar-header',
                             size: 28,
-                            src: window.localStorage.getItem('u-avatar')
+                            src: img
                         }
                     }
                 ]

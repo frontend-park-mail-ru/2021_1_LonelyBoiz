@@ -1,5 +1,4 @@
 import BaseController from './BaseController';
-import { ISettingsList } from './SettingsController';
 import SignupView from '../view/SignupView/SignupView';
 import eventBus from '../utils/eventBus';
 import Routes from '../consts/routes';
@@ -7,12 +6,14 @@ import Events from '../consts/events';
 import {
     validateForm,
     checkForm,
-    processingResultForms
+    processingResultForms,
+    IFormList
 } from '../utils/form';
 import ScreenSpinnerClass from '../utils/ScreenSpinner';
 import { IconsSrc } from '../consts/icons';
 import IconClass from '../components/Icon/Icon';
 import userModel from '../models/UserModel';
+import Context from '../utils/Context';
 
 /**
  * @class
@@ -21,7 +22,7 @@ import userModel from '../models/UserModel';
 class SignupController extends BaseController {
     formSuccess = false;
 
-    signupList: ISettingsList = {
+    signupList: IFormList = {
         mail: {
             id: 'mail',
             formItemId: 'signup_mail_form-item',
@@ -58,7 +59,8 @@ class SignupController extends BaseController {
     /**
      * Запускает контроллер
      */
-    start(): void {
+    start(queryParams: Context): void {
+        this.queryParams = queryParams;
         this.view.show();
         validateForm.call(this, this.signupList);
         this.formSubmit();
@@ -132,13 +134,7 @@ class SignupController extends BaseController {
                         errorBlockId: 'signup-error',
                         formList: this.signupList
                     }).then(() => {
-                        window.localStorage.setItem('u-id', json.id);
-                        if (json.avatar) {
-                            window.localStorage.setItem(
-                                'u-avatar',
-                                json.avatar
-                            );
-                        }
+                        eventBus.emit(Events.updateAvatar);
                         eventBus.emit(Events.routeChange, Routes.homeRoute);
                     });
                 })

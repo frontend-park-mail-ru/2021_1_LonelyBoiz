@@ -6,13 +6,14 @@ import IconClass from '../components/Icon/Icon';
 import Spinner from '../components/Spinner/Spinner';
 import { IconsSrc } from '../consts/icons';
 import Listener from '../utils/Listener';
-import EmojiesPopup from '../utils/Emojies';
-import EmojiesList from '../consts/emojies';
+import EmojisPopup from '../utils/Emojis';
+import EmojisList from '../consts/emojis';
 import eventBus from '../utils/eventBus';
 import Events from '../consts/events';
 import Routes from '../consts/routes';
 import userModel from '../models/UserModel';
 import img from '@img/img.png';
+import Context from '../utils/Context';
 
 interface IElements {
     chatsList?: HTMLElement;
@@ -74,13 +75,15 @@ class MessageController extends BaseController {
         super({ view: new MessageView() });
     }
 
-    start(): void {
+    start(queryParams: Context): void {
+        this.queryParams = queryParams;
         userModel
             .auth()
             .then((response) => {
                 if (!response.ok) {
                     eventBus.emit(Events.routeChange, Routes.loginRoute);
                 }
+                eventBus.emit(Events.updateAvatar);
                 this.view.show();
                 this.setElements();
                 this.clearMessages();
@@ -310,14 +313,15 @@ class MessageController extends BaseController {
 
     /**
      * Сохраняет икноку у сообщения
-     * @param {object} messageElem
+     * @param {IMessage} messageElem
      * @param {string} emojieId
      */
     setEmojies(
-        messageElem: HTMLElement,
-        emojieId: keyof typeof EmojiesList
+        message: IMessage,
+        emojieId: keyof typeof EmojisList
     ): void {
-        messageElem.children[0].children[0].innerHTML = EmojiesList[emojieId];
+        const messageElem = message.elem;
+        messageElem.children[0].children[0].innerHTML = EmojisList[emojieId];
     }
 
     /**
@@ -351,8 +355,8 @@ class MessageController extends BaseController {
                 element: <HTMLElement>insertionElem.children[0],
                 type: 'click',
                 listener: () => {
-                    new EmojiesPopup((key: keyof typeof EmojiesList) => {
-                        this.setEmojies(insertionElem, key);
+                    new EmojisPopup((key: keyof typeof EmojisList) => {
+                        this.setEmojies(item, key);
                     });
                 }
             });

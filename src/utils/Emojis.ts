@@ -1,22 +1,22 @@
 import PopoutWrapperClass from './PopoutWrapper';
-import Emojies from '../components/Emojies/Emojies';
+import Emojis from '../components/Emojis/Emojis';
 import IconClass from '../components/Icon/Icon';
-import EmojiesList from '../consts/emojies';
+import EmojisList from '../consts/emojis';
 
 /**
  * @class
  * EmojiesPopup
  */
-class EmojiesPopup extends PopoutWrapperClass {
+class EmojisPopup extends PopoutWrapperClass {
     /**
      * Создает экземпляр всплывающего окна со смайликами
      *
      * @constructor
-     * @this  {EmojiesPopup}
+     * @this  {EmojisPopup}
      * @callback callback
      */
     constructor(callback: Function) {
-        const icons = Object.entries(EmojiesList).map((item, i) => {
+        const icons = Object.entries(EmojisList).map((item, i) => {
             return { iconCode: item[1], idDiv: String(i), key: item[0] };
         });
 
@@ -29,8 +29,8 @@ class EmojiesPopup extends PopoutWrapperClass {
         });
 
         super({
-            children: new Emojies({
-                emojies: iconsElems
+            children: new Emojis({
+                emojis: iconsElems
             }).render(),
             block: false,
             showBg: true
@@ -50,4 +50,4 @@ class EmojiesPopup extends PopoutWrapperClass {
     }
 }
 
-export default EmojiesPopup;
+export default EmojisPopup;

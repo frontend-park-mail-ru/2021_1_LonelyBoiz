@@ -14,7 +14,7 @@ import ScreenSpinnerClass from '../utils/ScreenSpinner';
 import { IconsSrc } from '../consts/icons';
 import IconClass from '../components/Icon/Icon';
 import userModel from '../models/UserModel';
-import img from '@img/img.png';
+import feedModel from '../models/FeedModel';
 import BaseView from '../view/BaseView';
 import Context from '../utils/Context';
 
@@ -105,8 +105,8 @@ class SettingsController extends BaseController {
 
     onLogOut(): void {
         userModel.logout().then(() => {
-            window.localStorage.removeItem('u-id');
-            window.localStorage.setItem('u-avatar', img);
+            feedModel.resetFeed();
+            eventBus.emit(Events.updateAvatar);
             eventBus.emit(Events.routeChange, Routes.loginRoute);
         });
     }
@@ -114,13 +114,16 @@ class SettingsController extends BaseController {
     /**
      * Запускает контроллер
      */
-    start(): void {
+    start(queryParams: Context): void {
+        this.queryParams = queryParams;
         userModel
             .auth()
             .then((response) => {
                 if (!response.ok) {
                     eventBus.emit(Events.routeChange, Routes.loginRoute);
+                    return;
                 }
+                eventBus.emit(Events.updateAvatar);
                 this.view.show();
                 validateForm.call(this, this.settingsList);
                 this.formSubmit();
@@ -228,7 +231,7 @@ class SettingsController extends BaseController {
      */
     onSubmit(): void {
         this.formSuccess = checkForm.call(this, this.settingsList);
-        const tmpForm = {};
+        const tmpForm: Context = {};
         Object.entries(this.settingsList).forEach((item) => {
             const [key, obj] = item;
             if ((obj.value && obj.valid) || !obj.required) {
@@ -238,7 +241,19 @@ class SettingsController extends BaseController {
 
         if (this.formSuccess) {
             if (this.file !== null) {
-                tmpForm.avatar = this.file;
+                tmpForm.photos = this.file;
+                userModel.uploadPhoto(this.file)
+                    .then(photoResponse => {
+                        if (!photoResponse.ok) {
+                            console.log('Failed to upload photo!');
+                            return;
+                        }
+                        eventBus.emit(Events.updateAvatar);
+                        console.log('Model after uploaded photo: ', userModel.getData());
+                    })
+                    .catch(photoReason => {
+                        console.error('Photo upload error - ', photoReason);
+                    });
             }
 
             const popout = new ScreenSpinnerClass();
@@ -254,13 +269,6 @@ class SettingsController extends BaseController {
                         data: json || {},
                         errorBlockId: 'settings-error',
                         formList: this.settingsList
-                    }).then(() => {
-                        if (this.file !== null) {
-                            window.localStorage.setItem('u-avatar', this.file);
-                            (<HTMLImageElement>(
-                                document.querySelector('.u-avatar-header')
-                            )).src = this.file;
-                        }
                     });
                 })
                 .catch((reason) => {
