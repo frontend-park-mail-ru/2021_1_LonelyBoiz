@@ -8,7 +8,9 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
 
-const filename = (ext) => (isDev ? `[name].${ext}` : `[name].[hash].${ext}`);
+const live = process.argv.indexOf('serve') > 0;
+
+const filename = (ext) => `[name].${ext}`;
 
 const babelOptions = (preset) => {
     const opts = {
@@ -23,8 +25,20 @@ const babelOptions = (preset) => {
     return opts;
 };
 
+const entryOptions = (useSW) => {
+    const data = {
+        main: './public/index'
+    };
+
+    if (useSW) {
+        data.sw = './public/sw';
+    }
+
+    return data;
+};
+
 module.exports = {
-    entry: './public/index',
+    entry: entryOptions(!live),
     output: {
         filename: filename('js'),
         path: path.resolve(__dirname, 'dist'),

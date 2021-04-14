@@ -10,3 +10,16 @@
 .card_horizontal {
     display: flex;
 }
+
+.card__swipe_left {
+    transform: translate3d(-3000px, 0, 0);
+}
+
+.card__swipe_right {
+    transform: translate3d(3000px, 0, 0);
+}
+
+.card__swipe {
+    animation-name: animation-notifications-intro;
+    transition: -webkit-transform 1000ms cubic-bezier(0.4, 0, 0.2, 1);
+}

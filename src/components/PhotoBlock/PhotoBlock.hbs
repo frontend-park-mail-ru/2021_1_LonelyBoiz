@@ -1,33 +1,27 @@
 <div
     class="photo-block {{#if borderRadiusTop}}photo-block__img_border-radius-top{{/if}} {{#if borderRadiusLeft}}photo-block__img_border-radius-left{{/if}}">
 
-    {{#unless disablePoints}}
-    <div class="photo-block__points">
+    <div class="photo-block__points {{#if disablePoints}}hidden{{/if}}">
         {{#each Points}}
         {{#if this}}
-        <div class="photo-block__point photo-block__point_active"></div>
+        <div class="photo-block__point photo-block__point_active" data-id="{{@index}}"></div>
         {{else}}
-        <div class="photo-block__point photo-block__point_disabled"></div>
+        <div class="photo-block__point photo-block__point_disabled" data-id="{{@index}}"></div>
         {{/if}}
         {{/each}}
     </div>
-    {{/unless}}
 
     <div class="photo-block__arrows">
-        {{#unless disableLeftArrow}}
-        <div class="photo-block__arrow photo-block__arrow_left">
+        <div class="photo-block__arrow photo-block__arrow_left {{#if disableLeftArrow}}hidden{{/if}}">
             <div class="photo-block__arrow__icon">
-                <img class="icon" src="icon/arrow_left.svg" />
+                {{{arrow_left}}}
             </div>
         </div>
-        {{/unless}}
-        {{#unless disableRightArrow}}
-        <div class="photo-block__arrow photo-block__arrow_rigth">
+        <div class="photo-block__arrow photo-block__arrow_right {{#if disableRightArrow}}hidden{{/if}}">
             <div class="photo-block__arrow__icon">
-                <img class="icon" src="icon/arrow_rigth.svg" />
+                {{{arrow_right}}}
             </div>
         </div>
-        {{/unless}}
     </div>
     <img class="photo-block__img {{#if borderRadiusTop}}photo-block__img_border-radius-top{{/if}} {{#if borderRadiusLeft}}photo-block__img_border-radius-left{{/if}}"
         src="{{photo}}" />

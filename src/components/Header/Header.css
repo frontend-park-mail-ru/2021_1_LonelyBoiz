@@ -2,6 +2,7 @@
     z-index: 10;
     position: fixed;
     display: flex;
+    justify-content: center;
     top: 0;
     left: 0;
     width: 100%;
@@ -12,14 +13,11 @@
 }
 
 .header__title {
-    width: 22%;
     text-align: right;
     vertical-align: bottom;
 }
 
 .header__tabbar {
-    min-width: 250px;
-    width: 35%;
     margin-left: auto;
     margin-right: 0;
 }
@@ -35,4 +33,11 @@
 
 .header__avatar {
     cursor: default;
+}
+
+.header__content {
+    display: flex;
+    max-width: 800px;
+    width: 800px;
+    margin: auto 50px;
 }

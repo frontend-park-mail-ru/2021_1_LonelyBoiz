@@ -1,5 +1,6 @@
 import Component from '../Component';
 import { IconsSrc } from '../../consts/icons';
+import EmojisList from '../../consts/emojis';
 import IconClass from '../Icon/Icon';
 import template from './Message.hbs';
 import './Message.css';
@@ -8,6 +9,7 @@ export interface IMessageItem {
     text?: string;
     usersMessage?: boolean;
     messageId?: number;
+    reaction?: keyof typeof EmojisList;
 }
 
 /**
@@ -31,13 +33,20 @@ class Message extends Component {
      * @returns {string} Построенный компонент
      */
     render(): string {
-        if (!this.context.usersMessage) {
-            this.context.emojieIcon = new IconClass({
+        if (this.context.reaction) {
+            this.context.emojiIcon = new IconClass({
+                iconCode: EmojisList[this.context.reaction],
+                size: 28,
+                iconClasses: 'message__smile-icon gray-icon'
+            }).render();
+        } else if (!this.context.usersMessage) {
+            this.context.emojiIcon = new IconClass({
                 iconCode: IconsSrc.smile,
                 size: 28,
-                iconClasses: 'message__smile-icon gray-icon pointer-icon'
+                iconClasses: 'message__smile-icon gray-icon'
             }).render();
         }
+
         return this.template(this.context);
     }
 }

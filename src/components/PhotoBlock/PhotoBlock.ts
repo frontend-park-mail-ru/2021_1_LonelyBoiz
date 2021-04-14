@@ -1,6 +1,7 @@
 import Component from '../Component';
 import template from './PhotoBlock.hbs';
 import './PhotoBlock.css';
+import { IconsSrc } from '../../consts/icons';
 
 interface IPhotoBlock {
     photos?: string[];
@@ -26,6 +27,10 @@ class PhotoBlock extends Component {
      */
     constructor(context?: IPhotoBlock) {
         super(context, template);
+
+        this.context.arrow_left = IconsSrc.arrow_left;
+        this.context.arrow_right = IconsSrc.arrow_right;
+
         this.context.Points = new Array(this.context.photos.length).fill(false);
 
         if (this.context.activePhotoId) {

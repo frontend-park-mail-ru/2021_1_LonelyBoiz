@@ -5,7 +5,7 @@ import EmojisList from '../consts/emojis';
 
 /**
  * @class
- * EmojiesPopup
+ * EmojisPopup
  */
 class EmojisPopup extends PopoutWrapperClass {
     /**
@@ -41,7 +41,6 @@ class EmojisPopup extends PopoutWrapperClass {
                 element: document.getElementById(String(item.idDiv)),
                 type: 'click',
                 listener: () => {
-                    console.log(item.key);
                     callback(item.key);
                     this.destroy();
                 }

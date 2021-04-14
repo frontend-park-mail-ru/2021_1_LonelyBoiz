@@ -8,8 +8,7 @@ import { IconsSrc } from '../consts/icons';
 import Listener from '../utils/Listener';
 import Views from '../consts/views';
 import Context from '../utils/Context';
-import { updateAvatar } from '../utils/updateAvatar';
-import img from '@img/img.png';
+import Switch from '../components/Switch/Switch';
 
 export type Template = (context: Context) => string;
 
@@ -54,12 +53,6 @@ class BaseView extends Listener {
             iconCode: IconsSrc.settings,
             idDiv: `home-icon__${Views.Settings}`,
             idHref: `home-icon__${Views.Settings}__href`
-        },
-        preSettings: {
-            route: Routes.preSettingsRoute,
-            iconCode: IconsSrc.settings,
-            idDiv: `home-icon__${Views.PreSettings}`,
-            idHref: `home-icon__${Views.PreSettings}__href`
         }
     };
 
@@ -119,7 +112,13 @@ class BaseView extends Listener {
                         icon: {
                             iconClasses: 'avatar u-avatar-header',
                             size: 28,
-                            src: img
+                            src: window.localStorage.getItem('u-avatar')
+                        }
+                    },
+                    {
+                        icon: {
+                            idDiv: 'scheme-switcher',
+                            iconCode: new Switch().render()
                         }
                     }
                 ]
@@ -137,6 +136,11 @@ class BaseView extends Listener {
 
         app.appendChild(header);
 
+        if (window.localStorage.getItem('scheme') === 'space_gray') {
+            document.querySelector('.switch-btn').classList.remove('switch-on');
+            document.body.setAttribute('scheme', 'space_gray');
+        }
+
         Object.entries(this.iconList).forEach((item) => {
             const [, icon] = item;
             this.registerListener({
@@ -149,7 +153,23 @@ class BaseView extends Listener {
             });
         });
 
-        eventBus.connect(Events.updateAvatar, updateAvatar);
+        this.registerListener({
+            element: document.getElementById('scheme-switcher'),
+            type: 'click',
+            listener: (e) => {
+                e.preventDefault();
+                const currentElement = <HTMLElement>e.currentTarget;
+                const switcher = currentElement.children[0];
+                switcher.classList.toggle('switch-on');
+
+                let scheme = '';
+                if (!switcher.classList.contains('switch-on')) {
+                    scheme = 'space_gray';
+                }
+                document.body.setAttribute('scheme', scheme);
+                window.localStorage.setItem('scheme', scheme);
+            }
+        });
     }
 
     /**
