@@ -3,6 +3,7 @@ import Events from '../consts/events';
 import eventBus from '../utils/eventBus';
 import userModel from '../models/UserModel';
 import BaseController from '../controllers/BaseController';
+import Context from './Context';
 
 interface IPath {
     route: string;
@@ -80,6 +81,7 @@ class Router {
         this.currPath = path;
 
         const splitedPath = this.parsePath(path);
+        const queryParams = this.queryParamsToObject(splitedPath.query);
         const route = splitedPath.route;
 
         let controller = this.routes.get(route);
@@ -110,7 +112,7 @@ class Router {
             );
         }
 
-        this.controller.start();
+        this.controller.start(queryParams);
     }
 
     /**
@@ -137,6 +139,16 @@ class Router {
         }
 
         return { route: splitedPath[0], query: '' };
+    }
+
+    queryParamsToObject(query: string): Context {
+        const urlQuery = new URLSearchParams(query);
+        const obj = {};
+        for (const pair of urlQuery.entries()) {
+            obj[pair[0]] = pair[1];
+        }
+
+        return obj;
     }
 }
 

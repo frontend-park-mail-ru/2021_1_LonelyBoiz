@@ -6,6 +6,7 @@ import {
     IResponseData
 } from '../utils/helpers';
 import Context from '../utils/Context';
+import backendLocation from '../consts/config';
 
 export interface IUserModel {
     id?: number;
@@ -14,7 +15,7 @@ export interface IUserModel {
     birthday?: string;
     description?: string;
     city?: string;
-    avatar?: string;
+    photos?: string[];
     instagram?: string;
     sex?: string;
     datePreference?: string;
@@ -44,7 +45,7 @@ class UserModel {
             birthday: builder.birthday,
             description: builder.description,
             city: builder.city,
-            avatar: builder.avatar,
+            photos: builder.photos,
             instagram: builder.instagram,
             sex: builder.sex,
             datePreference: builder.datePreference,
@@ -77,6 +78,13 @@ class UserModel {
         switch (key) {
         case 'birthday':
             return value * 1000;
+        case 'photos':
+            console.log('received photos: ', value);
+            if (value) {
+                value = value.map((v: number) => backendLocation + '/images/' + String(v));
+            }
+            console.log('edited photos: ', value);
+            return value;
         default:
             return value;
         }
@@ -185,11 +193,8 @@ class UserModel {
 
         let modifiedData: Context = {};
         for (const [key, value] of Object.entries(data)) {
-            if (key !== 'id' && key in currData) {
-                modifiedData[key] = addIfNotEq(
-                    this.setMiddleware(key, value),
-                    currData[key]
-                );
+            if (key !== 'id' && key !== 'photos' && key in currData) {
+                modifiedData[key] = addIfNotEq(this.setMiddleware(key, value), currData[key]);
             }
         }
 
@@ -297,6 +302,25 @@ class UserModel {
                 };
             }
         );
+    }
+
+    /**
+     * Добавляет фотографию к профилю
+     *
+     * @param {String} photo - фотография
+     * @return {Promise}
+     */
+    uploadPhoto(photo: string) {
+        return HttpRequests.post('/images', photo)
+            .then(parseJson)
+            .then(response => {
+                console.log('Model in uploading photo: ', this.data);
+                if (response.ok) {
+                    this.data.photos.push(backendLocation + '/images/' + response.json);
+                }
+
+                return response;
+            });
     }
 
     /**
