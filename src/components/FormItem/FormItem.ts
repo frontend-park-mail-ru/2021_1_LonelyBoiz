@@ -1,6 +1,6 @@
 import Component from '../Component';
 import template from './FormItem.hbs';
-import './FormItem.css';
+import './FormItem.scss';
 
 export interface IFormItem {
     id?: string;

@@ -1,6 +1,6 @@
 import Component from '../Component';
 import template from './PopoutWrapper.hbs';
-import './PopoutWrapper.css';
+import './PopoutWrapper.scss';
 
 interface IPopoutWrapper {
     children?: string;

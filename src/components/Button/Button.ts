@@ -1,6 +1,6 @@
 import Component from '../Component';
 import template from './Button.hbs';
-import './Button.css';
+import './Button.scss';
 
 interface IButton {
     type?: 'button' | 'submit';

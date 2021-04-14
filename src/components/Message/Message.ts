@@ -3,7 +3,7 @@ import { IconsSrc } from '../../consts/icons';
 import EmojisList from '../../consts/emojis';
 import IconClass from '../Icon/Icon';
 import template from './Message.hbs';
-import './Message.css';
+import './Message.scss';
 
 export interface IMessageItem {
     text?: string;

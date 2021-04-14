@@ -9,7 +9,7 @@ import BaseView from '../BaseView';
 import Views from '../../consts/views';
 import template from './SignupView.hbs';
 import Context from '../../utils/Context';
-import './SignupView.css';
+import './SignupView.scss';
 
 /**
  * @class

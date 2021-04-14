@@ -2,7 +2,7 @@ import Component from '../Component';
 import WriteBar from '../WriteBar/WriteBar';
 import Message from '../Message/Message';
 import template from './MessageBox.hbs';
-import './MessageBox.css';
+import './MessageBox.scss';
 
 interface IMessageBox {
     messages?: [{ text?: string; usersMessage?: boolean }];

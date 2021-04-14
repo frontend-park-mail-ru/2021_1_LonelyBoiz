@@ -1,6 +1,6 @@
 import Component from '../Component';
 import template from './PhotoBlock.hbs';
-import './PhotoBlock.css';
+import './PhotoBlock.scss';
 import { IconsSrc } from '../../consts/icons';
 
 interface IPhotoBlock {

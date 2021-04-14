@@ -5,8 +5,8 @@ import HeadersItems from '../../consts/headersItems';
 import Routes from '../../consts/routes';
 import { Icons } from '../../consts/icons';
 import template from './Header.hbs';
-import './Header.css';
-import img from '@img/img.png';
+import './Header.scss';
+import img from '@img/img.jpg';
 
 interface IHeader {
     activeIcon: string;

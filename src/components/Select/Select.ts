@@ -1,6 +1,6 @@
 import Component from '../Component';
 import template from './Select.hbs';
-import './Select.css';
+import './Select.scss';
 
 interface ISelect {
     title?: string;

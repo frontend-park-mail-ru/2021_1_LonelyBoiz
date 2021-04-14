@@ -1,5 +1,5 @@
 import userModel from '../models/UserModel';
-import img from '@img/img.png';
+import img from '@img/img.jpg';
 
 export function updateAvatar(): void {
     const data = userModel.getData();

@@ -1,6 +1,6 @@
 import Component from '../Component';
 import template from './Emojis.hbs';
-import './Emojis.css';
+import './Emojis.scss';
 
 interface IEmojis {
     emojis: string[][];

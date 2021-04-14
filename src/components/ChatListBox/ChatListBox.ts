@@ -2,7 +2,7 @@ import Component from '../Component';
 import Input from '../Input/Input';
 import ChatItem from '../ChatItem/ChatItem';
 import template from './ChatListBox.hbs';
-import './ChatListBox.css';
+import './ChatListBox.scss';
 
 interface IChatListBox {
     chats: [

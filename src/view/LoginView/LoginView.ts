@@ -7,7 +7,7 @@ import BaseView from '../BaseView';
 import Views from '../../consts/views';
 import template from './LoginView.hbs';
 import Context from '../../utils/Context';
-import './LoginView.css';
+import './LoginView.scss';
 
 /**
  * @class

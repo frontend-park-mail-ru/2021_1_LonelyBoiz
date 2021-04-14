@@ -1,7 +1,7 @@
 import Component from '../Component';
 import Spinner from '../Spinner/Spinner';
 import template from './ScreenSpinner.hbs';
-import './ScreenSpinner.css';
+import './ScreenSpinner.scss';
 
 /**
  * @class

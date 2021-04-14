@@ -2,7 +2,7 @@ import Component from '../Component';
 import { IconsSrc } from '../../consts/icons';
 import SpinnerSize from '../../consts/spinnerSize';
 import template from './Spinner.hbs';
-import './Spinner.css';
+import './Spinner.scss';
 
 interface ISpinner {
     size?: 'small' | 'regular' | 'large' | 'medium';

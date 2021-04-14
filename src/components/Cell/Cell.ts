@@ -1,6 +1,6 @@
 import Component from '../Component';
 import template from './Cell.hbs';
-import './Cell.css';
+import './Cell.scss';
 
 interface ICell {
     avatar?: string;

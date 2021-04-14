@@ -46,7 +46,7 @@ module.exports = {
         clean: true
     },
     resolve: {
-        extensions: ['.js', '.ts', '.css', '.hbs'],
+        extensions: ['.js', '.ts'],
         alias: {
             '@components': path.resolve(__dirname, 'src/components'),
             '@consts': path.resolve(__dirname, 'src/consts'),
@@ -88,6 +88,10 @@ module.exports = {
                 use: [MiniCssExtractPlugin.loader, 'css-loader']
             },
             {
+                test: /\.s[ac]ss$/,
+                use: ['style-loader', 'css-loader', 'sass-loader']
+            },
+            {
                 test: /\.hbs$/,
                 loader: 'handlebars-loader'
             },
@@ -99,7 +103,6 @@ module.exports = {
                 test: /\.(ttf|woff|woff2|eot)$/,
                 loader: 'file-loader'
             },
-
             {
                 test: /\.svg/,
                 loader: 'raw-loader',

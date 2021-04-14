@@ -7,7 +7,7 @@ import BaseView from '../BaseView';
 import Views from '../../consts/views';
 import template from './PreSettingsView.hbs';
 import Context from '../../utils/Context';
-import './PreSettingsView.css';
+import './PreSettingsView.scss';
 
 /**
  * @class
