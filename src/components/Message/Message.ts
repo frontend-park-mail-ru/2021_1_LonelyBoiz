@@ -33,7 +33,7 @@ class Message extends Component {
      * @returns {string} Построенный компонент
      */
     render(): string {
-        if (this.context.reaction) {
+        if (this.context.reaction >= 0) {
             this.context.emojiIcon = new IconClass({
                 iconCode: EmojisList[this.context.reaction],
                 size: 28,

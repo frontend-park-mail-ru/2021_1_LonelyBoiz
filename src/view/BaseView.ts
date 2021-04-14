@@ -9,6 +9,8 @@ import Listener from '../utils/Listener';
 import Views from '../consts/views';
 import Context from '../utils/Context';
 import Switch from '../components/Switch/Switch';
+import img from '@img/img.png';
+import { updateAvatar } from '../utils/updateAvatar';
 
 export type Template = (context: Context) => string;
 
@@ -112,7 +114,7 @@ class BaseView extends Listener {
                         icon: {
                             iconClasses: 'avatar u-avatar-header',
                             size: 28,
-                            src: window.localStorage.getItem('u-avatar')
+                            src: img
                         }
                     },
                     {
@@ -170,6 +172,7 @@ class BaseView extends Listener {
                 window.localStorage.setItem('scheme', scheme);
             }
         });
+        eventBus.connect(Events.updateAvatar, updateAvatar);
     }
 
     /**

@@ -15,8 +15,10 @@ import { IconsSrc } from '../consts/icons';
 import IconClass from '../components/Icon/Icon';
 import userModel from '../models/UserModel';
 import feedModel from '../models/FeedModel';
+import chatModel from '../models/ChatModel';
 import BaseView from '../view/BaseView';
 import Context from '../utils/Context';
+import webSocketListener from '../utils/WebSocketListener';
 
 /**
  * @class
@@ -106,6 +108,8 @@ class SettingsController extends BaseController {
     onLogOut(): void {
         userModel.logout().then(() => {
             feedModel.resetFeed();
+            chatModel.resetChats();
+            webSocketListener.stop();
             eventBus.emit(Events.updateAvatar);
             eventBus.emit(Events.routeChange, Routes.loginRoute);
         });
@@ -123,6 +127,7 @@ class SettingsController extends BaseController {
                     eventBus.emit(Events.routeChange, Routes.loginRoute);
                     return;
                 }
+                webSocketListener.listen();
                 eventBus.emit(Events.updateAvatar);
                 this.view.show();
                 validateForm.call(this, this.settingsList);

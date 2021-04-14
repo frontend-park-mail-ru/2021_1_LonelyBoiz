@@ -5,6 +5,7 @@ import Events from '../consts/events';
 import CardClass from '../utils/Card';
 import Routes from '../consts/routes';
 import userModel, { IUserModel } from '../models/UserModel';
+import webSocketListener from '../utils/WebSocketListener';
 import feedModel from '../models/FeedModel';
 import { handleReactionPromise, getFeed } from '../utils/helpers';
 import Context from '../utils/Context';
@@ -44,6 +45,7 @@ class HomeController extends BaseController {
                     eventBus.emit(Events.routeChange, Routes.loginRoute);
                     return;
                 }
+                webSocketListener.listen();
                 eventBus.emit(Events.updateAvatar);
 
                 const json = response.json;
@@ -100,6 +102,7 @@ class HomeController extends BaseController {
     }
 
     onLike(): void {
+        this.card.swipe(true);
         this.card.setPlaceHolder(true);
         feedModel.reactCurrent('like')
             .then(handleReactionPromise.bind(this))
@@ -109,6 +112,7 @@ class HomeController extends BaseController {
     }
 
     onDislike(): void {
+        this.card.swipe(false);
         this.card.setPlaceHolder(true);
         feedModel.reactCurrent('skip')
             .then(handleReactionPromise.bind(this))

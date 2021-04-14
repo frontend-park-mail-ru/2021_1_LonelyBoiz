@@ -1,14 +1,12 @@
 import HttpRequests from '../utils/requests';
-import { parseJson, getAllUsers } from '../utils/helpers';
+import { parseJson, getAllUsers, IResponseData } from '../utils/helpers';
+import Context from '../utils/Context';
 
 class FeedModel {
-    static instance = null;
-
-    constructor() {
-        this.feed = undefined;
-        this.curr = undefined;
-        this.len = 0;
-    }
+    static instance: FeedModel = null;
+    feed: IResponseData = undefined;
+    curr: number = undefined;
+    len = 0
 
     static getInstance() {
         if (!FeedModel.instance) {
@@ -34,7 +32,7 @@ class FeedModel {
         return this.feed.json[current];
     }
 
-    reactCurrent(reaction) {
+    reactCurrent(reaction: Context): Promise<IResponseData> {
         if (this.feed === undefined || this.curr >= this.len) {
             return Promise.reject(new Error('Feed is empty'));
         }
@@ -52,7 +50,7 @@ class FeedModel {
             });
     }
 
-    get(count = 20) {
+    get(count = 20): Promise<IResponseData> {
         if (this.feed !== undefined && this.curr < this.len) {
             return Promise.resolve(this.feed);
         }

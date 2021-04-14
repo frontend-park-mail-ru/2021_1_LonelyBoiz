@@ -12,8 +12,12 @@ import eventBus from '../utils/eventBus';
 import Events from '../consts/events';
 import Routes from '../consts/routes';
 import userModel from '../models/UserModel';
+import chatModel from '../models/ChatModel';
 import img from '@img/img.png';
 import Context from '../utils/Context';
+import webSocketListener, { IMessageSocketData, IChatSocketData } from '../utils/WebSocketListener';
+import backendLocation from '../consts/config';
+import { timeToStringByTime } from '../utils/helpers';
 
 interface IElements {
     chatsList?: HTMLElement;
@@ -73,6 +77,8 @@ class MessageController extends BaseController {
      */
     constructor() {
         super({ view: new MessageView() });
+        eventBus.connect(Events.newMessage, this.addNewMessageHandler.bind(this));
+        eventBus.connect(Events.newChat, this.addNewChatHandler.bind(this));
     }
 
     start(queryParams: Context): void {
@@ -83,6 +89,7 @@ class MessageController extends BaseController {
                 if (!response.ok) {
                     eventBus.emit(Events.routeChange, Routes.loginRoute);
                 }
+                webSocketListener.listen();
                 eventBus.emit(Events.updateAvatar);
                 this.view.show();
                 this.setElements();
@@ -108,23 +115,26 @@ class MessageController extends BaseController {
                     }
                 });
 
-                this.registerListener({
-                    element: this.elements.chatsList,
-                    type: 'scroll',
-                    listener: (e) => {
-                        const element = <HTMLElement>e.currentTarget;
-                        if (
-                            element.scrollHeight -
-                                element.scrollTop -
-                                element.clientHeight <=
-                            150
-                        ) {
-                            this.onScrollTopChats();
+                chatModel.getChats(userModel.getData().id)
+                    .then((chatResponse) => {
+                        if (chatResponse.ok) {
+                            const chats = chatResponse.json.map((v) => {
+                                return {
+                                    user: {
+                                        name: v.partnerName,
+                                        avatar: v.photo
+                                    },
+                                    lastMessage: {
+                                        text: v.lastMessage,
+                                        time: v.lastMessageTime
+                                    },
+                                    chatId: v.chatId
+                                };
+                            });
+                            this.addChats(chats);
                         }
-                    }
-                });
-
-                this.onScrollTopChats();
+                    })
+                    .catch((chatReason) => console.error('Chat error - ', chatReason));
             })
             .catch((reason) => {
                 eventBus.emit(Events.routeChange, Routes.loginRoute);
@@ -134,6 +144,7 @@ class MessageController extends BaseController {
 
     finish(): void {
         this.emojeisListener.deleteListeners();
+        this.activeChat = null;
     }
 
     setElements(): void {
@@ -178,26 +189,9 @@ class MessageController extends BaseController {
 
             setTimeout(() => {
                 insertionElem.remove();
-                this.addMessages(this.messageDemoContent);
+                this.addMessages(this.messageDemoContent, true);
                 this.endChat = true;
                 this.loaderChat = false;
-            }, 150);
-        }
-    }
-
-    onScrollTopChats(): void {
-        if (!this.loaderChats && !this.endChats) {
-            this.elements.noChatsList.hidden = true;
-            this.loaderChats = true;
-            const insertionElem = this.elements.chatsList.appendChild(
-                this.getLoaderSpinner()
-            );
-
-            setTimeout(() => {
-                insertionElem.remove();
-                this.addChats(this.chatDemoContent);
-                this.endChats = true;
-                this.loaderChats = false;
             }, 150);
         }
     }
@@ -205,8 +199,9 @@ class MessageController extends BaseController {
     /**
      *
      * @param {{user:{name, avatar}, lastMessage:{text, time: String}, counter, chatId}[]} chats
+     * @param {boolean} newChat
      */
-    addChats(chats: IChatItem[]): void {
+    addChats(chats: IChatItem[], newChat?: boolean): void {
         chats.forEach((item) => {
             const tmpDiv = document.createElement('div');
             tmpDiv.innerHTML = new ChatItem(item).render();
@@ -216,7 +211,15 @@ class MessageController extends BaseController {
                 tmp.dataset.chatId = item.chatId;
             }
 
-            const insertionElem = this.elements.chatsList.appendChild(tmp);
+            let insertionElem: HTMLElement;
+            if (newChat) {
+                insertionElem = this.elements.chatsList.appendChild(tmp);
+            } else {
+                insertionElem = this.elements.chatsList.insertBefore(
+                    tmp,
+                    this.elements.chatsList.firstChild
+                );
+            }
             this.chats.push({ ...item, elem: insertionElem });
 
             this.registerListener({
@@ -234,8 +237,6 @@ class MessageController extends BaseController {
             this.elements.noChatsList.hidden = false;
         }
     }
-
-    // updateChat(): void {}
 
     openChat(chatId: number): void {
         this.clearMessages();
@@ -261,7 +262,25 @@ class MessageController extends BaseController {
         this.elements.headerTitle.innerHTML = currentChat.user.name;
 
         this.hiddenChat(false);
-        this.onScrollTopChat();
+
+        chatModel.getMessages(this.activeChat.chatId)
+            .then((msgResponse) => {
+                if (msgResponse.status === 401) {
+                    eventBus.emit(Events.routeChange, Routes.loginRoute);
+                    return;
+                }
+                if (msgResponse.ok) {
+                    const messages = msgResponse.json.map((v) => {
+                        return {
+                            reaction: v.reactionId,
+                            text: v.text,
+                            messageId: v.messageId,
+                            usersMessage: v.authorId === userModel.getData().id
+                        };
+                    });
+                    this.addMessages(messages, true);
+                }
+            });
     }
 
     clearMessages(): void {
@@ -284,11 +303,28 @@ class MessageController extends BaseController {
 
         this.setSendingMessage(true);
 
-        setTimeout(() => {
-            this.setSendingMessage(false);
-            this.elements.writeBarInput.value = '';
-            this.addMessages([{ text: value, usersMessage: true }], true);
-        }, 150);
+        chatModel.sendMessage(userModel.getData().id, this.activeChat.chatId, value)
+            .finally(() => this.setSendingMessage(false))
+            .then((messageResponse) => {
+                if (messageResponse.status === 401) {
+                    eventBus.emit(Events.routeChange, Routes.loginRoute);
+                    return;
+                }
+                if (messageResponse.ok) {
+                    this.elements.writeBarInput.value = '';
+                    this.addMessages([{ text: value, usersMessage: true }], true);
+                }
+                if (!messageResponse.ok) {
+                    eventBus.emit(Events.pushNotifications, {
+                        before: new IconClass({
+                            iconCode: IconsSrc.error_circle,
+                            iconClasses: 'error-icon'
+                        }).render(),
+                        children: messageResponse.json.error
+                    });
+                }
+            })
+            .catch((messageReason) => console.error('Message error - ', messageReason));
     }
 
     /**
@@ -316,9 +352,22 @@ class MessageController extends BaseController {
      * @param {IMessage} messageElem
      * @param {string} emojiId
      */
-    setEmojis(message: IMessage, emojiId: keyof typeof EmojisList): void {
-        const messageElem = message.elem;
-        messageElem.children[0].children[0].innerHTML = EmojisList[emojiId];
+    setEmojis(
+        message: IMessage,
+        emojiId: keyof typeof EmojisList
+    ): void {
+        chatModel.editMessage(this.activeChat.chatId, message.messageId, { reactionId: emojiId })
+            .then((reactionResponse) => {
+                if (reactionResponse.status === 401) {
+                    eventBus.emit(Events.routeChange, Routes.loginRoute);
+                    return;
+                }
+                if (reactionResponse.ok) {
+                    const messageElem = message.elem;
+                    messageElem.children[0].children[0].innerHTML = EmojisList[emojiId];
+                }
+            })
+            .catch((reactionReason) => console.error('Reactione error - ', reactionReason));
     }
 
     /**
@@ -328,7 +377,6 @@ class MessageController extends BaseController {
      */
     addMessages(messages: IMessageItem[], newMessages?: boolean): void {
         const prevScrollHeight = this.elements.messageList.scrollHeight;
-
         messages.forEach((item) => {
             const tmpDiv = document.createElement('div');
             tmpDiv.innerHTML = new Message(item).render();
@@ -336,9 +384,8 @@ class MessageController extends BaseController {
             if (item.messageId) {
                 tmp.dataset.messageId = item.messageId;
             }
-
             let insertionElem: HTMLElement;
-            if (newMessages) {
+            if (newMessages || this.elements.messageList.firstChild === null) {
                 insertionElem = this.elements.messageList.appendChild(tmp);
             } else {
                 insertionElem = this.elements.messageList.insertBefore(
@@ -350,23 +397,23 @@ class MessageController extends BaseController {
                 ...item,
                 elem: insertionElem
             });
-            this.emojeisListener.registerListener({
-                element: <HTMLElement>insertionElem.children[0],
-                type: 'click',
-                listener: () => {
-                    new EmojisPopup((key: keyof typeof EmojisList) => {
-                        this.setEmojis(this.messages[newMessaage - 1], key);
-                    });
-                }
-            });
+            if (!item.usersMessage) {
+                this.emojeisListener.registerListener({
+                    element: <HTMLElement>insertionElem.children[0],
+                    type: 'click',
+                    listener: () => {
+                        new EmojisPopup((key: keyof typeof EmojisList) => {
+                            this.setEmojis(this.messages[newMessaage - 1], key);
+                        });
+                    }
+                });
+            }
         });
-
         const newScrollHeight = this.elements.messageList.scrollHeight;
         this.elements.messageList.scrollTo({
             top: newScrollHeight - prevScrollHeight,
             behavior: 'auto'
         });
-
         if (this.messages.length > 0) {
             this.elements.noMessageList.hidden = true;
         } else {
@@ -374,7 +421,38 @@ class MessageController extends BaseController {
         }
     }
 
-    // updateMessages(): void {}
+    addNewMessageHandler(msg: IMessageSocketData): void {
+        if (this.activeChat.chatId === msg.chatId) {
+            this.addMessages([{
+                text: msg.text,
+                messageId: msg.messageId
+            }], true);
+        } else {
+            eventBus.emit(Events.pushNotifications, {
+                children: 'У вас новое сообщение'
+            });
+        }
+    }
+
+    addNewChatHandler(chat: IChatSocketData): void {
+        if (this.elements.chatsList) {
+            this.addChats([{
+                user: {
+                    name: chat.partnerName,
+                    avatar: backendLocation + '/images/' + String(chat.photos[0])
+                },
+                lastMessage: {
+                    text: chat.lastMessage,
+                    time: timeToStringByTime(new Date(chat.lastMessageTime * 1000))
+                },
+                chatId: chat.chatId
+            }]);
+        } else {
+            eventBus.emit(Events.pushNotifications, {
+                children: 'У вас новый матч!'
+            });
+        }
+    }
 
     /**
      * Прятает/показывает

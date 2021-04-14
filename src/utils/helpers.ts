@@ -5,6 +5,7 @@ import Events from '../consts/events';
 import Routes from '../consts/routes';
 import feedModel from '../models/FeedModel';
 import Context from './Context';
+import { IUserModel } from '../models/UserModel';
 
 export interface IResponseData {
     status: number;
@@ -117,4 +118,50 @@ export function handleReactionPromise(response: Response): Context {
         this.card.setPlaceHolder(false);
         this.redrawCard();
     }
+}
+
+export function timeToStringByTime(date: Date): string {
+    if (typeof date === 'string') date = new Date(date);
+    const timeDiff = (new Date() - date) / 1000;
+
+    if (new Date().getDate() === date.getDate() && timeDiff < 60 * 60 * 24) {
+        return date.toLocaleString('ru', { hour: '2-digit', minute: '2-digit' });
+    } else if (
+        new Date().getDate() === date.getDate() + 1 &&
+        timeDiff < 60 * 60 * 24 * 2
+    ) {
+        return 'вчера';
+    } else {
+        const day =
+            date.getDate() +
+            ' ' +
+            date.toLocaleString('ru', { month: 'long' }).slice(0, 3);
+        if (new Date().getFullYear() !== date.getFullYear()) {
+            return day + ' ' + date.getFullYear();
+        }
+        return day;
+    }
+}
+
+export function isActive(data: IUserModel): boolean {
+    const requiredFields = [
+        'mail',
+        'name',
+        'birthday',
+        'photos',
+        'sex',
+        'datePreferences'
+    ];
+
+    let activated = true;
+    requiredFields.forEach((field) => {
+        if (field !== 'photos' && data[field] === '') {
+            activated = false;
+        }
+        if (field === 'photos' && data[field].length === 0) {
+            activated = false;
+        }
+    });
+
+    return activated;
 }
