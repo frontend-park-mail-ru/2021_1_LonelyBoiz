@@ -1,6 +1,6 @@
 import Component from '../Component';
 import template from './Snackbar.hbs';
-import './Button.scss';
+import './Snackbar.scss';
 
 interface ISnackbar {
     desktop?: boolean;

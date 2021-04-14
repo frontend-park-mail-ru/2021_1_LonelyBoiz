@@ -100,17 +100,6 @@ class Router {
         }
 
         if (
-            userModel.isAuthorized() === true &&
-            userModel.isActivated() === false &&
-            this.parsePath(this.currPath).route !== Routes.preSettingsRoute
-        ) {
-            this.currPath = Routes.preSettingsRoute;
-            this.controller = this.routes.get(
-                this.parsePath(this.currPath).route
-            );
-        }
-
-        if (
             userModel.isAuthorized() === false &&
             this.parsePath(this.currPath).route !== Routes.loginRoute &&
             this.parsePath(this.currPath).route !== Routes.signupRoute

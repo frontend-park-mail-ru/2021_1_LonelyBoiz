@@ -17,7 +17,10 @@ export function addIfNotEq(field: Context, condition: Context): Context {
     return field !== condition ? field : undefined;
 }
 
-export function filterObject(obj: Context, condition: (value: Context) => boolean): Context {
+export function filterObject(
+    obj: Context,
+    condition: (value: Context) => boolean
+): Context {
     const result = {};
 
     for (const [key, value] of Object.entries(obj)) {
@@ -55,31 +58,34 @@ export function getAllUsers(response: Response): Promise<IResponseData> {
     }
     const userPromises: Promise<IResponseData>[] = [];
     response.json.forEach((uid: number) => {
-        userPromises.push(HttpRequests.get('/users/' + uid)
-            .then(parseJson)
-            .then(userResponse => {
-                userResponse.json.photos = userResponse.json.photos.map((v: number) => backendLocation + '/images/' + String(v));
-                return {
-                    status: userResponse.status,
-                    ok: userResponse.ok,
-                    json: userResponse.json
-                };
-            })
+        userPromises.push(
+            HttpRequests.get('/users/' + uid)
+                .then(parseJson)
+                .then((userResponse) => {
+                    userResponse.json.photos = userResponse.json.photos.map(
+                        (v: number) => backendLocation + '/images/' + String(v)
+                    );
+                    return {
+                        status: userResponse.status,
+                        ok: userResponse.ok,
+                        json: userResponse.json
+                    };
+                })
         );
     });
 
-    return Promise.all(userPromises)
-        .then(users => {
-            return {
-                status: response.status,
-                ok: response.ok,
-                json: users
-            };
-        });
+    return Promise.all(userPromises).then((users) => {
+        return {
+            status: response.status,
+            ok: response.ok,
+            json: users
+        };
+    });
 }
 
 export function getFeed(): void {
-    feedModel.get()
+    feedModel
+        .get()
         .then((feedResponse: Response) => {
             if (!feedResponse.ok) {
                 eventBus.emit(Events.routeChange, Routes.loginRoute);
@@ -90,7 +96,13 @@ export function getFeed(): void {
 
             this.userData = feedModel.getCurrent().json;
             if (!this.userData) {
-                this.showEmptyFeed();
+                this.destroyCard();
+                this.deleteCard();
+                eventBus.emit(Events.pushNotifications, {
+                    children:
+                        'На этом лента закончилась, но скоро появятся новые пользователи. А пока можете проверить свои вообщения.',
+                    duration: 10000
+                });
                 return;
             }
 
@@ -106,7 +118,9 @@ export function handleReactionPromise(response: Response): Context {
         eventBus.emit(Events.routeChange, Routes.loginRoute);
     }
     if (response.status === 403) {
-        return Promise.reject(new Error('Current user is not part of your feed'));
+        return Promise.reject(
+            new Error('Current user is not part of your feed')
+        );
     }
     if (response.ok) {
         this.userData = feedModel.getCurrent().json;
@@ -125,7 +139,10 @@ export function timeToStringByTime(date: Date): string {
     const timeDiff = (new Date() - date) / 1000;
 
     if (new Date().getDate() === date.getDate() && timeDiff < 60 * 60 * 24) {
-        return date.toLocaleString('ru', { hour: '2-digit', minute: '2-digit' });
+        return date.toLocaleString('ru', {
+            hour: '2-digit',
+            minute: '2-digit'
+        });
     } else if (
         new Date().getDate() === date.getDate() + 1 &&
         timeDiff < 60 * 60 * 24 * 2
@@ -155,10 +172,7 @@ export function isActive(data: IUserModel): boolean {
 
     let activated = true;
     requiredFields.forEach((field) => {
-        if (field !== 'photos' && data[field] === '') {
-            activated = false;
-        }
-        if (field === 'photos' && data[field].length === 0) {
+        if (!data[field] || data[field].length === 0) {
             activated = false;
         }
     });
