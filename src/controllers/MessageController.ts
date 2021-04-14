@@ -13,7 +13,6 @@ import Events from '../consts/events';
 import Routes from '../consts/routes';
 import userModel from '../models/UserModel';
 import chatModel from '../models/ChatModel';
-import img from '@img/img.jpg';
 import Context from '../utils/Context';
 import webSocketListener, { IMessageSocketData, IChatSocketData } from '../utils/WebSocketListener';
 import backendLocation from '../consts/config';

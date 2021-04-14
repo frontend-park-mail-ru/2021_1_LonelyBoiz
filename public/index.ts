@@ -6,7 +6,10 @@ import LoginController from '../src/controllers/LoginController';
 import SignupController from '../src/controllers/SignupController';
 import Routes from '../src/consts/routes';
 import Router from '../src/utils/router';
+import Notifications from '../src/utils/Notifications'
 import './css/index.scss';
+
+const push = Notifications;
 
 const router = new Router();
 

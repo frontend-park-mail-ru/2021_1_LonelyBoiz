@@ -72,6 +72,10 @@ class HomeController extends BaseController {
         }
     }
 
+    deleteCard(): void {
+        document.getElementById(this.id).innerHTML = '';
+    }
+
     showEmptyFeed(): void {
         this.destroyCard();
         this.card = new CardClass({
@@ -104,7 +108,8 @@ class HomeController extends BaseController {
     onLike(): void {
         this.card.swipe(true);
         this.card.setPlaceHolder(true);
-        feedModel.reactCurrent('like')
+        feedModel
+            .reactCurrent('like')
             .then(handleReactionPromise.bind(this))
             .catch((likeReason) => {
                 console.error('Like error - ', likeReason);
@@ -114,7 +119,8 @@ class HomeController extends BaseController {
     onDislike(): void {
         this.card.swipe(false);
         this.card.setPlaceHolder(true);
-        feedModel.reactCurrent('skip')
+        feedModel
+            .reactCurrent('skip')
             .then(handleReactionPromise.bind(this))
             .catch((likeReason) => {
                 console.error('Like error - ', likeReason);
