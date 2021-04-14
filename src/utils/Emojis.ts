@@ -16,8 +16,8 @@ class EmojisPopup extends PopoutWrapperClass {
      * @callback callback
      */
     constructor(callback: Function) {
-        const icons = Object.entries(EmojisList).map((item, i) => {
-            return { iconCode: item[1], idDiv: String(i), key: item[0] };
+        const icons = EmojisList.map((item, i) => {
+            return { iconCode: item, idDiv: String(i), key: i };
         });
 
         const iconsElems = new Array(Math.ceil(icons.length / 3));
@@ -41,6 +41,7 @@ class EmojisPopup extends PopoutWrapperClass {
                 element: document.getElementById(String(item.idDiv)),
                 type: 'click',
                 listener: () => {
+                    console.log(item.key);
                     callback(item.key);
                     this.destroy();
                 }

@@ -3,7 +3,7 @@ import {
     addIfNotEq,
     filterObject,
     parseJson,
-    IResponseData
+    IResponseData, isActive
 } from '../utils/helpers';
 import Context from '../utils/Context';
 import backendLocation from '../consts/config';
@@ -19,6 +19,7 @@ export interface IUserModel {
     instagram?: string;
     sex?: string;
     datePreference?: string;
+    isActive?: boolean;
     password?: string;
     passwordRepeat?: string;
     passwordOld?: string;
@@ -29,7 +30,6 @@ class UserModel {
     static instance: UserModel = null;
     data: IUserModel = {};
     authorized: boolean = null;
-    activated: boolean = null;
 
     /**
      * Создает экземпляр UserModel
@@ -50,6 +50,7 @@ class UserModel {
             instagram: builder.instagram,
             sex: builder.sex,
             datePreference: builder.datePreference,
+            isActive: builder.isActive,
             password: builder.password,
             passwordRepeat: builder.passwordRepeat,
             passwordOld: builder.passwordOld
@@ -212,6 +213,7 @@ class UserModel {
                             this.data[key] = this.receiveMiddleware(key, value);
                         }
                     }
+                    response.json.isActive = isActive(this.data);
                     response.json = this.getData();
                 }
 
@@ -340,6 +342,15 @@ class UserModel {
      */
     isAuthorized(): boolean {
         return this.authorized;
+    }
+
+    /**
+     * Сообщает, активирован ли пользователь
+     *
+     * @return {Promise}
+     */
+    isActive(): boolean {
+        return this.getData().isActive;
     }
 
     /**
