@@ -1,7 +1,7 @@
 .info-block {
     background-color: var(--white-bg-color);
     padding: 5px 12px 0 12px;
-    min-width: 300px;
+    width: 300px;
     display: flex;
     justify-content: space-between;
     flex-direction: column;

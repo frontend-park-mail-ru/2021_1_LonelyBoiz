@@ -1,7 +1,7 @@
 export const Icons = {
     arrow_left: 'icon/arrow_left.svg',
     arrow_return_left: 'icon/arrow_return_left.svg',
-    arrow_rigth: 'icon/arrow_rigth.svg',
+    arrow_right: 'icon/arrow_right.svg',
     cancel: 'icon/cancel.svg',
     geo_stroke: 'icon/geo_stroke.svg',
     home_fill: 'icon/home_fill.svg',

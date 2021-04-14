@@ -2,7 +2,7 @@ import Component from '../Component';
 import template from './Emojis.hbs';
 import './Emojis.css';
 
-interface IEmojies {
+interface IEmojis {
     emojis: string[][];
 }
 
@@ -16,9 +16,9 @@ class Emojis extends Component {
      *
      * @constructor
      * @this  {Emojis}
-     * @param {IEmojies} context
+     * @param {IEmojis} context
      */
-    constructor(context: IEmojies) {
+    constructor(context: IEmojis) {
         super(context, template);
     }
 }

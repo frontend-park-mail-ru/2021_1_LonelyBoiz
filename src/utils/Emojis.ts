@@ -5,7 +5,7 @@ import EmojisList from '../consts/emojis';
 
 /**
  * @class
- * EmojiesPopup
+ * EmojisPopup
  */
 class EmojisPopup extends PopoutWrapperClass {
     /**

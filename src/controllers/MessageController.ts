@@ -314,14 +314,11 @@ class MessageController extends BaseController {
     /**
      * Сохраняет икноку у сообщения
      * @param {IMessage} messageElem
-     * @param {string} emojieId
+     * @param {string} emojiId
      */
-    setEmojies(
-        message: IMessage,
-        emojieId: keyof typeof EmojisList
-    ): void {
+    setEmojis(message: IMessage, emojiId: keyof typeof EmojisList): void {
         const messageElem = message.elem;
-        messageElem.children[0].children[0].innerHTML = EmojisList[emojieId];
+        messageElem.children[0].children[0].innerHTML = EmojisList[emojiId];
     }
 
     /**
@@ -349,14 +346,16 @@ class MessageController extends BaseController {
                     this.elements.messageList.firstChild
                 );
             }
-            this.messages.push({ ...item, elem: insertionElem });
-
+            const newMessaage = this.messages.push({
+                ...item,
+                elem: insertionElem
+            });
             this.emojeisListener.registerListener({
                 element: <HTMLElement>insertionElem.children[0],
                 type: 'click',
                 listener: () => {
                     new EmojisPopup((key: keyof typeof EmojisList) => {
-                        this.setEmojies(item, key);
+                        this.setEmojis(this.messages[newMessaage - 1], key);
                     });
                 }
             });

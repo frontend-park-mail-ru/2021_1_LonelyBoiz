@@ -30,6 +30,8 @@ class CardClass extends Listener {
     funcDislike: Function;
     funcLike: Function;
     funcReturn: Function;
+    element: HTMLElement;
+    currentPhotoId = 0;
 
     /**
      * Создает экземпляр всплывающего окна
@@ -63,6 +65,7 @@ class CardClass extends Listener {
         this.funcDislike = funcDislike;
         this.funcLike = funcLike;
         this.funcReturn = funcReturn;
+        this.element = document.getElementById(this.id);
         this._draw();
     }
 
@@ -82,8 +85,8 @@ class CardClass extends Listener {
      */
     _draw(): void {
         const card = new Card({
-            disablePoints: this.photos.length <= 1,
-            disableLeftArrow: this.photos.length <= 1,
+            disablePoints: false,
+            disableLeftArrow: true,
             disableRightArrow: this.photos.length <= 1,
             user: {
                 ...this.user,
@@ -92,7 +95,7 @@ class CardClass extends Listener {
             photos: this.photos,
             horizontal: true
         }).render();
-        document.getElementById(this.id).innerHTML = card;
+        this.element.innerHTML = card;
 
         if (this.placeholder) {
             this.setPlaceHolder(true);
@@ -155,7 +158,87 @@ class CardClass extends Listener {
                     }
                 });
             }
+
+            this.registerListener({
+                element: <HTMLElement>(
+                    document.querySelector('.photo-block__arrow_left')
+                ),
+                type: 'click',
+                listener: () => {
+                    this.onArrowClick(true);
+                }
+            });
+
+            this.registerListener({
+                element: <HTMLElement>(
+                    document.querySelector('.photo-block__arrow_right')
+                ),
+                type: 'click',
+                listener: () => {
+                    this.onArrowClick(false);
+                }
+            });
         }
+    }
+
+    /**
+     *
+     * @param {boolean} leftArrow
+     */
+    onArrowClick(leftArrow?: boolean): void {
+        let arrowClass = 'photo-block__arrow_right';
+        if (leftArrow) {
+            arrowClass = 'photo-block__arrow_left';
+        }
+        this.element.querySelector(`.${arrowClass}`).classList.add('hidden');
+
+        if (leftArrow && this.currentPhotoId > 0) {
+            this.currentPhotoId -= 1;
+        } else if (!leftArrow && this.currentPhotoId + 1 < this.photos.length) {
+            this.currentPhotoId += 1;
+        }
+
+        if (this.currentPhotoId === 0) {
+            this.element
+                .querySelector('.photo-block__arrow_left')
+                .classList.add('hidden');
+        } else {
+            this.element
+                .querySelector('.photo-block__arrow_left')
+                .classList.remove('hidden');
+        }
+
+        if (this.currentPhotoId + 1 === this.photos.length) {
+            this.element
+                .querySelector('.photo-block__arrow_right')
+                .classList.add('hidden');
+        } else {
+            this.element
+                .querySelector('.photo-block__arrow_right')
+                .classList.remove('hidden');
+        }
+
+        const img = <HTMLImageElement>(
+            this.element.querySelector('.photo-block__img')
+        );
+        const imgBg = <HTMLImageElement>(
+            this.element.querySelector('.photo-block__bg')
+        );
+
+        img.src = this.photos[this.currentPhotoId];
+        imgBg.src = this.photos[this.currentPhotoId];
+
+        this.element.querySelectorAll('.photo-block__point').forEach((item) => {
+            item.classList.add('photo-block__point_disabled');
+            item.classList.remove('photo-block__point_active');
+        });
+
+        const currentPoint = this.element.querySelector(
+            `.photo-block__point[data-id="${this.currentPhotoId}"]`
+        );
+
+        currentPoint.classList.remove('photo-block__point_disabled');
+        currentPoint.classList.add('photo-block__point_active');
     }
 
     /**
@@ -164,11 +247,21 @@ class CardClass extends Listener {
      */
     setPlaceHolder(placeholder: boolean): void {
         if (placeholder) {
-            document.getElementById(this.id).classList.add('placeholder-item');
+            this.element.classList.add('placeholder-item');
         } else {
-            document
-                .getElementById(this.id)
-                .classList.remove('placeholder-item');
+            this.element.classList.remove('placeholder-item');
+        }
+    }
+
+    /**
+     *
+     * @param right Движение картинки
+     */
+    swipe(right?: boolean): void {
+        if (right) {
+            this.element.children[0].classList.add('card__swipe_right');
+        } else {
+            this.element.children[0].classList.add('card__swipe_left');
         }
     }
 }
