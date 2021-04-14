@@ -8,7 +8,8 @@ const Events = {
     dateValidationFailed: 'dateValidationFailed',
     routeChange: 'routeChange',
     pushNotifications: 'pushNotifications',
-    updateAvatar: 'updateAvatar'
+    updateAvatar: 'updateAvatar',
+    newMessage: 'newMessage'
 };
 
 export default Events;

@@ -33,13 +33,20 @@ class Message extends Component {
      * @returns {string} Построенный компонент
      */
     render(): string {
-        if (!this.context.usersMessage) {
-            this.context.emojiIcon = EmojisList[this.context.reaction] ?? new IconClass({
+        if (this.context.reaction) {
+            this.context.emojiIcon = new IconClass({
+                iconCode: EmojisList[this.context.reaction],
+                size: 28,
+                iconClasses: 'message__smile-icon gray-icon'
+            }).render();
+        } else if (!this.context.usersMessage) {
+            this.context.emojiIcon = new IconClass({
                 iconCode: IconsSrc.smile,
                 size: 28,
                 iconClasses: 'message__smile-icon gray-icon'
             }).render();
         }
+
         return this.template(this.context);
     }
 }

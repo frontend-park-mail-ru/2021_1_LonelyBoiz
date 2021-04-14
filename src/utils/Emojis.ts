@@ -41,7 +41,6 @@ class EmojisPopup extends PopoutWrapperClass {
                 element: document.getElementById(String(item.idDiv)),
                 type: 'click',
                 listener: () => {
-                    console.log(item.key);
                     callback(item.key);
                     this.destroy();
                 }
