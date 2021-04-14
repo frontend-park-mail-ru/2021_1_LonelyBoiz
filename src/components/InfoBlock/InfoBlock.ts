@@ -4,7 +4,7 @@ import Tabbar from '../Tabbar/Tabbar';
 import { Icons } from '../../consts/icons';
 import { HomeIconsSrc } from '../../consts/homeCommands';
 import template from './InfoBlock.hbs';
-import './InfoBlock.css';
+import './InfoBlock.scss';
 
 type ButtonsState = 'active' | 'disable';
 

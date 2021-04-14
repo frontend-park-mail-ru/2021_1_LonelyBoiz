@@ -4,7 +4,7 @@ import BaseView from '../BaseView';
 import Views from '../../consts/views';
 import template from './MessageView.hbs';
 import Context from '../../utils/Context';
-import './MessageView.css';
+import './MessageView.scss';
 
 /**
  * @class

@@ -1,6 +1,6 @@
 import Component from '../Component';
 import template from './InfoRow.hbs';
-import './InfoRow.css';
+import './InfoRow.scss';
 
 interface IInfoRow {
     iconSrc?: string;

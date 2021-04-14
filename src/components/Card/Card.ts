@@ -2,7 +2,7 @@ import Component from '../Component';
 import InfoBlock, { IButtons } from '../InfoBlock/InfoBlock';
 import PhotoBlock from '../PhotoBlock/PhotoBlock';
 import template from './Card.hbs';
-import './Card.css';
+import './Card.scss';
 import { IUserModel } from '../../models/UserModel';
 
 export interface IUser extends IUserModel {

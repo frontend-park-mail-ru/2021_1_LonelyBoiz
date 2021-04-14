@@ -9,7 +9,7 @@ import BaseView from '../BaseView';
 import Views from '../../consts/views';
 import template from './SettingsView.hbs';
 import Context from '../../utils/Context';
-import './SettingsView.css';
+import './SettingsView.scss';
 
 /**
  * @class

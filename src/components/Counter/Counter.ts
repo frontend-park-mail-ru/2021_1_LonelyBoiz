@@ -1,6 +1,6 @@
 import Component from '../Component';
 import template from './Counter.hbs';
-import './Counter.css';
+import './Counter.scss';
 
 interface ICounter {
     text?: string;

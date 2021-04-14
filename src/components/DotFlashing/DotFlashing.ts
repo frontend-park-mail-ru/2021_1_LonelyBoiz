@@ -1,6 +1,6 @@
 import Component from '../Component';
 import template from './DotFlashing.hbs';
-import './DotFlashing.css';
+import './DotFlashing.scss';
 
 interface IDotFlashing {
     avatar?: string;

@@ -2,7 +2,7 @@ import BaseView from '../BaseView';
 import Views from '../../consts/views';
 import template from './HomeView.hbs';
 import Context from '../../utils/Context';
-import './HomeView.css';
+import './HomeView.scss';
 
 /**
  * @class

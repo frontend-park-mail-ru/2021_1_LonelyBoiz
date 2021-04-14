@@ -1,4 +1,4 @@
-const assetUrls = ['index.html', '/', '/main.js', '/main.css', '/login'];
+const assetUrls = ['index.html', '/', '/main.js', '/login'];
 
 self.addEventListener('install', function (e) {
     e.waitUntil(

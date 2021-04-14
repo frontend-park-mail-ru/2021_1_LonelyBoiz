@@ -1,6 +1,6 @@
 import Component from '../Component';
 import template from './Switch.hbs';
-import './Switch.css';
+import './Switch.scss';
 
 /**
  * @class

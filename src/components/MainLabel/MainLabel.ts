@@ -1,6 +1,6 @@
 import Component from '../Component';
 import template from './MainLabel.hbs';
-import './MainLabel.css';
+import './MainLabel.scss';
 
 /**
  * @class

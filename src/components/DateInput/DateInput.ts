@@ -1,7 +1,7 @@
 import Component from '../Component';
 import Select from '../Select/Select';
 import template from './DateInput.hbs';
-import './DateInput.css';
+import './DateInput.scss';
 
 interface IDateInput {
     required?: boolean;

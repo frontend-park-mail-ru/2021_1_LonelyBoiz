@@ -1,7 +1,7 @@
 import Component from '../Component';
 import Counter from '../Counter/Counter';
 import Cell from '../Cell/Cell';
-import './ChatItem.css';
+import './ChatItem.scss';
 
 export interface IChatItem {
     user?: { name?: string; avatar?: string };

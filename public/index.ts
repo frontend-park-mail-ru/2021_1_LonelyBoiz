@@ -6,7 +6,7 @@ import LoginController from '../src/controllers/LoginController';
 import SignupController from '../src/controllers/SignupController';
 import Routes from '../src/consts/routes';
 import Router from '../src/utils/router';
-import './css/main.css';
+import './css/index.scss';
 
 const router = new Router();
 

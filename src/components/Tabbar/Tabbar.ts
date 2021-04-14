@@ -1,7 +1,7 @@
 import Component from '../Component';
 import IconClass, { IIconClass } from '../Icon/Icon';
 import template from './Tabbar.hbs';
-import './Tabbar.css';
+import './Tabbar.scss';
 
 export interface ITabbar {
     icons: {

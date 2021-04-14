@@ -3,7 +3,7 @@ import Input from '../Input/Input';
 import { IconsSrc } from '../../consts/icons';
 import IconClass from '../Icon/Icon';
 import template from './WriteBar.hbs';
-import './WriteBar.css';
+import './WriteBar.scss';
 
 /**
  * @class

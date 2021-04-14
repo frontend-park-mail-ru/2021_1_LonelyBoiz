@@ -1,6 +1,6 @@
 import Component from '../Component';
 import template from './Form.hbs';
-import './Form.css';
+import './Form.scss';
 
 interface IForm {
     inputs: string[];

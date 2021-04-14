@@ -9,7 +9,7 @@ import Listener from '../utils/Listener';
 import Views from '../consts/views';
 import Context from '../utils/Context';
 import Switch from '../components/Switch/Switch';
-import img from '@img/img.png';
+import img from '@img/img.jpg';
 import { updateAvatar } from '../utils/updateAvatar';
 
 export type Template = (context: Context) => string;

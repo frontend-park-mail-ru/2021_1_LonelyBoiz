@@ -1,6 +1,6 @@
 import Component from '../Component';
 import template from './Input.hbs';
-import './Input.css';
+import './Input.scss';
 
 interface IInput {
     id?: string;
