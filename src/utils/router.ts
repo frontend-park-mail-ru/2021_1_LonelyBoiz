@@ -3,7 +3,6 @@ import Events from '../consts/events';
 import eventBus from '../utils/eventBus';
 import userModel from '../models/UserModel';
 import BaseController from '../controllers/BaseController';
-import Context from './Context';
 
 interface IPath {
     route: string;
@@ -81,7 +80,6 @@ class Router {
         this.currPath = path;
 
         const splitedPath = this.parsePath(path);
-        const queryParams = this.queryParamsToObject(splitedPath.query);
         const route = splitedPath.route;
 
         let controller = this.routes.get(route);
@@ -102,6 +100,17 @@ class Router {
         }
 
         if (
+            userModel.isAuthorized() === true &&
+            userModel.isActivated() === false &&
+            this.parsePath(this.currPath).route !== Routes.preSettingsRoute
+        ) {
+            this.currPath = Routes.preSettingsRoute;
+            this.controller = this.routes.get(
+                this.parsePath(this.currPath).route
+            );
+        }
+
+        if (
             userModel.isAuthorized() === false &&
             this.parsePath(this.currPath).route !== Routes.loginRoute &&
             this.parsePath(this.currPath).route !== Routes.signupRoute
@@ -112,7 +121,7 @@ class Router {
             );
         }
 
-        this.controller.start(queryParams);
+        this.controller.start();
     }
 
     /**
@@ -139,16 +148,6 @@ class Router {
         }
 
         return { route: splitedPath[0], query: '' };
-    }
-
-    queryParamsToObject(query: string): Context {
-        const urlQuery = new URLSearchParams(query);
-        const obj = {};
-        for (const pair of urlQuery.entries()) {
-            obj[pair[0]] = pair[1];
-        }
-
-        return obj;
     }
 }
 

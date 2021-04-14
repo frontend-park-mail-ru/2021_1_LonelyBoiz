@@ -29,6 +29,7 @@ class UserModel {
     static instance: UserModel = null;
     data: IUserModel = {};
     authorized: boolean = null;
+    activated: boolean = null;
 
     /**
      * Создает экземпляр UserModel
@@ -321,6 +322,15 @@ class UserModel {
 
                 return response;
             });
+    }
+
+    /**
+     * Сообщает, авторизован ли пользователь
+     *
+     * @return {Promise}
+     */
+    isActivated(): boolean {
+        return this.activated;
     }
 
     /**
