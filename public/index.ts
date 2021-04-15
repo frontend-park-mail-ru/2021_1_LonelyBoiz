@@ -21,16 +21,3 @@ router.addRoute(Routes.preSettingsRoute, new PreSettingsController());
 router.addRoute(Routes.messageRoute, new MessageController());
 
 router.start();
-
-window.addEventListener('load', () => {
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker
-            .register('/sw.js')
-            .then((e) => {
-                console.log('Service worker register success', e);
-            })
-            .catch((e) => {
-                console.error('Service worker register faillure', e);
-            });
-    }
-});
