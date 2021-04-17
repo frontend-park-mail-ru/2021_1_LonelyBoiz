@@ -16,7 +16,7 @@ export function updateAvatar(): void {
 
     userModel.auth().then((response) => {
         const data = response.json;
-        if (data.photos.length === 0) {
+        if (!data.photos || data.photos.length === 0) {
             parentNode.innerHTML = '';
             return;
         }
