@@ -1,11 +1,7 @@
 export function draw(imgIn: string): HTMLImageElement {
     const img = new Image();
     img.src = imgIn;
-    img.onload = () => {
-        console.log('Image Onload');
-    };
-    img.onerror = function(stuff) {
-        console.log('Img Onerror:', stuff);
+    img.onerror = () => {
         return { r: 255, g: 255, b: 255 };
     };
     return img; // returns the context
@@ -30,10 +26,8 @@ export function getAverageRGB(imgEl: HTMLImageElement): IRGB {
         return defaultRGB;
     }
 
-    const height = (canvas.height =
-        imgEl.naturalHeight || imgEl.offsetHeight || imgEl.height);
-    const width = (canvas.width =
-        imgEl.naturalWidth || imgEl.offsetWidth || imgEl.width);
+    const height = (canvas.height = imgEl.naturalHeight || imgEl.offsetHeight || imgEl.height);
+    const width = (canvas.width = imgEl.naturalWidth || imgEl.offsetWidth || imgEl.width);
 
     context.drawImage(imgEl, 0, 0);
 

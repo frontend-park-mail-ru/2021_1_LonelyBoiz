@@ -37,3 +37,20 @@
 .message__smile-icon-box {
     height: 100%;
 }
+
+.message_other .message__smile-icon-box {
+    cursor: default;
+}
+
+.message__date {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    padding-bottom: 8px;
+}
+
+.message__emojis {
+    background: none !important;
+    border: none;
+    font-size: 32px;
+}

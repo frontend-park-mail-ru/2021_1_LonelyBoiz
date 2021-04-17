@@ -13,27 +13,35 @@ self.addEventListener('fetch', function (event) {
     const url = new URL(event.request.url);
 
     event.respondWith(
-        caches.match(event.request).then(function (response) {
-            return (
-                response ||
-                fetch(event.request).then((response) => {
-                    if (
-                        url.origin === location.origin ||
-                        url.pathname === '/auth'
-                    ) {
-                        return caches
-                            .open('pickle')
-                            .then((cache) => {
-                                return cache.put(request, response.clone());
-                            })
-                            .then(() => {
-                                return response;
-                            });
-                    } else {
-                        return response;
-                    }
-                })
-            );
-        })
+        fetch(event.request)
+            .then((response) => {
+                return response;
+            })
+            .then((response) => {
+                if (url.origin === location.origin || url.pathname === '/auth') {
+                    return caches
+                        .open('pickle')
+                        .then((cache) => {
+                            return cache.put(request, response.clone());
+                        })
+                        .then(() => {
+                            return response;
+                        });
+                } else {
+                    return response;
+                }
+            })
+            .catch(() => {
+                return caches.match(event.request);
+            })
+            .then((response) => {
+                if (!response) {
+                    return caches.match('/index.html');
+                }
+                return response;
+            })
+            .then((response) => {
+                return response;
+            })
     );
 });

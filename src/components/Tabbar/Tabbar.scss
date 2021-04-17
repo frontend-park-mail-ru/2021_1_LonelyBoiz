@@ -8,6 +8,11 @@
     color: black;
 }
 
+.tabbar__icon .tooltip {
+    display: flex;
+    justify-content: center;
+}
+
 .avatar {
     position: relative;
     object-fit: cover;

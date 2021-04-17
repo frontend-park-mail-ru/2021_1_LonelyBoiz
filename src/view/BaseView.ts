@@ -11,6 +11,7 @@ import Context from '../utils/Context';
 import Switch from '../components/Switch/Switch';
 import img from '@img/img.jpg';
 import { updateAvatar } from '../utils/updateAvatar';
+import { direction } from '../components/Tooltip/Tooltip';
 
 export type Template = (context: Context) => string;
 
@@ -25,6 +26,7 @@ interface IIconHeader {
     iconCode?: string;
     idDiv?: string;
     idHref?: string;
+    text?: string;
 }
 
 interface IIconHeaderList {
@@ -42,19 +44,22 @@ class BaseView extends Listener {
             route: Routes.homeRoute,
             iconCode: IconsSrc.home_stroke,
             idDiv: `home-icon__${Views.Home}`,
-            idHref: `home-icon__${Views.Home}__href`
+            idHref: `home-icon__${Views.Home}__href`,
+            text: 'Лента'
         },
         messages: {
             route: Routes.messageRoute,
             iconCode: IconsSrc.send_message_stroke,
             idDiv: `home-icon__${Views.Messages}`,
-            idHref: `home-icon__${Views.Messages}__href`
+            idHref: `home-icon__${Views.Messages}__href`,
+            text: 'Сообщения'
         },
         settings: {
             route: Routes.settingsRoute,
             iconCode: IconsSrc.settings,
             idDiv: `home-icon__${Views.Settings}`,
-            idHref: `home-icon__${Views.Settings}__href`
+            idHref: `home-icon__${Views.Settings}__href`,
+            text: 'Настройки'
         }
     };
 
@@ -106,7 +111,10 @@ class BaseView extends Listener {
                                 size: 28,
                                 iconCode: icon.iconCode,
                                 idDiv: icon.idDiv,
-                                iconClasses: 'js__header-icon'
+                                iconClasses: 'js__header-icon',
+                                text: icon.text,
+                                useTooltip: true,
+                                direction: <direction>'bottom'
                             }
                         };
                     }),
@@ -120,7 +128,11 @@ class BaseView extends Listener {
                     {
                         icon: {
                             idDiv: 'scheme-switcher',
-                            iconCode: new Switch().render()
+                            iconCode: new Switch().render(),
+                            text: 'Темная тема',
+                            useTooltip: true,
+                            direction: 'bottom',
+                            arrow: false
                         }
                     }
                 ]
@@ -189,16 +201,12 @@ class BaseView extends Listener {
             break;
         default: {
             headerElement.hidden = false;
-            Object.entries(
-                document.getElementsByClassName('js__header-icon')
-            ).forEach((item) => {
+            Object.entries(document.getElementsByClassName('js__header-icon')).forEach((item) => {
                 const [, element] = item;
                 element.classList.add('active-icon');
                 element.classList.remove('disable-icon');
             });
-            const element = document.getElementById(
-                `home-icon__${this.view}`
-            );
+            const element = document.getElementById(`home-icon__${this.view}`);
 
             element.classList.add('disable-icon');
             element.classList.remove('active-icon');

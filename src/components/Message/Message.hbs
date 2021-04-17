@@ -1,10 +1,15 @@
-<div class="message-content {{#if usersMessage}}message_user{{else}}message_other{{/if}}">
+<div class="message-content {{#if usersMessage}}message_user{{else}}message_other{{/if}} ">
     {{#if emojiIcon}}
-        <div class="message__smile-icon-box message__smile-icon pointer-icon">
+        <div class="message__smile-icon-box message__smile-icon">
             {{{emojiIcon}}}
         </div>
     {{/if}}
-    <div class="message__text">
+    <div class="message__text {{#if messageEmojis}}message__emojis{{/if}}">
         {{text}}
     </div>
+    {{#if date}}
+        <div class="message__date muted-text">
+            {{{date}}}
+        </div>
+    {{/if}}
 </div>

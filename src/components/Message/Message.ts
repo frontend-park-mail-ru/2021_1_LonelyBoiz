@@ -4,11 +4,13 @@ import EmojisList from '../../consts/emojis';
 import IconClass from '../Icon/Icon';
 import template from './Message.hbs';
 import './Message.scss';
+import { checkStringEmojis } from '../../utils/helpers';
 
 export interface IMessageItem {
     text?: string;
     usersMessage?: boolean;
     messageId?: number;
+    date?: Date;
     reaction?: keyof typeof EmojisList;
 }
 
@@ -46,6 +48,10 @@ class Message extends Component {
                 iconClasses: 'message__smile-icon gray-icon'
             }).render();
         }
+
+        this.context.date = undefined;
+
+        this.context.messageEmojis = checkStringEmojis(this.context.text);
 
         return this.template(this.context);
     }

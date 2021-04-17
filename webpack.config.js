@@ -38,7 +38,7 @@ const entryOptions = (useSW) => {
 };
 
 module.exports = {
-    entry: entryOptions(!live),
+    entry: entryOptions(isProd),
     output: {
         filename: filename('js'),
         path: path.resolve(__dirname, 'dist'),

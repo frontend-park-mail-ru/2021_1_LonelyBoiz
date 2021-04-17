@@ -3,15 +3,8 @@ import SignupView from '../view/SignupView/SignupView';
 import eventBus from '../utils/eventBus';
 import Routes from '../consts/routes';
 import Events from '../consts/events';
-import {
-    validateForm,
-    checkForm,
-    processingResultForms,
-    IFormList
-} from '../utils/form';
+import { validateForm, checkForm, processingResultForms, IFormList } from '../utils/form';
 import ScreenSpinnerClass from '../utils/ScreenSpinner';
-import { IconsSrc } from '../consts/icons';
-import IconClass from '../components/Icon/Icon';
 import userModel from '../models/UserModel';
 import Context from '../utils/Context';
 
@@ -58,13 +51,19 @@ class SignupController extends BaseController {
 
     /**
      * Запускает контроллер
+     * @param {Context} queryParams
      */
     start(queryParams: Context): void {
         this.queryParams = queryParams;
         this.view.show();
         validateForm.call(this, this.signupList);
         this.formSubmit();
+    }
 
+    /**
+     * Подписывается на заполнение формы
+     */
+    formSubmit(): void {
         this.registerListener({
             element: document.querySelector('.signup-block__link'),
             type: 'click',
@@ -73,12 +72,7 @@ class SignupController extends BaseController {
                 eventBus.emit(Events.routeChange, Routes.loginRoute);
             }
         });
-    }
 
-    /**
-     * Подписывается на заполнение формы
-     */
-    formSubmit(): void {
         this.registerListener({
             element: document.getElementById('signup__form'),
             type: 'submit',
@@ -96,13 +90,6 @@ class SignupController extends BaseController {
                 this.onSubmit();
             }
         });
-    }
-
-    /**
-     * Завершает контроллер
-     */
-    finish(): void {
-        this.deleteListeners();
     }
 
     /**
@@ -135,16 +122,13 @@ class SignupController extends BaseController {
                         formList: this.signupList
                     }).then(() => {
                         eventBus.emit(Events.updateAvatar);
-                        eventBus.emit(Events.routeChange, Routes.homeRoute);
+                        eventBus.emit(Events.routeChange, Routes.preSettingsRoute);
                     });
                 })
                 .catch((reason) => {
                     console.error('error:', reason);
                     eventBus.emit(Events.pushNotifications, {
-                        before: new IconClass({
-                            iconCode: IconsSrc.error_circle,
-                            iconClasses: 'error-icon'
-                        }).render(),
+                        status: 'error',
                         children: 'Что-то не то с интернетом('
                     });
                 });

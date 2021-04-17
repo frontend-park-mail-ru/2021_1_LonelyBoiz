@@ -1,10 +1,5 @@
 import HttpRequests from '../utils/requests';
-import {
-    addIfNotEq,
-    filterObject,
-    parseJson,
-    IResponseData, isActive
-} from '../utils/helpers';
+import { addIfNotEq, filterObject, parseJson, IResponseData, isActive } from '../utils/helpers';
 import Context from '../utils/Context';
 import backendLocation from '../consts/config';
 
@@ -81,11 +76,9 @@ class UserModel {
         case 'birthday':
             return value * 1000;
         case 'photos':
-            console.log('received photos: ', value);
             if (value) {
                 value = value.map((v: number) => backendLocation + '/images/' + String(v));
             }
-            console.log('edited photos: ', value);
             return value;
         default:
             return value;
@@ -111,8 +104,7 @@ class UserModel {
         if (this.data.birthday !== undefined) {
             data = {
                 age: Math.floor(
-                    (new Date().getTime() - new Date(data.birthday).getTime()) /
-                        (1000 * 3600 * 24 * 365)
+                    (new Date().getTime() - new Date(data.birthday).getTime()) / (1000 * 3600 * 24 * 365)
                 ),
                 ...data
             };
@@ -164,9 +156,7 @@ class UserModel {
      */
     get(): Promise<IResponseData> {
         if (this.data.id === undefined) {
-            return Promise.reject(
-                new Error(`Invalid id ${this.data.id}. It shouldn't be -1`)
-            );
+            return Promise.reject(new Error('Invalid id undefined. It shouldn\'t be -1'));
         }
 
         return HttpRequests.get(`/users/${this.data.id}`)
@@ -228,9 +218,7 @@ class UserModel {
      */
     login(): Promise<IResponseData> {
         if (this.data.mail === undefined || this.data.password === undefined) {
-            return Promise.reject(
-                new Error('Mail or password is not provided for login')
-            );
+            return Promise.reject(new Error('Mail or password is not provided for login'));
         }
 
         return HttpRequests.post('/login', {
@@ -260,9 +248,7 @@ class UserModel {
      */
     logout(): Promise<IResponseData> {
         if (this.data.id === undefined) {
-            return Promise.reject(
-                new Error(`Invalid id ${this.data.id}. It shouldn't be -1`)
-            );
+            return Promise.reject(new Error(`Invalid id ${this.data.id}. It shouldn't be -1`));
         }
 
         return HttpRequests.delete('/login', {}).then((response) => {
@@ -287,24 +273,20 @@ class UserModel {
      */
     delete(): Promise<IResponseData> {
         if (this.data.id === undefined) {
-            return Promise.reject(
-                new Error(`Invalid id ${this.data.id}. It shouldn't be -1`)
-            );
+            return Promise.reject(new Error(`Invalid id ${this.data.id}. It shouldn't be -1`));
         }
 
-        return HttpRequests.delete(`/users/${this.data.id}`, {}).then(
-            (response) => {
-                if (response.ok || response.status === 401) {
-                    this.authorized = false;
-                    this.clearData();
-                }
-                return {
-                    json: {},
-                    status: response.status,
-                    ok: response.ok
-                };
+        return HttpRequests.delete(`/users/${this.data.id}`, {}).then((response) => {
+            if (response.ok || response.status === 401) {
+                this.authorized = false;
+                this.clearData();
             }
-        );
+            return {
+                json: {},
+                status: response.status,
+                ok: response.ok
+            };
+        });
     }
 
     /**
@@ -316,8 +298,7 @@ class UserModel {
     uploadPhoto(photo: string) {
         return HttpRequests.post('/images', photo)
             .then(parseJson)
-            .then(response => {
-                console.log('Model in uploading photo: ', this.data);
+            .then((response) => {
                 if (response.ok) {
                     this.data.photos.push(backendLocation + '/images/' + response.json);
                 }

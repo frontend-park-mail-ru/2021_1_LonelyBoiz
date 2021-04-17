@@ -137,8 +137,6 @@ class ChatModel {
                         };
                     });
                     response.json = this.chats;
-                    console.log('BACKEND LOCATION: ', backendLocation);
-                    console.log('CHATS: ', this.chats);
                 }
 
                 return Promise.resolve(response);

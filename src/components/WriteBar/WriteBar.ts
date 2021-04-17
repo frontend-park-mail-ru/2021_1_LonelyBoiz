@@ -1,5 +1,4 @@
 import Component from '../Component';
-import Input from '../Input/Input';
 import { IconsSrc } from '../../consts/icons';
 import IconClass from '../Icon/Icon';
 import template from './WriteBar.hbs';
@@ -25,11 +24,6 @@ class WriteBar extends Component {
      * @returns {string} Построенный компонент
      */
     render(): string {
-        this.context.Input = new Input({
-            placeholder: 'Сообщение',
-            bgGray: true
-        }).render();
-
         this.context.SendMessageIcon = new IconClass({
             iconCode: IconsSrc.send_message_stroke,
             iconClasses: 'pointer-icon'

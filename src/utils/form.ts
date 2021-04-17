@@ -39,7 +39,7 @@ interface IValidationFuncs {
     [key: string]: IValidationFunc;
 }
 
-const validationFuncs: IValidationFuncs = {
+export const validationFuncs: IValidationFuncs = {
     name: {
         validationeFunc: validateName,
         errorStatus: ValidationsErrors.name
@@ -310,8 +310,6 @@ export const processingResultForms = ({
     formList
 }: IProcessingResultForms): Promise<Context> => {
     return new Promise((resolve, reject) => {
-        console.log('Success', data);
-
         let errorBlock = null;
         if (errorBlockId) {
             errorBlock = document.getElementById(errorBlockId);

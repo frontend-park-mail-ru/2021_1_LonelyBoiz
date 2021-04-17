@@ -2,7 +2,7 @@ import Component from '../Component';
 import InfoRow from '../InfoRow/InfoRow';
 import Tabbar from '../Tabbar/Tabbar';
 import { Icons } from '../../consts/icons';
-import { HomeIconsSrc } from '../../consts/homeCommands';
+import { HomeIconsDescription, HomeIconsSrc } from '../../consts/homeCommands';
 import template from './InfoBlock.hbs';
 import './InfoBlock.scss';
 
@@ -63,10 +63,7 @@ class InfoBlock extends Component {
             }).render();
         }
 
-        if (
-            this.context.buttons &&
-            Object.entries(this.context.buttons).length > 0
-        ) {
+        if (this.context.buttons && Object.entries(this.context.buttons).length > 0) {
             this.context.Tabbar = new Tabbar({
                 icons: Object.entries(this.context.buttons).map((item) => {
                     const [key, value] = item;
@@ -76,10 +73,12 @@ class InfoBlock extends Component {
                             iconCode: HomeIconsSrc[key],
                             idDiv: `home-commands__${key}`,
                             iconClasses: `${value}-icon ${
-                                value === 'active'
-                                    ? 'info-block__commands-icon_cursor'
-                                    : ''
-                            }`
+                                value === 'active' ? ' info-block__commands-icon_cursor ' : ''
+                            }`,
+                            useTooltip: true,
+                            text: HomeIconsDescription[key],
+                            direction: 'bottom',
+                            arrow: true
                         }
                     };
                 })

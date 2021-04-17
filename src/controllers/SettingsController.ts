@@ -3,22 +3,16 @@ import SettingsView from '../view/SettingsView/SettingsView';
 import eventBus from '../utils/eventBus';
 import Routes from '../consts/routes';
 import Events from '../consts/events';
-import {
-    validateForm,
-    checkForm,
-    processingResultForms,
-    fillForm,
-    IFormList
-} from '../utils/form';
+import { validateForm, checkForm, processingResultForms, fillForm, IFormList } from '../utils/form';
 import ScreenSpinnerClass from '../utils/ScreenSpinner';
-import { IconsSrc } from '../consts/icons';
-import IconClass from '../components/Icon/Icon';
 import userModel from '../models/UserModel';
 import feedModel from '../models/FeedModel';
 import chatModel from '../models/ChatModel';
 import BaseView from '../view/BaseView';
 import Context from '../utils/Context';
 import webSocketListener from '../utils/WebSocketListener';
+import FormItem from '../components/FormItem/FormItem';
+import { onPhotoUpload } from '../utils/photo';
 
 /**
  * @class
@@ -91,15 +85,6 @@ class SettingsController extends BaseController {
         super({ view: view || new SettingsView() });
     }
 
-    toBase64(file: File): Promise<Context> {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = (error) => reject(error);
-        });
-    }
-
     finish(): void {
         this.deleteListeners();
         eventBus.disconnect(Events.formSubmitted, this.onSubmit);
@@ -117,26 +102,20 @@ class SettingsController extends BaseController {
 
     /**
      * Запускает контроллер
+     * @param {Context} queryParams
      */
     start(queryParams: Context): void {
         this.queryParams = queryParams;
-        userModel
+        super
             .auth()
-            .then((response) => {
-                if (!response.ok) {
-                    eventBus.emit(Events.routeChange, Routes.loginRoute);
-                    return;
-                }
-                webSocketListener.listen();
-                eventBus.emit(Events.updateAvatar);
+            .then(() => {
                 this.view.show();
                 validateForm.call(this, this.settingsList);
                 this.formSubmit();
                 this.fillFormData();
             })
-            .catch((reason) => {
-                eventBus.emit(Events.routeChange, Routes.loginRoute);
-                console.error('Auth - error: ', reason);
+            .catch((e) => {
+                console.error(e);
             });
     }
 
@@ -194,7 +173,9 @@ class SettingsController extends BaseController {
         this.registerListener({
             element: document.getElementById('input_avatar'),
             type: 'change',
-            listener: this.onFileUpload.bind(this)
+            listener: (e) => {
+                onPhotoUpload.call(this, e);
+            }
         });
 
         this.registerListener({
@@ -212,23 +193,11 @@ class SettingsController extends BaseController {
         });
     }
 
-    onFileUpload(e: Event): void {
-        const currentElement = <HTMLInputElement>e.currentTarget;
-        this.toBase64(currentElement.files[0])
-            .then((data: string) => {
-                this.file = data;
-
-                const img = document.createElement('img');
-                img.src = String(data);
-                img.id = 'settings__new-photo';
-                img.classList.add('settings__photo');
-
-                const photoForm = document.getElementById(
-                    'settings__new-photo'
-                );
-                photoForm.replaceWith(img);
-            })
-            .catch((e) => console.error(e));
+    collapsePhoto(): void {
+        const photoForm = document.getElementById('settings__new-photo');
+        const tmpDiv = document.createElement('div');
+        tmpDiv.innerHTML = new FormItem({ id: 'settings__new-photo' }).render();
+        photoForm.replaceWith(tmpDiv.firstChild);
     }
 
     /**
@@ -247,16 +216,16 @@ class SettingsController extends BaseController {
         if (this.formSuccess) {
             if (this.file !== null) {
                 tmpForm.photos = this.file;
-                userModel.uploadPhoto(this.file)
-                    .then(photoResponse => {
+                userModel
+                    .uploadPhoto(this.file)
+                    .then((photoResponse) => {
                         if (!photoResponse.ok) {
-                            console.log('Failed to upload photo!');
                             return;
                         }
                         eventBus.emit(Events.updateAvatar);
-                        console.log('Model after uploaded photo: ', userModel.getData());
+                        this.collapsePhoto();
                     })
-                    .catch(photoReason => {
+                    .catch((photoReason) => {
                         console.error('Photo upload error - ', photoReason);
                     });
             }
@@ -270,6 +239,7 @@ class SettingsController extends BaseController {
                 })
                 .then((response) => {
                     const json = response.json;
+                    eventBus.emit(Events.pushNotifications, { children: 'Сохранено' });
                     processingResultForms({
                         data: json || {},
                         errorBlockId: 'settings-error',
@@ -279,10 +249,7 @@ class SettingsController extends BaseController {
                 .catch((reason) => {
                     console.error(reason);
                     eventBus.emit(Events.pushNotifications, {
-                        before: new IconClass({
-                            iconCode: IconsSrc.error_circle,
-                            iconClasses: 'error-icon'
-                        }).render(),
+                        status: 'error',
                         children: 'Что-то не то с интернетом('
                     });
                 });

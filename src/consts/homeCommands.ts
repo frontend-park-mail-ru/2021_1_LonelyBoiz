@@ -13,3 +13,10 @@ export const HomeIconsSrc = {
     message: IconsSrc.message_stroke,
     dislike: IconsSrc.cancel
 };
+
+export const HomeIconsDescription = {
+    like: 'Лайк',
+    return: 'Вернуть',
+    message: 'Написать',
+    dislike: 'Дизлайк'
+};
