@@ -63,7 +63,7 @@ class UserModel {
     set(data: Context) {
         Object.entries(data).forEach((item) => {
             const [key, value] = item;
-            if (key in this.data) {
+            if (key in this.data || key === 'captchaToken') {
                 this.data[key] = this.setMiddleware(key, value);
             }
         });

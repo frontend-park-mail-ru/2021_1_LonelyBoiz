@@ -7,6 +7,7 @@ import { validateForm, checkForm, processingResultForms, IFormList } from '../ut
 import ScreenSpinnerClass from '../utils/ScreenSpinner';
 import userModel from '../models/UserModel';
 import Context from '../utils/Context';
+import captcha from '../utils/captcha';
 
 /**
  * @class
@@ -108,30 +109,34 @@ class SignupController extends BaseController {
         if (this.formSuccess) {
             const popout = new ScreenSpinnerClass();
 
-            userModel
-                .set(tmpForm)
-                .create()
-                .finally(() => {
-                    popout.destroy();
-                })
-                .then((response) => {
-                    const json = response.json;
-                    processingResultForms({
-                        data: json || {},
-                        errorBlockId: 'signup-error',
-                        formList: this.signupList
-                    }).then(() => {
-                        eventBus.emit(Events.updateAvatar);
-                        eventBus.emit(Events.routeChange, Routes.preSettingsRoute);
+            captcha((token: string) => {
+                tmpForm.captchaToken = token;
+                
+                userModel
+                    .set(tmpForm)
+                    .create()
+                    .finally(() => {
+                        popout.destroy();
+                    })
+                    .then((response) => {
+                        const json = response.json;
+                        processingResultForms({
+                            data: json || {},
+                            errorBlockId: 'signup-error',
+                            formList: this.signupList
+                        }).then(() => {
+                            eventBus.emit(Events.updateAvatar);
+                            eventBus.emit(Events.routeChange, Routes.preSettingsRoute);
+                        });
+                    })
+                    .catch((reason) => {
+                        console.error('error:', reason);
+                        eventBus.emit(Events.pushNotifications, {
+                            status: 'error',
+                            children: 'Что-то не то с интернетом('
+                        });
                     });
-                })
-                .catch((reason) => {
-                    console.error('error:', reason);
-                    eventBus.emit(Events.pushNotifications, {
-                        status: 'error',
-                        children: 'Что-то не то с интернетом('
-                    });
-                });
+            });
         }
     }
 }
