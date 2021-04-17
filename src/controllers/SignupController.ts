@@ -111,7 +111,7 @@ class SignupController extends BaseController {
 
             captcha((token: string) => {
                 tmpForm.captchaToken = token;
-                
+
                 userModel
                     .set(tmpForm)
                     .create()

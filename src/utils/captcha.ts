@@ -1,10 +1,10 @@
-import captchaToken from "../consts/captchaToken";
+import captchaToken from '../consts/captchaToken';
 
 const captcha = (callback: Function): void => {
-    grecaptcha.ready(function () {
+    grecaptcha.ready(function() {
         grecaptcha
             .execute(captchaToken, { action: 'submit' })
-            .then(function (token: string) {
+            .then(function(token: string) {
                 callback(token);
             });
     });
