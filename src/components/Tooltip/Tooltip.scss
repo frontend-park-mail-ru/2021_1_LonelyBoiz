@@ -26,6 +26,7 @@
     visibility: hidden;
     position: absolute;
     z-index: 11;
+    margin-top: 50px;
 }
 
 .tooltip:hover .tooltip__text {
@@ -42,7 +43,7 @@
 }
 
 .tooltip .tooltip_direction-bottom .tooltip__text-content {
-    top: 42px;
+    top: -8px;
 }
 
 .tooltip .tooltip_direction-top .tooltip__text-content {
