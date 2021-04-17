@@ -4,12 +4,7 @@ import eventBus from '../utils/eventBus';
 import Events from '../consts/events';
 import Routes from '../consts/routes';
 import userModel from '../models/UserModel';
-import {
-    validateForm,
-    checkForm,
-    processingResultForms,
-    IFormList
-} from '../utils/form';
+import { validateForm, checkForm, processingResultForms, IFormList } from '../utils/form';
 import ScreenSpinnerClass from '../utils/ScreenSpinner';
 import Context from '../utils/Context';
 

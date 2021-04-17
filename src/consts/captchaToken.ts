@@ -1,3 +1,3 @@
-const captchaToken = '6LdIzK0aAAAAAMTQ6aEgy1OnSTXPIlcM7YYjh3sj';
+const captchaToken = '6Le347AaAAAAAKLrb7s1bDEkLL87wsTiTS0eaRX4';
 
 export default captchaToken;

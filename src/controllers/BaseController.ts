@@ -42,33 +42,24 @@ class BaseController extends Listener {
     }
 
     auth(): Promise<void> {
-        return new Promise((resolve, reject) => {
-            userModel
-                .auth()
-                .then((response: Response) => {
-                    webSocketListener.listen();
-                    eventBus.emit(Events.updateAvatar);
+        return userModel.auth().then((response: Response) => {
+            const json = response.json;
 
-                    const json = response.json;
+            if (this.view.view === Views.Login || this.view.view === Views.SignUp) {
+                return;
+            }
 
-                    if (this.view.view === Views.Login || this.view.view === Views.SignUp) {
-                        resolve();
-                        return;
-                    }
+            if (!response.ok || (json && json.error)) {
+                eventBus.emit(Events.routeChange, Routes.loginRoute);
+                return Promise.reject(new Error('Not authorized'));
+            }
 
-                    if (!response.ok || (json && json.error)) {
-                        eventBus.emit(Events.routeChange, Routes.loginRoute);
-                        reject(new Error('Not authorized'));
-                        return;
-                    }
-
-                    if (userModel.isActive() !== true && this.view.view !== Views.PreSettings) {
-                        eventBus.emit(Events.routeChange, Routes.preSettingsRoute);
-                        reject(new Error('Not activated'));
-                    }
-
-                    resolve();
-                });
+            if (userModel.isActive() !== true && this.view.view !== Views.PreSettings) {
+                eventBus.emit(Events.routeChange, Routes.preSettingsRoute);
+                return Promise.reject(new Error('Not activated'));
+            }
+            webSocketListener.listen();
+            eventBus.emit(Events.updateAvatar);
         });
     }
 
