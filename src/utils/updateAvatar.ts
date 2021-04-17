@@ -16,6 +16,10 @@ export function updateAvatar(): void {
 
     userModel.auth().then((response) => {
         const data = response.json;
+        if (data.photos.length === 0) {
+            parentNode.innerHTML = '';
+            return;
+        }
 
         const newAvatar = new IconClass({
             iconClasses: 'avatar u-avatar-header',
