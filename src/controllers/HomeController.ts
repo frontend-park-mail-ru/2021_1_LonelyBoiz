@@ -36,13 +36,16 @@ class HomeController extends BaseController {
      */
     start(queryParams: Context): void {
         this.queryParams = queryParams;
-        super.auth().then(() => {
-            this.view.show();
-            this.drawLoaderPlaceholder();
-            getFeed.call(this);
-        }).catch((reason) => {
-            console.error(reason);
-        });
+        super
+            .auth()
+            .then(() => {
+                this.view.show();
+                this.drawLoaderPlaceholder();
+                getFeed.call(this);
+            })
+            .catch((reason) => {
+                console.error(reason);
+            });
     }
 
     destroyCard(): void {
@@ -86,24 +89,28 @@ class HomeController extends BaseController {
 
     onLike(): void {
         this.card.swipe(true);
-        this.card.setPlaceHolder(true);
-        feedModel
-            .reactCurrent('like')
-            .then(handleReactionPromise.bind(this))
-            .catch((likeReason) => {
-                console.error('Like error - ', likeReason);
-            });
+        setTimeout(() => {
+            this.card.setPlaceHolder(true);
+            feedModel
+                .reactCurrent('like')
+                .then(handleReactionPromise.bind(this))
+                .catch((likeReason) => {
+                    console.error('Like error - ', likeReason);
+                });
+        }, 500);
     }
 
     onDislike(): void {
         this.card.swipe(false);
-        this.card.setPlaceHolder(true);
-        feedModel
-            .reactCurrent('skip')
-            .then(handleReactionPromise.bind(this))
-            .catch((likeReason) => {
-                console.error('Like error - ', likeReason);
-            });
+        setTimeout(() => {
+            this.card.setPlaceHolder(true);
+            feedModel
+                .reactCurrent('skip')
+                .then(handleReactionPromise.bind(this))
+                .catch((likeReason) => {
+                    console.error('Like error - ', likeReason);
+                });
+        }, 500);
     }
 }
 

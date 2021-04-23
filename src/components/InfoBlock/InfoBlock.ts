@@ -1,10 +1,11 @@
 import Component from '../Component';
 import InfoRow from '../InfoRow/InfoRow';
 import Tabbar from '../Tabbar/Tabbar';
-import { Icons } from '../../consts/icons';
+import { IconsSrc } from '../../consts/icons';
 import { HomeIconsDescription, HomeIconsSrc } from '../../consts/homeCommands';
 import template from './InfoBlock.hbs';
 import './InfoBlock.scss';
+import IconClass from '../Icon/Icon';
 
 type ButtonsState = 'active' | 'disable';
 
@@ -47,9 +48,15 @@ class InfoBlock extends Component {
      */
     render(): string {
         const infoRowsType = {
-            city: { iconSrc: Icons.home_small_stroke, text: 'Живет в: ' },
-            geo: { iconSrc: Icons.geo_stroke, text: '' },
-            instagram: { iconSrc: Icons.instagram_stroke, text: '@' }
+            city: {
+                icon: new IconClass({ iconCode: IconsSrc.home_small_stroke, size: 16 }).render(),
+                text: 'Живет в: '
+            },
+            geo: { icon: new IconClass({ iconCode: IconsSrc.geo_stroke, size: 16 }).render(), text: '' },
+            instagram: {
+                icon: new IconClass({ iconCode: IconsSrc.instagram_stroke, size: 16 }).render(),
+                text: '@'
+            }
         };
 
         this.context.InfoRows = [];
