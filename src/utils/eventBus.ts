@@ -1,4 +1,14 @@
 import Context from './Context';
+import { INotificationsPush } from './Notifications';
+import { IChatSocketData, IMessageSocketData } from './WebSocketListener';
+
+type eventEmitData =
+    | Context
+    | string
+    | INotificationsPush
+    | IMessageSocketData
+    | IChatSocketData
+    | void;
 
 /**
  * @class
@@ -53,9 +63,9 @@ class EventBus {
      * Вызывает все обработчики события
      *
      * @param  {string} event - Кастомное событие
-     * @param  {Object} data - Данные для обработчиков
+     * @param  {eventEmitData} data - Данные для обработчиков
      */
-    emit(event: string, data: Context = {}): void {
+    emit(event: string, data: eventEmitData = {}): void {
         if (this.map.has(event)) {
             this.map.get(event).forEach((callback: Function) => {
                 callback(data);

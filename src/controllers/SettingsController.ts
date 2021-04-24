@@ -87,7 +87,6 @@ class SettingsController extends BaseController {
 
     finish(): void {
         this.deleteListeners();
-        eventBus.disconnect(Events.formSubmitted, this.onSubmit);
     }
 
     onLogOut(): void {
@@ -125,18 +124,17 @@ class SettingsController extends BaseController {
     fillFormData(): void {
         const json = userModel.getFilledData();
         if (json.error) {
-            eventBus.emit(Events.formError);
-        } else {
-            document.querySelectorAll(':disabled').forEach((item) => {
-                (<HTMLInputElement>item).disabled = false;
-            });
-
-            document.querySelectorAll('.placeholder-item').forEach((item) => {
-                item.classList.remove('placeholder-item');
-            });
-
-            fillForm(json, this.settingsList);
+            return;
         }
+        document.querySelectorAll(':disabled').forEach((item) => {
+            (<HTMLInputElement>item).disabled = false;
+        });
+
+        document.querySelectorAll('.placeholder-item').forEach((item) => {
+            item.classList.remove('placeholder-item');
+        });
+
+        fillForm(json, this.settingsList);
     }
 
     /**

@@ -4,7 +4,7 @@ import Events from '../consts/events';
 import IconClass from '../components/Icon/Icon';
 import { IconsSrc } from '../consts/icons';
 
-interface INotificationsPush {
+export interface INotificationsPush {
     before?: string;
     children?: string;
     after?: string;
