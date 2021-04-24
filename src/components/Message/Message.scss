@@ -1,7 +1,7 @@
 .message-content {
     max-width: 50%;
     display: flex;
-    flex-direction: row;
+    flex-direction: row-reverse;
 }
 
 .message__text {
@@ -17,7 +17,7 @@
 }
 
 .message_user {
-    flex-direction: row-reverse;
+    flex-direction: row;
     margin-right: 10px;
     margin-left: auto;
 }
@@ -53,4 +53,8 @@
     background: none !important;
     border: none;
     font-size: 32px;
+}
+
+.message_other:not(:hover) .message__smile-icon-box svg {
+    visibility: hidden;
 }

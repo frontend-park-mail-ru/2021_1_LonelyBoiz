@@ -13,8 +13,6 @@ import { formItemSetParams } from './formItem';
 import { getDateById, setDateById } from './dateUtil';
 import getKeyByValue from './getKeyByValue';
 import { datePreferenceEnum, sexEnum } from '../consts/sexEnum';
-import eventBus from '../utils/eventBus';
-import Events from '../consts/events';
 import Context from './Context';
 
 export interface IFormListItem {
@@ -326,7 +324,6 @@ export const processingResultForms = ({
                 errorDescriptionForm(data.description, formList);
             }
             console.error(data);
-            eventBus.emit(Events.formError, { text: data.error });
             reject(data);
         } else {
             resolve(data);
