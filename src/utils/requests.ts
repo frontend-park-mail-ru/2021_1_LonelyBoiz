@@ -12,12 +12,14 @@ class BaseRequest {
      * @param {string} method указание метода HTTP запроса
      * @param {string} route указание пути принимающей стороне
      * @param {any} body тело запроса
+     * @param {boolean} binary является ли запрос бинарным
      * @return {Promise}
      */
     request(
         method = 'GET',
         route = '/',
-        body: Context = null
+        body: Context = null,
+        binary?: boolean
     ): Promise<Response> {
         const options: RequestInit = {
             method: method,
@@ -25,18 +27,23 @@ class BaseRequest {
             credentials: 'include'
         };
 
-        if (body) {
+        if (body && !binary) {
             options.headers = {
                 'Content-type': 'application/json'
             };
             options.body = JSON.stringify(body);
+        } else {
+            options.headers = {
+                'Content-type': 'multipart/form-data'
+            };
+            options.body = body;
         }
 
         return fetch(backendLocation + route, options);
     }
 
-    makeRequest(route = 'POST', body: Context = null): Promise<Response> {
-        return this.request(route, route, body);
+    makeRequest(route = 'POST', body: Context = null, binary?: boolean): Promise<Response> {
+        return this.request(route, route, body, binary);
     }
 }
 
@@ -127,6 +134,23 @@ class DeleteRequest extends BaseRequest {
 
 /**
  * @class
+ * Класс, выполняющий логику POST запроса с бинарными данными
+ */
+class BinaryPostRequest extends BaseRequest {
+    /**
+     * Выполняет POST запрос с бинарными данными в теле
+     *
+     * @param {string} route указание пути принимающей стороне
+     * @param {Object} body тело запроса
+     * @return {Promise}
+     */
+    makeRequest(route: string, body: Context): Promise<Response> {
+        return this.request('POST', route, body, true);
+    }
+}
+
+/**
+ * @class
  * Класс, ответственный за HTTP запросы. Выполняет нужный запрос
  */
 class HttpRequests {
@@ -139,7 +163,8 @@ class HttpRequests {
             post: new PostRequest(),
             put: new PutRequest(),
             patch: new PatchRequest(),
-            delete: new DeleteRequest()
+            delete: new DeleteRequest(),
+            binary: new BinaryPostRequest()
         };
     }
 
@@ -208,6 +233,10 @@ class HttpRequests {
      */
     delete(route: string, body: Context): Promise<Response> {
         return this.makeRequest('delete', route, body);
+    }
+
+    postBinary(route: string, body: Context): Promise<Response> {
+        return this.makeRequest('binary', route, body);
     }
 
     /**

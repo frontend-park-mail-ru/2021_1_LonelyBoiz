@@ -1,5 +1,5 @@
 import HttpRequests from './requests';
-import backendLocation from '../consts/config';
+import { imageStorageLocation } from '../consts/config';
 import eventBus from './eventBus';
 import Events from '../consts/events';
 import Routes from '../consts/routes';
@@ -60,7 +60,7 @@ export function getAllUsers(response: Response): Promise<IResponseData> {
                 .then(parseJson)
                 .then((userResponse) => {
                     userResponse.json.photos = userResponse.json.photos.map(
-                        (v: number) => backendLocation + '/images/' + String(v)
+                        (v: string) => imageStorageLocation + '/' + v
                     );
                     return {
                         status: userResponse.status,
