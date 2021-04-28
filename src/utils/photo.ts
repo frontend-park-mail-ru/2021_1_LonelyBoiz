@@ -65,7 +65,7 @@ export const onPhotoUpload = function(e: Event): void {
     compress(e).then((file: File) => {
         toBase64(file)
             .then((data: string) => {
-                this.file = data;
+                this.file = file;
 
                 const img = document.createElement('img');
                 img.src = String(data);

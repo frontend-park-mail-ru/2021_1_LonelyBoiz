@@ -1,7 +1,7 @@
 import HttpRequests from '../utils/requests';
 import { addIfNotEq, filterObject, parseJson, IResponseData, isActive } from '../utils/helpers';
 import Context from '../utils/Context';
-import backendLocation from '../consts/config';
+import { imageStorageLocation } from '../consts/config';
 
 export interface IUserModel {
     id?: number;
@@ -77,7 +77,7 @@ class UserModel {
             return value * 1000;
         case 'photos':
             if (value) {
-                value = value.map((v: number) => backendLocation + '/images/' + String(v));
+                value = value.map((v: string) => imageStorageLocation + '/' + v);
             }
             return value;
         default:
@@ -295,12 +295,12 @@ class UserModel {
      * @param {String} photo - фотография
      * @return {Promise}
      */
-    uploadPhoto(photo: string) {
-        return HttpRequests.post('/images', photo)
+    uploadPhoto(photo: FormData) {
+        return HttpRequests.postBinary('/images', photo)
             .then(parseJson)
             .then((response) => {
                 if (response.ok) {
-                    this.data.photos.push(backendLocation + '/images/' + response.json);
+                    this.data.photos.push(imageStorageLocation + '/' + response.json.photoId);
                 }
 
                 return response;
