@@ -8,6 +8,7 @@ import Views from '../../consts/views';
 import template from './LoginView.hbs';
 import Context from '../../utils/Context';
 import './LoginView.scss';
+import mainBg from '@img/mainBg.jpg';
 
 /**
  * @class
@@ -63,6 +64,8 @@ class LoginView extends BaseView {
                 text: 'Вход'
             }).render()
         }).render();
+
+        this.context.mainBg = mainBg;
 
         this.root.innerHTML = this.template(this.context);
     }

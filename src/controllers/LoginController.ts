@@ -3,15 +3,8 @@ import LoginView from '../view/LoginView/LoginView';
 import eventBus from '../utils/eventBus';
 import Events from '../consts/events';
 import Routes from '../consts/routes';
-import { IconsSrc } from '../consts/icons';
-import IconClass from '../components/Icon/Icon';
 import userModel from '../models/UserModel';
-import {
-    validateForm,
-    checkForm,
-    processingResultForms,
-    IFormList
-} from '../utils/form';
+import { validateForm, checkForm, processingResultForms, IFormList } from '../utils/form';
 import ScreenSpinnerClass from '../utils/ScreenSpinner';
 import Context from '../utils/Context';
 
@@ -48,13 +41,19 @@ class LoginController extends BaseController {
 
     /**
      * Запускает контроллер
+     * @param {Context} queryParams
      */
     start(queryParams: Context): void {
         this.queryParams = queryParams;
         this.view.show();
         validateForm.call(this, this.loginList);
         this.formSubmit();
+    }
 
+    /**
+     * Подписывается на заполнение формы
+     */
+    formSubmit(): void {
         this.registerListener({
             element: document.querySelector('.login-block__link'),
             type: 'click',
@@ -63,12 +62,7 @@ class LoginController extends BaseController {
                 eventBus.emit(Events.routeChange, Routes.signupRoute);
             }
         });
-    }
 
-    /**
-     * Подписывается на заполнение формы
-     */
-    formSubmit(): void {
         this.registerListener({
             element: document.getElementById('login__form'),
             type: 'submit',
@@ -86,13 +80,6 @@ class LoginController extends BaseController {
                 this.onSubmit();
             }
         });
-    }
-
-    /**
-     * Завершает контроллер
-     */
-    finish(): void {
-        this.deleteListeners();
     }
 
     /**
@@ -130,10 +117,7 @@ class LoginController extends BaseController {
                 .catch((reason) => {
                     console.error('error:', reason);
                     eventBus.emit(Events.pushNotifications, {
-                        before: new IconClass({
-                            iconCode: IconsSrc.error_circle,
-                            iconClasses: 'error-icon'
-                        }).render(),
+                        status: 'error',
                         children: 'Что-то не то с интернетом('
                     });
                 });

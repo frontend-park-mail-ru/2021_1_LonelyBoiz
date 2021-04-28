@@ -10,6 +10,7 @@ import Views from '../../consts/views';
 import template from './SignupView.hbs';
 import Context from '../../utils/Context';
 import './SignupView.scss';
+import mainBg from '@img/mainBg.jpg';
 
 /**
  * @class
@@ -82,6 +83,8 @@ class SignupView extends BaseView {
                 text: 'Регистрация'
             }).render()
         }).render();
+
+        this.context.mainBg = mainBg;
 
         this.root.innerHTML = this.template(this.context);
     }

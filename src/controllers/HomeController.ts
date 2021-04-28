@@ -1,11 +1,7 @@
 import BaseController from './BaseController';
 import HomeView from '../view/HomeView/HomeView';
-import eventBus from '../utils/eventBus';
-import Events from '../consts/events';
 import CardClass from '../utils/Card';
-import Routes from '../consts/routes';
-import userModel, { IUserModel } from '../models/UserModel';
-import webSocketListener from '../utils/WebSocketListener';
+import { IUserModel } from '../models/UserModel';
 import feedModel from '../models/FeedModel';
 import { handleReactionPromise, getFeed } from '../utils/helpers';
 import Context from '../utils/Context';
@@ -30,39 +26,25 @@ class HomeController extends BaseController {
     }
 
     finish(): void {
+        this.deleteListeners();
         this.destroyCard();
     }
 
     /**
      * Запускает контроллер
+     * @param {Context} queryParams
      */
     start(queryParams: Context): void {
         this.queryParams = queryParams;
-        userModel
+        super
             .auth()
-            .then((response: Response) => {
-                if (!response.ok) {
-                    eventBus.emit(Events.routeChange, Routes.loginRoute);
-                    return;
-                }
-                webSocketListener.listen();
-                eventBus.emit(Events.updateAvatar);
-
-                const json = response.json;
-
+            .then(() => {
                 this.view.show();
                 this.drawLoaderPlaceholder();
-
-                if (json.error) {
-                    eventBus.emit(Events.formError);
-                    return;
-                }
-
                 getFeed.call(this);
             })
             .catch((reason) => {
-                eventBus.emit(Events.routeChange, Routes.loginRoute);
-                console.error('Auth - error: ', reason);
+                console.error(reason);
             });
     }
 
@@ -107,24 +89,28 @@ class HomeController extends BaseController {
 
     onLike(): void {
         this.card.swipe(true);
-        this.card.setPlaceHolder(true);
-        feedModel
-            .reactCurrent('like')
-            .then(handleReactionPromise.bind(this))
-            .catch((likeReason) => {
-                console.error('Like error - ', likeReason);
-            });
+        setTimeout(() => {
+            this.card.setPlaceHolder(true);
+            feedModel
+                .reactCurrent('like')
+                .then(handleReactionPromise.bind(this))
+                .catch((likeReason) => {
+                    console.error('Like error - ', likeReason);
+                });
+        }, 500);
     }
 
     onDislike(): void {
         this.card.swipe(false);
-        this.card.setPlaceHolder(true);
-        feedModel
-            .reactCurrent('skip')
-            .then(handleReactionPromise.bind(this))
-            .catch((likeReason) => {
-                console.error('Like error - ', likeReason);
-            });
+        setTimeout(() => {
+            this.card.setPlaceHolder(true);
+            feedModel
+                .reactCurrent('skip')
+                .then(handleReactionPromise.bind(this))
+                .catch((likeReason) => {
+                    console.error('Like error - ', likeReason);
+                });
+        }, 500);
     }
 }
 

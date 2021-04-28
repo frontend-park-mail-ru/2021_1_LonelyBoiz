@@ -1,12 +1,15 @@
 import Snackbar from '../components/Snackbar/Snackbar';
 import eventBus from '../utils/eventBus';
 import Events from '../consts/events';
+import IconClass from '../components/Icon/Icon';
+import { IconsSrc } from '../consts/icons';
 
-interface INotificationsPush {
+export interface INotificationsPush {
     before?: string;
     children?: string;
     after?: string;
     duration?: number;
+    status?: 'error';
 }
 
 /**
@@ -31,9 +34,7 @@ class Notifications {
         newElem.classList.add('notifications');
         newElem.classList.add('snackbar-desktop');
 
-        this.rootElement = document
-            .getElementsByTagName('body')[0]
-            .appendChild(newElem);
+        this.rootElement = document.getElementsByTagName('body')[0].appendChild(newElem);
     }
 
     /**
@@ -53,12 +54,14 @@ class Notifications {
      * Добавляет уведомление
      * @param {INotificationsPush} param
      */
-    push({
-        before,
-        children,
-        after,
-        duration = 4000
-    }: INotificationsPush): void {
+    push({ before, children, after, duration = 4000, status }: INotificationsPush): void {
+        if (status === 'error') {
+            before = new IconClass({
+                iconCode: IconsSrc.error_circle,
+                iconClasses: 'error-icon'
+            }).render();
+        }
+
         const rootElement = Notifications.getInstance().rootElement;
         const insertionElem = document.createElement('div');
         insertionElem.innerHTML = new Snackbar({
@@ -69,13 +72,8 @@ class Notifications {
         }).render();
 
         const newElem = <HTMLElement>(
-            rootElement.insertBefore(
-                insertionElem.firstChild,
-                rootElement.firstChild
-            )
+            rootElement.insertBefore(insertionElem.firstChild, rootElement.firstChild)
         );
-
-        console.log(newElem);
 
         setTimeout(() => {
             newElem.classList.remove('snackbar-closing');

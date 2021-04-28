@@ -12,6 +12,7 @@
 }
 
 .spinner__self {
+    display: flex;
     animation: rotator var(--duration) linear infinite;
     transform-origin: center;
 }

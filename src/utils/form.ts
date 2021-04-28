@@ -13,8 +13,6 @@ import { formItemSetParams } from './formItem';
 import { getDateById, setDateById } from './dateUtil';
 import getKeyByValue from './getKeyByValue';
 import { datePreferenceEnum, sexEnum } from '../consts/sexEnum';
-import eventBus from '../utils/eventBus';
-import Events from '../consts/events';
 import Context from './Context';
 
 export interface IFormListItem {
@@ -39,7 +37,7 @@ interface IValidationFuncs {
     [key: string]: IValidationFunc;
 }
 
-const validationFuncs: IValidationFuncs = {
+export const validationFuncs: IValidationFuncs = {
     name: {
         validationeFunc: validateName,
         errorStatus: ValidationsErrors.name
@@ -310,8 +308,6 @@ export const processingResultForms = ({
     formList
 }: IProcessingResultForms): Promise<Context> => {
     return new Promise((resolve, reject) => {
-        console.log('Success', data);
-
         let errorBlock = null;
         if (errorBlockId) {
             errorBlock = document.getElementById(errorBlockId);
@@ -328,7 +324,6 @@ export const processingResultForms = ({
                 errorDescriptionForm(data.description, formList);
             }
             console.error(data);
-            eventBus.emit(Events.formError, { text: data.error });
             reject(data);
         } else {
             resolve(data);

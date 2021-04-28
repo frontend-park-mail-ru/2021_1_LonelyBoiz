@@ -12,7 +12,6 @@ export const cropString = (
 ): string => {
     const newLength = addPoints && str.length > length ? length - 3 : length;
     let newStr = str.slice(0, newLength);
-    console.log(newLength < str.length);
     if (addPoints && newLength < str.length) {
         newStr += '...';
     }

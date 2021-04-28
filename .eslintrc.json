@@ -3,11 +3,7 @@
         "browser": true,
         "es2021": true
     },
-    "extends": [
-        "standard",
-        "eslint:recommended",
-        "plugin:@typescript-eslint/recommended"
-    ],
+    "extends": ["standard", "eslint:recommended", "plugin:@typescript-eslint/recommended"],
     "plugins": ["jsdoc", "@typescript-eslint"],
     "parserOptions": {
         "ecmaVersion": 12,
@@ -29,7 +25,13 @@
         "quotes": ["error", "single"],
         "space-before-function-paren": ["error", "never"],
         "eol-last": ["error", "always"],
-        "no-new": 0
+        "no-new": 0,
+        "no-console": [
+            "warn",
+            {
+                "allow": ["warn", "error"]
+            }
+        ]
     },
     "globals": {
         "Handlebars": "readonly"

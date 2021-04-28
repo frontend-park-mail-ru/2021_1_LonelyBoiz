@@ -7,10 +7,9 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
-
 const live = process.argv.indexOf('serve') > 0;
 
-const filename = (ext) => `[name].${ext}`;
+const filename = (ext) => (isDev ? `[name].${ext}` : `[name].[contenthash].${ext}`);
 
 const babelOptions = (preset) => {
     const opts = {
@@ -31,14 +30,14 @@ const entryOptions = (useSW) => {
     };
 
     if (useSW) {
-        data.sw = './public/sw';
+        data.sw = { import: './public/sw', filename: 'sw.js' };
     }
 
     return data;
 };
 
 module.exports = {
-    entry: entryOptions(!live),
+    entry: entryOptions(isProd),
     output: {
         filename: filename('js'),
         path: path.resolve(__dirname, 'dist'),
@@ -125,5 +124,10 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: filename('css')
         })
-    ]
+    ],
+    optimization: {
+        splitChunks: {
+            chunks: 'all'
+        }
+    }
 };

@@ -1,0 +1,100 @@
+:root {
+    --tooltip-width: 120px;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip__text-content {
+    position: relative;
+    width: var(--tooltip-width);
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 8px 2px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: fit-content;
+    line-height: initial;
+}
+
+.tooltip .tooltip__text {
+    visibility: hidden;
+    position: absolute;
+    z-index: 11;
+    margin-top: 50px;
+}
+
+.tooltip:hover .tooltip__text {
+    visibility: visible;
+    transition: visibility 2s 0.3s;
+}
+
+.tooltip_direction-right .tooltip__text-content {
+    left: calc(var(--tooltip-width) / 2 + 24px);
+}
+
+.tooltip_direction-left .tooltip__text-content {
+    right: calc(var(--tooltip-width) / 2 + 24px);
+}
+
+.tooltip .tooltip_direction-bottom .tooltip__text-content {
+    top: -8px;
+}
+
+.tooltip .tooltip_direction-top .tooltip__text-content {
+    bottom: 42px;
+}
+
+.tooltip .tooltip_direction-right .tooltip__text-content,
+.tooltip .tooltip_direction-left .tooltip__text-content {
+    top: -5px;
+}
+
+.tooltip .tooltip_direction-top .tooltip__arrow::after {
+    content: ' ';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+}
+
+.tooltip .tooltip_direction-bottom .tooltip__arrow::after {
+    content: ' ';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent black transparent;
+}
+
+.tooltip .tooltip_direction-right .tooltip__arrow::after {
+    content: ' ';
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent black transparent transparent;
+}
+
+.tooltip .tooltip_direction-left .tooltip__arrow::after {
+    content: ' ';
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent transparent black;
+}

@@ -14,22 +14,12 @@ import Routes from '../consts/routes';
 import userModel from '../models/UserModel';
 import chatModel from '../models/ChatModel';
 import Context from '../utils/Context';
-import webSocketListener, { IMessageSocketData, IChatSocketData } from '../utils/WebSocketListener';
+import { IMessageSocketData, IChatSocketData } from '../utils/WebSocketListener';
 import backendLocation from '../consts/config';
 import { timeToStringByTime } from '../utils/helpers';
 
 interface IElements {
-    chatsList?: HTMLElement;
-    messageList?: HTMLElement;
-    noChatsList?: HTMLElement;
-    noMessageList?: HTMLElement;
-    headerIcon?: HTMLImageElement;
-    headerTitle?: HTMLElement;
-    header?: HTMLElement;
-    writeBar?: HTMLElement;
-    writeBarIcon?: HTMLElement;
-    writeBarInput?: HTMLInputElement;
-    noChatSelectedList?: HTMLElement;
+    [key: string]: HTMLElement;
 }
 
 /**
@@ -57,6 +47,7 @@ class MessageController extends BaseController {
         writeBar: null,
         writeBarIcon: null,
         writeBarInput: null,
+        writeBarForm: null,
         noChatSelectedList: null
     };
 
@@ -72,16 +63,15 @@ class MessageController extends BaseController {
         eventBus.connect(Events.newChat, this.addNewChatHandler.bind(this));
     }
 
+    /**
+     * Запускает контроллер
+     * @param {Context} queryParams
+     */
     start(queryParams: Context): void {
         this.queryParams = queryParams;
-        userModel
+        super
             .auth()
-            .then((response) => {
-                if (!response.ok) {
-                    eventBus.emit(Events.routeChange, Routes.loginRoute);
-                }
-                webSocketListener.listen();
-                eventBus.emit(Events.updateAvatar);
+            .then(() => {
                 this.view.show();
                 this.setElements();
                 this.clearMessages();
@@ -91,6 +81,15 @@ class MessageController extends BaseController {
                     element: this.elements.writeBarIcon,
                     type: 'click',
                     listener: () => {
+                        this.sendMessage();
+                    }
+                });
+
+                this.registerListener({
+                    element: this.elements.writeBarForm,
+                    type: 'submit',
+                    listener: (e) => {
+                        e.preventDefault();
                         this.sendMessage();
                     }
                 });
@@ -117,13 +116,13 @@ class MessageController extends BaseController {
                     })
                     .catch((chatReason) => console.error('Chat error - ', chatReason));
             })
-            .catch((reason) => {
-                eventBus.emit(Events.routeChange, Routes.loginRoute);
-                console.error('Auth - error: ', reason);
+            .catch((e) => {
+                console.error(e);
             });
     }
 
     finish(): void {
+        this.deleteListeners();
         this.emojeisListener.deleteListeners();
         this.activeChat = null;
     }
@@ -144,6 +143,7 @@ class MessageController extends BaseController {
         this.elements.writeBarInput = document.querySelector(
             '.message-chat .message-chat__writebar .input-block__input'
         );
+        this.elements.writeBarForm = document.getElementById('write-bar__form');
         this.elements.header = document.querySelector('.message-header');
         this.elements.writeBar = document.querySelector('.message-chat__writebar');
     }
@@ -195,8 +195,8 @@ class MessageController extends BaseController {
     openChat(chatId: number): void {
         this.clearMessages();
         this.emojeisListener.deleteListeners();
-        document.querySelectorAll('.cell').forEach((item: HTMLElement) => {
-            item.style.backgroundColor = 'unset';
+        document.querySelectorAll('.chats-list .cell').forEach((item: HTMLElement) => {
+            item.classList.remove('chat-item_active');
         });
 
         let currentChat: IChatItem;
@@ -205,7 +205,7 @@ class MessageController extends BaseController {
                 currentChat = item;
                 const chatElement = <HTMLElement>document.querySelector(`div[data-chat-id="${item.chatId}"]`);
                 if (chatElement) {
-                    chatElement.style.backgroundColor = 'var(--field_background)';
+                    chatElement.classList.add('chat-item_active');
                 }
             }
         });
@@ -231,6 +231,7 @@ class MessageController extends BaseController {
                         reaction: value.reactionId,
                         text: value.text,
                         messageId: value.messageId,
+                        date: new Date(value.date * 1000),
                         usersMessage: value.authorId === userModel.getData().id
                     };
                 });
@@ -252,7 +253,7 @@ class MessageController extends BaseController {
         if (this.sendingMessage) {
             return;
         }
-        const value = this.elements.writeBarInput.value;
+        const value = this.elements.writeBarInput.value.trim();
         if (value.length === 0) {
             return;
         }
@@ -273,10 +274,7 @@ class MessageController extends BaseController {
                 }
                 if (!messageResponse.ok) {
                     eventBus.emit(Events.pushNotifications, {
-                        before: new IconClass({
-                            iconCode: IconsSrc.error_circle,
-                            iconClasses: 'error-icon'
-                        }).render(),
+                        status: 'error',
                         children: messageResponse.json.error
                     });
                 }

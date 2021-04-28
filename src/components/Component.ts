@@ -10,7 +10,7 @@ abstract class Component {
     template: Template;
 
     protected constructor(context?: Context, template?: Template) {
-        this.context = context || {};
+        this.context = { ...context } ?? {};
         this.template = template;
     }
 

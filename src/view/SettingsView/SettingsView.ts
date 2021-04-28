@@ -47,7 +47,8 @@ class SettingsView extends BaseView {
                                 placeholder: 'Обновить аватарку',
                                 accept: '.jpg,.jpeg,.png'
                             }).render()
-                        }).render()
+                        }).render(),
+                        bottom: 'Максимальный размер: 10 МБ'
                     },
                     {
                         id: 'settings__new-photo'
