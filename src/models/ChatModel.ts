@@ -1,10 +1,10 @@
 import HttpRequests from '../utils/requests';
 import { parseJson, IResponseData, timeToStringByTime } from '../utils/helpers';
 import Context from '../utils/Context';
-import backendLocation from '../consts/config';
 import eventBus from '../utils/eventBus';
 import Events from '../consts/events';
 import { IChatSocketData, IMessageSocketData } from '../utils/WebSocketListener';
+import { imageStorageLocation } from '../consts/config';
 
 export interface IChat {
     chatId: number;
@@ -171,7 +171,7 @@ class ChatModel {
                             partnerName: chat.partnerName,
                             lastMessage: chat.lastMessage,
                             lastMessageTime: timeToStringByTime(new Date(chat.lastMessageTime * 1000)),
-                            photo: backendLocation + '/images/' + String(chat.photos[0])
+                            photo: imageStorageLocation + '/' + chat.photos[0]
                         };
                     });
                     response.json = this.chats;

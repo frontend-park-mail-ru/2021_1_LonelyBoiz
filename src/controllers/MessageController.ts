@@ -15,7 +15,7 @@ import userModel from '../models/UserModel';
 import chatModel from '../models/ChatModel';
 import Context from '../utils/Context';
 import { IMessageSocketData, IChatSocketData } from '../utils/WebSocketListener';
-import backendLocation from '../consts/config';
+import { imageStorageLocation } from '../consts/config';
 import { timeToStringByTime } from '../utils/helpers';
 
 interface IElements {
@@ -430,7 +430,7 @@ class MessageController extends BaseController {
                 {
                     user: {
                         name: chat.partnerName,
-                        avatar: backendLocation + '/images/' + String(chat.photos[0])
+                        avatar: imageStorageLocation + '/' + chat.photos[0]
                     },
                     lastMessage: {
                         text: chat.lastMessage,
