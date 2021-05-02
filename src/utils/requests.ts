@@ -1,6 +1,8 @@
 import backendLocation from '../consts/config';
 import Context from './Context';
 
+let CSRFToken: string | null = null;
+
 /**
  * @class
  * Базовый класс, описывающий общий случай запроса на сервер
@@ -15,12 +17,7 @@ class BaseRequest {
      * @param {boolean} binary является ли запрос бинарным
      * @return {Promise}
      */
-    request(
-        method = 'GET',
-        route = '/',
-        body: Context = null,
-        binary?: boolean
-    ): Promise<Response> {
+    request(method = 'GET', route = '/', body: Context = null, binary?: boolean): Promise<Response> {
         const options: RequestInit = {
             method: method,
             mode: 'cors',
@@ -29,17 +26,24 @@ class BaseRequest {
 
         if (body && !binary) {
             options.headers = {
-                'Content-type': 'application/json'
+                'Content-type': 'application/json',
+                'X-CSRF-Token': CSRFToken || ''
             };
             options.body = JSON.stringify(body);
         } else {
             options.headers = {
-                'Content-type': 'multipart/form-data'
+                'Content-type': 'multipart/form-data',
+                'X-CSRF-Token': CSRFToken || ''
             };
             options.body = body;
         }
 
-        return fetch(backendLocation + route, options);
+        return fetch(backendLocation + route, options).then((response) => {
+            if (response.headers.get('X-CSRF-Token')) {
+                CSRFToken = response.headers.get('X-CSRF-Token');
+            }
+            return response;
+        });
     }
 
     makeRequest(route = 'POST', body: Context = null, binary?: boolean): Promise<Response> {
@@ -247,15 +251,9 @@ class HttpRequests {
      * @param {object} body указание пути принимающей стороне
      * @return {Promise} Ответ на запрос
      */
-    makeRequest(
-        method: string,
-        route: string,
-        body: Context = null
-    ): Promise<Response> {
+    makeRequest(method: string, route: string, body: Context = null): Promise<Response> {
         if (!(method in this.requests)) {
-            return Promise.reject(
-                new Error(`Request method ${method} does not exist`)
-            );
+            return Promise.reject(new Error(`Request method ${method} does not exist`));
         }
 
         for (const [kMethod, handler] of Object.entries(this.requests)) {
