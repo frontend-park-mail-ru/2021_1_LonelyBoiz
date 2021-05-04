@@ -2,6 +2,7 @@ import { websocketLocation } from '../consts/config';
 import eventBus from './eventBus';
 import Events from '../consts/events';
 import Context from './Context';
+import { RETRYING_CONN_N, PING_INTERVAL_SEC } from '../consts/socket';
 
 interface IHandlers {
     [key: string]: Function
@@ -12,10 +13,12 @@ class WebSocketListener {
     webSocket: WebSocket = null;
     handlers: IHandlers = {};
     pingInterval: ReturnType<typeof setInterval> = null;
+    errorCounter = 0;
 
     constructor() {
         this.handlers.message = addMessageHandler;
         this.handlers.chat = addChatHandler;
+        this.handlers.editMessage = addEditMessageHandler;
     }
 
     static getInstance() {
@@ -29,14 +32,18 @@ class WebSocketListener {
     listen() {
         if (this.webSocket === null) {
             this.webSocket = new WebSocket(websocketLocation);
+            this.webSocket.addEventListener('open', this.onOpenEvent.bind(this));
             this.webSocket.addEventListener('message', this.onMessageEvent.bind(this));
-            this.pingInterval = setInterval(this.ping.bind(this), 30 * 1000);
+            this.webSocket.addEventListener('error', this.onErrorEvent.bind(this));
+            this.pingInterval = setInterval(this.ping.bind(this), PING_INTERVAL_SEC * 1000);
         }
     }
 
     stop() {
         if (this.webSocket !== null) {
+            this.webSocket.removeEventListener('open', this.onOpenEvent);
             this.webSocket.removeEventListener('message', this.onMessageEvent);
+            this.webSocket.removeEventListener('error', this.onErrorEvent);
             this.webSocket.close();
             this.webSocket = null;
 
@@ -47,6 +54,24 @@ class WebSocketListener {
 
     ping() {
         this.webSocket.send('{type: \'ping\', obj: {}}');
+    }
+
+    onOpenEvent() {
+        this.errorCounter = 0;
+    }
+
+    onErrorEvent() {
+        if (this.errorCounter < RETRYING_CONN_N) {
+            this.stop();
+            this.listen();
+            this.errorCounter += 1;
+
+            return;
+        }
+
+        console.error('Failed to establish websocket connection');
+        this.stop();
+        this.errorCounter = 0;
     }
 
     onMessageEvent(e: Context) {
@@ -62,7 +87,7 @@ export interface IMessageSocketData {
     authorId?: number,
     chatId: number,
     text?: string,
-    date?: Date,
+    date?: number,
     reactionId?: number,
     messageOrder?: number,
 }
@@ -83,6 +108,10 @@ function addMessageHandler(data: IMessageSocketData) {
 
 function addChatHandler(data: IChatSocketData) {
     eventBus.emit(Events.newChat, data);
+}
+
+function addEditMessageHandler(data: IMessageSocketData) {
+    eventBus.emit(Events.messageChanged, data);
 }
 
 export default WebSocketListener.getInstance();
