@@ -38,17 +38,9 @@ const networkFirst = (request) => {
             return fetch(request);
         })
         .then((response) => {
-            return gCache.put(request, response.clone()).then(() => {
-                return response;
-            });
-        })
-        .catch(() => {
-            return gCache.match(request).then((cached) => {
-                if (cached) {
-                    return cached;
-                } else {
-                    return caches.match('/');
-                }
-            });
+            if (request.method === 'GET') {
+                gCache.put(request, response.clone());
+            }
+            return response;
         });
 };
