@@ -55,6 +55,10 @@
     font-size: 32px;
 }
 
+.message_user .message__smile-icon-box svg {
+    visibility: hidden;
+}
+
 .message_other:not(:hover) .message__smile-icon-box svg {
     visibility: hidden;
 }

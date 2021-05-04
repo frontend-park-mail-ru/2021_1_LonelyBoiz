@@ -3,7 +3,8 @@ const Events = {
     pushNotifications: 'pushNotifications',
     updateAvatar: 'updateAvatar',
     newMessage: 'newMessage',
-    newChat: 'newChat'
+    newChat: 'newChat',
+    messageChanged: 'messageChanged'
 };
 
 export default Events;
