@@ -4,7 +4,7 @@ import Cell from '../Cell/Cell';
 import './ChatItem.scss';
 
 export interface IChatItem {
-    user?: { name?: string; avatar?: string };
+    user?: { name?: string; avatar?: string, id?: string };
     lastMessage?: { text?: string; time?: string };
     counter?: string;
     chatId?: number;

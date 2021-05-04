@@ -1,3 +1,9 @@
 .pre-settings__block {
     text-align: left;
 }
+
+.pre-settings {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}

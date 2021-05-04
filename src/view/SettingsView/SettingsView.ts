@@ -71,6 +71,40 @@ class SettingsView extends BaseView {
                 ]
             }).render(),
             new FormList({
+                id: 'settings__photo__secret',
+                formList: [
+                    {
+                        children: new Button({
+                            type: 'button',
+                            id: 'input_avatar__button__secret',
+                            mode: 'secondary',
+                            text: new Input({
+                                id: 'input_avatar__secret',
+                                type: 'file',
+                                placeholder: 'Добавить фотографию',
+                                accept: '.jpg,.jpeg,.png'
+                            }).render()
+                        }).render(),
+                        bottom: 'Максимальный размер: 10 МБ'
+                    },
+                    {
+                        id: 'settings__new-photo__secret'
+                    },
+                    {
+                        children: new Button({
+                            type: 'button',
+                            id: 'input_avatar__save-button__secret',
+                            mode: 'primary',
+                            text: 'Загрузить'
+                        }).render()
+                    },
+                    {
+                        loading: true,
+                        id: 'drag-photo__secret'
+                    }
+                ]
+            }).render(),
+            new FormList({
                 id: 'settings__main',
                 formList: [
                     {
@@ -211,8 +245,17 @@ class SettingsView extends BaseView {
         this.context.settingsList = [
             new Cell({ id: 'settings-list__main', text: 'Основные' }).render(),
             new Cell({ id: 'settings-list__photo', text: 'Фотографии' }).render(),
+            new Cell({ id: 'settings-list__photo__secret', text: 'Скрытый альбом' }).render(),
             new Cell({ id: 'settings-list__password', text: 'Сменить пароль' }).render()
         ];
+
+        this.context.payButton = new FormItem({
+            children: new Button({
+                mode: 'commerce',
+                id: 'pay-button',
+                text: 'Пополнить лайки'
+            }).render()
+        }).render();
 
         this.context.chevronBackCell = new Cell({
             id: 'settings__chevronBack',

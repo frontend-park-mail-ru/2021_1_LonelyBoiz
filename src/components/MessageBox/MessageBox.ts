@@ -48,10 +48,21 @@ class MessageBox extends Component {
             iconClasses: 'message-header__chevron-back'
         }).render();
 
+        this.context.secretsPhotos = new IconClass({
+            iconCode: IconsSrc.attachments,
+            size: 28,
+            iconClasses: 'pointer'
+        }).render();
+
         this.context.lock = new IconClass({
             iconCode: IconsSrc.lock,
             size: 28,
             iconClasses: 'pointer'
+        }).render();
+
+        this.context.lockOpen = new IconClass({
+            iconCode: IconsSrc.lock_open,
+            size: 28
         }).render();
 
         return this.template(this.context);

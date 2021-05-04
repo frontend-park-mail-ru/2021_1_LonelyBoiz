@@ -16,9 +16,10 @@ import chatModel from '../models/ChatModel';
 import Context from '../utils/Context';
 import { IMessageSocketData, IChatSocketData } from '../utils/WebSocketListener';
 import { imageStorageLocation } from '../consts/config';
-import { timeToStringByTime } from '../utils/helpers';
+import { badInternet, timeToStringByTime } from '../utils/helpers';
 import PopoutWrapperClass from '../utils/PopoutWrapper';
 import CardClass from '../utils/Card';
+import AlbumModel from '../models/AlbumModel';
 
 interface IElements {
     [key: string]: HTMLElement | HTMLImageElement | HTMLInputElement;
@@ -53,6 +54,8 @@ class MessageController extends BaseController {
         writeBarForm: null,
         noChatSelectedList: null,
         chevronBack: null,
+        secretsPhotos: null,
+        lockOpen: null,
         lock: null
     };
 
@@ -82,49 +85,7 @@ class MessageController extends BaseController {
                 this.setElements();
                 this.clearMessages();
                 this.hiddenChat(true);
-
-                this.registerListener({
-                    element: this.elements.writeBarIcon,
-                    type: 'click',
-                    listener: () => {
-                        this.sendMessage();
-                    }
-                });
-
-                this.registerListener({
-                    element: this.elements.writeBarForm,
-                    type: 'submit',
-                    listener: (e) => {
-                        e.preventDefault();
-                        this.sendMessage();
-                    }
-                });
-
-                this.registerListener({
-                    element: this.elements.chevronBack,
-                    type: 'click',
-                    listener: (e) => {
-                        e.preventDefault();
-                        this.clearMessages();
-                    }
-                });
-
-                this.registerListener({
-                    element: this.elements.lock,
-                    type: 'click',
-                    listener: (e) => {
-                        e.preventDefault();
-                        new PopoutWrapperClass({
-                            children: '<div id="tmpIdSecretPhoto"></div>',
-                            showBg: true,
-                            block: false
-                        });
-                        new CardClass({
-                            id: 'tmpIdSecretPhoto'
-                            // ИСПРАВИТЬ photos: userModel.getData().photos,
-                        });
-                    }
-                });
+                this.formSubmit();
 
                 chatModel
                     .getChats(userModel.getData().id)
@@ -134,7 +95,8 @@ class MessageController extends BaseController {
                                 return {
                                     user: {
                                         name: value.partnerName,
-                                        avatar: value.photo
+                                        avatar: value.photo,
+                                        id: value.partnerId
                                     },
                                     lastMessage: {
                                         text: value.lastMessage,
@@ -184,7 +146,27 @@ class MessageController extends BaseController {
         this.elements.writeBar = document.querySelector('.message-chat__writebar');
         this.elements.chevronBack = document.querySelector('.message-header__chevron-back');
         this.elements.chevronBack = document.querySelector('.message-header__chevron-back');
-        this.elements.lock = document.querySelector('.message-header__lock');
+        this.elements.secretsPhotos = document.querySelector('.message-header__icon__secrets-photos');
+        this.elements.lockOpen = document.querySelector('.message-header__icon__lock-open');
+        this.elements.lock = document.querySelector('.message-header__icon__lock');
+    }
+
+    showLockIcon(unlock: boolean): void {
+        if (!this.elements.lock || !this.elements.lockOpen) {
+            return;
+        }
+
+        if (unlock) {
+            AlbumModel.unlockForUser(Number(this.activeChat.user.id)).then((response) => {
+                if (response.ok) {
+                    this.elements.lockOpen.classList.remove('div_disabled');
+                    this.elements.lock.classList.add('div_disabled');
+                }
+            });
+        } else {
+            this.elements.lockOpen.classList.add('div_disabled');
+            this.elements.lock.classList.remove('div_disabled');
+        }
     }
 
     setVisibleChat(visibleChat: boolean): void {
@@ -193,6 +175,90 @@ class MessageController extends BaseController {
 
         this.elements.messageChat.classList.remove(`div-phone_${visibleChat ? 'disabled' : 'active'}`);
         this.elements.messageChat.classList.add(`div-phone_${visibleChat ? 'active' : 'disabled'}`);
+    }
+
+    formSubmit(): void {
+        this.registerListener({
+            element: this.elements.writeBarIcon,
+            type: 'click',
+            listener: () => {
+                this.sendMessage();
+            }
+        });
+
+        this.registerListener({
+            element: this.elements.writeBarForm,
+            type: 'submit',
+            listener: (e) => {
+                e.preventDefault();
+                this.sendMessage();
+            }
+        });
+
+        this.registerListener({
+            element: this.elements.chevronBack,
+            type: 'click',
+            listener: (e) => {
+                e.preventDefault();
+                this.clearMessages();
+            }
+        });
+
+        this.registerListener({
+            element: this.elements.secretsPhotos,
+            type: 'click',
+            listener: (e) => {
+                e.preventDefault();
+                this.openUsersSecretAlbom();
+            }
+        });
+
+        this.registerListener({
+            element: this.elements.lock,
+            type: 'click',
+            listener: (e) => {
+                e.preventDefault();
+                this.showLockIcon(true);
+            }
+        });
+
+        this.registerListener({
+            element: this.elements.lockOpen,
+            type: 'click',
+            listener: (e) => {
+                e.preventDefault();
+            }
+        });
+    }
+
+    openUsersSecretAlbom(): void {
+        AlbumModel.getPhotos(Number(this.activeChat.user.id))
+            .then((response) => {
+                if (response.ok) {
+                    if (response.json.photos.length === 0) {
+                        eventBus.emit(Events.pushNotifications, {
+                            children: 'У пользователя нет фотографий в секретном альбоме'
+                        });
+                    } else {
+                        new PopoutWrapperClass({
+                            children: '<div id="tmpIdSecretPhoto"></div>',
+                            showBg: true,
+                            block: false
+                        });
+                        new CardClass({
+                            id: 'tmpIdSecretPhoto',
+                            photos: response.json.photos
+                        });
+                    }
+                } else {
+                    eventBus.emit(Events.pushNotifications, {
+                        children: 'Нет доступа к секретному альбому'
+                    });
+                }
+            })
+            .catch(() => {
+                badInternet();
+            });
     }
 
     /**
@@ -263,7 +329,7 @@ class MessageController extends BaseController {
 
         this.clearMessages();
         this.emojeisListener.deleteListeners();
-        document.querySelectorAll('.chats-list .cell').forEach((item: HTMLElement) => {
+        document.querySelectorAll('.chats-list__list .cell').forEach((item: HTMLElement) => {
             item.classList.remove('cell_active');
         });
 
@@ -357,7 +423,10 @@ class MessageController extends BaseController {
                     });
                 }
             })
-            .catch((messageReason) => console.error('Message error - ', messageReason));
+            .catch((messageReason) => {
+                console.error('Message error - ', messageReason);
+                badInternet();
+            });
     }
 
     /**
@@ -487,12 +556,15 @@ class MessageController extends BaseController {
         }
 
         if (this.activeChat && this.messages) {
-            const last = this.messages[this.messages.length - 1];
+            const lastMessage = this.messages[this.messages.length - 1];
+            if (!lastMessage) {
+                return;
+            }
             this.editChat({
                 chatId: this.activeChat.chatId,
                 lastMessage: {
-                    text: last.text,
-                    time: timeToStringByTime(new Date(last.date))
+                    text: lastMessage.text,
+                    time: timeToStringByTime(new Date(lastMessage.date))
                 }
             });
         }
@@ -505,7 +577,7 @@ class MessageController extends BaseController {
                     {
                         text: msg.text,
                         messageId: msg.messageId,
-                        date: new Date(msg.date * 1000)
+                        date: new Date(Number(msg.date) * 1000)
                     }
                 ],
                 true
@@ -516,7 +588,7 @@ class MessageController extends BaseController {
                     chatId: msg.chatId,
                     lastMessage: {
                         text: msg.text,
-                        time: timeToStringByTime(new Date(msg.date * 1000))
+                        time: timeToStringByTime(new Date(Number(msg.date) * 1000))
                     }
                 });
             }
@@ -543,7 +615,7 @@ class MessageController extends BaseController {
             ]);
         } else {
             eventBus.emit(Events.pushNotifications, {
-                children: 'У вас новый матч!'
+                children: 'У вас новая пара!'
             });
         }
     }
@@ -572,6 +644,12 @@ class MessageController extends BaseController {
         this.elements.header.style.visibility = hidden ? 'hidden' : 'unset';
         this.elements.messageList.hidden = hidden;
         this.elements.noChatSelectedList.hidden = !hidden;
+
+        if (hidden) {
+            document.querySelectorAll('.chats-list__list .cell').forEach((item: HTMLElement) => {
+                item.classList.remove('cell_active');
+            });
+        }
     }
 
     /**

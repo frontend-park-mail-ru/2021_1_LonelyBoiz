@@ -12,7 +12,6 @@ import img from '@img/img.jpg';
 import { updateAvatar } from '../utils/updateAvatar';
 import { direction } from '../components/Tooltip/Tooltip';
 import ThemSwitch from '../components/ThemSwitch/ThemSwitch';
-import webSocketListener from '../utils/WebSocketListener';
 
 export type Template = (context: Context) => string;
 
@@ -116,7 +115,9 @@ class BaseView extends Listener {
                                 text: icon.text,
                                 useTooltip: true,
                                 direction: <direction>'bottom'
-                            }
+                            },
+                            title: icon.text,
+                            titleClasses: 'div-web_disabled'
                         };
                     }),
                     {
@@ -127,7 +128,9 @@ class BaseView extends Listener {
                             useTooltip: true,
                             direction: 'bottom',
                             arrow: false
-                        }
+                        },
+                        title: 'Темная тема',
+                        titleClasses: 'div-web_disabled'
                     },
                     {
                         icon: {
@@ -185,8 +188,18 @@ class BaseView extends Listener {
                 window.localStorage.setItem('scheme', scheme);
             }
         });
+
+        this.registerListener({
+            element: document.getElementById('burger-button'),
+            type: 'click',
+            listener: (e) => {
+                e.preventDefault();
+                document.querySelector('.header__tabbar').classList.toggle('header_close');
+                document.querySelector('#burger-button').classList.toggle('active');
+            }
+        });
+
         eventBus.connect(Events.updateAvatar, updateAvatar);
-        webSocketListener.listen();
         eventBus.emit(Events.updateAvatar);
     }
 
@@ -194,6 +207,8 @@ class BaseView extends Listener {
      * Отображает страницу
      */
     show(): void {
+        document.querySelector('.header__tabbar').classList.add('header_close');
+        document.querySelector('#burger-button').classList.remove('active');
         const headerElement = document.getElementById('header');
 
         switch (this.view) {

@@ -130,7 +130,6 @@ class PreSettingsController extends SettingsController {
         }
 
         const popout = new ScreenSpinnerClass();
-
         if (this.formSuccess && this.file) {
             userModel
                 .uploadPhoto(this.file)
@@ -140,6 +139,8 @@ class PreSettingsController extends SettingsController {
                         return;
                     }
                     eventBus.emit(Events.updateAvatar);
+
+                    tmpForm.photos = [photoResponse.json.photoId];
 
                     userModel
                         .update(tmpForm)

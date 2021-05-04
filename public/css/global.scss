@@ -16,7 +16,7 @@ body {
     z-index: 1;
 }
 
-.bg_color_white {
+.bg-color_white {
     background-color: var(--white-bg-color);
 }
 
@@ -82,6 +82,10 @@ body {
 
 .shadow_button {
     box-shadow: var(--shadow_button);
+}
+
+.text-center {
+    text-align: center;
 }
 
 .center-placeholder-label {

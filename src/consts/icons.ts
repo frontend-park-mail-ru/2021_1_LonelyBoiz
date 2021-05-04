@@ -28,6 +28,9 @@ export const Icons = {
     chevron_up: 'icon/chevron_up.svg',
     reorder: 'icon/reorder.svg',
     newsfeed: 'icon/newsfeed.svg',
+    attachments: 'icon/attachments.svg',
+    lock_open: 'icon/lock_open.svg',
+    delete: 'icon/delete.svg',
     lock: 'icon/lock.svg'
 };
 

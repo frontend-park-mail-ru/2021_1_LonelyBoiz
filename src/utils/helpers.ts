@@ -7,6 +7,7 @@ import feedModel from '../models/FeedModel';
 import Context from './Context';
 import { IUserModel } from '../models/UserModel';
 import { IChat } from '../models/ChatModel';
+import { IChatItem } from '../components/ChatItem/ChatItem';
 
 export interface IResponseData {
     status: number;
@@ -114,10 +115,24 @@ export function getFeed(): void {
 export function handleReactionPromise(response: Response): Context {
     if (response.status === 401) {
         eventBus.emit(Events.routeChange, Routes.loginRoute);
+        return Promise.reject(new Error('Not auth'));
     }
     if (response.status === 403) {
         return Promise.reject(new Error('Current user is not part of your feed'));
     }
+    if (response.status === 402) {
+        eventBus.emit(Events.pushNotifications, {
+            status: 'error',
+            children: 'У вас закончились лайки! Можете пополнить их в настройках.'
+        });
+        return Promise.reject(new Error('Need pay'));
+    }
+
+    const newChatData = response.json as IChatItem;
+    if (newChatData?.chatId) {
+        eventBus.emit(Events.newChat, newChatData);
+    }
+
     if (response.ok) {
         this.userData = feedModel.getCurrent().json;
         if (!this.userData) {
@@ -202,11 +217,12 @@ interface IChatPatch {
 }
 
 export function updateChat(chats: IChat[], chatPatch: IChatPatch): void {
-    for (const chat of chats) {
+    for (let chat of chats) {
         if (chat.chatId === chatPatch.chatId) {
             for (const key of Object.keys(chat)) {
-                if (chatPatch[key]) {
-                    chat[key] = chatPatch[key];
+                const tmpKey = key as keyof IChatPatch;
+                if (chatPatch[tmpKey]) {
+                    chat = { ...chat, [tmpKey]: chatPatch[tmpKey] };
                 }
             }
             break;

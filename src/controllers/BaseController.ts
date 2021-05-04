@@ -7,6 +7,7 @@ import Events from '../consts/events';
 import Routes from '../consts/routes';
 import userModel, { IUserModel } from '../models/UserModel';
 import Views from '../consts/views';
+import webSocketListener from '../utils/WebSocketListener';
 
 interface IBaseController {
     view: BaseView;
@@ -57,6 +58,7 @@ class BaseController extends Listener {
                 eventBus.emit(Events.routeChange, Routes.preSettingsRoute);
                 return Promise.reject(new Error('Not activated'));
             }
+            webSocketListener.listen();
         });
     }
 

@@ -1,8 +1,6 @@
 import backendLocation from '../consts/config';
 import Context from './Context';
 
-let CSRFToken: string | null = null;
-
 /**
  * @class
  * Базовый класс, описывающий общий случай запроса на сервер

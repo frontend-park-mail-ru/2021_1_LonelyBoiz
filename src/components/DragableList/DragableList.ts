@@ -32,6 +32,11 @@ class DragableListController extends Component {
             iconCode: IconsSrc.chevron_up,
             size: 24
         }).render();
+        this.context.delete = new IconClass({
+            iconClasses: 'reorder__icon',
+            iconCode: IconsSrc.delete,
+            size: 24
+        }).render();
     }
 }
 

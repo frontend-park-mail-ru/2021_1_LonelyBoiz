@@ -192,7 +192,7 @@ class UserModel {
         let modifiedData: Context = {};
         Object.entries(data).forEach((item) => {
             const [key, value] = item as [keyof IUserModel, Context];
-            if (key !== 'id' && key !== 'photos' && key in currData) {
+            if (key !== 'id' && key in currData) {
                 modifiedData[key] = addIfNotEq(this.setMiddleware(key, value), currData[key]);
             }
         });
@@ -256,8 +256,6 @@ class UserModel {
      * @return {Promise}
      */
     logout(): Promise<IResponseData> {
-        window.localStorage.removeItem('CSRFToken');
-
         if (this.data.id === undefined) {
             return Promise.reject(new Error(`Invalid id ${this.data.id}. It shouldn't be -1`));
         }
@@ -269,8 +267,10 @@ class UserModel {
             this.authorized = false;
             Object.entries(this.data).forEach((item) => {
                 const key = item[0] as keyof IUserModel;
-                delete this.data[key];
+                this.data = { ...this.data, [key]: undefined };
             });
+
+            window.localStorage.removeItem('CSRFToken');
 
             return {
                 json: {},

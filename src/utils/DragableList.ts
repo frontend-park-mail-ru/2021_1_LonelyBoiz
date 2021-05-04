@@ -3,12 +3,14 @@ import DragableListController from '../components/DragableList/DragableList';
 import Listener from './Listener';
 import { arrayMove } from './helpers';
 
+type listType = { str: string; data: Context };
+
 /**
  * @class
  * Объект синглтон для управления уведомлениями
  */
 class DragableListClass extends Listener {
-    list: string[];
+    list: listType[];
     onDrag: Function = null;
     root: HTMLElement;
 
@@ -18,7 +20,7 @@ class DragableListClass extends Listener {
      * @constructor
      * @this  {DragableList}
      */
-    constructor(root: HTMLElement, list: string[], onDrag?: (from: number, to: number) => Context) {
+    constructor(root: HTMLElement, list: listType[], onDrag?: (from: number, to: number) => Context) {
         super();
         this.list = list;
         this.root = root;
@@ -30,17 +32,34 @@ class DragableListClass extends Listener {
         this.deleteListeners();
 
         this.root.innerHTML = new DragableListController({
-            list: this.list
+            list: this.list.map((item) => item.str)
         }).render();
 
         const list = this.root.firstElementChild;
 
-        Object.entries(list.children).forEach((element) => {
+        const elementsList = Object.entries(list.children);
+        elementsList.forEach((element, i) => {
             const id = Number(element[0]);
             const item = element[1];
             const chevron = item.querySelector('.dragable-list__chevron');
             const chevronUp = chevron.children[0] as HTMLElement;
-            const chevronDown = chevron.children[1] as HTMLElement;
+            const deleteElement = chevron.children[1] as HTMLElement;
+            const chevronDown = chevron.children[2] as HTMLElement;
+
+            if (i === 0) {
+                chevronUp.classList.add('div_disabled');
+            }
+            if (i === elementsList.length - 1) {
+                chevronDown.classList.add('div_disabled');
+            }
+
+            this.registerListener({
+                element: deleteElement,
+                type: 'click',
+                listener: () => {
+                    this.move(id, -1);
+                }
+            });
             this.registerListener({
                 element: chevronDown,
                 type: 'click',
@@ -59,7 +78,12 @@ class DragableListClass extends Listener {
     }
 
     move(from: number, to: number): void {
-        arrayMove(this.list, from, to);
+        if (to === -1) {
+            this.list.splice(from, 1);
+        } else {
+            arrayMove(this.list, from, to);
+        }
+
         if (this.onDrag) {
             this.onDrag(from, to);
         }
@@ -78,7 +102,7 @@ class DragableListClass extends Listener {
      * Добавить в список элемент
      * @param {string} item
      */
-    addToList(item: string): void {
+    addToList(item: listType): void {
         this.list.push(item);
         this.render();
     }

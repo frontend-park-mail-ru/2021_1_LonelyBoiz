@@ -3,8 +3,7 @@ import SettingsView from '../view/SettingsView/SettingsView';
 import eventBus from '../utils/eventBus';
 import Routes from '../consts/routes';
 import Events from '../consts/events';
-import { validateForm, checkForm, processingResultForms, fillForm, IFormList } from '../utils/form';
-import ScreenSpinnerClass from '../utils/ScreenSpinner';
+import { validateForm, checkForm, fillForm, IFormList } from '../utils/form';
 import userModel from '../models/UserModel';
 import feedModel from '../models/FeedModel';
 import chatModel from '../models/ChatModel';
@@ -15,9 +14,14 @@ import FormItem from '../components/FormItem/FormItem';
 import { onPhotoUpload, setPhoto } from '../utils/photo';
 import DragableListClass from '../utils/DragableList';
 import Img from '../components/Img/Img';
-import { arrayMove, badInternet } from '../utils/helpers';
+import { arrayMove, IResponseData } from '../utils/helpers';
+import PopoutWrapperClass from '../utils/PopoutWrapper';
+import Pay from '../components/Pay/Pay';
+import { patchUser } from '../utils/userPatch';
+import AlbumModel from '../models/AlbumModel';
+import { imageStorageLocation } from '../consts/config';
 
-type TSettingsList = 'main' | 'photo' | 'password';
+type TSettingsList = 'main' | 'photo' | 'photoSecret' | 'password';
 
 type ISettingsGropus = {
     [key in TSettingsList]: IFormList;
@@ -43,12 +47,14 @@ class SettingsController extends BaseController {
     settingsGroupIds: ISettingsGropusIds = {
         main: ['settings__main'],
         photo: ['settings__photo'],
+        photoSecret: ['settings__photo__secret'],
         password: ['settings__password']
     };
 
     settingsListIds: ISettingsListIds = {
         main: 'settings-list__main',
         photo: 'settings-list__photo',
+        photoSecret: 'settings-list__photo__secret',
         password: 'settings-list__password'
     };
 
@@ -93,6 +99,7 @@ class SettingsController extends BaseController {
             }
         },
         photo: {},
+        photoSecret: {},
         password: {
             passwordOld: {
                 id: 'settings_password_old',
@@ -114,6 +121,7 @@ class SettingsController extends BaseController {
     settingsList: IFormList = {};
 
     photoList: string[] = [];
+    secretPhotoList: string[] = [];
     /**
      * Создает экземпляр ввода
      *
@@ -157,33 +165,80 @@ class SettingsController extends BaseController {
                 });
                 this.formSubmit();
                 this.fillFormData();
-                this.showDragPhoto();
+                this.showDragPhoto('drag-photo', this.photoList, true);
                 document.getElementById('input_avatar__save-button').classList.add('div_disabled');
+                document.getElementById('input_avatar__save-button__secret').classList.add('div_disabled');
             })
             .catch((e) => {
                 console.error(e);
             });
     }
 
-    showDragPhoto(): void {
-        const root = document.getElementById('drag-photo');
+    openPayForm(): void {
+        new PopoutWrapperClass({
+            children: new Pay().render(),
+            showBg: true,
+            block: false
+        });
+    }
 
-        if (this.dragMainPhoto) {
-            this.dragMainPhoto.deleteListeners();
+    showDragPhoto(id: string, photoList: string[], isMainAlbum = true): void {
+        const root = document.getElementById(id);
+
+        let tmpDragObj = this.dragMainPhoto;
+        if (!isMainAlbum) {
+            tmpDragObj = this.dragSecretPhoto;
         }
 
-        this.dragMainPhoto = new DragableListClass(
+        if (tmpDragObj) {
+            tmpDragObj.deleteListeners();
+        }
+
+        tmpDragObj = new DragableListClass(
             root,
-            this.photoList.map((item) => {
-                return new Img({
-                    src: item
-                }).render();
+            photoList.map((item) => {
+                return {
+                    str: new Img({
+                        src: item
+                    }).render(),
+                    data: {
+                        photoListItem: item
+                    }
+                };
             }),
             (from: number, to: number) => {
-                arrayMove(this.photoList, from, to);
-                // ИСПРАВИТЬ saveNewArray
+                if (to === -1) {
+                    photoList.splice(from, 1);
+                } else {
+                    arrayMove(photoList, from, to);
+                }
+                this.savePhotoList(photoList, isMainAlbum);
             }
         );
+    }
+
+    savePhotoList(arr: string[], isMainAlbum = true): Promise<IResponseData> {
+        const photos = [
+            ...arr.map((item) => {
+                return item.slice(item.lastIndexOf('/') + 1);
+            })
+        ];
+        if (!isMainAlbum) {
+            return AlbumModel.updatePhotos(photos);
+        } else {
+            return patchUser.call(this, { photos }).then(() => {
+                eventBus.emit(Events.updateAvatar);
+            });
+        }
+    }
+
+    fillSecretPhotos(): void {
+        AlbumModel.getPhotos(userModel.getData().id).then((response) => {
+            if (response.ok) {
+                this.secretPhotoList = response.json.photos;
+                this.showDragPhoto('drag-photo__secret', this.secretPhotoList, false);
+            }
+        });
     }
 
     /**
@@ -192,6 +247,8 @@ class SettingsController extends BaseController {
     fillFormData(): void {
         const json = userModel.getFilledData();
         this.photoList = json.photos;
+        this.fillSecretPhotos();
+
         if (json.error) {
             return;
         }
@@ -260,6 +317,22 @@ class SettingsController extends BaseController {
         });
 
         this.registerListener({
+            element: document.getElementById('input_avatar__secret'),
+            type: 'change',
+            listener: (e) => {
+                this.photoUpload(e, '__secret');
+            }
+        });
+
+        this.registerListener({
+            element: document.getElementById('input_avatar__button__secret'),
+            type: 'click',
+            listener: () => {
+                document.getElementById('input_avatar__secret').click();
+            }
+        });
+
+        this.registerListener({
             element: document.getElementById('settings__chevronBack'),
             type: 'click',
             listener: () => {
@@ -275,6 +348,22 @@ class SettingsController extends BaseController {
             }
         });
 
+        this.registerListener({
+            element: document.getElementById('input_avatar__save-button__secret'),
+            type: 'click',
+            listener: () => {
+                this.uploadPhoto(this.file);
+            }
+        });
+
+        this.registerListener({
+            element: document.getElementById('pay-button'),
+            type: 'click',
+            listener: () => {
+                this.openPayForm();
+            }
+        });
+
         Object.entries(this.settingsListIds).forEach(([key, value]) => {
             this.registerListener({
                 element: document.getElementById(value),
@@ -286,10 +375,12 @@ class SettingsController extends BaseController {
         });
     }
 
-    photoUpload(e: Event): void {
+    photoUpload(e: Event, classPostfics?: string): void {
         onPhotoUpload(e).then((file) => {
-            document.getElementById('input_avatar__save-button').classList.remove('div_disabled');
-            setPhoto(file, 'settings__new-photo', 'settings__photo');
+            document
+                .getElementById(`input_avatar__save-button${classPostfics ?? ''}`)
+                .classList.remove('div_disabled');
+            setPhoto(file, `settings__new-photo${classPostfics ?? ''}`, 'settings__photo');
             this.file = file;
         });
     }
@@ -303,11 +394,25 @@ class SettingsController extends BaseController {
                     if (!photoResponse.ok) {
                         return;
                     }
-                    this.showDragPhoto();
-                    eventBus.emit(Events.updateAvatar);
-                    document.getElementById('input_avatar__save-button').classList.add('div_disabled');
                     this.file = null;
                     this.collapsePhoto();
+
+                    if (this.settingsList === this.settingsGroup.photo) {
+                        eventBus.emit(Events.updateAvatar);
+                        document.getElementById('input_avatar__save-button').classList.add('div_disabled');
+                        this.savePhotoList(userModel.getData().photos, true).then(() => {
+                            this.photoList = userModel.getData().photos;
+                            this.showDragPhoto('drag-photo', this.photoList, true);
+                        });
+                    } else {
+                        document
+                            .getElementById('input_avatar__save-button__secret')
+                            .classList.add('div_disabled');
+
+                        this.secretPhotoList.push(`${imageStorageLocation}/${photoResponse.json.photoId}`);
+                        this.savePhotoList(this.secretPhotoList, false);
+                        this.showDragPhoto('drag-photo__secret', this.secretPhotoList, false);
+                    }
                 })
                 .catch((photoReason) => {
                     console.error('Photo upload error - ', photoReason);
@@ -333,6 +438,15 @@ class SettingsController extends BaseController {
     }
 
     changeList(newKey: keyof ISettingsListIds): void {
+        this.collapsePhoto();
+        this.file = null;
+
+        if (newKey === 'photo' || newKey === 'photoSecret') {
+            document.getElementById('settings__submit').classList.add('div_disabled');
+        } else {
+            document.getElementById('settings__submit').classList.remove('div_disabled');
+        }
+
         Object.entries(this.settingsListIds).forEach(([key, value]) => {
             document.getElementById(value).classList.remove('cell_active');
             if (key === newKey) {
@@ -360,6 +474,11 @@ class SettingsController extends BaseController {
         const tmpDiv = document.createElement('div');
         tmpDiv.innerHTML = new FormItem({ id: 'settings__new-photo' }).render();
         photoForm.replaceWith(tmpDiv.firstChild);
+
+        const photoFormSecret = document.getElementById('settings__new-photo__secret');
+        const tmpDivSecret = document.createElement('div');
+        tmpDivSecret.innerHTML = new FormItem({ id: 'settings__new-photo__secret' }).render();
+        photoFormSecret.replaceWith(tmpDivSecret.firstChild);
     }
 
     /**
@@ -376,26 +495,7 @@ class SettingsController extends BaseController {
         });
 
         if (this.formSuccess) {
-            const popout = new ScreenSpinnerClass();
-
-            userModel
-                .update(tmpForm)
-                .finally(() => {
-                    popout.destroy();
-                })
-                .then((response) => {
-                    const json = response.json;
-                    eventBus.emit(Events.pushNotifications, { children: 'Сохранено' });
-                    processingResultForms({
-                        data: json || {},
-                        errorBlockId: 'settings-error',
-                        formList: this.settingsList
-                    });
-                })
-                .catch((reason) => {
-                    console.error(reason);
-                    badInternet();
-                });
+            patchUser.call(this, tmpForm);
         }
     }
 }

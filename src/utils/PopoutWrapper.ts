@@ -81,7 +81,6 @@ class PopoutWrapperClass extends Listener {
             element: <HTMLElement> this.domElement.children[0].children[0],
             type: 'click',
             listener: (e) => {
-                e.preventDefault();
                 e.stopPropagation();
             }
         });

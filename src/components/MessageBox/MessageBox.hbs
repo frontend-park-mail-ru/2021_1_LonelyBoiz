@@ -4,8 +4,14 @@
         <img class="icon avatar avatar_l" src="{{chatUser.avatar}}" />
     </div>
     <div class="message-header__title">{{chatUser.name}}</div>
-    <div class="message-header__avatar message-header__lock">
+    <div class="message-header__avatar message-header__icon message-header__icon__secrets-photos">
+        {{{secretsPhotos}}}
+    </div>
+    <div class="message-header__avatar message-header__icon message-header__icon__lock">
         {{{lock}}}
+    </div>
+    <div class="message-header__avatar message-header__icon message-header__icon__lock-open div_disabled">
+        {{{lockOpen}}}
     </div>
 </div>
 <div class="message-chat__writebar">
