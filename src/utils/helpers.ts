@@ -6,6 +6,7 @@ import Routes from '../consts/routes';
 import feedModel from '../models/FeedModel';
 import Context from './Context';
 import { IUserModel } from '../models/UserModel';
+import { IChat } from '../models/ChatModel';
 
 export interface IResponseData {
     status: number;
@@ -172,3 +173,25 @@ export const checkStringEmojis = (str: string): boolean => {
     }
     return match.join('') === str;
 };
+
+interface IChatPatch {
+    chatId: number;
+    partnerId?: number;
+    partnerName?: string;
+    lastMessage?: string;
+    lastMessageTime?: number;
+    photo?: number;
+}
+
+export function updateChat(chats: IChat[], chatPatch: IChatPatch): void {
+    for (const chat of chats) {
+        if (chat.chatId === chatPatch.chatId) {
+            for (const key of Object.keys(chat)) {
+                if (chatPatch[key]) {
+                    chat[key] = chatPatch[key];
+                }
+            }
+            break;
+        }
+    }
+}

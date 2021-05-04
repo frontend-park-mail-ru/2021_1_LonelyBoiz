@@ -61,6 +61,7 @@ class MessageController extends BaseController {
         super({ view: new MessageView() });
         eventBus.connect(Events.newMessage, this.addNewMessageHandler.bind(this));
         eventBus.connect(Events.newChat, this.addNewChatHandler.bind(this));
+        eventBus.connect(Events.messageChanged, this.changeMessageHandler.bind(this));
     }
 
     /**
@@ -231,7 +232,7 @@ class MessageController extends BaseController {
                         reaction: value.reactionId,
                         text: value.text,
                         messageId: value.messageId,
-                        date: new Date(value.date * 1000),
+                        date: new Date(value.date),
                         usersMessage: value.authorId === userModel.getData().id
                     };
                 });
@@ -270,7 +271,7 @@ class MessageController extends BaseController {
                 }
                 if (messageResponse.ok) {
                     this.elements.writeBarInput.value = '';
-                    this.addMessages([{ text: value, usersMessage: true }], true);
+                    this.addMessages([{ text: value, messageId: messageResponse.json.messageId, date: new Date(messageResponse.json.date), usersMessage: true }], true);
                 }
                 if (!messageResponse.ok) {
                     eventBus.emit(Events.pushNotifications, {
@@ -320,11 +321,14 @@ class MessageController extends BaseController {
                     this.editMessage(message);
                 }
             })
-            .catch((reactionReason) => console.error('Reactione error - ', reactionReason));
+            .catch((reactionReason) => console.error('Reaction error - ', reactionReason));
     }
 
     editMessage(message: IMessageItem): void {
         const element = document.querySelector(`div[data-message-id="${message.messageId}"]`);
+        if (!element) {
+            return;
+        }
         const iconElement = <HTMLElement>element.querySelector('.icon');
         const messageTextElement = <HTMLElement>element.querySelector('.message__text');
 
@@ -404,20 +408,60 @@ class MessageController extends BaseController {
         } else {
             this.elements.noMessageList.hidden = false;
         }
+
+        if (this.activeChat && this.messages) {
+            const last = this.messages[this.messages.length - 1];
+            this.editChat({
+                chatId: this.activeChat.chatId,
+                lastMessage: {
+                    text: last.text,
+                    time: timeToStringByTime(new Date(last.date))
+                }
+            });
+        }
+    }
+
+    editChat(chat: IChatItem): void {
+        const element = document.querySelector(`div[data-chat-id="${chat.chatId}"]`);
+        if (!element) {
+            return;
+        }
+        const lastMessage = element.querySelector('.chat-item__last-message');
+        const lastTime = element.querySelector('.chat-item__time');
+
+        if (chat.lastMessage) {
+            if (lastMessage) {
+                lastMessage.innerHTML = chat.lastMessage.text;
+            }
+
+            if (lastTime && chat.lastMessage.time) {
+                lastTime.innerHTML = chat.lastMessage.time;
+            }
+        }
     }
 
     addNewMessageHandler(msg: IMessageSocketData): void {
-        if (this.activeChat.chatId === msg.chatId) {
+        if (this.activeChat && this.activeChat.chatId === msg.chatId) {
             this.addMessages(
                 [
                     {
                         text: msg.text,
-                        messageId: msg.messageId
+                        messageId: msg.messageId,
+                        date: new Date(msg.date * 1000)
                     }
                 ],
                 true
             );
         } else {
+            if (this.elements.chatsList) {
+                this.editChat({
+                    chatId: msg.chatId,
+                    lastMessage: {
+                        text: msg.text,
+                        time: timeToStringByTime(new Date(msg.date * 1000))
+                    }
+                });
+            }
             eventBus.emit(Events.pushNotifications, {
                 children: 'У вас новое сообщение'
             });
@@ -434,7 +478,7 @@ class MessageController extends BaseController {
                     },
                     lastMessage: {
                         text: chat.lastMessage,
-                        time: timeToStringByTime(new Date(chat.lastMessageTime * 1000))
+                        time: timeToStringByTime(new Date(chat.lastMessageTime))
                     },
                     chatId: chat.chatId
                 }
@@ -442,6 +486,20 @@ class MessageController extends BaseController {
         } else {
             eventBus.emit(Events.pushNotifications, {
                 children: 'У вас новый матч!'
+            });
+        }
+    }
+
+    changeMessageHandler(msg: IMessageSocketData): void {
+        if (this.elements.chatsList && this.activeChat && this.activeChat.chatId === msg.chatId) {
+            this.editMessage({
+                messageId: msg.messageId,
+                text: msg.text,
+                reaction: msg.reactionId - 1
+            });
+        } else {
+            eventBus.emit(Events.pushNotifications, {
+                children: 'Вашему сообщению поставили реакцию!'
             });
         }
     }

@@ -1,5 +1,5 @@
 import HttpRequests from '../utils/requests';
-import { parseJson, IResponseData, timeToStringByTime } from '../utils/helpers';
+import { parseJson, IResponseData, timeToStringByTime, updateChat } from '../utils/helpers';
 import Context from '../utils/Context';
 import eventBus from '../utils/eventBus';
 import Events from '../consts/events';
@@ -46,6 +46,7 @@ class ChatModel {
     constructor() {
         eventBus.connect(Events.newMessage, this.addNewMessageHandler.bind(this));
         eventBus.connect(Events.newChat, this.addNewChatHandler.bind(this));
+        eventBus.connect(Events.messageChanged, this.updateMessageHandler.bind(this));
     }
 
     addNewMessageHandler(msg: IMessageSocketData) {
@@ -54,12 +55,19 @@ class ChatModel {
             authorId: msg.authorId,
             chatId: msg.chatId,
             text: msg.text,
-            date: Number(msg.date),
+            date: msg.date * 1000,
             reactionId: msg.reactionId,
             messageOrder: msg.messageOrder
         };
 
-        this.chatMessages[msg.chatId].push(newMessage);
+        if (this.chatMessages[newMessage.chatId]) {
+            this.chatMessages[newMessage.chatId].push(newMessage);
+        }
+        updateChat(this.chats, {
+            chatId: newMessage.chatId,
+            lastMessage: newMessage.text,
+            lastMessageTime: newMessage.date
+        });
     }
 
     addNewChatHandler(chat: IChatSocketData) {
@@ -71,7 +79,22 @@ class ChatModel {
             lastMessageTime: chat.lastMessageTime,
             photo: chat.photos[0]
         };
+
         this.chats.push(newChat);
+    }
+
+    updateMessageHandler(msg: IMessageSocketData) {
+        if (!this.chatMessages[msg.chatId]) {
+            return;
+        }
+
+        for (const chatMsg of this.chatMessages[msg.chatId]) {
+            if (chatMsg.messageId === msg.messageId) {
+                chatMsg.reactionId = msg.reactionId - 1;
+                chatMsg.text = msg.text;
+                break;
+            }
+        }
     }
 
     resetChats(): void {
@@ -86,9 +109,9 @@ class ChatModel {
             .then(parseJson)
             .then((response) => {
                 if (response.ok && 'reactionId' in msg && this.chatMessages[chatId]) {
-                    this.chatMessages[chatId].forEach((msg, i) => {
-                        if (msg.messageId === msgId) {
-                            this.chatMessages[chatId][i] = msg.reactionId;
+                    this.chatMessages[chatId].forEach((chatMsg, i) => {
+                        if (chatMsg.messageId === msgId) {
+                            this.chatMessages[chatId][i].reactionId = msg.reactionId - 1;
                         }
                     });
                 }
@@ -109,7 +132,16 @@ class ChatModel {
             .then(parseJson)
             .then((response) => {
                 if (response.ok && this.chatMessages[chatId]) {
+                    response.json = {
+                        ...response.json,
+                        date: response.json.date * 1000
+                    };
                     this.chatMessages[chatId].push(response.json);
+                    updateChat(this.chats, {
+                        chatId: response.json.chatId,
+                        lastMessage: response.json.text,
+                        lastMessageTime: response.json.date
+                    });
                 }
 
                 return response;
@@ -136,6 +168,7 @@ class ChatModel {
                     response.json = response.json.map((msg) => {
                         return {
                             ...msg,
+                            date: msg.date * 1000,
                             reactionId: msg.reactionId - 1
                         };
                     });
@@ -151,7 +184,10 @@ class ChatModel {
             return Promise.resolve({
                 status: 200,
                 ok: true,
-                json: this.chats
+                json: this.chats.map((chat: Context) => ({
+                    ...chat,
+                    lastMessageTime: timeToStringByTime(new Date(chat.lastMessageTime))
+                }))
             });
         }
         const offset = 0;
@@ -170,11 +206,16 @@ class ChatModel {
                             partnerId: chat.partnerId,
                             partnerName: chat.partnerName,
                             lastMessage: chat.lastMessage,
-                            lastMessageTime: timeToStringByTime(new Date(chat.lastMessageTime * 1000)),
+                            lastMessageTime: chat.lastMessageTime * 1000,
                             photo: imageStorageLocation + '/' + chat.photos[0]
                         };
                     });
-                    response.json = this.chats;
+                    response.json = this.chats.map((chat: Context) => {
+                        return {
+                            ...chat,
+                            lastMessageTime: timeToStringByTime(new Date(chat.lastMessageTime))
+                        };
+                    });
                 }
 
                 return Promise.resolve(response);
