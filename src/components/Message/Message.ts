@@ -41,7 +41,7 @@ class Message extends Component {
                 size: 28,
                 iconClasses: 'message__smile-icon gray-icon'
             }).render();
-        } else if (!this.context.usersMessage) {
+        } else {
             this.context.emojiIcon = new IconClass({
                 iconCode: IconsSrc.smile,
                 size: 28,
