@@ -60,10 +60,11 @@ class InfoBlock extends Component {
         };
 
         this.context.InfoRows = [];
-        for (const [key, value] of Object.entries(this.context.info)) {
+        Object.entries(this.context.info).forEach((item) => {
+            const [key, value] = item as [keyof typeof infoRowsType, string];
             infoRowsType[key].text += value;
             this.context.InfoRows.push(new InfoRow(infoRowsType[key]).render());
-        }
+        });
         if (this.context.description) {
             this.context.Description = new InfoRow({
                 text: this.context.description
@@ -73,7 +74,7 @@ class InfoBlock extends Component {
         if (this.context.buttons && Object.entries(this.context.buttons).length > 0) {
             this.context.Tabbar = new Tabbar({
                 icons: Object.entries(this.context.buttons).map((item) => {
-                    const [key, value] = item;
+                    const [key, value] = item as [keyof typeof HomeIconsSrc, string];
                     return {
                         icon: {
                             size: 24,

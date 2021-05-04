@@ -17,9 +17,11 @@ import Context from '../utils/Context';
 import { IMessageSocketData, IChatSocketData } from '../utils/WebSocketListener';
 import { imageStorageLocation } from '../consts/config';
 import { timeToStringByTime } from '../utils/helpers';
+import PopoutWrapperClass from '../utils/PopoutWrapper';
+import CardClass from '../utils/Card';
 
 interface IElements {
-    [key: string]: HTMLElement;
+    [key: string]: HTMLElement | HTMLImageElement | HTMLInputElement;
 }
 
 /**
@@ -37,6 +39,7 @@ class MessageController extends BaseController {
     endChat = false;
     emojeisListener = new Listener();
     elements: IElements = {
+        chatList: null,
         chatsList: null,
         messageList: null,
         noChatsList: null,
@@ -48,7 +51,9 @@ class MessageController extends BaseController {
         writeBarIcon: null,
         writeBarInput: null,
         writeBarForm: null,
-        noChatSelectedList: null
+        noChatSelectedList: null,
+        chevronBack: null,
+        lock: null
     };
 
     /**
@@ -95,6 +100,32 @@ class MessageController extends BaseController {
                     }
                 });
 
+                this.registerListener({
+                    element: this.elements.chevronBack,
+                    type: 'click',
+                    listener: (e) => {
+                        e.preventDefault();
+                        this.clearMessages();
+                    }
+                });
+
+                this.registerListener({
+                    element: this.elements.lock,
+                    type: 'click',
+                    listener: (e) => {
+                        e.preventDefault();
+                        new PopoutWrapperClass({
+                            children: '<div id="tmpIdSecretPhoto"></div>',
+                            showBg: true,
+                            block: false
+                        });
+                        new CardClass({
+                            id: 'tmpIdSecretPhoto'
+                            // ИСПРАВИТЬ photos: userModel.getData().photos,
+                        });
+                    }
+                });
+
                 chatModel
                     .getChats(userModel.getData().id)
                     .then((chatResponse) => {
@@ -129,12 +160,16 @@ class MessageController extends BaseController {
     }
 
     setElements(): void {
+        this.elements.chatList = document.querySelector('.chats-list');
+        this.elements.messageChat = document.querySelector('.message-chat');
         this.elements.chatsList = document.querySelector('.chats-list__list');
         this.elements.messageList = document.querySelector('.message-chat__list');
         this.elements.noChatsList = document.getElementById('chats-list__no-message');
         this.elements.noMessageList = document.getElementById('message-chat__no-message');
         this.elements.noChatSelectedList = document.getElementById('message-chat__no-chat-selected');
-        this.elements.headerIcon = document.querySelector('.message-chat .message-header .icon');
+        this.elements.headerIcon = document.querySelector(
+            '.message-chat .message-header .avatar'
+        ) as HTMLImageElement;
         this.elements.headerTitle = document.querySelector(
             '.message-chat .message-header .message-header__title'
         );
@@ -143,10 +178,21 @@ class MessageController extends BaseController {
         );
         this.elements.writeBarInput = document.querySelector(
             '.message-chat .message-chat__writebar .input-block__input'
-        );
+        ) as HTMLInputElement;
         this.elements.writeBarForm = document.getElementById('write-bar__form');
         this.elements.header = document.querySelector('.message-header');
         this.elements.writeBar = document.querySelector('.message-chat__writebar');
+        this.elements.chevronBack = document.querySelector('.message-header__chevron-back');
+        this.elements.chevronBack = document.querySelector('.message-header__chevron-back');
+        this.elements.lock = document.querySelector('.message-header__lock');
+    }
+
+    setVisibleChat(visibleChat: boolean): void {
+        this.elements.chatList.classList.add(`div-phone_${visibleChat ? 'disabled' : 'active'}`);
+        this.elements.chatList.classList.remove(`div-phone_${visibleChat ? 'active' : 'disabled'}`);
+
+        this.elements.messageChat.classList.remove(`div-phone_${visibleChat ? 'disabled' : 'active'}`);
+        this.elements.messageChat.classList.add(`div-phone_${visibleChat ? 'active' : 'disabled'}`);
     }
 
     /**
@@ -154,7 +200,7 @@ class MessageController extends BaseController {
      * @param {{user:{name, avatar}, lastMessage:{text, time: String}, counter, chatId}[]} chats
      * @param {boolean} newChat
      */
-    addChats(chats: IChatItem[], newChat?: boolean): void {
+    addChats(chats: IChatItem[], newChat = true): void {
         if (!chats && chats.length === 0) {
             return;
         }
@@ -193,11 +239,32 @@ class MessageController extends BaseController {
         }
     }
 
+    editChat(chat: IChatItem): void {
+        const element = document.querySelector(`div[data-chat-id="${chat.chatId}"]`);
+        if (!element) {
+            return;
+        }
+        const lastMessage = element.querySelector('.chat-item__last-message');
+        const lastTime = element.querySelector('.chat-item__time');
+
+        if (chat.lastMessage) {
+            if (lastMessage) {
+                lastMessage.innerHTML = chat.lastMessage.text;
+            }
+
+            if (lastTime && chat.lastMessage.time) {
+                lastTime.innerHTML = chat.lastMessage.time;
+            }
+        }
+    }
+
     openChat(chatId: number): void {
+        this.setVisibleChat(true);
+
         this.clearMessages();
         this.emojeisListener.deleteListeners();
         document.querySelectorAll('.chats-list .cell').forEach((item: HTMLElement) => {
-            item.classList.remove('chat-item_active');
+            item.classList.remove('cell_active');
         });
 
         let currentChat: IChatItem;
@@ -206,7 +273,7 @@ class MessageController extends BaseController {
                 currentChat = item;
                 const chatElement = <HTMLElement>document.querySelector(`div[data-chat-id="${item.chatId}"]`);
                 if (chatElement) {
-                    chatElement.classList.add('chat-item_active');
+                    chatElement.classList.add('cell_active');
                 }
             }
         });
@@ -216,7 +283,7 @@ class MessageController extends BaseController {
         }
 
         this.activeChat = currentChat;
-        this.elements.headerIcon.src = currentChat.user.avatar;
+        (this.elements.headerIcon as HTMLImageElement).src = currentChat.user.avatar;
         this.elements.headerTitle.innerHTML = currentChat.user.name;
 
         this.hiddenChat(false);
@@ -254,7 +321,7 @@ class MessageController extends BaseController {
         if (this.sendingMessage) {
             return;
         }
-        const value = this.elements.writeBarInput.value.trim();
+        const value = (this.elements.writeBarInput as HTMLInputElement).value.trim();
         if (value.length === 0) {
             return;
         }
@@ -270,8 +337,18 @@ class MessageController extends BaseController {
                     return;
                 }
                 if (messageResponse.ok) {
-                    this.elements.writeBarInput.value = '';
-                    this.addMessages([{ text: value, messageId: messageResponse.json.messageId, date: new Date(messageResponse.json.date), usersMessage: true }], true);
+                    (this.elements.writeBarInput as HTMLInputElement).value = '';
+                    this.addMessages(
+                        [
+                            {
+                                text: value,
+                                messageId: messageResponse.json.messageId,
+                                date: new Date(messageResponse.json.date),
+                                usersMessage: true
+                            }
+                        ],
+                        true
+                    );
                 }
                 if (!messageResponse.ok) {
                     eventBus.emit(Events.pushNotifications, {
@@ -290,12 +367,12 @@ class MessageController extends BaseController {
     setSendingMessage(set?: boolean): void {
         this.sendingMessage = set;
         if (set) {
-            this.elements.writeBarInput.readOnly = true;
+            (this.elements.writeBarInput as HTMLInputElement).readOnly = true;
             this.elements.writeBarIcon.innerHTML = new Spinner({
                 classes: 'gray-icon'
             }).render();
         } else {
-            this.elements.writeBarInput.readOnly = false;
+            (this.elements.writeBarInput as HTMLInputElement).readOnly = false;
             this.elements.writeBarIcon.innerHTML = new IconClass({
                 iconCode: IconsSrc.send_message_stroke,
                 iconClasses: 'pointer-icon'
@@ -329,8 +406,8 @@ class MessageController extends BaseController {
         if (!element) {
             return;
         }
-        const iconElement = <HTMLElement>element.querySelector('.icon');
-        const messageTextElement = <HTMLElement>element.querySelector('.message__text');
+        const iconElement = element.querySelector('.icon');
+        const messageTextElement = element.querySelector('.message__text');
 
         if (iconElement) {
             iconElement.innerHTML = String(EmojisList[message.reaction]);
@@ -358,9 +435,9 @@ class MessageController extends BaseController {
                 ...item
             });
 
-            const tmpDiv = document.createElement('div');
+            const tmpDiv = document.createElement('div') as HTMLElement;
             tmpDiv.innerHTML = new Message(item).render();
-            const tmp = <HTMLElement>tmpDiv.firstChild;
+            const tmp = tmpDiv.firstChild as HTMLElement;
 
             if (item.messageId) {
                 tmp.dataset.messageId = String(item.messageId);
@@ -378,7 +455,7 @@ class MessageController extends BaseController {
 
             if (!item.usersMessage) {
                 this.emojeisListener.registerListener({
-                    element: <HTMLElement>insertionElem.children[0],
+                    element: insertionElem.children[0] as HTMLElement,
                     type: 'click',
                     listener: () => {
                         new EmojisPopup((key: keyof typeof EmojisList) => {
@@ -421,27 +498,8 @@ class MessageController extends BaseController {
         }
     }
 
-    editChat(chat: IChatItem): void {
-        const element = document.querySelector(`div[data-chat-id="${chat.chatId}"]`);
-        if (!element) {
-            return;
-        }
-        const lastMessage = element.querySelector('.chat-item__last-message');
-        const lastTime = element.querySelector('.chat-item__time');
-
-        if (chat.lastMessage) {
-            if (lastMessage) {
-                lastMessage.innerHTML = chat.lastMessage.text;
-            }
-
-            if (lastTime && chat.lastMessage.time) {
-                lastTime.innerHTML = chat.lastMessage.time;
-            }
-        }
-    }
-
     addNewMessageHandler(msg: IMessageSocketData): void {
-        if (this.activeChat && this.activeChat.chatId === msg.chatId) {
+        if (this.activeChat?.chatId === msg.chatId) {
             this.addMessages(
                 [
                     {
@@ -509,6 +567,7 @@ class MessageController extends BaseController {
      * @param {boolean} hidden
      */
     hiddenChat(hidden?: boolean): void {
+        this.setVisibleChat(!hidden);
         this.elements.writeBar.hidden = hidden;
         this.elements.header.style.visibility = hidden ? 'hidden' : 'unset';
         this.elements.messageList.hidden = hidden;

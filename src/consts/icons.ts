@@ -22,7 +22,13 @@ export const Icons = {
     spinner_32: 'icon/spinner_32.svg',
     spinner_44: 'icon/spinner_44.svg',
     error_circle: 'icon/error_circle.svg',
-    smile: 'icon/smile.svg'
+    smile: 'icon/smile.svg',
+    chevron_back: 'icon/chevron_back.svg',
+    chevron_down: 'icon/chevron_down.svg',
+    chevron_up: 'icon/chevron_up.svg',
+    reorder: 'icon/reorder.svg',
+    newsfeed: 'icon/newsfeed.svg',
+    lock: 'icon/lock.svg'
 };
 
 export const IconsSrc = { ...Icons };

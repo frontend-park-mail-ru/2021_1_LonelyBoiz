@@ -30,26 +30,26 @@ class Spinner extends Component {
         }
 
         switch (this.context.size) {
-        case 'large':
-            this.context.height = SpinnerSize.large;
-            this.context.width = SpinnerSize.large;
-            this.context.src = IconsSrc.spinner_44;
-            break;
-        case 'medium':
-            this.context.height = SpinnerSize.medium;
-            this.context.width = SpinnerSize.medium;
-            this.context.src = IconsSrc.spinner_32;
-            break;
-        case 'small':
-            this.context.height = SpinnerSize.small;
-            this.context.width = SpinnerSize.small;
-            this.context.src = IconsSrc.spinner_16;
-            break;
-        default:
-            this.context.height = SpinnerSize.regular;
-            this.context.width = SpinnerSize.regular;
-            this.context.src = IconsSrc.spinner_24;
-            break;
+            case 'large':
+                this.context.height = SpinnerSize.large;
+                this.context.width = SpinnerSize.large;
+                this.context.src = IconsSrc.spinner_44;
+                break;
+            case 'medium':
+                this.context.height = SpinnerSize.medium;
+                this.context.width = SpinnerSize.medium;
+                this.context.src = IconsSrc.spinner_32;
+                break;
+            case 'small':
+                this.context.height = SpinnerSize.small;
+                this.context.width = SpinnerSize.small;
+                this.context.src = IconsSrc.spinner_16;
+                break;
+            default:
+                this.context.height = SpinnerSize.regular;
+                this.context.width = SpinnerSize.regular;
+                this.context.src = IconsSrc.spinner_24;
+                break;
         }
     }
 }

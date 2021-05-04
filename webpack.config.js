@@ -78,9 +78,7 @@ module.exports = {
             },
             {
                 test: /\.ts$/,
-                exclude: path.resolve(__dirname, 'node_modules'),
-                loader: 'babel-loader',
-                options: babelOptions('@babel/preset-typescript')
+                use: ['babel-loader', 'ts-loader'],
             },
             {
                 test: /\.css$/i,

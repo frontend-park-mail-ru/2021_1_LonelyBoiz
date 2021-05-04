@@ -1,0 +1,30 @@
+$margins: (
+    '2': 4px,
+    '3': 6px,
+    '4': 10px,
+    '5': 12px,
+    '6': 15px
+);
+
+@each $id, $size in $margins {
+    .ml-#{$id} {
+        margin-left: $size;
+    }
+    .mr-#{$id} {
+        margin-right: $size;
+    }
+    .mt-#{$id} {
+        margin-top: $size;
+    }
+    .mb-#{$id} {
+        margin-bottom: $size;
+    }
+}
+
+.p-5 {
+    padding: 5px;
+}
+
+.hidden {
+    display: none;
+}

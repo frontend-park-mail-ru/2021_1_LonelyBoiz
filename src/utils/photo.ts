@@ -61,20 +61,18 @@ const compress = (e: Event): Promise<File> => {
     });
 };
 
-export const onPhotoUpload = function(e: Event): void {
-    compress(e).then((file: File) => {
-        toBase64(file)
-            .then((data: string) => {
-                this.file = file;
+export const onPhotoUpload = function(e: Event): Promise<File> {
+    return compress(e);
+};
 
-                const img = document.createElement('img');
-                img.src = String(data);
-                img.id = 'settings__new-photo';
-                img.classList.add('settings__photo');
+export const setPhoto = (file: File, id: string, classes?: string): void => {
+    toBase64(file).then((data: string) => {
+        const img = document.createElement('img');
+        img.src = String(data);
+        img.id = id;
+        img.classList.add(classes);
 
-                const photoForm = document.getElementById('settings__new-photo');
-                photoForm.replaceWith(img);
-            })
-            .catch((e) => console.error(e));
+        const photoForm = document.getElementById(id);
+        photoForm.replaceWith(img);
     });
 };

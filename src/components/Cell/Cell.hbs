@@ -1,7 +1,12 @@
-<div class="cell">
+<div class="cell {{#if hover}}cell_hover{{/if}} {{#if pointer}}pointer{{/if}} " {{#if id}}id="{{id}}" {{/if}}>
     {{#if avatar}}
     <div class="cell__avatar">
         <img class="icon avatar avatar_l" src="{{avatar}}" />
+    </div>
+    {{/if}}
+    {{#if iconBefore}}
+    <div class="cell__avatar">
+        {{{iconBefore}}}
     </div>
     {{/if}}
     <div class="cell__in">

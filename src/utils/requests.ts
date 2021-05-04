@@ -24,6 +24,7 @@ class BaseRequest {
             credentials: 'include'
         };
 
+        const CSRFToken = window.localStorage.getItem('CSRFToken');
         if (body && !binary) {
             options.headers = {
                 'Content-type': 'application/json',
@@ -40,7 +41,7 @@ class BaseRequest {
 
         return fetch(backendLocation + route, options).then((response) => {
             if (response.headers.get('X-CSRF-Token')) {
-                CSRFToken = response.headers.get('X-CSRF-Token');
+                window.localStorage.setItem('CSRFToken', response.headers.get('X-CSRF-Token'));
             }
             return response;
         });

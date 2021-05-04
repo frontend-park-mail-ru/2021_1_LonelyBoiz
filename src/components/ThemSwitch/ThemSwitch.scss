@@ -1,0 +1,38 @@
+.switch-btn {
+    cursor: pointer;
+}
+
+.switch-btn__circle {
+    content: '';
+    height: 28px;
+    width: 28px;
+    border-radius: 17px;
+    background: linear-gradient(40deg, #ff0080, #ff8c00 70%);
+    top: 2px;
+    left: 2px;
+    transition-duration: 300ms;
+    z-index: 2;
+    box-shadow: 0 4px 32px 0 rgb(255 140 0 / 60%);
+}
+
+.switch-on .switch-btn__circle {
+    background: linear-gradient(40deg, #8983f7, #a3dafb 70%);
+    box-shadow: 0 4px 32px 0 rgb(137 131 247 / 70%);
+}
+
+.switch-btn__crescent {
+    position: absolute;
+    border-radius: 100%;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    transform-origin: top right;
+    transition: transform 0.6s cubic-bezier(0.645, 0.045, 0.355, 1), background-color 0.3s ease-out;
+    transform: scale(0);
+    background-color: #392e20;
+}
+
+.switch-on .switch-btn__crescent {
+    transform: scale(1);
+    background-color: #f2f1fe;
+}

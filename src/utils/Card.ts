@@ -88,12 +88,13 @@ class CardClass extends Listener {
             disablePoints: false,
             disableLeftArrow: true,
             disableRightArrow: this.photos.length <= 1,
-            user: {
-                ...this.user,
-                buttons: this.buttons
-            },
-            photos: this.photos,
-            horizontal: true
+            user: Object.keys(this.user).length > 0
+                ? {
+                    ...this.user,
+                    buttons: this.buttons
+                }
+                : undefined,
+            photos: this.photos
         }).render();
         this.element.innerHTML = card;
 
@@ -101,18 +102,14 @@ class CardClass extends Listener {
             this.setPlaceHolder(true);
         } else {
             if (!this.useBlure) {
-                const imgs = <HTMLCollection>(
-                    document.getElementsByClassName('photo-block__img')
-                );
+                const imgs = <HTMLCollection>document.getElementsByClassName('photo-block__img');
                 if (imgs.length > 0) {
                     const img = <HTMLImageElement>imgs[0];
                     const rgbBackground = getAverageRGB(img);
                     img.style.backgroundColor = `rgb(${rgbBackground.r},${rgbBackground.g},${rgbBackground.b})`;
                 }
             } else {
-                const imgs = document.getElementsByClassName(
-                    'photo-block__bg-div'
-                );
+                const imgs = document.getElementsByClassName('photo-block__bg-div');
                 if (imgs.length > 0) {
                     const img = <HTMLImageElement>imgs[0];
                     img.style.backgroundColor = 'black';
@@ -122,10 +119,7 @@ class CardClass extends Listener {
 
             if (this.buttons.dislike && this.funcDislike) {
                 this.registerListener({
-                    element: <HTMLElement>(
-                        document.getElementById('home-commands__dislike')
-                            .parentNode
-                    ),
+                    element: <HTMLElement>document.getElementById('home-commands__dislike').parentNode,
                     type: 'click',
                     listener: (e) => {
                         this.funcDislike(e);
@@ -135,10 +129,7 @@ class CardClass extends Listener {
 
             if (this.buttons.like && this.funcLike) {
                 this.registerListener({
-                    element: <HTMLElement>(
-                        document.getElementById('home-commands__like')
-                            .parentNode
-                    ),
+                    element: <HTMLElement>document.getElementById('home-commands__like').parentNode,
                     type: 'click',
                     listener: (e) => {
                         this.funcLike(e);
@@ -148,10 +139,7 @@ class CardClass extends Listener {
 
             if (this.buttons.return && this.funcReturn) {
                 this.registerListener({
-                    element: <HTMLElement>(
-                        document.getElementById('home-commands__like')
-                            .parentNode
-                    ),
+                    element: <HTMLElement>document.getElementById('home-commands__like').parentNode,
                     type: 'click',
                     listener: (e) => {
                         this.funcReturn(e);
@@ -160,9 +148,7 @@ class CardClass extends Listener {
             }
 
             this.registerListener({
-                element: <HTMLElement>(
-                    document.querySelector('.photo-block__arrow_left')
-                ),
+                element: <HTMLElement>document.querySelector('.photo-block__arrow_left'),
                 type: 'click',
                 listener: () => {
                     this.onArrowClick(true);
@@ -170,9 +156,7 @@ class CardClass extends Listener {
             });
 
             this.registerListener({
-                element: <HTMLElement>(
-                    document.querySelector('.photo-block__arrow_right')
-                ),
+                element: <HTMLElement>document.querySelector('.photo-block__arrow_right'),
                 type: 'click',
                 listener: () => {
                     this.onArrowClick(false);
@@ -199,31 +183,19 @@ class CardClass extends Listener {
         }
 
         if (this.currentPhotoId === 0) {
-            this.element
-                .querySelector('.photo-block__arrow_left')
-                .classList.add('hidden');
+            this.element.querySelector('.photo-block__arrow_left').classList.add('hidden');
         } else {
-            this.element
-                .querySelector('.photo-block__arrow_left')
-                .classList.remove('hidden');
+            this.element.querySelector('.photo-block__arrow_left').classList.remove('hidden');
         }
 
         if (this.currentPhotoId + 1 === this.photos.length) {
-            this.element
-                .querySelector('.photo-block__arrow_right')
-                .classList.add('hidden');
+            this.element.querySelector('.photo-block__arrow_right').classList.add('hidden');
         } else {
-            this.element
-                .querySelector('.photo-block__arrow_right')
-                .classList.remove('hidden');
+            this.element.querySelector('.photo-block__arrow_right').classList.remove('hidden');
         }
 
-        const img = <HTMLImageElement>(
-            this.element.querySelector('.photo-block__img')
-        );
-        const imgBg = <HTMLImageElement>(
-            this.element.querySelector('.photo-block__bg')
-        );
+        const img = <HTMLImageElement> this.element.querySelector('.photo-block__img');
+        const imgBg = <HTMLImageElement> this.element.querySelector('.photo-block__bg-img');
 
         img.src = this.photos[this.currentPhotoId];
         imgBg.src = this.photos[this.currentPhotoId];

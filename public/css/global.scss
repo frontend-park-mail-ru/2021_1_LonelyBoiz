@@ -2,6 +2,7 @@ body {
     font-family: 'Roboto mono', sans-serif;
     background-color: var(--bg-color);
     margin: 0;
+    color: var(--primary-text-color);
 }
 
 .content {
@@ -12,6 +13,7 @@ body {
     font-size: var(--content-font-size);
     width: 100%;
     height: 100%;
+    z-index: 1;
 }
 
 .bg_color_white {
@@ -62,54 +64,6 @@ body {
     color: var(--muted-text-color);
 }
 
-.ml-2 {
-    margin-left: 4px;
-}
-
-.mr-2 {
-    margin-right: 4px;
-}
-
-.mb-2 {
-    margin-bottom: 4px;
-}
-
-.mt-2 {
-    margin-top: 4px;
-}
-
-.mb-3 {
-    margin-bottom: 6px;
-}
-
-.mt-3 {
-    margin-top: 6px;
-}
-
-.mt-4 {
-    margin-top: 10px;
-}
-
-.mt-5 {
-    margin-top: 12px;
-}
-
-.mt-6 {
-    margin-top: 15px;
-}
-
-.mb-6 {
-    margin-bottom: 15px;
-}
-
-.p-5 {
-    padding: 5px;
-}
-
-.hidden {
-    display: none;
-}
-
 .error {
     color: var(--field_error_border);
 }
@@ -135,4 +89,49 @@ body {
     width: 100%;
     position: absolute;
     top: 50%;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+@mixin div_disabled {
+    visibility: hidden;
+    position: absolute;
+    height: 0;
+    width: 0;
+}
+
+@mixin div_active {
+    width: 100%;
+    min-width: unset;
+    margin: 0 8px;
+}
+
+.div_disabled {
+    @include div_disabled;
+}
+
+.div_active {
+    @include div_active;
+}
+
+@media (max-width: 700px) {
+    .div-phone_disabled {
+        @include div_disabled;
+    }
+
+    .div-phone_active {
+        @include div_active;
+    }
+}
+
+@media (min-width: 700px) {
+    .div-web_disabled {
+        @include div_disabled;
+    }
+
+    .div-web_active {
+        @include div_active;
+    }
 }

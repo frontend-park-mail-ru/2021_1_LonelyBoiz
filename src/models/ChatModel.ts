@@ -165,7 +165,7 @@ class ChatModel {
             .then(parseJson)
             .then((response) => {
                 if (response.ok) {
-                    response.json = response.json.map((msg) => {
+                    response.json = response.json.map((msg: Context) => {
                         return {
                             ...msg,
                             date: msg.date * 1000,

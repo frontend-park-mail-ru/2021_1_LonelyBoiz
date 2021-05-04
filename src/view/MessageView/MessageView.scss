@@ -10,3 +10,8 @@
     max-width: 600px;
     background-color: var(--white-bg-color);
 }
+
+.popout-wrapper .photo-block__img,
+.popout-wrapper .photo-block__bg {
+    border-radius: 10px 10px 10px 10px;
+}

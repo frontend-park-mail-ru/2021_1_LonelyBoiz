@@ -18,14 +18,3 @@
     width: 0.2rem;
     background-color: var(--muted-text-color);
 }
-
-.chats-list .cell {
-    margin-bottom: 5px;
-    cursor: pointer;
-    border-radius: 12px;
-}
-
-.chat-item_active,
-.chats-list .cell:hover {
-    background-color: var(--field_background);
-}

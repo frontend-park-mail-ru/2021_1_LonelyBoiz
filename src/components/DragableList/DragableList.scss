@@ -1,0 +1,27 @@
+.dragable-list__item {
+    display: flex;
+    margin: 8px 0;
+    position: relative;
+}
+
+.dragable-list__chevron {
+    margin: 0 8px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    justify-content: center;
+}
+
+.dragable-list__block {
+    margin: auto 0;
+}
+
+.reorder__icon {
+    color: var(--second-text-color) !important;
+}
+
+.dragable-list__item_drag {
+    box-shadow: 0 16px 32px 0 rgb(0 0 0 / 8%), 0 0 8px 0 rgb(0 0 0 / 8%);
+    border-radius: 12px;
+    z-index: 4;
+}

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="reorder_24" width="24px" height="24px">
+    <g fill="none" fill-rule="evenodd">
+        <path d="M0 0h24v24H0z"></path>
+        <path d="M21 18a1 1 0 01-1 1H4a1 1 0 010-2h16a1 1 0 011 1zm0-4a1 1 0 01-1 1H4a1 1 0 010-2h16a1 1 0 011 1zm0-4a1 1 0 01-1 1H4a1 1 0 010-2h16a1 1 0 011 1zM3 6a1 1 0 011-1h16a1 1 0 010 2H4a1 1 0 01-1-1z" fill="currentColor" fill-rule="nonzero"></path>
+    </g>
+</svg>

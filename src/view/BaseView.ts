@@ -8,10 +8,11 @@ import { IconsSrc } from '../consts/icons';
 import Listener from '../utils/Listener';
 import Views from '../consts/views';
 import Context from '../utils/Context';
-import Switch from '../components/Switch/Switch';
 import img from '@img/img.jpg';
 import { updateAvatar } from '../utils/updateAvatar';
 import { direction } from '../components/Tooltip/Tooltip';
+import ThemSwitch from '../components/ThemSwitch/ThemSwitch';
+import webSocketListener from '../utils/WebSocketListener';
 
 export type Template = (context: Context) => string;
 
@@ -42,7 +43,7 @@ class BaseView extends Listener {
     iconList: IIconHeaderList = {
         home: {
             route: Routes.homeRoute,
-            iconCode: IconsSrc.home_stroke,
+            iconCode: IconsSrc.newsfeed,
             idDiv: `home-icon__${Views.Home}`,
             idHref: `home-icon__${Views.Home}__href`,
             text: 'Лента'
@@ -120,19 +121,19 @@ class BaseView extends Listener {
                     }),
                     {
                         icon: {
-                            iconClasses: 'avatar u-avatar-header',
-                            size: 28,
-                            src: img
-                        }
-                    },
-                    {
-                        icon: {
                             idDiv: 'scheme-switcher',
-                            iconCode: new Switch().render(),
+                            iconCode: new ThemSwitch().render(),
                             text: 'Темная тема',
                             useTooltip: true,
                             direction: 'bottom',
                             arrow: false
+                        }
+                    },
+                    {
+                        icon: {
+                            iconClasses: 'avatar u-avatar-header',
+                            size: 28,
+                            src: img
                         }
                     }
                 ]
@@ -141,11 +142,11 @@ class BaseView extends Listener {
         }).render();
 
         switch (this.view) {
-        case Views.Login:
-        case Views.SignUp:
-        case Views.PreSettings:
-            header.hidden = true;
-            break;
+            case Views.Login:
+            case Views.SignUp:
+            case Views.PreSettings:
+                header.hidden = true;
+                break;
         }
 
         app.appendChild(header);
@@ -185,6 +186,8 @@ class BaseView extends Listener {
             }
         });
         eventBus.connect(Events.updateAvatar, updateAvatar);
+        webSocketListener.listen();
+        eventBus.emit(Events.updateAvatar);
     }
 
     /**
@@ -194,24 +197,24 @@ class BaseView extends Listener {
         const headerElement = document.getElementById('header');
 
         switch (this.view) {
-        case Views.Login:
-        case Views.SignUp:
-        case Views.PreSettings:
-            headerElement.hidden = true;
-            break;
-        default: {
-            headerElement.hidden = false;
-            Object.entries(document.getElementsByClassName('js__header-icon')).forEach((item) => {
-                const [, element] = item;
-                element.classList.add('active-icon');
-                element.classList.remove('disable-icon');
-            });
-            const element = document.getElementById(`home-icon__${this.view}`);
+            case Views.Login:
+            case Views.SignUp:
+            case Views.PreSettings:
+                headerElement.hidden = true;
+                break;
+            default: {
+                headerElement.hidden = false;
+                Object.entries(document.getElementsByClassName('js__header-icon')).forEach((item) => {
+                    const [, element] = item;
+                    element.classList.add('active-icon');
+                    element.classList.remove('disable-icon');
+                });
+                const element = document.getElementById(`home-icon__${this.view}`);
 
-            element.classList.add('disable-icon');
-            element.classList.remove('active-icon');
-            break;
-        }
+                element.classList.add('disable-icon');
+                element.classList.remove('active-icon');
+                break;
+            }
         }
     }
 }

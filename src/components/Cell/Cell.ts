@@ -4,10 +4,14 @@ import './Cell.scss';
 
 interface ICell {
     avatar?: string;
+    iconBefore?: string;
     children?: string;
     text?: string;
     caption?: string;
     after?: string;
+    hover?: boolean;
+    pointer?: boolean;
+    id?: string;
 }
 
 /**
@@ -23,6 +27,8 @@ class Cell extends Component {
      * @param {ICell} context
      */
     constructor(context: ICell) {
+        context.hover = context.hover ?? true;
+        context.pointer = context.pointer ?? true;
         super(context, template);
     }
 }

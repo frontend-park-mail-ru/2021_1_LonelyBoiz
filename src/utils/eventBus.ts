@@ -2,13 +2,7 @@ import Context from './Context';
 import { INotificationsPush } from './Notifications';
 import { IChatSocketData, IMessageSocketData } from './WebSocketListener';
 
-type eventEmitData =
-    | Context
-    | string
-    | INotificationsPush
-    | IMessageSocketData
-    | IChatSocketData
-    | void;
+type eventEmitData = Context | string | INotificationsPush | IMessageSocketData | IChatSocketData | void;
 
 /**
  * @class

@@ -1,4 +1,7 @@
 import captchaToken from '../consts/captchaToken';
+import Context from './Context';
+
+declare let grecaptcha: Context;
 
 const captcha = (callback: Function): void => {
     grecaptcha.ready(function() {

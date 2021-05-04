@@ -5,9 +5,11 @@ import Routes from '../consts/routes';
 import Events from '../consts/events';
 import { validateForm, checkForm, processingResultForms, IFormList } from '../utils/form';
 import ScreenSpinnerClass from '../utils/ScreenSpinner';
-import userModel from '../models/UserModel';
+import userModel, { IUserModel } from '../models/UserModel';
 import { datePreferenceEnum } from '../consts/sexEnum';
-import { onPhotoUpload } from '../utils/photo';
+import { onPhotoUpload, setPhoto } from '../utils/photo';
+import { badInternet } from '../utils/helpers';
+import Context from '../utils/Context';
 
 /**
  * @class
@@ -55,8 +57,9 @@ class PreSettingsController extends SettingsController {
                 validateForm.call(this, this.preSettingsList);
                 this.formSubmit();
 
-                (<HTMLInputElement>document.getElementById(this.preSettingsList.datePreference.id)).value =
-                    datePreferenceEnum.female;
+                (document.getElementById(
+                    this.preSettingsList.datePreference.id
+                ) as HTMLInputElement).value = String(datePreferenceEnum.female);
             })
             .catch((e) => {
                 console.error(e);
@@ -68,7 +71,7 @@ class PreSettingsController extends SettingsController {
      */
     formSubmit(): void {
         this.registerListener({
-            element: document.getElementById('settings__form-submit'),
+            element: document.getElementById('settings__submit'),
             type: 'click',
             listener: (e) => {
                 e.preventDefault();
@@ -77,7 +80,7 @@ class PreSettingsController extends SettingsController {
         });
 
         this.registerListener({
-            element: document.getElementById('settings__form'),
+            element: document.getElementById('settings__main'),
             type: 'submit',
             listener: (e) => {
                 e.preventDefault();
@@ -89,7 +92,10 @@ class PreSettingsController extends SettingsController {
             element: document.getElementById('input_avatar'),
             type: 'change',
             listener: (e) => {
-                onPhotoUpload.call(this, e);
+                onPhotoUpload(e).then((file) => {
+                    setPhoto(file, 'settings__new-photo', 'settings__photo');
+                    this.file = file;
+                });
             }
         });
 
@@ -107,11 +113,11 @@ class PreSettingsController extends SettingsController {
      */
     onSubmit(): void {
         this.formSuccess = checkForm.call(this, this.preSettingsList);
-        const tmpForm = {};
+        let tmpForm: IUserModel = {};
         Object.entries(this.preSettingsList).forEach((item) => {
             const [key, obj] = item;
             if ((obj.value && obj.valid) || !obj.required) {
-                tmpForm[key] = obj.value;
+                tmpForm = { ...tmpForm, [key]: obj.value };
             }
         });
 
@@ -126,7 +132,6 @@ class PreSettingsController extends SettingsController {
         const popout = new ScreenSpinnerClass();
 
         if (this.formSuccess && this.file) {
-            tmpForm.photos = this.file;
             userModel
                 .uploadPhoto(this.file)
                 .then((photoResponse) => {
@@ -152,13 +157,12 @@ class PreSettingsController extends SettingsController {
                         })
                         .catch((reason) => {
                             console.error(reason);
-                            eventBus.emit(Events.pushNotifications, {
-                                status: 'error',
-                                children: 'Что-то не то с интернетом('
-                            });
+                            badInternet();
                         });
                 })
                 .catch((photoReason) => {
+                    popout.destroy();
+                    badInternet();
                     console.error('Photo upload error - ', photoReason);
                 });
         }

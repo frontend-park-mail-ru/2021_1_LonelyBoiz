@@ -113,13 +113,13 @@ const validateItem = ({
         return { valid, value: resultValue };
     }
     switch (key) {
-    case 'birthday':
-        resultValue = getDateById(id);
-        break;
+        case 'birthday':
+            resultValue = getDateById(id);
+            break;
 
-    default:
-        resultValue = domElem.value;
-        break;
+        default:
+            resultValue = domElem.value;
+            break;
     }
 
     if (id2) {
@@ -129,13 +129,9 @@ const validateItem = ({
             return { valid, value: resultValue };
         }
         const value2 = domElem2.value;
-        valid =
-            validateFunction(resultValue, value2) ||
-            (!required && (<string>resultValue).length === 0);
+        valid = validateFunction(resultValue, value2) || (!required && (<string>resultValue).length === 0);
     } else {
-        valid =
-            validateFunction(resultValue) ||
-            (!required && (<string>resultValue).length === 0);
+        valid = validateFunction(resultValue) || (!required && (<string>resultValue).length === 0);
     }
 
     if (formItemId) {
@@ -173,7 +169,7 @@ interface IValidItem {
  */
 function validItem({ item, formList }: IValidItem): boolean {
     let success = true;
-    const key = <keyof IValidationFuncs>item[0];
+    const key = String(<keyof IValidationFuncs>item[0]);
     const obj = item[1];
 
     if (validationFuncs[key] && validationFuncs[key].validationeFunc) {
@@ -187,19 +183,20 @@ function validItem({ item, formList }: IValidItem): boolean {
             required: required,
             key: key
         };
+
         let validResult: IValidateItemReturn;
         switch (key) {
-        case 'passwordRepeat':
-        case 'passwordOld':
-            validResult = validateItem({
-                ...params,
-                id2: formList.password.id
-            });
-            break;
+            case 'passwordRepeat':
+            case 'passwordOld':
+                validResult = validateItem({
+                    ...params,
+                    id2: formList.password.id
+                });
+                break;
 
-        default:
-            validResult = validateItem(params);
-            break;
+            default:
+                validResult = validateItem(params);
+                break;
         }
 
         (<IValidateItemReturn>formList[key]).valid = validResult.valid;
@@ -209,31 +206,23 @@ function validItem({ item, formList }: IValidItem): boolean {
         }
         if (validResult.value !== null && validResult.value !== undefined) {
             switch (key) {
-            case 'birthday':
-                formList[key].value = new Date(validResult.value).getTime();
-                break;
-            case 'sex':
-                formList[key].value = getKeyByValue(
-                    sexEnum,
-                    Number(validResult.value)
-                );
-                break;
-            case 'datePreference':
-                formList[key].value = getKeyByValue(
-                    datePreferenceEnum,
-                    Number(validResult.value)
-                );
-                break;
+                case 'birthday':
+                    formList[key].value = new Date(validResult.value).getTime();
+                    break;
+                case 'sex':
+                    formList[key].value = getKeyByValue(sexEnum, Number(validResult.value));
+                    break;
+                case 'datePreference':
+                    formList[key].value = getKeyByValue(datePreferenceEnum, Number(validResult.value));
+                    break;
 
-            default:
-                formList[key].value = validResult.value;
-                break;
+                default:
+                    formList[key].value = validResult.value;
+                    break;
             }
         }
     } else {
-        formList[key].value = (<HTMLInputElement>(
-            document.getElementById(obj.id)
-        )).value;
+        formList[key].value = (<HTMLInputElement>document.getElementById(obj.id)).value;
     }
     return success;
 }
@@ -275,10 +264,7 @@ export function checkForm(formList: IFormList): boolean {
  * @param {Context} description
  * @param {IFormList} formList
  */
-export const errorDescriptionForm = (
-    description: Context,
-    formList: IFormList
-): void => {
+export const errorDescriptionForm = (description: Context, formList: IFormList): void => {
     Object.entries(description).forEach((item) => {
         const [key, value] = item;
         if (key in formList && formList[key].formItemId) {
@@ -337,30 +323,27 @@ export const processingResultForms = ({
  * @param {IFormList} formList
  */
 export const fillForm = (data: Context, formList: IFormList): void => {
-    Object.entries(data).forEach((item) => {
-        const [key, value] = item;
+    Object.entries(data).forEach(([key, value]) => {
         switch (key) {
-        case 'sex':
-            (<HTMLInputElement>(
-                    document.getElementById(formList[key].id)
-                )).value = sexEnum[String(value)];
-            break;
-        case 'datePreference':
-            (<HTMLInputElement>(
-                    document.getElementById(formList[key].id)
-                )).value = datePreferenceEnum[String(value)];
-            break;
-        case 'birthday':
-            setDateById(formList[key].id, new Date(Number(value)));
-            break;
+            case 'sex':
+                (document.getElementById(formList[key].id) as HTMLInputElement).value = String(
+                    sexEnum[value as keyof typeof sexEnum]
+                );
+                break;
+            case 'datePreference':
+                (document.getElementById(formList[key].id) as HTMLInputElement).value = String(
+                    datePreferenceEnum[value as keyof typeof sexEnum]
+                );
+                break;
+            case 'birthday':
+                setDateById(formList[key].id, new Date(Number(value)));
+                break;
 
-        default:
-            if (formList[key]) {
-                (<HTMLInputElement>(
-                        document.getElementById(formList[key].id)
-                    )).value = String(value);
-            }
-            break;
+            default:
+                if (formList[key]) {
+                    (<HTMLInputElement>document.getElementById(formList[key].id)).value = String(value);
+                }
+                break;
         }
     });
 };

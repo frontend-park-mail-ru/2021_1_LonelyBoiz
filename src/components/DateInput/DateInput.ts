@@ -32,17 +32,8 @@ class DateInput extends Component {
         'Декабрь'
     ];
 
-    days = Array.from({ length: 30 }, (_, i) => i + 1);
-    years = (
-        start = 1910,
-        end = new Date().getFullYear() - 17
-    ): Array<number> => {
-        const range = [];
-        for (let i = start; i < end; i++) {
-            range.push(i);
-        }
-        return range.reverse();
-    };
+    days = Array.from({ length: 30 }, (_, i) => String(i + 1));
+    years: string[] = [];
 
     /**
      * Создает экземпляр DateInput
@@ -53,6 +44,13 @@ class DateInput extends Component {
      */
     constructor(context?: IDateInput) {
         super(context, template);
+
+        const start = 1910;
+        const end = new Date().getFullYear() - 17;
+        for (let i = start; i < end; i++) {
+            this.years.push(String(i));
+        }
+        this.years.reverse();
     }
 
     /**

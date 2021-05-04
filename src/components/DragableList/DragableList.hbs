@@ -1,0 +1,13 @@
+<div class="dragable-list">
+    {{#each list}}
+    <div class="dragable-list__item" data-id="{{@index}}">
+        <div class="dragable-list__chevron">
+            {{{../chevron_up}}}
+            {{{../chevron_down}}}
+        </div>
+        <div class="dragable-list__block">
+            {{{this}}}
+        </div>
+    </div>
+    {{/each}}
+</div>

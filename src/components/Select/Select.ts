@@ -8,6 +8,7 @@ interface ISelect {
     disabled?: boolean;
     required?: boolean;
     id?: string;
+    class?: string;
 }
 
 /**
