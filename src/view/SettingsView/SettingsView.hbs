@@ -1,13 +1,23 @@
 <div id="content" class="content">
-    <div class="settings">
+    <div class="settings__list block bg-color_white">
         <div class="Title Title--l-1 Title--w-bold settings__title p-5">Настройки</div>
+        {{#each settingsList}}
+        {{{this}}}
+        {{/each}}
+        <div>
+            {{{payButton}}}
+        </div>
+    </div>
+    <div class="settings">
+        <div class="bg-color_white mb-6 block settings__back div-web_disabled">
+            {{{chevronBackCell}}}
+        </div>
         {{#each SettingsGroup}}
-        <div class="bg_color_white mb-6 block settings__block">
+        <div class="bg-color_white mb-6 block settings__block">
             {{{this}}}
         </div>
         {{/each}}
         <div class="error form-item Caption--l-1 Caption--w-regular" id="settings-error"></div>
         {{{Submit}}}
-        {{{Logout}}}
     </div>
 </div>

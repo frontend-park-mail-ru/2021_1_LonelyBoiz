@@ -4,12 +4,14 @@
     margin: auto auto;
 }
 
-.content__home {
-    padding-top: 0 !important;
-}
+@media (min-width: 540px) {
+    .content__home {
+        padding-top: 0 !important;
+    }
 
-.content__search {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
+    .content__search {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
 }

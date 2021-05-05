@@ -7,6 +7,7 @@ import feedModel from '../models/FeedModel';
 import Context from './Context';
 import { IUserModel } from '../models/UserModel';
 import { IChat } from '../models/ChatModel';
+import { IChatItem } from '../components/ChatItem/ChatItem';
 
 export interface IResponseData {
     status: number;
@@ -19,7 +20,7 @@ export function addIfNotEq(field: Context, condition: Context): Context {
 }
 
 export function filterObject(obj: Context, condition: (value: Context) => boolean): Context {
-    const result = {};
+    const result: Context = {};
 
     for (const [key, value] of Object.entries(obj)) {
         if (condition(value)) {
@@ -43,7 +44,7 @@ export function parseJson(response: Response): Promise<IResponseData> {
     });
 }
 
-export function getAllUsers(response: Response): Promise<IResponseData> {
+export function getAllUsers(response: IResponseData): Promise<IResponseData> {
     if (!response.ok) {
         return Promise.resolve(response);
     }
@@ -114,10 +115,24 @@ export function getFeed(): void {
 export function handleReactionPromise(response: Response): Context {
     if (response.status === 401) {
         eventBus.emit(Events.routeChange, Routes.loginRoute);
+        return Promise.reject(new Error('Not auth'));
     }
     if (response.status === 403) {
         return Promise.reject(new Error('Current user is not part of your feed'));
     }
+    if (response.status === 402) {
+        eventBus.emit(Events.pushNotifications, {
+            status: 'error',
+            children: 'У вас закончились лайки! Можете пополнить их в настройках.'
+        });
+        return Promise.reject(new Error('Need pay'));
+    }
+
+    const newChatData = response.json as IChatItem;
+    if (newChatData?.chatId) {
+        eventBus.emit(Events.newChat, newChatData);
+    }
+
     if (response.ok) {
         this.userData = feedModel.getCurrent().json;
         if (!this.userData) {
@@ -132,7 +147,7 @@ export function handleReactionPromise(response: Response): Context {
 
 export function timeToStringByTime(date: Date): string {
     if (typeof date === 'string') date = new Date(date);
-    const timeDiff = (new Date() - date) / 1000;
+    const timeDiff = (Number(new Date()) - Number(date)) / 1000;
 
     if (new Date().getDate() === date.getDate() && timeDiff < 60 * 60 * 24) {
         return date.toLocaleString('ru', {
@@ -155,13 +170,31 @@ export function isActive(data: IUserModel): boolean {
 
     let activated = true;
     requiredFields.forEach((field) => {
-        if (!data[field] || data[field].length === 0) {
+        const UsersField = field as keyof IUserModel;
+        if (!data[UsersField] || data[UsersField].length === 0) {
             activated = false;
         }
     });
 
     return activated;
 }
+
+export const findParent = (element: HTMLElement, classParent: string): HTMLElement | null => {
+    let parent = element;
+    while (parent) {
+        if (parent.classList.contains(classParent)) {
+            return parent;
+        }
+        parent = parent.parentElement;
+    }
+    return null;
+};
+
+export const arrayMove = (arr: Context[], fromIndex: number, toIndex: number): void => {
+    const element = arr[fromIndex];
+    arr.splice(fromIndex, 1);
+    arr.splice(toIndex, 0, element);
+};
 
 export const checkStringEmojis = (str: string): boolean => {
     const regularWord =
@@ -184,14 +217,22 @@ interface IChatPatch {
 }
 
 export function updateChat(chats: IChat[], chatPatch: IChatPatch): void {
-    for (const chat of chats) {
+    for (let chat of chats) {
         if (chat.chatId === chatPatch.chatId) {
             for (const key of Object.keys(chat)) {
-                if (chatPatch[key]) {
-                    chat[key] = chatPatch[key];
+                const tmpKey = key as keyof IChatPatch;
+                if (chatPatch[tmpKey]) {
+                    chat = { ...chat, [tmpKey]: chatPatch[tmpKey] };
                 }
             }
             break;
         }
     }
 }
+
+export const badInternet = (): void => {
+    eventBus.emit(Events.pushNotifications, {
+        status: 'error',
+        children: 'Что-то не то с интернетом('
+    });
+};

@@ -36,10 +36,11 @@
 
 .message__smile-icon-box {
     height: 100%;
+    cursor: default;
 }
 
 .message_other .message__smile-icon-box {
-    cursor: default;
+    cursor: pointer;
 }
 
 .message__date {

@@ -5,9 +5,10 @@ import Routes from '../consts/routes';
 import Events from '../consts/events';
 import { validateForm, checkForm, processingResultForms, IFormList } from '../utils/form';
 import ScreenSpinnerClass from '../utils/ScreenSpinner';
-import userModel from '../models/UserModel';
+import userModel, { IUserModel } from '../models/UserModel';
 import Context from '../utils/Context';
 import captcha from '../utils/captcha';
+import { badInternet } from '../utils/helpers';
 
 /**
  * @class
@@ -98,11 +99,11 @@ class SignupController extends BaseController {
      */
     onSubmit(): void {
         this.formSuccess = checkForm.call(this, this.signupList);
-        const tmpForm = {};
+        let tmpForm: IUserModel = {};
         Object.entries(this.signupList).forEach((item) => {
-            const [key, obj] = item;
+            const [key, obj] = item as [keyof IUserModel, Context];
             if (obj.value && obj.valid) {
-                tmpForm[key] = obj.value;
+                tmpForm = { ...tmpForm, [key]: obj.value };
             }
         });
 
@@ -131,10 +132,7 @@ class SignupController extends BaseController {
                     })
                     .catch((reason) => {
                         console.error('error:', reason);
-                        eventBus.emit(Events.pushNotifications, {
-                            status: 'error',
-                            children: 'Что-то не то с интернетом('
-                        });
+                        badInternet();
                     });
             });
         }

@@ -27,6 +27,10 @@
     color: var(--button-color_secondary_text);
 }
 
+.button-block_commerce .button-block__button {
+    background: var(--button-color_commerce);
+}
+
 .button-block_destructive .button-block__button {
     background: var(--button-color_destructive);
 }

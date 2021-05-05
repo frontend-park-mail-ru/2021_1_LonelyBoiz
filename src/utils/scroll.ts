@@ -8,7 +8,8 @@ const preventDefault = (e: Event) => {
 };
 
 const preventDefaultForScrollKeys = (e: KeyboardEvent) => {
-    if (keys[e.keyCode]) {
+    const keyCode = e.keyCode as keyof typeof keys;
+    if (keys[keyCode]) {
         preventDefault(e);
         return false;
     }

@@ -32,6 +32,8 @@
     white-space: nowrap;
     text-decoration: none;
     color: var(--text_primary);
+    margin-bottom: 5px;
+    border-radius: 12px;
 }
 
 .cell > .Avatar {
@@ -73,4 +75,9 @@
     color: var(--muted-text-color);
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.cell_active,
+.cell_hover:hover {
+    background-color: var(--field_background);
 }

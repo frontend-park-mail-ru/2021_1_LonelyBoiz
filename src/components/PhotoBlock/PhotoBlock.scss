@@ -1,11 +1,12 @@
 .photo-block {
     position: relative;
-    min-width: 300px;
-    min-height: 400px;
+    min-width: 250px;
+    max-width: 600px;
+    height: 100%;
     display: flex;
     justify-content: center;
     flex-direction: row;
-    z-index: 1;
+    z-index: 2;
 }
 
 .photo-block__bg-div {
@@ -26,7 +27,7 @@
 }
 
 .photo-block__img {
-    z-index: 1;
+    z-index: 2;
     display: block;
     width: 100%;
     object-fit: contain;
@@ -46,7 +47,7 @@
     width: 100%;
     height: 100%;
     display: flex;
-    z-index: 2;
+    z-index: 3;
 }
 
 .photo-block__arrow {
@@ -85,7 +86,7 @@
     height: 2px;
     display: flex;
     margin: 5px;
-    z-index: 2;
+    z-index: 3;
 }
 
 .photo-block__point {

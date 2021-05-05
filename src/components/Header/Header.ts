@@ -7,6 +7,7 @@ import { Icons } from '../../consts/icons';
 import template from './Header.hbs';
 import './Header.scss';
 import img from '@img/img.jpg';
+import Burger from '../Burger/Burger';
 
 interface IHeader {
     activeIcon: string;
@@ -47,10 +48,7 @@ class Header extends Component {
                         icon: {
                             href: Routes.homeRoute,
                             size: 28,
-                            src:
-                                activeIcon === HeadersItems.home
-                                    ? Icons.home_fill
-                                    : Icons.home_stroke
+                            src: activeIcon === HeadersItems.home ? Icons.home_fill : Icons.home_stroke
                         }
                     },
                     {
@@ -66,10 +64,7 @@ class Header extends Component {
                     {
                         icon: {
                             size: 28,
-                            src:
-                                activeIcon === HeadersItems.like
-                                    ? Icons.like_fill
-                                    : Icons.like_stroke
+                            src: activeIcon === HeadersItems.like ? Icons.like_fill : Icons.like_stroke
                         }
                     },
                     {
@@ -90,6 +85,11 @@ class Header extends Component {
             }).render();
 
         this.context.MainLabel = new MainLabel().render();
+
+        this.context.burgerButton = new Burger({
+            id: 'burger-button'
+        }).render();
+
         return this.template(this.context);
     }
 }

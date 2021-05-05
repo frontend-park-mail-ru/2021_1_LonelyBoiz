@@ -7,6 +7,7 @@ import userModel from '../models/UserModel';
 import { validateForm, checkForm, processingResultForms, IFormList } from '../utils/form';
 import ScreenSpinnerClass from '../utils/ScreenSpinner';
 import Context from '../utils/Context';
+import { badInternet } from '../utils/helpers';
 
 /**
  * @class
@@ -116,10 +117,7 @@ class LoginController extends BaseController {
                 })
                 .catch((reason) => {
                     console.error('error:', reason);
-                    eventBus.emit(Events.pushNotifications, {
-                        status: 'error',
-                        children: 'Что-то не то с интернетом('
-                    });
+                    badInternet();
                 });
         }
     }

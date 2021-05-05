@@ -20,6 +20,31 @@
 .header__tabbar {
     margin-left: auto;
     margin-right: 0;
+    transition: margin-top 0.5s ease-in-out;
+}
+
+.header-href {
+    text-decoration: none;
+    color: var(--primary-text-color);
+}
+
+@media (max-width: 700px) {
+    .header__tabbar {
+        z-index: 20;
+        position: absolute;
+        margin-top: calc(var(--header-height) + 15px);
+        background-color: var(--white-bg-color);
+        box-shadow: 0 4px 32px 0 rgb(0 16 61 / 16%);
+        border-radius: 12px;
+    }
+
+    .header .tabbar {
+        flex-direction: column;
+    }
+
+    .header_close {
+        margin-top: -400px;
+    }
 }
 
 .header-icon {

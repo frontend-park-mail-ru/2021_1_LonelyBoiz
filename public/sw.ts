@@ -1,6 +1,15 @@
 const assetUrls = ['index.html', '/', '/main.js', '/login'];
 
-self.addEventListener('install', function (e) {
+interface ExtendableEvent extends Event {
+    waitUntil(fn: Promise<any>): void;
+}
+
+interface FetchEvent extends Event {
+    request: Request;
+    respondWith(response: Promise<Response> | Response): Promise<Response>;
+}
+
+self.addEventListener('install', (e: ExtendableEvent): void => {
     e.waitUntil(
         caches.open('pickle').then((cache) => {
             return cache.addAll(assetUrls);
@@ -8,18 +17,17 @@ self.addEventListener('install', function (e) {
     );
 });
 
-self.addEventListener('fetch', function (event) {
-    const { request } = event;
-    const url = new URL(event.request.url);
-
-    if (url.origin === location.origin) {
-        event.respondWith(cacheFirst(request));
+self.addEventListener('fetch', (e: FetchEvent): void => {
+    const { request } = e;
+    const url = new URL(e.request.url);
+    if (url.origin === location.origin && url.pathname.indexOf('.') !== -1) {
+        e.respondWith(cacheFirst(request));
     } else {
-        event.respondWith(networkFirst(request));
+        e.respondWith(networkFirst(request));
     }
 });
 
-const cacheFirst = (request) => {
+const cacheFirst = (request: Request): Promise<Response> => {
     return caches.match(request).then((cached) => {
         if (cached) {
             return cached;
@@ -29,7 +37,7 @@ const cacheFirst = (request) => {
     });
 };
 
-const networkFirst = (request) => {
+const networkFirst = (request: Request): Promise<Response> => {
     let gCache: Cache = null;
     return caches
         .open('pickle')

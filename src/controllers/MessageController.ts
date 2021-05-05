@@ -16,10 +16,13 @@ import chatModel from '../models/ChatModel';
 import Context from '../utils/Context';
 import { IMessageSocketData, IChatSocketData } from '../utils/WebSocketListener';
 import { imageStorageLocation } from '../consts/config';
-import { timeToStringByTime } from '../utils/helpers';
+import { badInternet, timeToStringByTime } from '../utils/helpers';
+import PopoutWrapperClass from '../utils/PopoutWrapper';
+import CardClass from '../utils/Card';
+import AlbumModel from '../models/AlbumModel';
 
 interface IElements {
-    [key: string]: HTMLElement;
+    [key: string]: HTMLElement | HTMLImageElement | HTMLInputElement;
 }
 
 /**
@@ -37,6 +40,7 @@ class MessageController extends BaseController {
     endChat = false;
     emojeisListener = new Listener();
     elements: IElements = {
+        chatList: null,
         chatsList: null,
         messageList: null,
         noChatsList: null,
@@ -48,7 +52,11 @@ class MessageController extends BaseController {
         writeBarIcon: null,
         writeBarInput: null,
         writeBarForm: null,
-        noChatSelectedList: null
+        noChatSelectedList: null,
+        chevronBack: null,
+        secretsPhotos: null,
+        lockOpen: null,
+        lock: null
     };
 
     /**
@@ -77,23 +85,7 @@ class MessageController extends BaseController {
                 this.setElements();
                 this.clearMessages();
                 this.hiddenChat(true);
-
-                this.registerListener({
-                    element: this.elements.writeBarIcon,
-                    type: 'click',
-                    listener: () => {
-                        this.sendMessage();
-                    }
-                });
-
-                this.registerListener({
-                    element: this.elements.writeBarForm,
-                    type: 'submit',
-                    listener: (e) => {
-                        e.preventDefault();
-                        this.sendMessage();
-                    }
-                });
+                this.formSubmit();
 
                 chatModel
                     .getChats(userModel.getData().id)
@@ -103,7 +95,8 @@ class MessageController extends BaseController {
                                 return {
                                     user: {
                                         name: value.partnerName,
-                                        avatar: value.photo
+                                        avatar: value.photo,
+                                        id: value.partnerId
                                     },
                                     lastMessage: {
                                         text: value.lastMessage,
@@ -129,12 +122,16 @@ class MessageController extends BaseController {
     }
 
     setElements(): void {
+        this.elements.chatList = document.querySelector('.chats-list');
+        this.elements.messageChat = document.querySelector('.message-chat');
         this.elements.chatsList = document.querySelector('.chats-list__list');
         this.elements.messageList = document.querySelector('.message-chat__list');
         this.elements.noChatsList = document.getElementById('chats-list__no-message');
         this.elements.noMessageList = document.getElementById('message-chat__no-message');
         this.elements.noChatSelectedList = document.getElementById('message-chat__no-chat-selected');
-        this.elements.headerIcon = document.querySelector('.message-chat .message-header .icon');
+        this.elements.headerIcon = document.querySelector(
+            '.message-chat .message-header .avatar'
+        ) as HTMLImageElement;
         this.elements.headerTitle = document.querySelector(
             '.message-chat .message-header .message-header__title'
         );
@@ -143,10 +140,125 @@ class MessageController extends BaseController {
         );
         this.elements.writeBarInput = document.querySelector(
             '.message-chat .message-chat__writebar .input-block__input'
-        );
+        ) as HTMLInputElement;
         this.elements.writeBarForm = document.getElementById('write-bar__form');
         this.elements.header = document.querySelector('.message-header');
         this.elements.writeBar = document.querySelector('.message-chat__writebar');
+        this.elements.chevronBack = document.querySelector('.message-header__chevron-back');
+        this.elements.chevronBack = document.querySelector('.message-header__chevron-back');
+        this.elements.secretsPhotos = document.querySelector('.message-header__icon__secrets-photos');
+        this.elements.lockOpen = document.querySelector('.message-header__icon__lock-open');
+        this.elements.lock = document.querySelector('.message-header__icon__lock');
+    }
+
+    showLockIcon(unlock: boolean): void {
+        if (!this.elements.lock || !this.elements.lockOpen) {
+            return;
+        }
+
+        if (unlock) {
+            AlbumModel.unlockForUser(Number(this.activeChat.user.id)).then((response) => {
+                if (response.ok) {
+                    this.elements.lockOpen.classList.remove('div_disabled');
+                    this.elements.lock.classList.add('div_disabled');
+                }
+            });
+        } else {
+            this.elements.lockOpen.classList.add('div_disabled');
+            this.elements.lock.classList.remove('div_disabled');
+        }
+    }
+
+    setVisibleChat(visibleChat: boolean): void {
+        this.elements.chatList.classList.add(`div-phone_${visibleChat ? 'disabled' : 'active'}`);
+        this.elements.chatList.classList.remove(`div-phone_${visibleChat ? 'active' : 'disabled'}`);
+
+        this.elements.messageChat.classList.remove(`div-phone_${visibleChat ? 'disabled' : 'active'}`);
+        this.elements.messageChat.classList.add(`div-phone_${visibleChat ? 'active' : 'disabled'}`);
+    }
+
+    formSubmit(): void {
+        this.registerListener({
+            element: this.elements.writeBarIcon,
+            type: 'click',
+            listener: () => {
+                this.sendMessage();
+            }
+        });
+
+        this.registerListener({
+            element: this.elements.writeBarForm,
+            type: 'submit',
+            listener: (e) => {
+                e.preventDefault();
+                this.sendMessage();
+            }
+        });
+
+        this.registerListener({
+            element: this.elements.chevronBack,
+            type: 'click',
+            listener: (e) => {
+                e.preventDefault();
+                this.clearMessages();
+            }
+        });
+
+        this.registerListener({
+            element: this.elements.secretsPhotos,
+            type: 'click',
+            listener: (e) => {
+                e.preventDefault();
+                this.openUsersSecretAlbom();
+            }
+        });
+
+        this.registerListener({
+            element: this.elements.lock,
+            type: 'click',
+            listener: (e) => {
+                e.preventDefault();
+                this.showLockIcon(true);
+            }
+        });
+
+        this.registerListener({
+            element: this.elements.lockOpen,
+            type: 'click',
+            listener: (e) => {
+                e.preventDefault();
+            }
+        });
+    }
+
+    openUsersSecretAlbom(): void {
+        AlbumModel.getPhotos(Number(this.activeChat.user.id))
+            .then((response) => {
+                if (response.ok) {
+                    if (response.json.photos.length === 0) {
+                        eventBus.emit(Events.pushNotifications, {
+                            children: 'У пользователя нет фотографий в секретном альбоме'
+                        });
+                    } else {
+                        new PopoutWrapperClass({
+                            children: '<div id="tmpIdSecretPhoto"></div>',
+                            showBg: true,
+                            block: false
+                        });
+                        new CardClass({
+                            id: 'tmpIdSecretPhoto',
+                            photos: response.json.photos
+                        });
+                    }
+                } else {
+                    eventBus.emit(Events.pushNotifications, {
+                        children: 'Нет доступа к секретному альбому'
+                    });
+                }
+            })
+            .catch(() => {
+                badInternet();
+            });
     }
 
     /**
@@ -154,7 +266,7 @@ class MessageController extends BaseController {
      * @param {{user:{name, avatar}, lastMessage:{text, time: String}, counter, chatId}[]} chats
      * @param {boolean} newChat
      */
-    addChats(chats: IChatItem[], newChat?: boolean): void {
+    addChats(chats: IChatItem[], newChat = true): void {
         if (!chats && chats.length === 0) {
             return;
         }
@@ -193,11 +305,32 @@ class MessageController extends BaseController {
         }
     }
 
+    editChat(chat: IChatItem): void {
+        const element = document.querySelector(`div[data-chat-id="${chat.chatId}"]`);
+        if (!element) {
+            return;
+        }
+        const lastMessage = element.querySelector('.chat-item__last-message');
+        const lastTime = element.querySelector('.chat-item__time');
+
+        if (chat.lastMessage) {
+            if (lastMessage) {
+                lastMessage.innerHTML = chat.lastMessage.text;
+            }
+
+            if (lastTime && chat.lastMessage.time) {
+                lastTime.innerHTML = chat.lastMessage.time;
+            }
+        }
+    }
+
     openChat(chatId: number): void {
+        this.setVisibleChat(true);
+
         this.clearMessages();
         this.emojeisListener.deleteListeners();
-        document.querySelectorAll('.chats-list .cell').forEach((item: HTMLElement) => {
-            item.classList.remove('chat-item_active');
+        document.querySelectorAll('.chats-list__list .cell').forEach((item: HTMLElement) => {
+            item.classList.remove('cell_active');
         });
 
         let currentChat: IChatItem;
@@ -206,7 +339,7 @@ class MessageController extends BaseController {
                 currentChat = item;
                 const chatElement = <HTMLElement>document.querySelector(`div[data-chat-id="${item.chatId}"]`);
                 if (chatElement) {
-                    chatElement.classList.add('chat-item_active');
+                    chatElement.classList.add('cell_active');
                 }
             }
         });
@@ -216,7 +349,7 @@ class MessageController extends BaseController {
         }
 
         this.activeChat = currentChat;
-        this.elements.headerIcon.src = currentChat.user.avatar;
+        (this.elements.headerIcon as HTMLImageElement).src = currentChat.user.avatar;
         this.elements.headerTitle.innerHTML = currentChat.user.name;
 
         this.hiddenChat(false);
@@ -254,7 +387,7 @@ class MessageController extends BaseController {
         if (this.sendingMessage) {
             return;
         }
-        const value = this.elements.writeBarInput.value.trim();
+        const value = (this.elements.writeBarInput as HTMLInputElement).value.trim();
         if (value.length === 0) {
             return;
         }
@@ -270,8 +403,18 @@ class MessageController extends BaseController {
                     return;
                 }
                 if (messageResponse.ok) {
-                    this.elements.writeBarInput.value = '';
-                    this.addMessages([{ text: value, messageId: messageResponse.json.messageId, date: new Date(messageResponse.json.date), usersMessage: true }], true);
+                    (this.elements.writeBarInput as HTMLInputElement).value = '';
+                    this.addMessages(
+                        [
+                            {
+                                text: value,
+                                messageId: messageResponse.json.messageId,
+                                date: new Date(messageResponse.json.date),
+                                usersMessage: true
+                            }
+                        ],
+                        true
+                    );
                 }
                 if (!messageResponse.ok) {
                     eventBus.emit(Events.pushNotifications, {
@@ -280,7 +423,10 @@ class MessageController extends BaseController {
                     });
                 }
             })
-            .catch((messageReason) => console.error('Message error - ', messageReason));
+            .catch((messageReason) => {
+                console.error('Message error - ', messageReason);
+                badInternet();
+            });
     }
 
     /**
@@ -290,12 +436,12 @@ class MessageController extends BaseController {
     setSendingMessage(set?: boolean): void {
         this.sendingMessage = set;
         if (set) {
-            this.elements.writeBarInput.readOnly = true;
+            (this.elements.writeBarInput as HTMLInputElement).readOnly = true;
             this.elements.writeBarIcon.innerHTML = new Spinner({
                 classes: 'gray-icon'
             }).render();
         } else {
-            this.elements.writeBarInput.readOnly = false;
+            (this.elements.writeBarInput as HTMLInputElement).readOnly = false;
             this.elements.writeBarIcon.innerHTML = new IconClass({
                 iconCode: IconsSrc.send_message_stroke,
                 iconClasses: 'pointer-icon'
@@ -329,8 +475,8 @@ class MessageController extends BaseController {
         if (!element) {
             return;
         }
-        const iconElement = <HTMLElement>element.querySelector('.icon');
-        const messageTextElement = <HTMLElement>element.querySelector('.message__text');
+        const iconElement = element.querySelector('.icon');
+        const messageTextElement = element.querySelector('.message__text');
 
         if (iconElement) {
             iconElement.innerHTML = String(EmojisList[message.reaction]);
@@ -358,9 +504,9 @@ class MessageController extends BaseController {
                 ...item
             });
 
-            const tmpDiv = document.createElement('div');
+            const tmpDiv = document.createElement('div') as HTMLElement;
             tmpDiv.innerHTML = new Message(item).render();
-            const tmp = <HTMLElement>tmpDiv.firstChild;
+            const tmp = tmpDiv.firstChild as HTMLElement;
 
             if (item.messageId) {
                 tmp.dataset.messageId = String(item.messageId);
@@ -378,7 +524,7 @@ class MessageController extends BaseController {
 
             if (!item.usersMessage) {
                 this.emojeisListener.registerListener({
-                    element: <HTMLElement>insertionElem.children[0],
+                    element: insertionElem.children[0] as HTMLElement,
                     type: 'click',
                     listener: () => {
                         new EmojisPopup((key: keyof typeof EmojisList) => {
@@ -410,44 +556,28 @@ class MessageController extends BaseController {
         }
 
         if (this.activeChat && this.messages) {
-            const last = this.messages[this.messages.length - 1];
+            const lastMessage = this.messages[this.messages.length - 1];
+            if (!lastMessage) {
+                return;
+            }
             this.editChat({
                 chatId: this.activeChat.chatId,
                 lastMessage: {
-                    text: last.text,
-                    time: timeToStringByTime(new Date(last.date))
+                    text: lastMessage.text,
+                    time: timeToStringByTime(new Date(lastMessage.date))
                 }
             });
         }
     }
 
-    editChat(chat: IChatItem): void {
-        const element = document.querySelector(`div[data-chat-id="${chat.chatId}"]`);
-        if (!element) {
-            return;
-        }
-        const lastMessage = element.querySelector('.chat-item__last-message');
-        const lastTime = element.querySelector('.chat-item__time');
-
-        if (chat.lastMessage) {
-            if (lastMessage) {
-                lastMessage.innerHTML = chat.lastMessage.text;
-            }
-
-            if (lastTime && chat.lastMessage.time) {
-                lastTime.innerHTML = chat.lastMessage.time;
-            }
-        }
-    }
-
     addNewMessageHandler(msg: IMessageSocketData): void {
-        if (this.activeChat && this.activeChat.chatId === msg.chatId) {
+        if (this.activeChat?.chatId === msg.chatId) {
             this.addMessages(
                 [
                     {
                         text: msg.text,
                         messageId: msg.messageId,
-                        date: new Date(msg.date * 1000)
+                        date: new Date(Number(msg.date) * 1000)
                     }
                 ],
                 true
@@ -458,7 +588,7 @@ class MessageController extends BaseController {
                     chatId: msg.chatId,
                     lastMessage: {
                         text: msg.text,
-                        time: timeToStringByTime(new Date(msg.date * 1000))
+                        time: timeToStringByTime(new Date(Number(msg.date) * 1000))
                     }
                 });
             }
@@ -485,7 +615,7 @@ class MessageController extends BaseController {
             ]);
         } else {
             eventBus.emit(Events.pushNotifications, {
-                children: 'У вас новый матч!'
+                children: 'У вас новая пара!'
             });
         }
     }
@@ -509,10 +639,17 @@ class MessageController extends BaseController {
      * @param {boolean} hidden
      */
     hiddenChat(hidden?: boolean): void {
+        this.setVisibleChat(!hidden);
         this.elements.writeBar.hidden = hidden;
         this.elements.header.style.visibility = hidden ? 'hidden' : 'unset';
         this.elements.messageList.hidden = hidden;
         this.elements.noChatSelectedList.hidden = !hidden;
+
+        if (hidden) {
+            document.querySelectorAll('.chats-list__list .cell').forEach((item: HTMLElement) => {
+                item.classList.remove('cell_active');
+            });
+        }
     }
 
     /**

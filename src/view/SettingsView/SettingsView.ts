@@ -10,6 +10,9 @@ import Views from '../../consts/views';
 import template from './SettingsView.hbs';
 import Context from '../../utils/Context';
 import './SettingsView.scss';
+import Cell from '../../components/Cell/Cell';
+import IconClass from '../../components/Icon/Icon';
+import { IconsSrc } from '../../consts/icons';
 
 /**
  * @class
@@ -44,7 +47,7 @@ class SettingsView extends BaseView {
                             text: new Input({
                                 id: 'input_avatar',
                                 type: 'file',
-                                placeholder: 'Обновить аватарку',
+                                placeholder: 'Добавить фотографию',
                                 accept: '.jpg,.jpeg,.png'
                             }).render()
                         }).render(),
@@ -52,11 +55,57 @@ class SettingsView extends BaseView {
                     },
                     {
                         id: 'settings__new-photo'
+                    },
+                    {
+                        children: new Button({
+                            type: 'button',
+                            id: 'input_avatar__save-button',
+                            mode: 'primary',
+                            text: 'Загрузить'
+                        }).render()
+                    },
+                    {
+                        loading: true,
+                        id: 'drag-photo'
                     }
                 ]
             }).render(),
             new FormList({
-                id: 'settings__form',
+                id: 'settings__photo__secret',
+                formList: [
+                    {
+                        children: new Button({
+                            type: 'button',
+                            id: 'input_avatar__button__secret',
+                            mode: 'secondary',
+                            text: new Input({
+                                id: 'input_avatar__secret',
+                                type: 'file',
+                                placeholder: 'Добавить фотографию',
+                                accept: '.jpg,.jpeg,.png'
+                            }).render()
+                        }).render(),
+                        bottom: 'Максимальный размер: 10 МБ'
+                    },
+                    {
+                        id: 'settings__new-photo__secret'
+                    },
+                    {
+                        children: new Button({
+                            type: 'button',
+                            id: 'input_avatar__save-button__secret',
+                            mode: 'primary',
+                            text: 'Загрузить'
+                        }).render()
+                    },
+                    {
+                        loading: true,
+                        id: 'drag-photo__secret'
+                    }
+                ]
+            }).render(),
+            new FormList({
+                id: 'settings__main',
                 formList: [
                     {
                         loading: true,
@@ -131,20 +180,28 @@ class SettingsView extends BaseView {
                     },
                     {
                         loading: true,
-                        top: 'Пол соискателя',
+                        top: 'Пол партнера',
                         id: 'settings__datePreference_form-item',
                         children: new Select({
                             required: true,
                             disabled: true,
                             id: 'settings__datePreference',
-                            title: 'Пол соискателя',
+                            title: 'Пол партнера',
                             options: ['Мужской', 'Женский', 'Оба']
+                        }).render()
+                    },
+                    {
+                        children: new Button({
+                            mode: 'destructive',
+                            id: 'logout',
+                            type: 'button',
+                            text: 'Выйти'
                         }).render()
                     }
                 ]
             }).render(),
             new FormList({
-                id: 'settings__pass',
+                id: 'settings__password',
                 formList: [
                     {
                         top: 'Старый Пароль',
@@ -179,18 +236,33 @@ class SettingsView extends BaseView {
 
         this.context.Submit = new FormItem({
             children: new Button({
-                id: 'settings__form-submit',
+                id: 'settings__submit',
                 type: 'submit',
                 text: 'Сохранить'
             }).render()
         }).render();
 
-        this.context.Logout = new FormItem({
+        this.context.settingsList = [
+            new Cell({ id: 'settings-list__main', text: 'Основные' }).render(),
+            new Cell({ id: 'settings-list__photo', text: 'Фотографии' }).render(),
+            new Cell({ id: 'settings-list__photo__secret', text: 'Скрытый альбом' }).render(),
+            new Cell({ id: 'settings-list__password', text: 'Сменить пароль' }).render()
+        ];
+
+        this.context.payButton = new FormItem({
             children: new Button({
-                mode: 'destructive',
-                id: 'logout',
-                type: 'button',
-                text: 'Выйти'
+                mode: 'commerce',
+                id: 'pay-button',
+                text: 'Пополнить лайки'
+            }).render()
+        }).render();
+
+        this.context.chevronBackCell = new Cell({
+            id: 'settings__chevronBack',
+            children: 'Назад',
+            iconBefore: new IconClass({
+                iconCode: IconsSrc.chevron_back,
+                size: 28
             }).render()
         }).render();
 

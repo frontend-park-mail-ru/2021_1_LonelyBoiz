@@ -55,7 +55,7 @@ class PreSettingsView extends BaseView {
                 ]
             }).render(),
             new FormList({
-                id: 'settings__form',
+                id: 'settings__main',
                 formList: [
                     {
                         top: 'Имя',
@@ -75,12 +75,12 @@ class PreSettingsView extends BaseView {
                         }).render()
                     },
                     {
-                        top: 'Пол соискателя',
+                        top: 'Пол партнера',
                         id: 'settings__datePreference_form-item',
                         children: new Select({
                             required: true,
                             id: 'settings__datePreference',
-                            title: 'Пол соискателя',
+                            title: 'Пол партнера',
                             options: ['Мужской', 'Женский', 'Оба']
                         }).render()
                     }
@@ -90,7 +90,7 @@ class PreSettingsView extends BaseView {
 
         this.context.Submit = new FormItem({
             children: new Button({
-                id: 'settings__form-submit',
+                id: 'settings__submit',
                 type: 'submit',
                 text: 'Сохранить'
             }).render()

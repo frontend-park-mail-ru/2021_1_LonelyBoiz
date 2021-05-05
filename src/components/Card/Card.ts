@@ -34,28 +34,29 @@ class Card extends Component {
     constructor(context?: ICard) {
         super(context, template);
 
-        this.context.infoBlockContext = {
-            ...this.context.user,
-            info: {},
-            title: this.context.user.name,
-            messageIconInTitle: this.context.vertical,
-            borderRadiusBottom: this.context.vertical,
-            borderRadiusRight: this.context.horizontal
-        };
+        if (this.context.user) {
+            this.context.infoBlockContext = {
+                ...this.context.user,
+                info: {},
+                title: this.context.user.name,
+                messageIconInTitle: this.context.vertical,
+                borderRadiusBottom: this.context.vertical,
+                borderRadiusRight: this.context.horizontal
+            };
 
-        if (this.context.user.geo) {
-            this.context.infoBlockContext.info.geo = this.context.user.geo;
+            if (this.context.user.geo) {
+                this.context.infoBlockContext.info.geo = this.context.user.geo;
+            }
+            if (this.context.user.city) {
+                this.context.infoBlockContext.info.city = this.context.user.city;
+            }
+            if (this.context.user.instagram) {
+                this.context.infoBlockContext.info.instagram = this.context.user.instagram;
+            }
+            if (this.context.user.age) {
+                this.context.infoBlockContext.title += `, ${this.context.user.age}`;
+            }
         }
-        if (this.context.user.city) {
-            this.context.infoBlockContext.info.city = this.context.user.city;
-        }
-        if (this.context.user.instagram) {
-            this.context.infoBlockContext.info.instagram = this.context.user.instagram;
-        }
-        if (this.context.user.age) {
-            this.context.infoBlockContext.title += `, ${this.context.user.age}`;
-        }
-
         this.context.photoBlockContext = {
             disablePoints: this.context.disablePoints,
             disableLeftArrow: this.context.disableLeftArrow,
@@ -71,13 +72,10 @@ class Card extends Component {
      * @returns {string} Построенный компонент
      */
     render(): string {
-        this.context.Info = new InfoBlock(
-            this.context.infoBlockContext
-        ).render();
-
-        this.context.Photo = new PhotoBlock(
-            this.context.photoBlockContext
-        ).render();
+        if (this.context.user) {
+            this.context.Info = new InfoBlock(this.context.infoBlockContext).render();
+        }
+        this.context.Photo = new PhotoBlock(this.context.photoBlockContext).render();
 
         return this.template(this.context);
     }

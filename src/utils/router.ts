@@ -3,6 +3,7 @@ import Events from '../consts/events';
 import eventBus from '../utils/eventBus';
 import userModel from '../models/UserModel';
 import BaseController from '../controllers/BaseController';
+import Context from './Context';
 
 interface IPath {
     route: string;
@@ -36,7 +37,7 @@ class Router {
                 }
             });
 
-        window.onpopstate = function(e) {
+        window.onpopstate = function(e: Context) {
             this.setupPage(
                 e.target.location.pathname + e.target.location.search
             );

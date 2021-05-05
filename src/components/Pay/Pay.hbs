@@ -1,0 +1,19 @@
+<div class="pay block bg-color_white p-12">
+    <div class="Title Title--l-1 Title--w-bold p-5 text-center">Оплата</div>
+    <form method="POST" action="https://yoomoney.ru/quickpay/confirm.xml">
+        <input type="hidden" name="receiver" value="{{receiverWallet}}">
+        <input type="hidden" name="formcomment" value="Пополнение лайков">
+        <input type="hidden" name="short-dest" value="Пополнение лайков">
+        <input type="hidden" name="label" value="{{label}}">
+        <input type="hidden" name="quickpay-form" value="shop">
+        <input type="hidden" name="targets" value="Пополнение лайков">
+        {{{select}}}
+        <input type="hidden" name="successURL" value="{{successURLLocation}}">
+        <input type="hidden" name="need-fio" value="false">
+        <input type="hidden" name="need-email" value="false">
+        <input type="hidden" name="need-phone" value="false">
+        <input type="hidden" name="need-address" value="false">
+        {{{payMethods}}}
+        {{{submit}}}
+    </form>
+</div>

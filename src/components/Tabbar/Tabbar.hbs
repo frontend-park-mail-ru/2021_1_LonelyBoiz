@@ -1,13 +1,21 @@
 <div class="tabbar">
     {{#each icons}}
-    <div class="tabbar__icon">
-        {{#if href}}
-        <a class="tabbar header-href" data-routlink="{{href}}" href="{{href}}" id="{{idHref}}">
-            {{/if}}
-            {{{icon}}}
-            {{#if href}}
-        </a>
+    {{#if href}}
+    <a class="tabbar header-href" data-routlink="{{href}}" href="{{href}}" id="{{idHref}}">
         {{/if}}
-    </div>
+        <div class="tabbar__item">
+            <div class="tabbar__icon">
+
+                {{{icon}}}
+            </div>
+            {{#if title}}
+            <div class="tabbar__title {{titleClasses}}">
+                {{title}}
+            </div>
+            {{/if}}
+        </div>
+        {{#if href}}
+    </a>
+    {{/if}}
     {{/each}}
 </div>

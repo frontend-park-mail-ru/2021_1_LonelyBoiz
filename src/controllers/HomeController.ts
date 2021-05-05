@@ -83,7 +83,11 @@ class HomeController extends BaseController {
             photos: this.userData.photos,
             id: this.id,
             funcLike: this.onLike.bind(this),
-            funcDislike: this.onDislike.bind(this)
+            funcDislike: this.onDislike.bind(this),
+            buttons: {
+                like: 'active',
+                dislike: 'active'
+            }
         });
     }
 

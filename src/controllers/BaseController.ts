@@ -5,7 +5,7 @@ import Context from '../utils/Context';
 import eventBus from '../utils/eventBus';
 import Events from '../consts/events';
 import Routes from '../consts/routes';
-import userModel from '../models/UserModel';
+import userModel, { IUserModel } from '../models/UserModel';
 import Views from '../consts/views';
 import webSocketListener from '../utils/WebSocketListener';
 
@@ -37,13 +37,13 @@ class BaseController extends Listener {
     /**
      * Запускает контроллер
      */
-    start(queryParams: Context): void {
+    start(queryParams?: Context): void {
         this.queryParams = queryParams;
     }
 
     auth(): Promise<void> {
         return userModel.auth().then((response: Response) => {
-            const json = response.json;
+            const json = response.json as IUserModel;
 
             if (this.view.view === Views.Login || this.view.view === Views.SignUp) {
                 return;
@@ -59,7 +59,6 @@ class BaseController extends Listener {
                 return Promise.reject(new Error('Not activated'));
             }
             webSocketListener.listen();
-            eventBus.emit(Events.updateAvatar);
         });
     }
 

@@ -14,7 +14,7 @@ class Listener {
     /**
      * Цепляет обработчик к событию и сохранят его
      * @this  {BaseController}
-     * @param {{element, type, listener}} subscriber объект, который хранит в себе информацию о владельце
+     * @param {IListener} subscriber объект, который хранит в себе информацию о владельце
      */
     registerListener(subscriber: IListener): void {
         subscriber.element.addEventListener(

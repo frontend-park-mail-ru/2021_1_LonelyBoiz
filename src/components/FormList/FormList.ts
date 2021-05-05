@@ -28,7 +28,7 @@ class FormList extends Component {
      * @returns {string} Построенный компонент
      */
     render(): string {
-        this.context.FormList = this.context.formList.map((item) => {
+        this.context.FormList = this.context.formList.map((item: IFormItem) => {
             return new FormItem(item).render();
         });
         return this.template(this.context);

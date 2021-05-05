@@ -7,6 +7,8 @@ export interface ITabbar {
     icons: {
         icon?: IIconClass;
         idHref?: string;
+        title?: string;
+        titleClasses?: string;
     }[];
 }
 

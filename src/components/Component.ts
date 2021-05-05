@@ -1,4 +1,3 @@
-import { Template } from 'handlebars';
 import Context from '../utils/Context';
 
 /**
@@ -7,9 +6,9 @@ import Context from '../utils/Context';
  */
 abstract class Component {
     context: Context;
-    template: Template;
+    template: Function;
 
-    protected constructor(context?: Context, template?: Template) {
+    protected constructor(context?: Context, template?: Function) {
         this.context = { ...context } ?? {};
         this.template = template;
     }

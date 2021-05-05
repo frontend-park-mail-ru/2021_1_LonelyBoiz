@@ -4,6 +4,7 @@ import Context from '../utils/Context';
 import { imageStorageLocation } from '../consts/config';
 
 export interface IUserModel {
+    error?: Context;
     id?: number;
     mail?: string;
     name?: string;
@@ -18,12 +19,14 @@ export interface IUserModel {
     password?: string;
     passwordRepeat?: string;
     passwordOld?: string;
+    captchaToken?: string;
     age?: number;
 }
 
 class UserModel {
     static instance: UserModel = null;
     data: IUserModel = {};
+
     authorized: boolean = null;
 
     /**
@@ -62,35 +65,35 @@ class UserModel {
 
     set(data: Context) {
         Object.entries(data).forEach((item) => {
-            const [key, value] = item;
-            if (key in this.data || key === 'captchaToken') {
-                this.data[key] = this.setMiddleware(key, value);
+            const [key, value] = item as [keyof IUserModel, Context];
+            if (key in this.data) {
+                this.data = { ...this.data, [key]: this.setMiddleware(key, value) };
             }
         });
 
         return this;
     }
 
-    receiveMiddleware(key: string, value: Context) {
+    receiveMiddleware(key: string, value: Context): Context {
         switch (key) {
-        case 'birthday':
-            return value * 1000;
-        case 'photos':
-            if (value) {
-                value = value.map((v: string) => imageStorageLocation + '/' + v);
-            }
-            return value;
-        default:
-            return value;
+            case 'birthday':
+                return value * 1000;
+            case 'photos':
+                if (value) {
+                    value = value.map((v: string) => imageStorageLocation + '/' + v);
+                }
+                return value;
+            default:
+                return value;
         }
     }
 
-    setMiddleware(key: string, value: Context) {
+    setMiddleware(key: string, value: Context): Context {
         switch (key) {
-        case 'birthday':
-            return value / 1000;
-        default:
-            return value;
+            case 'birthday':
+                return value / 1000;
+            default:
+                return value;
         }
     }
 
@@ -121,7 +124,8 @@ class UserModel {
 
     clearData() {
         for (const item of Object.entries(this.data)) {
-            this.data[item[0]] = undefined;
+            const key = item[0] as keyof IUserModel;
+            delete this.data[key];
         }
     }
 
@@ -137,11 +141,12 @@ class UserModel {
             .then((response) => {
                 if (response.ok) {
                     this.authorized = true;
-                    for (const [key, value] of Object.entries(response.json)) {
+                    Object.entries(response.json).forEach((item) => {
+                        const [key, value] = item as [keyof IUserModel, Context];
                         if (key in this.data) {
-                            this.data[key] = this.receiveMiddleware(key, value);
+                            this.data = { ...this.data, [key]: this.receiveMiddleware(key, value) };
                         }
-                    }
+                    });
                     response.json = this.getData();
                 }
 
@@ -163,11 +168,12 @@ class UserModel {
             .then(parseJson)
             .then((response) => {
                 if (response.ok) {
-                    for (const [key, value] of Object.entries(response.json)) {
+                    Object.entries(response.json).forEach((item) => {
+                        const [key, value] = item as [keyof IUserModel, Context];
                         if (key in this.data) {
-                            this.data[key] = this.receiveMiddleware(key, value);
+                            this.data = { ...this.data, [key]: this.receiveMiddleware(key, value) };
                         }
-                    }
+                    });
                     response.json = this.getData();
                 }
 
@@ -184,11 +190,12 @@ class UserModel {
         const currData: IUserModel = this.data;
 
         let modifiedData: Context = {};
-        for (const [key, value] of Object.entries(data)) {
-            if (key !== 'id' && key !== 'photos' && key in currData) {
+        Object.entries(data).forEach((item) => {
+            const [key, value] = item as [keyof IUserModel, Context];
+            if (key !== 'id' && key in currData) {
                 modifiedData[key] = addIfNotEq(this.setMiddleware(key, value), currData[key]);
             }
-        }
+        });
 
         modifiedData = filterObject(modifiedData, (v) => {
             return v !== undefined;
@@ -198,11 +205,12 @@ class UserModel {
             .then(parseJson)
             .then((response) => {
                 if (response.ok) {
-                    for (const [key, value] of Object.entries(response.json)) {
+                    Object.entries(response.json).forEach((item) => {
+                        const [key, value] = item as [keyof IUserModel, Context];
                         if (key in this.data) {
-                            this.data[key] = this.receiveMiddleware(key, value);
+                            this.data = { ...this.data, [key]: this.receiveMiddleware(key, value) };
                         }
-                    }
+                    });
                     response.json.isActive = isActive(this.data);
                     response.json = this.getData();
                 }
@@ -229,11 +237,12 @@ class UserModel {
             .then((response) => {
                 if (response.ok) {
                     this.authorized = true;
-                    for (const [key, value] of Object.entries(response.json)) {
+                    Object.entries(response.json).forEach((item) => {
+                        const [key, value] = item as [keyof IUserModel, Context];
                         if (key in this.data) {
-                            this.data[key] = this.receiveMiddleware(key, value);
+                            this.data = { ...this.data, [key]: this.receiveMiddleware(key, value) };
                         }
-                    }
+                    });
                     response.json = this.getData();
                 }
 
@@ -252,11 +261,16 @@ class UserModel {
         }
 
         return HttpRequests.delete('/login', {}).then((response) => {
+            window.localStorage.removeItem('scheme');
+            document.body.removeAttribute('scheme');
+
             this.authorized = false;
             Object.entries(this.data).forEach((item) => {
-                const key = item[0];
-                this.data[key] = undefined;
+                const key = item[0] as keyof IUserModel;
+                this.data = { ...this.data, [key]: undefined };
             });
+
+            window.localStorage.removeItem('CSRFToken');
 
             return {
                 json: {},
@@ -295,7 +309,7 @@ class UserModel {
      * @param {String} photo - фотография
      * @return {Promise}
      */
-    uploadPhoto(photo: FormData) {
+    uploadPhoto(photo: File) {
         return HttpRequests.postBinary('/images', photo)
             .then(parseJson)
             .then((response) => {
@@ -305,15 +319,6 @@ class UserModel {
 
                 return response;
             });
-    }
-
-    /**
-     * Сообщает, авторизован ли пользователь
-     *
-     * @return {Promise}
-     */
-    isActivated(): boolean {
-        return this.activated;
     }
 
     /**
@@ -361,11 +366,12 @@ class UserModel {
             .then((response) => {
                 if (response.ok) {
                     this.authorized = true;
-                    for (const [key, value] of Object.entries(response.json)) {
+                    Object.entries(response.json).forEach((item) => {
+                        const [key, value] = item as [keyof IUserModel, Context];
                         if (key in this.data) {
-                            this.data[key] = this.receiveMiddleware(key, value);
+                            this.data = { ...this.data, [key]: this.receiveMiddleware(key, value) };
                         }
-                    }
+                    });
                     response.json = this.getData();
                 } else {
                     this.authorized = false;

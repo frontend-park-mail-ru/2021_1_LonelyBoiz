@@ -6,7 +6,7 @@ interface IButton {
     type?: 'button' | 'submit';
     id?: string;
     text?: string;
-    mode?: 'primary' | 'secondary' | 'destructive';
+    mode?: 'primary' | 'secondary' | 'destructive' | 'commerce';
 }
 
 /**
@@ -38,6 +38,9 @@ class Button extends Component {
         }
         if (this.context.mode && this.context.mode === 'destructive') {
             this.context.destructive = true;
+        }
+        if (this.context.mode && this.context.mode === 'commerce') {
+            this.context.commerce = true;
         }
     }
 }
