@@ -319,6 +319,7 @@ class MessageController extends BaseController {
             }
 
             if (lastTime && chat.lastMessage.time) {
+                lastTime.classList.add('chat-item__time_separator');
                 lastTime.innerHTML = chat.lastMessage.time;
             }
         }

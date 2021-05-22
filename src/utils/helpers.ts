@@ -130,6 +130,9 @@ export function handleReactionPromise(response: Response): Context {
 
     const newChatData = response.json as IChatItem;
     if (newChatData?.chatId) {
+        eventBus.emit(Events.pushNotifications, {
+            children: 'У вас новая пара!'
+        });
         eventBus.emit(Events.newChat, newChatData);
     }
 
@@ -146,6 +149,9 @@ export function handleReactionPromise(response: Response): Context {
 }
 
 export function timeToStringByTime(date: Date): string {
+    if (isNaN(date.getDate())) {
+        return '';
+    }
     if (typeof date === 'string') date = new Date(date);
     const timeDiff = (Number(new Date()) - Number(date)) / 1000;
 
@@ -217,7 +223,7 @@ interface IChatPatch {
 }
 
 export function updateChat(chats: IChat[], chatPatch: IChatPatch): void {
-    for (let chat of chats) {
+    chats.forEach(function patchChat(chat: IChat, index: number) {
         if (chat.chatId === chatPatch.chatId) {
             for (const key of Object.keys(chat)) {
                 const tmpKey = key as keyof IChatPatch;
@@ -225,9 +231,9 @@ export function updateChat(chats: IChat[], chatPatch: IChatPatch): void {
                     chat = { ...chat, [tmpKey]: chatPatch[tmpKey] };
                 }
             }
-            break;
         }
-    }
+        this[index] = chat;
+    }, chats);
 }
 
 export const badInternet = (): void => {
