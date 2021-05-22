@@ -42,6 +42,7 @@ type ISettingsListIds = {
 class SettingsController extends BaseController {
     formSuccess = false;
     file: File = null;
+    prevPage: string = null;
     dragMainPhoto: DragableListClass = null;
     dragSecretPhoto: DragableListClass = null;
     settingsGroupIds: ISettingsGropusIds = {
@@ -168,6 +169,18 @@ class SettingsController extends BaseController {
                 this.showDragPhoto('drag-photo', this.photoList, true);
                 document.getElementById('input_avatar__save-button').classList.add('div_disabled');
                 document.getElementById('input_avatar__save-button__secret').classList.add('div_disabled');
+
+                const sessionStoragePage = <keyof ISettingsListIds> window.sessionStorage.getItem('settingsPage');
+                let page: keyof ISettingsListIds = 'main';
+                if (this.queryParams.page in this.settingsListIds) {
+                    page = this.queryParams.page;
+                    this.changeList(page);
+                } else if (sessionStoragePage in this.settingsListIds) {
+                    page = sessionStoragePage;
+                    this.changeList(page);
+                }
+                eventBus.emit(Events.queryChange, { queryObj: { page: page }, isNewState: false });
+                window.sessionStorage.setItem('settingsPage', page);
             })
             .catch((e) => {
                 console.error(e);
@@ -372,6 +385,13 @@ class SettingsController extends BaseController {
                     this.changeList(<keyof ISettingsListIds>key);
                 }
             });
+            this.registerListener({
+                element: document.getElementById(value),
+                type: 'click',
+                listener: () => {
+                    this.updateQueryString(<keyof ISettingsListIds>key);
+                }
+            });
         });
     }
 
@@ -434,6 +454,14 @@ class SettingsController extends BaseController {
             Object.entries(this.settingsListIds).forEach(([, value]) => {
                 document.getElementById(value).classList.remove('cell_active');
             });
+        }
+    }
+
+    updateQueryString(newKey: keyof ISettingsListIds): void {
+        if (this.prevPage !== newKey) {
+            eventBus.emit(Events.queryChange, { queryObj: { page: newKey }, isNewState: true });
+            this.prevPage = newKey;
+            window.sessionStorage.setItem('settingsPage', newKey);
         }
     }
 
