@@ -105,7 +105,14 @@ class MessageController extends BaseController {
                                     chatId: value.chatId
                                 };
                             });
-                            this.addChats(chats);
+                            this.initChats(chats);
+                            if (this.queryParams.chatId) {
+                                const chatsWithId = this.chats.filter(chat => String(chat.chatId) === this.queryParams.chatId);
+                                if (chatsWithId.length > 0) {
+                                    eventBus.emit(Events.queryChange, { queryObj: { chatId: this.queryParams.chatId }, isNewState: false });
+                                    this.openChat(Number(this.queryParams.chatId));
+                                }
+                            }
                         }
                     })
                     .catch((chatReason) => console.error('Chat error - ', chatReason));
@@ -261,6 +268,11 @@ class MessageController extends BaseController {
             });
     }
 
+    initChats(chats: IChatItem[]): void {
+        this.chats = [];
+        this.addChats(chats);
+    }
+
     /**
      *
      * @param {{user:{name, avatar}, lastMessage:{text, time: String}, counter, chatId}[]} chats
@@ -297,6 +309,14 @@ class MessageController extends BaseController {
                     this.openChat(Number(currentElement.dataset.chatId));
                 }
             });
+            this.registerListener({
+                element: insertionElem,
+                type: 'click',
+                listener: (e) => {
+                    const currentElement = <HTMLElement>e.currentTarget;
+                    this.onChatOpening(Number(currentElement.dataset.chatId));
+                }
+            });
         });
         if (this.chats.length > 0) {
             this.elements.noChatsList.hidden = true;
@@ -323,6 +343,10 @@ class MessageController extends BaseController {
                 lastTime.innerHTML = chat.lastMessage.time;
             }
         }
+    }
+
+    onChatOpening(chatId: number): void {
+        eventBus.emit(Events.queryChange, { queryObj: { chatId }, isNewState: true });
     }
 
     openChat(chatId: number): void {
