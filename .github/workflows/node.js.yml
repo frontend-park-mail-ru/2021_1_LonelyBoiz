@@ -38,10 +38,14 @@ jobs:
     - name: Linter check
       run: npm run eslint-check
     - name: Deploy app
-      uses: akhileshns/heroku-deploy@master
+      uses: appleboy/ssh-action@master
       with:
-        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-        heroku_app_name: lepick
-        heroku_email: wh75er@gmail.com
-      
-      
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          cd ${{ secrets.PROJECT_DIR }} && git pull -f
+          cd ${{ secrets.PROJECT_DIR }} && npm i && npm build
+          sudo rm ${{ secrets.NGINX_DIR }}/*
+          sudo cp ${{ secrets.PROJECT_DIR }}/dist/* ${{ secrets.NGINX_DIR }}/*
+
