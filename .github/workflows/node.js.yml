@@ -43,12 +43,13 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_KEY }}
+        script_stop: true
         script: |
           cd ${{ secrets.PROJECT_DIR }}
           git pull -f
           cd ${{ secrets.PROJECT_DIR }}
           npm i
           npm build
-          sudo rm ${{ secrets.NGINX_DIR }}/*
-          sudo cp ${{ secrets.PROJECT_DIR }}/dist/* ${{ secrets.NGINX_DIR }}/*
+          rm ${{ secrets.NGINX_DIR }}/*
+          cp ${{ secrets.PROJECT_DIR }}/dist/* ${{ secrets.NGINX_DIR }}
 
