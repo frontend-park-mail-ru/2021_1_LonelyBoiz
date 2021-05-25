@@ -49,6 +49,6 @@ jobs:
           git pull -f
           npm i
           npm run build
-          rm ${{ secrets.NGINX_DIR }}/*
+          if [[ -n $(ls ${{ secrets.NGINX_DIR }}) ]]; then rm ${{ secrets.NGINX_DIR }}/*; fi
           cp dist/* ${{ secrets.NGINX_DIR }}
 
