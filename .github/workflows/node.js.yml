@@ -51,4 +51,6 @@ jobs:
           npm run build
           if [[ -n $(ls ${{ secrets.NGINX_DIR }}) ]]; then rm ${{ secrets.NGINX_DIR }}/*; fi
           cp dist/* ${{ secrets.NGINX_DIR }}
+          sudo cp nginx.conf /etc/nginx/nginx.conf
+          sudo nginx -s reload
 
