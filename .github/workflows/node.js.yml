@@ -44,8 +44,9 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_KEY }}
         script: |
-          cd ${{ secrets.PROJECT_DIR }} && git pull -f
-          cd ${{ secrets.PROJECT_DIR }} && npm i && npm build
+          cd ${{ secrets.PROJECT_DIR }}
+          git pull -f
+          npm i
+          npm build
           sudo rm ${{ secrets.NGINX_DIR }}/*
           sudo cp ${{ secrets.PROJECT_DIR }}/dist/* ${{ secrets.NGINX_DIR }}/*
-
