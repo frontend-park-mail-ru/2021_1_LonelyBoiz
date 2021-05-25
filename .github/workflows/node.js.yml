@@ -47,9 +47,8 @@ jobs:
         script: |
           cd ${{ secrets.PROJECT_DIR }}
           git pull -f
-          cd ${{ secrets.PROJECT_DIR }}
           npm i
           npm run build
           rm ${{ secrets.NGINX_DIR }}/*
-          $(cp ${{ secrets.PROJECT_DIR }}/dist/* ${{ secrets.NGINX_DIR }}/)
+          cp dist/* ${{ secrets.NGINX_DIR }}
 
