@@ -1,7 +1,7 @@
 import HttpRequests from '../utils/requests';
 import { addIfNotEq, filterObject, parseJson, IResponseData, isActive } from '../utils/helpers';
 import Context from '../utils/Context';
-import { imageStorageLocation } from '../consts/config';
+import { imageStorageLocation, imageBackendLocation } from '../consts/config';
 
 export interface IUserModel {
     error?: Context;
@@ -310,7 +310,10 @@ class UserModel {
      * @return {Promise}
      */
     uploadPhoto(photo: File) {
-        return HttpRequests.postBinary('/images', photo)
+        const options = {
+            url: imageBackendLocation
+        };
+        return HttpRequests.postBinary('/images', photo, options)
             .then(parseJson)
             .then((response) => {
                 if (response.ok) {

@@ -10,6 +10,11 @@ interface IPath {
     query: string;
 }
 
+interface IQueryUpdateOptions {
+    queryObj: Context;
+    isNewState?: boolean;
+}
+
 /**
  * @class
  * Роутер для навигации в приложении
@@ -26,6 +31,7 @@ class Router {
      */
     constructor() {
         eventBus.connect(Events.routeChange, this.changeRoute.bind(this));
+        eventBus.connect(Events.queryChange, this.updateQuery.bind(this));
 
         document
             .getElementById('app')
@@ -82,6 +88,7 @@ class Router {
 
         const splitedPath = this.parsePath(path);
         const route = splitedPath.route;
+        const queryParams = this.parseParams(splitedPath.query);
 
         let controller = this.routes.get(route);
 
@@ -111,7 +118,7 @@ class Router {
             );
         }
 
-        this.controller.start();
+        this.controller.start(queryParams);
     }
 
     /**
@@ -122,6 +129,27 @@ class Router {
      */
     addRoute(route: string, controller: BaseController): void {
         this.routes.set(route, controller);
+    }
+
+    /**
+     * Обновляет query параметры, изменяя текущее состояние, либо добавляя новое
+     *
+     * @params {Object}  queryObj объект с query параметрами
+     * @params {boolean}  isNewState определяет, будет ли создаваться новое состояние
+     */
+    updateQuery(options: IQueryUpdateOptions): void {
+        const queryObj = options.queryObj;
+        const isNewState = options.isNewState ? options.isNewState : false;
+
+        const query = new URLSearchParams(window.location.search);
+        for (const [key, value] of Object.entries(queryObj)) {
+            query.set(key, <string>value);
+        }
+        if (isNewState) {
+            history.pushState(null, null, '?' + query.toString());
+        } else {
+            history.replaceState(null, null, '?' + query.toString());
+        }
     }
 
     /**
@@ -138,6 +166,35 @@ class Router {
         }
 
         return { route: splitedPath[0], query: '' };
+    }
+
+    /**
+     * Парсит query параметры
+     *
+     * @params {String} query параметры
+     *
+     * @return {Object} возвращает query параметры в виде объекта
+     */
+    parseParams(queryString: string): Context {
+        const params = new URLSearchParams(queryString);
+
+        let obj = {};
+
+        for (const key of params.keys()) {
+            if (params.getAll(key).length > 1) {
+                obj = {
+                    ...obj,
+                    [key]: params.getAll(key)
+                };
+            } else {
+                obj = {
+                    ...obj,
+                    [key]: params.get(key)
+                };
+            }
+        }
+
+        return obj;
     }
 }
 

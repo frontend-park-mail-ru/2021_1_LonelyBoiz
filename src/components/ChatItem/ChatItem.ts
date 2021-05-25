@@ -35,12 +35,12 @@ class ChatItem extends Component {
             }
         }
 
-        if (this.context.lastMessage && this.context.lastMessage.text) {
-            this.context.caption = `<div class="chat-item__last-message">${this.context.lastMessage.text}</div>`;
-            if (this.context.lastMessage.time) {
-                this.context.caption += `<div class="chat-item__time">${this.context.lastMessage.time}</div>`;
-            }
-        }
+        const lastMessageText = this.context.lastMessage.text ? this.context.lastMessage.text : '';
+        const lastMessageTime = this.context.lastMessage.time ? this.context.lastMessage.time : '';
+        this.context.caption = `<div class="chat-item__last-message">${lastMessageText}</div>`;
+
+        const chatTimeClasses = lastMessageTime ? 'chat-item__time chat-item__time_separator' : 'chat-item__time';
+        this.context.caption += `<div class="${chatTimeClasses}">${lastMessageTime}</div>`;
     }
 
     /**

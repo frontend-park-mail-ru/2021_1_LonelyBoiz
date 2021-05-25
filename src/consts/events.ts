@@ -4,7 +4,8 @@ const Events = {
     updateAvatar: 'updateAvatar',
     newMessage: 'newMessage',
     newChat: 'newChat',
-    messageChanged: 'messageChanged'
+    messageChanged: 'messageChanged',
+    queryChange: 'queryChange'
 };
 
 export default Events;

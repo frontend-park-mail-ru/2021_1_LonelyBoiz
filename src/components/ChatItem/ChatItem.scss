@@ -7,7 +7,10 @@
     overflow: hidden;
 }
 
-.chat-item__time::before {
+.chat-item__time {
+}
+
+.chat-item__time_separator::before {
     margin-right: 10px;
     margin-bottom: 3px;
     display: inline-block;

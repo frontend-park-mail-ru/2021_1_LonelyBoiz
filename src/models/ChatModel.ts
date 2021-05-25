@@ -186,7 +186,8 @@ class ChatModel {
                 ok: true,
                 json: this.chats.map((chat: Context) => ({
                     ...chat,
-                    lastMessageTime: timeToStringByTime(new Date(chat.lastMessageTime))
+                    lastMessageTime: timeToStringByTime(new Date(chat.lastMessageTime)),
+                    photo: imageStorageLocation + '/' + chat.photo
                 }))
             });
         }
@@ -206,14 +207,15 @@ class ChatModel {
                             partnerId: chat.partnerId,
                             partnerName: chat.partnerName,
                             lastMessage: chat.lastMessage,
-                            lastMessageTime: chat.lastMessageTime * 1000,
-                            photo: imageStorageLocation + '/' + chat.photos[0]
+                            lastMessageTime: chat.lastMessageTime ? chat.lastMessageTime * 1000 : undefined,
+                            photo: chat.photos[0]
                         };
                     });
                     response.json = this.chats.map((chat: Context) => {
                         return {
                             ...chat,
-                            lastMessageTime: timeToStringByTime(new Date(chat.lastMessageTime))
+                            lastMessageTime: timeToStringByTime(new Date(chat.lastMessageTime)),
+                            photo: imageStorageLocation + '/' + chat.photo
                         };
                     });
                 }

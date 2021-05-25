@@ -11,11 +11,23 @@ class BaseRequest {
      *
      * @param {string} method указание метода HTTP запроса
      * @param {string} route указание пути принимающей стороне
-     * @param {any} body тело запроса
-     * @param {boolean} binary является ли запрос бинарным
+     * @param {Context} body тело запроса
+     * @param {Context} reqOptions опции для запроса
      * @return {Promise}
      */
-    request(method = 'GET', route = '/', body: Context = null, binary?: boolean): Promise<Response> {
+    request(method = 'GET', route = '/', body: Context = null, reqOptions: Context = {}): Promise<Response> {
+        let binary = false;
+        let url = backendLocation;
+
+        if (reqOptions) {
+            if (reqOptions.binary === true) {
+                binary = true;
+            }
+            if (reqOptions.url) {
+                url = reqOptions.url;
+            }
+        }
+
         const options: RequestInit = {
             method: method,
             mode: 'cors',
@@ -37,7 +49,7 @@ class BaseRequest {
             options.body = body;
         }
 
-        return fetch(backendLocation + route, options).then((response) => {
+        return fetch(url + route, options).then((response) => {
             if (response.headers.get('X-CSRF-Token')) {
                 window.localStorage.setItem('CSRFToken', response.headers.get('X-CSRF-Token'));
             }
@@ -45,8 +57,8 @@ class BaseRequest {
         });
     }
 
-    makeRequest(route = 'POST', body: Context = null, binary?: boolean): Promise<Response> {
-        return this.request(route, route, body, binary);
+    makeRequest(route = '/', body: Context = null, options: Context = {}): Promise<Response> {
+        return this.request('POST', route, body, options);
     }
 }
 
@@ -60,10 +72,11 @@ class PostRequest extends BaseRequest {
      *
      * @param {string} route указание пути принимающей стороне
      * @param {Object} body тело запроса
+     * @param {object} options опции запроса
      * @return {Promise}
      */
-    makeRequest(route: string, body: Context): Promise<Response> {
-        return this.request('POST', route, body);
+    makeRequest(route: string, body: Context, options: Context = {}): Promise<Response> {
+        return this.request('POST', route, body, options);
     }
 }
 
@@ -77,10 +90,12 @@ class GetRequest extends BaseRequest {
      *
      * @param {string} route указание пути принимающей стороне
      * @param {Object} body пустой объект
+     * @param {object} options опции запроса
      * @return {Promise}
      */
-    makeRequest(route: string): Promise<Response> {
-        return this.request('GET', route);
+    makeRequest(route: string, body: Context = null, options: Context = {}): Promise<Response> {
+        body = null;
+        return this.request('GET', route, body, options);
     }
 }
 
@@ -94,10 +109,11 @@ class PutRequest extends BaseRequest {
      *
      * @param {string} route указание пути принимающей стороне
      * @param {Object} body тело запроса
+     * @param {object} options опции запроса
      * @return {Promise}
      */
-    makeRequest(route: string, body: Context): Promise<Response> {
-        return this.request('PUT', route, body);
+    makeRequest(route: string, body: Context, options: Context = {}): Promise<Response> {
+        return this.request('PUT', route, body, options);
     }
 }
 
@@ -111,10 +127,11 @@ class PatchRequest extends BaseRequest {
      *
      * @param {string} route указание пути принимающей стороне
      * @param {Object} body тело запроса
+     * @param {object} options опции запроса
      * @return {Promise}
      */
-    makeRequest(route: string, body: Context): Promise<Response> {
-        return this.request('PATCH', route, body);
+    makeRequest(route: string, body: Context, options: Context = {}): Promise<Response> {
+        return this.request('PATCH', route, body, options);
     }
 }
 
@@ -128,10 +145,11 @@ class DeleteRequest extends BaseRequest {
      *
      * @param {string} route указание пути принимающей стороне
      * @param {Object} body тело запроса
+     * @param {object} options опции запроса
      * @return {Promise}
      */
-    makeRequest(route: string, body: Context): Promise<Response> {
-        return this.request('DELETE', route, body);
+    makeRequest(route: string, body: Context, options: Context = {}): Promise<Response> {
+        return this.request('DELETE', route, body, options);
     }
 }
 
@@ -145,10 +163,11 @@ class BinaryPostRequest extends BaseRequest {
      *
      * @param {string} route указание пути принимающей стороне
      * @param {Object} body тело запроса
+     * @param {object} options опции запроса
      * @return {Promise}
      */
-    makeRequest(route: string, body: Context): Promise<Response> {
-        return this.request('POST', route, body, true);
+    makeRequest(route: string, body: Context, options: Context = {}): Promise<Response> {
+        return this.request('POST', route, body, { ...options, binary: true });
     }
 }
 
@@ -188,10 +207,11 @@ class HttpRequests {
      * Alias для makeRequest для GET запроса
      *
      * @param {string} route указание пути на принимающей стороне
+     * @param {object} options опции запроса
      * @return {Promise} Ответ на запрос
      */
-    get(route: string): Promise<Response> {
-        return this.makeRequest('get', route);
+    get(route: string, options: Context = {}): Promise<Response> {
+        return this.makeRequest('get', route, null, options);
     }
 
     /**
@@ -199,10 +219,11 @@ class HttpRequests {
      *
      * @param {string} route указание пути на принимающей стороне
      * @param {object} body указание пути принимающей стороне
+     * @param {object} options опции запроса
      * @return {Promise} Ответ на запрос
      */
-    post(route: string, body: Context): Promise<Response> {
-        return this.makeRequest('post', route, body);
+    post(route: string, body: Context, options: Context = {}): Promise<Response> {
+        return this.makeRequest('post', route, body, options);
     }
 
     /**
@@ -210,10 +231,11 @@ class HttpRequests {
      *
      * @param {string} route указание пути на принимающей стороне
      * @param {object} body указание пути принимающей стороне
+     * @param {object} options опции запроса
      * @return {Promise} Ответ на запрос
      */
-    put(route: string, body: Context): Promise<Response> {
-        return this.makeRequest('put', route, body);
+    put(route: string, body: Context, options: Context = {}): Promise<Response> {
+        return this.makeRequest('put', route, body, options);
     }
 
     /**
@@ -221,10 +243,11 @@ class HttpRequests {
      *
      * @param {string} route указание пути на принимающей стороне
      * @param {object} body указание пути принимающей стороне
+     * @param {object} options опции запроса
      * @return {Promise} Ответ на запрос
      */
-    patch(route: string, body: Context): Promise<Response> {
-        return this.makeRequest('patch', route, body);
+    patch(route: string, body: Context, options: Context = {}): Promise<Response> {
+        return this.makeRequest('patch', route, body, options);
     }
 
     /**
@@ -232,14 +255,15 @@ class HttpRequests {
      *
      * @param {string} route указание пути на принимающей стороне
      * @param {object} body указание пути принимающей стороне
+     * @param {object} options опции запроса
      * @return {Promise} Ответ на запрос
      */
-    delete(route: string, body: Context): Promise<Response> {
-        return this.makeRequest('delete', route, body);
+    delete(route: string, body: Context, options: Context = {}): Promise<Response> {
+        return this.makeRequest('delete', route, body, options);
     }
 
-    postBinary(route: string, body: Context): Promise<Response> {
-        return this.makeRequest('binary', route, body);
+    postBinary(route: string, body: Context, options: Context = {}): Promise<Response> {
+        return this.makeRequest('binary', route, body, options);
     }
 
     /**
@@ -248,9 +272,10 @@ class HttpRequests {
      * @param {string} method указание HTTP метода для передачи данных
      * @param {string} route указание пути на принимающей стороне
      * @param {object} body указание пути принимающей стороне
+     * @param {object} options указание опций запроса
      * @return {Promise} Ответ на запрос
      */
-    makeRequest(method: string, route: string, body: Context = null): Promise<Response> {
+    makeRequest(method: string, route: string, body: Context = null, options: Context = {}): Promise<Response> {
         if (!(method in this.requests)) {
             return Promise.reject(new Error(`Request method ${method} does not exist`));
         }
@@ -258,7 +283,7 @@ class HttpRequests {
         for (const [kMethod, handler] of Object.entries(this.requests)) {
             const req = <BaseRequest>handler;
             if (kMethod === method) {
-                return req.makeRequest(route, body);
+                return req.makeRequest(route, body, options);
             }
         }
     }
