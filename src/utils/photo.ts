@@ -47,12 +47,12 @@ const compress = (e: Event): Promise<File> => {
                     (blob) => {
                         resolve(
                             new File([blob], fileName, {
-                                type: 'image/webp',
+                                type: 'image/webm',
                                 lastModified: Date.now()
                             })
                         );
                     },
-                    'image/webp',
+                    'image/webm',
                     0.9
                 );
             };

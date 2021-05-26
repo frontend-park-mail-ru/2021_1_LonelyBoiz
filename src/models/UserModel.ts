@@ -313,7 +313,7 @@ class UserModel {
         const options = {
             url: imageBackendLocation
         };
-        return HttpRequests.postBinary('/images', photo, options)
+        return HttpRequests.postBinary('', photo, options)
             .then(parseJson)
             .then((response) => {
                 if (response.ok) {
