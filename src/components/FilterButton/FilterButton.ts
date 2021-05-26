@@ -10,7 +10,7 @@ import './FilterButton.scss';
  */
 class FilterButton extends Listener {
     template: Function;
-    filters: string[] = ['sepia', 'brownie', 'vintage', 'velvet', 'polaroid', 'kodak'];
+    filters: string[] = ['sepia', 'brownie', 'vintage', 'velvet', 'grayscale', 'kodak'];
     id: string;
     paernt: HTMLElement;
     filter = '';
