@@ -13,6 +13,7 @@ import './SettingsView.scss';
 import Cell from '../../components/Cell/Cell';
 import IconClass from '../../components/Icon/Icon';
 import { IconsSrc } from '../../consts/icons';
+import Flex from '../../components/Flex/Flex';
 
 /**
  * @class
@@ -57,6 +58,9 @@ class SettingsView extends BaseView {
                         id: 'settings__new-photo'
                     },
                     {
+                        id: 'settings__filter-button'
+                    },
+                    {
                         children: new Button({
                             type: 'button',
                             id: 'input_avatar__save-button',
@@ -89,6 +93,9 @@ class SettingsView extends BaseView {
                     },
                     {
                         id: 'settings__new-photo__secret'
+                    },
+                    {
+                        id: 'settings__filter-button__secret'
                     },
                     {
                         children: new Button({
@@ -180,6 +187,32 @@ class SettingsView extends BaseView {
                     },
                     {
                         loading: true,
+                        top: 'Рост',
+                        id: 'settings_height_form-item',
+                        children: new Input({
+                            minValue: '1',
+                            maxValue: '272',
+                            type: 'number',
+                            disabled: true,
+                            id: 'settings_height',
+                            placeholder: 'Рост'
+                        }).render()
+                    },
+                    {
+                        loading: true,
+                        top: 'Вес',
+                        id: 'settings_weight_form-item',
+                        children: new Input({
+                            minValue: '1',
+                            maxValue: '445',
+                            type: 'number',
+                            disabled: true,
+                            id: 'settings_weight',
+                            placeholder: 'Вес'
+                        }).render()
+                    },
+                    {
+                        loading: true,
                         top: 'Пол партнера',
                         id: 'settings__datePreference_form-item',
                         children: new Select({
@@ -231,6 +264,60 @@ class SettingsView extends BaseView {
                         bottom: validationsErrors.password
                     }
                 ]
+            }).render(),
+            new FormList({
+                id: 'settings__filter',
+                formList: [
+                    {
+                        top: 'Рост партнера',
+                        id: 'settings_partner-height_form-item',
+                        children: new Flex([
+                            new Input({
+                                type: 'number',
+                                id: 'settings_partner-height-bot',
+                                placeholder: 'От'
+                            }).render(),
+                            new Input({
+                                type: 'number',
+                                id: 'settings_partner-height-top',
+                                placeholder: 'До'
+                            }).render()
+                        ]).render()
+                    },
+                    {
+                        top: 'Вес партнера',
+                        id: 'settings_partner-weight_form-item',
+                        children: new Flex([
+                            new Input({
+                                type: 'number',
+                                id: 'settings_partner-weight-bot',
+                                placeholder: 'От'
+                            }).render(),
+                            new Input({
+                                type: 'number',
+                                id: 'settings_partner-weight-top',
+                                placeholder: 'До'
+                            }).render()
+                        ]).render()
+                    },
+                    {
+                        top: 'Возраст партнера',
+                        id: 'settings_partner-age_form-item',
+                        children: new Flex([
+                            new Input({
+                                minValue: '18',
+                                type: 'number',
+                                id: 'settings_partner-age-top',
+                                placeholder: 'От'
+                            }).render(),
+                            new Input({
+                                type: 'number',
+                                id: 'settings_partner-age-bot',
+                                placeholder: 'До'
+                            }).render()
+                        ]).render()
+                    }
+                ]
             }).render()
         ];
 
@@ -244,6 +331,7 @@ class SettingsView extends BaseView {
 
         this.context.settingsList = [
             new Cell({ id: 'settings-list__main', text: 'Основные' }).render(),
+            new Cell({ id: 'settings-list__filter', text: 'Фильтр' }).render(),
             new Cell({ id: 'settings-list__photo', text: 'Фотографии' }).render(),
             new Cell({ id: 'settings-list__photo__secret', text: 'Скрытый альбом' }).render(),
             new Cell({ id: 'settings-list__password', text: 'Сменить пароль' }).render()

@@ -6,7 +6,11 @@ import {
     validatePasswordRepeat,
     validateSex,
     validateDatePreference,
-    validatePasswordOld
+    validatePasswordOld,
+    validateHeight,
+    validateWeight,
+    validateFilterItem,
+    validateFilterItemTwin
 } from './validation';
 import ValidationsErrors from '../consts/validationsErrors';
 import { formItemSetParams } from './formItem';
@@ -17,6 +21,7 @@ import Context from './Context';
 
 export interface IFormListItem {
     id: string;
+    id2?: string;
     formItemId: string;
     required?: boolean;
     value?: Context;
@@ -70,6 +75,35 @@ export const validationFuncs: IValidationFuncs = {
     birthday: {
         validationeFunc: validateBirthday,
         errorStatus: ValidationsErrors.birthday
+    },
+    height: {
+        validationeFunc: validateHeight,
+        errorStatus: ValidationsErrors.height
+    },
+    weight: {
+        validationeFunc: validateWeight,
+        errorStatus: ValidationsErrors.weight
+    },
+    partnerHeightTop: {
+        validationeFunc: validateFilterItemTwin,
+        errorStatus: ValidationsErrors.filterTwin
+    },
+    partnerHeightBot: {
+        validationeFunc: validateFilterItem
+    },
+    partnerWeightTop: {
+        validationeFunc: validateFilterItemTwin,
+        errorStatus: ValidationsErrors.filterTwin
+    },
+    partnerWeightBot: {
+        validationeFunc: validateFilterItem
+    },
+    partnerAgeTop: {
+        validationeFunc: validateFilterItemTwin,
+        errorStatus: ValidationsErrors.filterTwin
+    },
+    partnerAgeBot: {
+        validationeFunc: validateFilterItem
     }
 };
 
@@ -112,7 +146,19 @@ const validateItem = ({
         console.error('Задан несуществующий DOM элемент');
         return { valid, value: resultValue };
     }
+
     switch (key) {
+        case 'height':
+        case 'weight':
+        case 'partnerHeightTop':
+        case 'partnerHeightBot':
+        case 'partnerWeightTop':
+        case 'partnerWeightBot':
+        case 'partnerAgeTop':
+        case 'partnerAgeBot':
+            resultValue = parseInt(domElem.value);
+            break;
+
         case 'birthday':
             resultValue = getDateById(id);
             break;
@@ -122,13 +168,41 @@ const validateItem = ({
             break;
     }
 
+    switch (key) {
+        case 'height':
+        case 'weight':
+        case 'partnerHeightTop':
+        case 'partnerHeightBot':
+        case 'partnerWeightTop':
+        case 'partnerWeightBot':
+        case 'partnerAgeTop':
+        case 'partnerAgeBot':
+            resultValue = isNaN(resultValue as number) ? -1 : resultValue;
+            break;
+    }
+
     if (id2) {
         const domElem2 = <HTMLInputElement>document.getElementById(id2);
         if (!domElem2) {
             console.error('Задан несуществующий DOM элемент');
             return { valid, value: resultValue };
         }
-        const value2 = domElem2.value;
+
+        let value2;
+        switch (key) {
+            case 'partnerHeightTop':
+            case 'partnerWeightTop':
+            case 'partnerAgeTop':
+                value2 = parseInt(domElem2.value);
+                if (isNaN(value2)) {
+                    value2 = -1;
+                }
+                break;
+
+            default:
+                value2 = domElem2.value;
+                break;
+        }
         valid = validateFunction(resultValue, value2) || (!required && (<string>resultValue).length === 0);
     } else {
         valid = validateFunction(resultValue) || (!required && (<string>resultValue).length === 0);
@@ -176,6 +250,7 @@ function validItem({ item, formList }: IValidItem): boolean {
         const required = obj.required || false;
         const params = {
             id: obj.id,
+            id2: obj.id2,
             formItemId: obj.formItemId,
             validateFunction: validationFuncs[key].validationeFunc,
             errorMessage: validationFuncs[key].errorStatus,
@@ -324,6 +399,10 @@ export const processingResultForms = ({
  */
 export const fillForm = (data: Context, formList: IFormList): void => {
     Object.entries(data).forEach(([key, value]) => {
+        if (!formList[key]) {
+            return;
+        }
+
         switch (key) {
             case 'sex':
                 (document.getElementById(formList[key].id) as HTMLInputElement).value = String(
@@ -339,10 +418,20 @@ export const fillForm = (data: Context, formList: IFormList): void => {
                 setDateById(formList[key].id, new Date(Number(value)));
                 break;
 
+            case 'height':
+            case 'weight':
+            case 'partnerHeightTop':
+            case 'partnerHeightBot':
+            case 'partnerWeightTop':
+            case 'partnerWeightBot':
+            case 'partnerAgeTop':
+            case 'partnerAgeBot':
+                (document.getElementById(formList[key].id) as HTMLInputElement).value =
+                    (value === -1 ? '' : value) as string;
+                break;
+
             default:
-                if (formList[key]) {
-                    (<HTMLInputElement>document.getElementById(formList[key].id)).value = String(value);
-                }
+                (<HTMLInputElement>document.getElementById(formList[key].id)).value = String(value);
                 break;
         }
     });

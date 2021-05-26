@@ -20,8 +20,9 @@ import Pay from '../components/Pay/Pay';
 import { patchUser } from '../utils/userPatch';
 import AlbumModel from '../models/AlbumModel';
 import { imageStorageLocation } from '../consts/config';
+import FilterButton from '../components/FilterButton/FilterButton';
 
-type TSettingsList = 'main' | 'photo' | 'photoSecret' | 'password';
+type TSettingsList = 'main' | 'filter' | 'photo' | 'photoSecret' | 'password';
 
 type ISettingsGropus = {
     [key in TSettingsList]: IFormList;
@@ -47,6 +48,7 @@ class SettingsController extends BaseController {
     dragSecretPhoto: DragableListClass = null;
     settingsGroupIds: ISettingsGropusIds = {
         main: ['settings__main'],
+        filter: ['settings__filter'],
         photo: ['settings__photo'],
         photoSecret: ['settings__photo__secret'],
         password: ['settings__password']
@@ -54,6 +56,7 @@ class SettingsController extends BaseController {
 
     settingsListIds: ISettingsListIds = {
         main: 'settings-list__main',
+        filter: 'settings-list__filter',
         photo: 'settings-list__photo',
         photoSecret: 'settings-list__photo__secret',
         password: 'settings-list__password'
@@ -83,6 +86,14 @@ class SettingsController extends BaseController {
                 id: 'settings_instagram',
                 formItemId: 'settings_instagram_form-item'
             },
+            weight: {
+                id: 'settings_weight',
+                formItemId: 'settings_weight_form-item'
+            },
+            height: {
+                id: 'settings_height',
+                formItemId: 'settings_height_form-item'
+            },
             sex: {
                 id: 'settings_sex',
                 formItemId: 'settings_sex_form-item',
@@ -97,6 +108,35 @@ class SettingsController extends BaseController {
                 id: 'settings_birthday',
                 formItemId: 'settings_birthday_from-item',
                 required: true
+            }
+        },
+        filter: {
+            partnerHeightTop: {
+                id: 'settings_partner-height-top',
+                id2: 'settings_partner-height-bot',
+                formItemId: 'settings_partner-height_form-item'
+            },
+            partnerHeightBot: {
+                id: 'settings_partner-height-bot',
+                formItemId: 'settings_partner-height_form-item'
+            },
+            partnerWeightTop: {
+                id: 'settings_partner-weight-top',
+                id2: 'settings_partner-weight-bot',
+                formItemId: 'settings_partner-weight_form-item'
+            },
+            partnerWeightBot: {
+                id: 'settings_partner-weight-bot',
+                formItemId: 'settings_partner-weight_form-item'
+            },
+            partnerAgeTop: {
+                id: 'settings_partner-age-top',
+                id2: 'settings_partner-age-bot',
+                formItemId: 'settings_partner-age_form-item'
+            },
+            partnerAgeBot: {
+                id: 'settings_partner-age-bot',
+                formItemId: 'settings_partner-age_form-item'
             }
         },
         photo: {},
@@ -123,6 +163,9 @@ class SettingsController extends BaseController {
 
     photoList: string[] = [];
     secretPhotoList: string[] = [];
+    filter = '';
+    filterButtonMain: FilterButton;
+    filterButtonSecret: FilterButton;
     /**
      * Создает экземпляр ввода
      *
@@ -135,6 +178,8 @@ class SettingsController extends BaseController {
 
     finish(): void {
         this.deleteListeners();
+        this.filterButtonMain.deleteListeners();
+        this.filterButtonSecret.deleteListeners();
     }
 
     onLogOut(): void {
@@ -169,8 +214,23 @@ class SettingsController extends BaseController {
                 this.showDragPhoto('drag-photo', this.photoList, true);
                 document.getElementById('input_avatar__save-button').classList.add('div_disabled');
                 document.getElementById('input_avatar__save-button__secret').classList.add('div_disabled');
+                document.getElementById('settings__filter-button').classList.add('div_disabled');
+                document.getElementById('settings__filter-button__secret').classList.add('div_disabled');
+                this.filterButtonMain = new FilterButton('settings__filter-button', (filter: string) => {
+                    this.filter = filter;
+                    this.photoUpload();
+                });
+                this.filterButtonSecret = new FilterButton(
+                    'settings__filter-button__secret',
+                    (filter: string) => {
+                        this.filter = filter;
+                        this.photoUpload('__secret');
+                    }
+                );
 
-                const sessionStoragePage = <keyof ISettingsListIds> window.sessionStorage.getItem('settingsPage');
+                const sessionStoragePage = <keyof ISettingsListIds>(
+                    window.sessionStorage.getItem('settingsPage')
+                );
                 let page: keyof ISettingsListIds = 'main';
                 if (this.queryParams.page in this.settingsListIds) {
                     page = this.queryParams.page;
@@ -274,6 +334,7 @@ class SettingsController extends BaseController {
         });
 
         fillForm(json, this.settingsGroup.main);
+        fillForm(json, this.settingsGroup.filter);
     }
 
     /**
@@ -316,8 +377,8 @@ class SettingsController extends BaseController {
         this.registerListener({
             element: document.getElementById('input_avatar'),
             type: 'change',
-            listener: (e) => {
-                this.photoUpload(e);
+            listener: () => {
+                this.photoUpload();
             }
         });
 
@@ -332,8 +393,8 @@ class SettingsController extends BaseController {
         this.registerListener({
             element: document.getElementById('input_avatar__secret'),
             type: 'change',
-            listener: (e) => {
-                this.photoUpload(e, '__secret');
+            listener: () => {
+                this.photoUpload('__secret');
             }
         });
 
@@ -395,10 +456,15 @@ class SettingsController extends BaseController {
         });
     }
 
-    photoUpload(e: Event, classPostfics?: string): void {
-        onPhotoUpload(e).then((file) => {
+    photoUpload(classPostfics?: string): void {
+        const file = (document.getElementById(`input_avatar${classPostfics ?? ''}`) as HTMLInputElement)
+            .files[0];
+        onPhotoUpload(file, this.filter).then((file) => {
             document
                 .getElementById(`input_avatar__save-button${classPostfics ?? ''}`)
+                .classList.remove('div_disabled');
+            document
+                .getElementById(`settings__filter-button${classPostfics ?? ''}`)
                 .classList.remove('div_disabled');
             setPhoto(file, `settings__new-photo${classPostfics ?? ''}`, 'settings__photo');
             this.file = file;
@@ -411,24 +477,31 @@ class SettingsController extends BaseController {
             userModel
                 .uploadPhoto(file)
                 .then((photoResponse) => {
-                    if (!photoResponse.ok) {
-                        return;
-                    }
+                    document.getElementById('input_avatar__save-button').classList.add('div_disabled');
+                    document
+                        .getElementById('input_avatar__save-button__secret')
+                        .classList.add('div_disabled');
+
                     this.file = null;
                     this.collapsePhoto();
 
+                    (document.getElementById('input_avatar') as HTMLInputElement).value = null;
+
+                    if (!photoResponse.ok) {
+                        eventBus.emit(Events.pushNotifications, {
+                            status: 'error',
+                            children: 'На фотографии должно быть лицо'
+                        });
+                        return;
+                    }
+
                     if (this.settingsList === this.settingsGroup.photo) {
                         eventBus.emit(Events.updateAvatar);
-                        document.getElementById('input_avatar__save-button').classList.add('div_disabled');
                         this.savePhotoList(userModel.getData().photos, true).then(() => {
                             this.photoList = userModel.getData().photos;
                             this.showDragPhoto('drag-photo', this.photoList, true);
                         });
                     } else {
-                        document
-                            .getElementById('input_avatar__save-button__secret')
-                            .classList.add('div_disabled');
-
                         this.secretPhotoList.push(`${imageStorageLocation}/${photoResponse.json.photoId}`);
                         this.savePhotoList(this.secretPhotoList, false);
                         this.showDragPhoto('drag-photo__secret', this.secretPhotoList, false);

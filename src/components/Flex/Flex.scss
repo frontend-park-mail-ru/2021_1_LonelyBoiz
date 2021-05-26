@@ -1,0 +1,7 @@
+.flex__item {
+    width: 100%;
+}
+
+.flex__item:not(:last-child) {
+    margin-right: 12px;
+}

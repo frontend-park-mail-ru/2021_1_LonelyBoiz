@@ -1,6 +1,7 @@
 import Events from '../consts/events';
 import eventBus from './eventBus';
 import Context from './Context';
+import { fabric } from 'fabric';
 
 const toBase64 = (file: File): Promise<Context> => {
     return new Promise((resolve, reject) => {
@@ -11,11 +12,9 @@ const toBase64 = (file: File): Promise<Context> => {
     });
 };
 
-const compress = (e: Event): Promise<File> => {
+const compress = (file: File, filter?: string): Promise<File> => {
     return new Promise((resolve, reject) => {
         const width = 600;
-        const currentTarget = <HTMLInputElement>e.target;
-        const file = currentTarget.files[0];
         const fileName = file.name;
         const fileSize = file.size;
 
@@ -35,34 +34,81 @@ const compress = (e: Event): Promise<File> => {
             img.src = String(event.target.result);
 
             img.onload = () => {
-                const elem = document.createElement('canvas');
+                // const elem = document.createElement('canvas');
+                const elem: fabric.Canvas = new fabric.Canvas('c');
 
                 const scaleFactor = width / img.width;
                 elem.width = width;
                 elem.height = img.height * scaleFactor;
-                const ctx = elem.getContext('2d');
-                ctx.drawImage(img, 0, 0, width, img.height * scaleFactor);
+                fabric.Image.fromURL(img.src, function(fabImg: fabric.Image) {
+                    switch (filter) {
+                        case 'grayscale':
+                            fabImg.filters.push(
+                                new fabric.Image.filters.Grayscale()
+                            );
+                            fabImg.applyFilters();
+                            break;
+                        case 'sepia':
+                            fabImg.filters.push(new fabric.Image.filters.Sepia());
+                            fabImg.applyFilters();
+                            break;
+                        case 'brownie':
+                            fabImg.filters.push(
+                                // @ts-ignore
+                                new fabric.Image.filters.Brownie()
+                            );
+                            fabImg.applyFilters();
+                            break;
+                        case 'velvet':
+                            fabImg.filters.push(
+                                // @ts-ignore
+                                new fabric.Image.filters.Technicolor()
+                            );
+                            fabImg.applyFilters();
+                            break;
+                        case 'kodak':
+                            fabImg.filters.push(
+                                // @ts-ignore
+                                new fabric.Image.filters.Kodachrome()
+                            );
+                            fabImg.applyFilters();
+                            break;
+                        case 'vintage':
+                            // @ts-ignore
+                            fabImg.filters.push(new fabric.Image.filters.Vintage());
+                            fabImg.applyFilters();
+                            break;
+                        default:
+                            break;
+                    }
+                    fabImg.scaleX = elem.width / fabImg.width;
+                    fabImg.scaleY = elem.height / fabImg.height;
 
-                ctx.canvas.toBlob(
-                    (blob) => {
-                        resolve(
-                            new File([blob], fileName, {
-                                type: 'image/webm',
-                                lastModified: Date.now()
-                            })
-                        );
-                    },
-                    'image/webm',
-                    0.9
-                );
+                    const imgCanvasElement = <HTMLCanvasElement>fabImg.toCanvasElement({ left: 0, top: 0, width: width, height: img.height * scaleFactor });
+
+                    const ctx = imgCanvasElement.getContext('2d');
+
+                    ctx.canvas.toBlob(
+                        (blob: Blob | null) => {
+                            resolve(
+                                new File([blob], fileName, {
+                                    type: 'image/webm',
+                                    lastModified: Date.now()
+                                })
+                            );
+                        },
+                        'image/webm',
+                        0.9
+                    );
+                });
             };
             reader.onerror = (error) => reject(new Error(String(error)));
         };
     });
 };
 
-export const onPhotoUpload = function(e: Event): Promise<File> {
-    return compress(e);
+export const onPhotoUpload = (file: File, filter?: string): Promise<File> => {
+    return compress(file, filter);
 };
 
 export const setPhoto = (file: File, id: string, classes?: string): void => {

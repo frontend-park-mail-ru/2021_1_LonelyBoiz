@@ -57,9 +57,8 @@ class PreSettingsController extends SettingsController {
                 validateForm.call(this, this.preSettingsList);
                 this.formSubmit();
 
-                (document.getElementById(
-                    this.preSettingsList.datePreference.id
-                ) as HTMLInputElement).value = String(datePreferenceEnum.female);
+                (document.getElementById(this.preSettingsList.datePreference.id) as HTMLInputElement).value =
+                    String(datePreferenceEnum.female);
             })
             .catch((e) => {
                 console.error(e);
@@ -92,7 +91,9 @@ class PreSettingsController extends SettingsController {
             element: document.getElementById('input_avatar'),
             type: 'change',
             listener: (e) => {
-                onPhotoUpload(e).then((file) => {
+                const currentTarget = <HTMLInputElement>e.target;
+                const file = currentTarget.files[0];
+                onPhotoUpload(file).then((file) => {
                     setPhoto(file, 'settings__new-photo', 'settings__photo');
                     this.file = file;
                 });

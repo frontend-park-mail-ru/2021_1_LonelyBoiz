@@ -50,9 +50,7 @@ export function validateName(name: string): boolean {
  * @return {boolean} Истина, если прошла валидация
  */
 export function validateBirthday(birthday: Date): boolean {
-    const maxBirthDate = new Date(
-        new Date().setFullYear(new Date().getFullYear() - 18)
-    );
+    const maxBirthDate = new Date(new Date().setFullYear(new Date().getFullYear() - 18));
 
     return birthday < maxBirthDate;
 }
@@ -86,9 +84,7 @@ export function validatePasswordOld(passOld: string, passNew: string): boolean {
  * @return {boolean} Истина, если прошла валидация
  */
 export function validateSex(sex: string): boolean {
-    return (
-        sex in sexEnum || getKeyByValue(sexEnum, parseInt(sex)) !== undefined
-    );
+    return sex in sexEnum || getKeyByValue(sexEnum, parseInt(sex)) !== undefined;
 }
 
 /**
@@ -98,8 +94,46 @@ export function validateSex(sex: string): boolean {
  * @return {boolean} Истина, если прошла валидация
  */
 export function validateDatePreference(sex: string): boolean {
-    return (
-        sex in datePreferenceEnum ||
-        getKeyByValue(datePreferenceEnum, parseInt(sex)) !== undefined
-    );
+    return sex in datePreferenceEnum || getKeyByValue(datePreferenceEnum, parseInt(sex)) !== undefined;
+}
+
+/**
+ * Валидирует ввод роста
+ *
+ * @param {number} height рост
+ * @return {boolean} Истина, если прошла валидация
+ */
+export function validateHeight(height: number): boolean {
+    return (height >= 0 && height <= 272) || isNaN(height);
+}
+
+/**
+ * Валидирует ввод веса
+ *
+ * @param {number} weight вес
+ * @return {boolean} Истина, если прошла валидация
+ */
+export function validateWeight(weight: number): boolean {
+    return (weight >= 0 && weight <= 445) || isNaN(weight);
+}
+
+/**
+ * Валидирует поле ввода фильтра
+ *
+ * @param {number} value
+ * @return {boolean} Истина, если прошла валидация
+ */
+export function validateFilterItem(): boolean {
+    return true;
+}
+
+/**
+ * Валидирует поле ввода фильтра
+ *
+ * @param {number} valueFrom
+ * @param {number} valueTo
+ * @return {boolean} Истина, если прошла валидация
+ */
+export function validateFilterItemTwin(valueFrom: number, valueTo: number): boolean {
+    return valueFrom <= valueTo || valueFrom === -1 || valueTo === -1;
 }

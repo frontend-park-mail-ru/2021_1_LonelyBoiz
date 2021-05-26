@@ -19,6 +19,7 @@
                 }
             }
         ],
+        "@typescript-eslint/ban-ts-comment": "off",
         "@typescript-eslint/no-var-requires": 0,
         "indent": ["error", 4, {"SwitchCase": 1}],
         "semi": ["error", "always"],

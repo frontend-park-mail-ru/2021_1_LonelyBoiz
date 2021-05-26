@@ -8,6 +8,7 @@ export interface IChatItem {
     lastMessage?: { text?: string; time?: string };
     counter?: string;
     chatId?: number;
+    isOpened?: boolean;
 }
 
 /**

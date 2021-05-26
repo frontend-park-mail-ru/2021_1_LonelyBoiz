@@ -21,6 +21,15 @@ export interface IUserModel {
     passwordOld?: string;
     captchaToken?: string;
     age?: number;
+    height?: number;
+    weight?: number;
+    partnerHeightTop?: number;
+    partnerHeightBot?: number;
+    partnerWeightTop?: number;
+    partnerWeightBot?: number;
+    partnerAgeTop?: number;
+    partnerAgeBot?: number;
+    interests?: number[];
 }
 
 class UserModel {
@@ -51,7 +60,16 @@ class UserModel {
             isActive: builder.isActive,
             password: builder.password,
             passwordRepeat: builder.passwordRepeat,
-            passwordOld: builder.passwordOld
+            passwordOld: builder.passwordOld,
+            weight: builder.weight,
+            height: builder.height,
+            partnerHeightTop: builder.partnerHeightTop,
+            partnerHeightBot: builder.partnerHeightBot,
+            partnerWeightTop: builder.partnerWeightTop,
+            partnerWeightBot: builder.partnerWeightBot,
+            partnerAgeTop: builder.partnerAgeTop,
+            partnerAgeBot: builder.partnerAgeBot,
+            interests: builder.interests
         };
     }
 
