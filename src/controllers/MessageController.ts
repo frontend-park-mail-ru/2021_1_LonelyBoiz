@@ -107,9 +107,14 @@ class MessageController extends BaseController {
                             });
                             this.initChats(chats);
                             if (this.queryParams.chatId) {
-                                const chatsWithId = this.chats.filter(chat => String(chat.chatId) === this.queryParams.chatId);
+                                const chatsWithId = this.chats.filter(
+                                    (chat) => String(chat.chatId) === this.queryParams.chatId
+                                );
                                 if (chatsWithId.length > 0) {
-                                    eventBus.emit(Events.queryChange, { queryObj: { chatId: this.queryParams.chatId }, isNewState: false });
+                                    eventBus.emit(Events.queryChange, {
+                                        queryObj: { chatId: this.queryParams.chatId },
+                                        isNewState: false
+                                    });
                                     this.openChat(Number(this.queryParams.chatId));
                                 }
                             }
@@ -362,6 +367,9 @@ class MessageController extends BaseController {
         this.chats.forEach((item) => {
             if (item.chatId && item.chatId === chatId) {
                 currentChat = item;
+                if (item.isOpened) {
+                    this.showLockIcon(true);
+                }
                 const chatElement = <HTMLElement>document.querySelector(`div[data-chat-id="${item.chatId}"]`);
                 if (chatElement) {
                     chatElement.classList.add('cell_active');

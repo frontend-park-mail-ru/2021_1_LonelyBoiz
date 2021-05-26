@@ -13,6 +13,7 @@ export interface IChat {
     lastMessage: string;
     lastMessageTime: number;
     photo: number;
+    isOpened: boolean;
 }
 
 export interface IChatMessage {
@@ -72,6 +73,7 @@ class ChatModel {
 
     addNewChatHandler(chat: IChatSocketData) {
         const newChat: IChat = {
+            isOpened: false,
             chatId: chat.chatId,
             partnerId: chat.partnerId,
             partnerName: chat.partnerName,
@@ -203,6 +205,7 @@ class ChatModel {
                     this.uid = uid;
                     this.chats = response.json.map((chat: Context) => {
                         return {
+                            isOpened: chat.isOpened,
                             chatId: chat.chatId,
                             partnerId: chat.partnerId,
                             partnerName: chat.partnerName,

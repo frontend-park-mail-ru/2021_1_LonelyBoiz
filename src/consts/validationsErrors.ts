@@ -5,7 +5,10 @@ const Errors = {
     password: 'Минимальная длина пароля: 8 символов',
     passwordRepeat: 'Пароли не совпадают',
     passwordOld: 'Неправльный пароль',
-    required: 'Обязательное поле'
+    required: 'Обязательное поле',
+    height: 'Какой-то странный рост',
+    weight: 'Какой-то странный вес',
+    filterTwin: 'До должно быть меньше, чем от, ну логично же'
 };
 
 export default Errors;

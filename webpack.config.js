@@ -7,6 +7,8 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
+const mode = isDev ? 'development' : 'production';
+const smode = isDev ? 'dev' : 'prod';
 const live = process.argv.indexOf('serve') > 0;
 
 const filename = (ext) => (isDev ? `[name].${ext}` : `[name].[contenthash].${ext}`);
@@ -57,7 +59,10 @@ module.exports = {
             '@icon': path.resolve(__dirname, 'public/icon'),
             '@img': path.resolve(__dirname, 'public/img'),
             '@public': path.resolve(__dirname, 'public'),
-            '@': path.resolve(__dirname, 'src')
+            '@': path.resolve(__dirname, 'src'),
+            '@mode': mode,
+            '@smode': smode,
+            '@config': path.resolve(__dirname, 'src', 'consts', `config.${smode}`)
         }
     },
     devServer: {
@@ -78,7 +83,7 @@ module.exports = {
             },
             {
                 test: /\.ts$/,
-                use: ['babel-loader', 'ts-loader'],
+                use: ['babel-loader', 'ts-loader']
             },
             {
                 test: /\.css$/i,

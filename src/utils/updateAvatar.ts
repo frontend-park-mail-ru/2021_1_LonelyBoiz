@@ -5,7 +5,7 @@ import IconClass from '../components/Icon/Icon';
 
 export function updateAvatar(): void {
     const spinner = new Spinner({ size: 'small' }).render();
-    const currentElement = <HTMLImageElement>document.querySelector('.u-avatar-header');
+    const currentElement = document.querySelector('.u-avatar-header') as HTMLImageElement;
     if (!currentElement) {
         return;
     }
@@ -13,19 +13,18 @@ export function updateAvatar(): void {
     const parentNode = currentElement.parentElement;
     parentNode.innerHTML = spinner;
 
-    userModel.auth().then((response) => {
-        const data = response.json;
+    if (userModel.getData()?.photos?.length > 0) {
         const newAvatar = new IconClass({
             iconClasses: 'avatar u-avatar-header',
             size: 28,
-            src: data.photos && data.photos[0] ? data.photos[0] : img
+            src: userModel.getData().photos[0] ?? img
         }).render();
 
         let newElem = document.createElement('div');
         newElem.innerHTML = newAvatar;
-        newElem = <HTMLImageElement>newElem.firstElementChild;
+        newElem = newElem.firstElementChild as HTMLImageElement;
         newElem.onload = () => {
             parentNode.innerHTML = newAvatar;
         };
-    });
+    }
 }

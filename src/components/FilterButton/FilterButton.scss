@@ -1,0 +1,15 @@
+.filter-button__row {
+    width: 100%;
+}
+
+.filter-button__column {
+    width: 100%;
+}
+
+.filter-button__row:not(:last-child) {
+    margin-bottom: 12px;
+}
+
+.filter-button__column:not(:last-child) {
+    margin-right: 12px;
+}

@@ -10,6 +10,8 @@
     "eslint-fix": "eslint --fix ./src",
     "style-lint-check": "npx stylelint **/*.scss",
     "style-lint-fix": "npx stylelint --fix **/*.scss",
+    "lint": "npm run style-lint-fix && npm run eslint-fix",
+    "lint-check": "npm run style-lint-check && npm run eslint-check",
     "dev": "cross-env NODE_ENV=development webpack --mode development",
     "build": "cross-env NODE_ENV=production webpack --mode production",
     "watch": "cross-env NODE_ENV=development webpack --mode development --watch",

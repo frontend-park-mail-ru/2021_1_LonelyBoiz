@@ -11,11 +11,9 @@ const toBase64 = (file: File): Promise<Context> => {
     });
 };
 
-const compress = (e: Event): Promise<File> => {
+const compress = (file: File, filter?: string): Promise<File> => {
     return new Promise((resolve, reject) => {
         const width = 600;
-        const currentTarget = <HTMLInputElement>e.target;
-        const file = currentTarget.files[0];
         const fileName = file.name;
         const fileSize = file.size;
 
@@ -61,8 +59,8 @@ const compress = (e: Event): Promise<File> => {
     });
 };
 
-export const onPhotoUpload = function(e: Event): Promise<File> {
-    return compress(e);
+export const onPhotoUpload = (file: File, filter?: string): Promise<File> => {
+    return compress(file, filter);
 };
 
 export const setPhoto = (file: File, id: string, classes?: string): void => {

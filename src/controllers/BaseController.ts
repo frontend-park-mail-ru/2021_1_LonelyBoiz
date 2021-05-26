@@ -8,6 +8,7 @@ import Routes from '../consts/routes';
 import userModel, { IUserModel } from '../models/UserModel';
 import Views from '../consts/views';
 import webSocketListener from '../utils/WebSocketListener';
+import { badInternet } from '../utils/helpers';
 
 interface IBaseController {
     view: BaseView;
@@ -42,24 +43,32 @@ class BaseController extends Listener {
     }
 
     auth(): Promise<void> {
-        return userModel.auth().then((response: Response) => {
-            const json = response.json as IUserModel;
-
-            if (this.view.view === Views.Login || this.view.view === Views.SignUp) {
-                return;
-            }
-
-            if (!response.ok || (json && json.error)) {
+        return userModel
+            .auth()
+            .catch(() => {
                 eventBus.emit(Events.routeChange, Routes.loginRoute);
-                return Promise.reject(new Error('Not authorized'));
-            }
+                badInternet();
+                return Promise.reject(new Error('Bad internet'));
+            })
+            .then((response: Response) => {
+                const json = response.json as IUserModel;
 
-            if (userModel.isActive() !== true && this.view.view !== Views.PreSettings) {
-                eventBus.emit(Events.routeChange, Routes.preSettingsRoute);
-                return Promise.reject(new Error('Not activated'));
-            }
-            webSocketListener.listen();
-        });
+                if (this.view.view === Views.Login || this.view.view === Views.SignUp) {
+                    return;
+                }
+
+                eventBus.emit(Events.updateAvatar);
+                if (!response.ok || (json && json.error)) {
+                    eventBus.emit(Events.routeChange, Routes.loginRoute);
+                    return Promise.reject(new Error('Not authorized'));
+                }
+
+                if (userModel.isActive() !== true && this.view.view !== Views.PreSettings) {
+                    eventBus.emit(Events.routeChange, Routes.preSettingsRoute);
+                    return Promise.reject(new Error('Not activated'));
+                }
+                webSocketListener.listen();
+            });
     }
 
     /**

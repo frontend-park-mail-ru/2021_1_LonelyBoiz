@@ -12,6 +12,7 @@ interface IInput {
     placeholder?: string;
     defaultValue?: string;
     minValue?: string;
+    maxValue?: string;
 }
 
 /**

@@ -1,0 +1,11 @@
+<div class="filter-button">
+  {{#each buttons}}
+  <div class="filter-button__row d-flex">
+    {{#each this}}
+    <div class="filter-button__column" data-btn="{{data}}">
+      {{{button}}}
+    </div>
+    {{/each}}
+  </div>
+  {{/each}}
+</div>

@@ -200,7 +200,6 @@ class BaseView extends Listener {
         });
 
         eventBus.connect(Events.updateAvatar, updateAvatar);
-        eventBus.emit(Events.updateAvatar);
     }
 
     /**

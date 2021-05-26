@@ -52,6 +52,9 @@ class DragableListClass extends Listener {
             if (i === elementsList.length - 1) {
                 chevronDown.classList.add('div_disabled');
             }
+            if (elementsList.length === 1) {
+                deleteElement.classList.add('div_disabled');
+            }
 
             this.registerListener({
                 element: deleteElement,
