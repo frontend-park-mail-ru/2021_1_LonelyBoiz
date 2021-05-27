@@ -15,7 +15,7 @@ import userModel from '../models/UserModel';
 import chatModel from '../models/ChatModel';
 import Context from '../utils/Context';
 import { IMessageSocketData, IChatSocketData } from '../utils/WebSocketListener';
-import { imageStorageLocation } from '../consts/config';
+import { imageStorageLocation } from '@config';
 import { badInternet, timeToStringByTime } from '../utils/helpers';
 import PopoutWrapperClass from '../utils/PopoutWrapper';
 import CardClass from '../utils/Card';
@@ -55,6 +55,7 @@ class MessageController extends BaseController {
         noChatSelectedList: null,
         chevronBack: null,
         secretsPhotos: null,
+        delete: null,
         lockOpen: null,
         lock: null
     };
@@ -161,6 +162,7 @@ class MessageController extends BaseController {
         this.elements.chevronBack = document.querySelector('.message-header__chevron-back');
         this.elements.chevronBack = document.querySelector('.message-header__chevron-back');
         this.elements.secretsPhotos = document.querySelector('.message-header__icon__secrets-photos');
+        this.elements.delete = document.querySelector('.message-header__icon__delete');
         this.elements.lockOpen = document.querySelector('.message-header__icon__lock-open');
         this.elements.lock = document.querySelector('.message-header__icon__lock');
     }
@@ -178,6 +180,7 @@ class MessageController extends BaseController {
                 }
             });
         } else {
+            // ИСПРАВИТЬ заблокировать приватные фотографии
             this.elements.lockOpen.classList.add('div_disabled');
             this.elements.lock.classList.remove('div_disabled');
         }
@@ -241,6 +244,16 @@ class MessageController extends BaseController {
             type: 'click',
             listener: (e) => {
                 e.preventDefault();
+                this.showLockIcon(false);
+            }
+        });
+
+        this.registerListener({
+            element: this.elements.delete,
+            type: 'click',
+            listener: (e) => {
+                e.preventDefault();
+                // ИСПРАВИТЬ удалить чат
             }
         });
     }

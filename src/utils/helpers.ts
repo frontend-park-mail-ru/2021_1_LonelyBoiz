@@ -1,5 +1,5 @@
 import HttpRequests from './requests';
-import { imageStorageLocation } from '../consts/config';
+import { imageStorageLocation } from '@config';
 import eventBus from './eventBus';
 import Events from '../consts/events';
 import Routes from '../consts/routes';

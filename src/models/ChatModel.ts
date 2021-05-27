@@ -4,7 +4,7 @@ import Context from '../utils/Context';
 import eventBus from '../utils/eventBus';
 import Events from '../consts/events';
 import { IChatSocketData, IMessageSocketData } from '../utils/WebSocketListener';
-import { imageStorageLocation } from '../consts/config';
+import { imageStorageLocation } from '@config';
 
 export interface IChat {
     chatId: number;

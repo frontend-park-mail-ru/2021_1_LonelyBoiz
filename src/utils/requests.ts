@@ -1,4 +1,4 @@
-import backendLocation from '../consts/config';
+import backendLocation from '@config';
 import Context from './Context';
 
 /**

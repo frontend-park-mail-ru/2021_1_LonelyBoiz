@@ -1,6 +1,6 @@
 import HttpRequests from '../utils/requests';
 import { IResponseData, parseJson } from '../utils/helpers';
-import { imageStorageLocation } from '../consts/config';
+import { imageStorageLocation } from '@config';
 
 class AlbumModel {
     static instance: AlbumModel = null;
