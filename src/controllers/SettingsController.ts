@@ -118,6 +118,7 @@ class SettingsController extends BaseController {
             },
             partnerHeightBot: {
                 id: 'settings_partner-height-bot',
+                id2: 'settings_partner-height-top',
                 formItemId: 'settings_partner-height_form-item'
             },
             partnerWeightTop: {
@@ -127,6 +128,7 @@ class SettingsController extends BaseController {
             },
             partnerWeightBot: {
                 id: 'settings_partner-weight-bot',
+                id2: 'settings_partner-weight-top',
                 formItemId: 'settings_partner-weight_form-item'
             },
             partnerAgeTop: {
@@ -136,6 +138,7 @@ class SettingsController extends BaseController {
             },
             partnerAgeBot: {
                 id: 'settings_partner-age-bot',
+                id2: 'settings_partner-age-top',
                 formItemId: 'settings_partner-age_form-item'
             }
         },
@@ -477,10 +480,22 @@ class SettingsController extends BaseController {
 
     uploadPhoto(file: Context): void {
         file = file ?? this.file;
+
+        document.getElementById('input_avatar__save-button').classList.add('button-block_disabled');
+        document.getElementById('input_avatar__save-button__secret').classList.add('button-block_disabled');
+
         if (file !== null) {
             userModel
                 .uploadPhoto(file)
                 .then((photoResponse) => {
+                    document
+                        .getElementById('settings__filter-button')
+                        .classList.remove('button-block_disabled');
+                    document
+                        .getElementById('settings__filter-button__secret')
+                        .classList.remove('button-block_disabled');
+                    document.getElementById('settings__filter-button').classList.add('div_disabled');
+                    document.getElementById('settings__filter-button__secret').classList.add('div_disabled');
                     document.getElementById('input_avatar__save-button').classList.add('div_disabled');
                     document
                         .getElementById('input_avatar__save-button__secret')

@@ -307,12 +307,12 @@ class SettingsView extends BaseView {
                             new Input({
                                 minValue: '18',
                                 type: 'number',
-                                id: 'settings_partner-age-top',
+                                id: 'settings_partner-age-bot',
                                 placeholder: 'От'
                             }).render(),
                             new Input({
                                 type: 'number',
-                                id: 'settings_partner-age-bot',
+                                id: 'settings_partner-age-top',
                                 placeholder: 'До'
                             }).render()
                         ]).render()

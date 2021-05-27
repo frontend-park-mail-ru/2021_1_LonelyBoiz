@@ -34,7 +34,6 @@ const compress = (file: File, filter?: string): Promise<File> => {
             img.src = String(event.target.result);
 
             img.onload = () => {
-                // const elem = document.createElement('canvas');
                 const elem: fabric.Canvas = new fabric.Canvas('c');
 
                 const scaleFactor = width / img.width;
