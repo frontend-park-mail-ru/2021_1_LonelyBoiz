@@ -8,7 +8,7 @@ import ScreenSpinnerClass from '../utils/ScreenSpinner';
 import userModel, { IUserModel } from '../models/UserModel';
 import { datePreferenceEnum } from '../consts/sexEnum';
 import { onPhotoUpload, setPhoto } from '../utils/photo';
-import { badInternet } from '../utils/helpers';
+import { badInternet, pushUploadPhotoError } from '../utils/helpers';
 import Context from '../utils/Context';
 
 /**
@@ -134,9 +134,13 @@ class PreSettingsController extends SettingsController {
         if (this.formSuccess && this.file) {
             userModel
                 .uploadPhoto(this.file)
+                .finally(() => {
+                    popout.destroy();
+                })
                 .then((photoResponse) => {
                     if (!photoResponse.ok) {
                         console.error('Failed to upload photo!');
+                        pushUploadPhotoError(photoResponse.json.error);
                         return;
                     }
                     eventBus.emit(Events.updateAvatar);

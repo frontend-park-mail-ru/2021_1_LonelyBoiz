@@ -16,6 +16,7 @@ export function patchUser(tmpForm: Context): Promise<Response> {
         .then((response) => {
             const json = response.json;
             eventBus.emit(Events.pushNotifications, { children: 'Сохранено' });
+            eventBus.emit(Events.resetFeed);
             processingResultForms({
                 data: json || {},
                 errorBlockId: 'settings-error',

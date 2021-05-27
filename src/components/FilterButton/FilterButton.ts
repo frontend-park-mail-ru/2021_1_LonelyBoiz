@@ -12,7 +12,7 @@ class FilterButton extends Listener {
     template: Function;
     filters: string[] = ['sepia', 'brownie', 'vintage', 'velvet', 'grayscale', 'kodak'];
     id: string;
-    paernt: HTMLElement;
+    parent: HTMLElement;
     filter = '';
     callback: Function;
 
@@ -21,7 +21,7 @@ class FilterButton extends Listener {
         this.id = id;
         this.callback = callback;
         this.template = template;
-        this.paernt = document.getElementById(this.id);
+        this.parent = document.getElementById(this.id);
         this.render();
         this.listen();
     }
@@ -42,21 +42,31 @@ class FilterButton extends Listener {
             }
             context.buttons.push(tmpArr);
         }
+        context.buttons.push([
+            {
+                button: new Button({
+                    text: 'Очистить',
+                    mode: 'secondary',
+                    type: 'button'
+                }).render(),
+                data: ''
+            }
+        ]);
 
         const text = this.template(context);
-        this.paernt.innerHTML = text;
+        this.parent.innerHTML = text;
     }
 
     listen(): void {
-        this.filters.forEach((filter) => {
+        this.parent.querySelectorAll('[data-btn]').forEach((item: HTMLElement) => {
             this.registerListener({
-                element: this.paernt.querySelector(`[data-btn=${filter}`),
+                element: item,
                 type: 'click',
                 listener: () => {
                     if (this.callback) {
-                        this.callback(filter);
+                        this.callback(item.dataset.btn);
                     }
-                    this.filter = filter;
+                    this.filter = item.dataset.btn;
                 }
             });
         });

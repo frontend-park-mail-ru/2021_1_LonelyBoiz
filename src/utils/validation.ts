@@ -104,7 +104,7 @@ export function validateDatePreference(sex: string): boolean {
  * @return {boolean} Истина, если прошла валидация
  */
 export function validateHeight(height: number): boolean {
-    return (height >= 0 && height <= 272) || isNaN(height);
+    return (height >= 0 && height <= 272) || isNaN(height) || height === -1;
 }
 
 /**
@@ -114,7 +114,7 @@ export function validateHeight(height: number): boolean {
  * @return {boolean} Истина, если прошла валидация
  */
 export function validateWeight(weight: number): boolean {
-    return (weight >= 0 && weight <= 445) || isNaN(weight);
+    return (weight >= 0 && weight <= 445) || isNaN(weight) || weight === -1;
 }
 
 /**
@@ -135,5 +135,5 @@ export function validateFilterItem(): boolean {
  * @return {boolean} Истина, если прошла валидация
  */
 export function validateFilterItemTwin(valueFrom: number, valueTo: number): boolean {
-    return valueFrom <= valueTo || valueFrom === -1 || valueTo === -1;
+    return valueFrom >= valueTo || valueFrom === -1 || valueTo === -1;
 }

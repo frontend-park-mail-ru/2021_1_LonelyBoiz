@@ -242,3 +242,17 @@ export const badInternet = (): void => {
         children: 'Что-то не то с интернетом('
     });
 };
+
+export const pushServerError = (): void => {
+    eventBus.emit(Events.pushNotifications, {
+        status: 'error',
+        children: 'Ошибка сервера! Попробуйте еще раз позже.'
+    });
+};
+
+export const pushUploadPhotoError = (error: string): void => {
+    eventBus.emit(Events.pushNotifications, {
+        status: 'error',
+        children: `Не удалось загрузить фото! ${error}`
+    });
+};

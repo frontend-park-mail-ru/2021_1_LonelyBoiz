@@ -1,6 +1,8 @@
 import HttpRequests from '../utils/requests';
 import { parseJson, getAllUsers, IResponseData } from '../utils/helpers';
 import Context from '../utils/Context';
+import eventBus from '../utils/eventBus';
+import Events from '../consts/events';
 
 class FeedModel {
     static instance: FeedModel = null;
@@ -14,6 +16,10 @@ class FeedModel {
         }
 
         return FeedModel.instance;
+    }
+
+    constructor() {
+        eventBus.connect(Events.resetFeed, this.resetFeed.bind(this));
     }
 
     resetFeed() {

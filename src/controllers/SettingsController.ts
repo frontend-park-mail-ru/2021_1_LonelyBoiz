@@ -5,7 +5,6 @@ import Routes from '../consts/routes';
 import Events from '../consts/events';
 import { validateForm, checkForm, fillForm, IFormList } from '../utils/form';
 import userModel from '../models/UserModel';
-import feedModel from '../models/FeedModel';
 import chatModel from '../models/ChatModel';
 import BaseView from '../view/BaseView';
 import Context from '../utils/Context';
@@ -14,12 +13,13 @@ import FormItem from '../components/FormItem/FormItem';
 import { onPhotoUpload, setPhoto } from '../utils/photo';
 import DragableListClass from '../utils/DragableList';
 import Img from '../components/Img/Img';
-import { arrayMove, IResponseData } from '../utils/helpers';
+import { arrayMove, IResponseData, pushUploadPhotoError } from '../utils/helpers';
 import PopoutWrapperClass from '../utils/PopoutWrapper';
 import Pay from '../components/Pay/Pay';
 import { patchUser } from '../utils/userPatch';
 import AlbumModel from '../models/AlbumModel';
 import { imageStorageLocation } from '../consts/config';
+
 import FilterButton from '../components/FilterButton/FilterButton';
 
 type TSettingsList = 'main' | 'filter' | 'photo' | 'photoSecret' | 'password';
@@ -178,15 +178,19 @@ class SettingsController extends BaseController {
 
     finish(): void {
         this.deleteListeners();
-        this.filterButtonMain.deleteListeners();
-        this.filterButtonSecret.deleteListeners();
+        if (this.filterButtonMain) {
+            this.filterButtonMain.deleteListeners();
+        }
+        if (this.filterButtonSecret) {
+            this.filterButtonSecret.deleteListeners();
+        }
     }
 
     onLogOut(): void {
         userModel.logout().then(() => {
-            feedModel.resetFeed();
             chatModel.resetChats();
             webSocketListener.stop();
+            eventBus.emit(Events.resetFeed);
             eventBus.emit(Events.updateAvatar);
             eventBus.emit(Events.routeChange, Routes.loginRoute);
         });
@@ -488,10 +492,7 @@ class SettingsController extends BaseController {
                     (document.getElementById('input_avatar') as HTMLInputElement).value = null;
 
                     if (!photoResponse.ok) {
-                        eventBus.emit(Events.pushNotifications, {
-                            status: 'error',
-                            children: 'На фотографии должно быть лицо'
-                        });
+                        pushUploadPhotoError(photoResponse.json.error);
                         return;
                     }
 
