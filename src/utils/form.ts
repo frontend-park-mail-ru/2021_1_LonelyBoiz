@@ -9,7 +9,6 @@ import {
     validatePasswordOld,
     validateHeight,
     validateWeight,
-    validateFilterItem,
     validateFilterItemTwin
 } from './validation';
 import ValidationsErrors from '../consts/validationsErrors';
@@ -89,21 +88,24 @@ export const validationFuncs: IValidationFuncs = {
         errorStatus: ValidationsErrors.filterTwin
     },
     partnerHeightBot: {
-        validationeFunc: validateFilterItem
+        validationeFunc: validateFilterItemTwin,
+        errorStatus: ValidationsErrors.filterTwin
     },
     partnerWeightTop: {
         validationeFunc: validateFilterItemTwin,
         errorStatus: ValidationsErrors.filterTwin
     },
     partnerWeightBot: {
-        validationeFunc: validateFilterItem
+        validationeFunc: validateFilterItemTwin,
+        errorStatus: ValidationsErrors.filterTwin
     },
     partnerAgeTop: {
         validationeFunc: validateFilterItemTwin,
         errorStatus: ValidationsErrors.filterTwin
     },
     partnerAgeBot: {
-        validationeFunc: validateFilterItem
+        validationeFunc: validateFilterItemTwin,
+        errorStatus: ValidationsErrors.filterTwin
     }
 };
 
@@ -197,13 +199,30 @@ const validateItem = ({
                 if (isNaN(value2)) {
                     value2 = -1;
                 }
+                valid =
+                    validateFunction(resultValue, value2) ||
+                    (!required && (<string>resultValue).length === 0);
+                break;
+
+            case 'partnerHeightBot':
+            case 'partnerWeightBot':
+            case 'partnerAgeBot':
+                value2 = parseInt(domElem2.value);
+                if (isNaN(value2)) {
+                    value2 = -1;
+                }
+                valid =
+                    validateFunction(value2, resultValue) ||
+                    (!required && (<string>resultValue).length === 0);
                 break;
 
             default:
                 value2 = domElem2.value;
+                valid =
+                    validateFunction(resultValue, value2) ||
+                    (!required && (<string>resultValue).length === 0);
                 break;
         }
-        valid = validateFunction(resultValue, value2) || (!required && (<string>resultValue).length === 0);
     } else {
         valid = validateFunction(resultValue) || (!required && (<string>resultValue).length === 0);
     }
@@ -426,8 +445,9 @@ export const fillForm = (data: Context, formList: IFormList): void => {
             case 'partnerWeightBot':
             case 'partnerAgeTop':
             case 'partnerAgeBot':
-                (document.getElementById(formList[key].id) as HTMLInputElement).value =
-                    (value === -1 ? '' : value) as string;
+                (document.getElementById(formList[key].id) as HTMLInputElement).value = (
+                    value === -1 ? '' : value
+                ) as string;
                 break;
 
             default:

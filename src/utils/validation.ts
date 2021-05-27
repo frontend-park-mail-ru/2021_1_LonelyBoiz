@@ -134,6 +134,6 @@ export function validateFilterItem(): boolean {
  * @param {number} valueTo
  * @return {boolean} Истина, если прошла валидация
  */
-export function validateFilterItemTwin(valueFrom: number, valueTo: number): boolean {
-    return valueFrom >= valueTo || valueFrom === -1 || valueTo === -1;
+export function validateFilterItemTwin(valueTo: number, valueFrom: number): boolean {
+    return valueFrom <= valueTo || valueFrom === -1 || valueTo === -1;
 }

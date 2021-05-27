@@ -129,7 +129,9 @@ class MessageController extends BaseController {
 
     finish(): void {
         this.deleteListeners();
-        this.emojeisListener.deleteListeners();
+        if (this.emojeisListener) {
+            this.emojeisListener.deleteListeners();
+        }
         this.activeChat = null;
     }
 
@@ -358,7 +360,9 @@ class MessageController extends BaseController {
         this.setVisibleChat(true);
 
         this.clearMessages();
-        this.emojeisListener.deleteListeners();
+        if (this.emojeisListener) {
+            this.emojeisListener.deleteListeners();
+        }
         document.querySelectorAll('.chats-list__list .cell').forEach((item: HTMLElement) => {
             item.classList.remove('cell_active');
         });
