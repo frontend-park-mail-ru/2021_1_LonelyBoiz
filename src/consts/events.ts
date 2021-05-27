@@ -5,7 +5,8 @@ const Events = {
     newMessage: 'newMessage',
     newChat: 'newChat',
     messageChanged: 'messageChanged',
-    queryChange: 'queryChange'
+    queryChange: 'queryChange',
+    resetFeed: 'resetFeed'
 };
 
 export default Events;

@@ -4,12 +4,12 @@ import Spinner from '../components/Spinner/Spinner';
 import IconClass from '../components/Icon/Icon';
 
 export function updateAvatar(): void {
-    const spinner = new Spinner({ size: 'small' }).render();
     const currentElement = document.querySelector('.u-avatar-header') as HTMLImageElement;
     if (!currentElement) {
         return;
     }
 
+    const spinner = new Spinner({ size: 'small', classes: 'u-avatar-header' }).render();
     const parentNode = currentElement.parentElement;
     parentNode.innerHTML = spinner;
 

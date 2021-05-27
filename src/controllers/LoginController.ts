@@ -7,7 +7,7 @@ import userModel from '../models/UserModel';
 import { validateForm, checkForm, processingResultForms, IFormList } from '../utils/form';
 import ScreenSpinnerClass from '../utils/ScreenSpinner';
 import Context from '../utils/Context';
-import { badInternet } from '../utils/helpers';
+import { badInternet, pushServerError } from '../utils/helpers';
 
 /**
  * @class
@@ -105,15 +105,19 @@ class LoginController extends BaseController {
                     popout.destroy();
                 })
                 .then((response) => {
-                    const json = response.json;
-                    processingResultForms({
-                        data: json || {},
-                        errorBlockId: 'login-error',
-                        formList: this.loginList
-                    }).then(() => {
-                        eventBus.emit(Events.updateAvatar);
-                        eventBus.emit(Events.routeChange, Routes.homeRoute);
-                    });
+                    if (response.ok || response.status === 400 || response.status === 401) {
+                        const json = response.json;
+                        processingResultForms({
+                            data: json || {},
+                            errorBlockId: 'login-error',
+                            formList: this.loginList
+                        }).then(() => {
+                            eventBus.emit(Events.updateAvatar);
+                            eventBus.emit(Events.routeChange, Routes.homeRoute);
+                        });
+                    } else {
+                        pushServerError();
+                    }
                 })
                 .catch((reason) => {
                     console.error('error:', reason);
