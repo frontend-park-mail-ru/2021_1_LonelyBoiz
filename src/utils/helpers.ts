@@ -97,11 +97,7 @@ export function getFeed(): void {
             if (!this.userData) {
                 this.destroyCard();
                 this.deleteCard();
-                eventBus.emit(Events.pushNotifications, {
-                    children:
-                        'На этом лента закончилась, но скоро появятся новые пользователи. А пока можете проверить свои сообщения.',
-                    duration: 10000
-                });
+                eventBus.emit(Events.feedEnd, true);
                 return;
             }
 

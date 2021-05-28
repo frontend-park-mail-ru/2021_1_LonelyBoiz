@@ -5,13 +5,15 @@ import { IUserModel } from '../models/UserModel';
 import feedModel from '../models/FeedModel';
 import { handleReactionPromise, getFeed } from '../utils/helpers';
 import Context from '../utils/Context';
+import eventBus from '../utils/eventBus';
+import Events from '../consts/events';
 
 /**
  * @class
  * Контроллер логина
  */
 class HomeController extends BaseController {
-    id = 'home-card';
+    id = 'home__card';
     userData: IUserModel = {};
     card: CardClass = null;
 
@@ -28,6 +30,15 @@ class HomeController extends BaseController {
     finish(): void {
         this.deleteListeners();
         this.destroyCard();
+        eventBus.disconnect(Events.feedEnd, this.feedEnd);
+    }
+
+    feedEnd(end: boolean): void {
+        if (end) {
+            document.querySelector('.home__placeholder').classList.remove('div_disabled');
+        } else {
+            document.querySelector('.home__placeholder').classList.add('div_disabled');
+        }
     }
 
     /**
@@ -42,6 +53,9 @@ class HomeController extends BaseController {
                 this.view.show();
                 this.drawLoaderPlaceholder();
                 getFeed.call(this);
+                this.feedEnd(false);
+
+                eventBus.connect(Events.feedEnd, this.feedEnd);
             })
             .catch((reason) => {
                 console.error(reason);

@@ -1,0 +1,14 @@
+.placeholder {
+    color: var(--second-text-color);
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.placeholder__icon {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}

@@ -13,6 +13,8 @@ interface IInput {
     defaultValue?: string;
     minValue?: string;
     maxValue?: string;
+    maxLength?: number | string;
+    pattern?: string;
 }
 
 /**

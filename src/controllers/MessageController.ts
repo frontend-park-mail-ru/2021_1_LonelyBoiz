@@ -294,15 +294,19 @@ class MessageController extends BaseController {
             type: 'click',
             listener: (e) => {
                 e.preventDefault();
-
                 if (!(this.activeChat && this.activeChat.chatId)) {
                     pushChatDeletionError();
                     return;
                 }
 
-                chatModel.deleteChatById(Number(this.activeChat.chatId))
+                chatModel
+                    .deleteChatById(Number(this.activeChat.chatId))
                     .then((response) => {
                         if (response.ok) {
+                            document
+                                .querySelector(`[data-chat-id="${this.activeChat.chatId}"]`)
+                                .classList.add('div_disabled');
+                            this.closeChat();
                             pushChatDeletionSuccess();
                         } else {
                             pushChatDeletionError();
@@ -426,7 +430,7 @@ class MessageController extends BaseController {
         eventBus.emit(Events.queryChange, { queryObj: { chatId }, isNewState: true });
     }
 
-    openChat(chatId: number): void {
+    closeChat(): void {
         this.setVisibleChat(true);
 
         this.clearMessages();
@@ -436,6 +440,10 @@ class MessageController extends BaseController {
         document.querySelectorAll('.chats-list__list .cell').forEach((item: HTMLElement) => {
             item.classList.remove('cell_active');
         });
+    }
+
+    openChat(chatId: number): void {
+        this.closeChat();
 
         let currentChat: IChatItem;
         this.chats.forEach((item) => {

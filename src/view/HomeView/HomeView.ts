@@ -3,6 +3,8 @@ import Views from '../../consts/views';
 import template from './HomeView.hbs';
 import Context from '../../utils/Context';
 import './HomeView.scss';
+import Placeholder from '../../components/Placeholder/Placeholder';
+import { IconsSrc } from '../../consts/icons';
 
 /**
  * @class
@@ -25,6 +27,11 @@ class HomeView extends BaseView {
      */
     show(): void {
         super.show();
+        this.context.placeholder = new Placeholder({
+            iconCode: IconsSrc.message_outline,
+            title: 'Лента пока закончилась',
+            subtitle: 'Можете проверить свои сообщения'
+        }).render();
         this.root.innerHTML = this.template(this.context);
     }
 }
