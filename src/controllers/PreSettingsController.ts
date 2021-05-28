@@ -130,8 +130,8 @@ class PreSettingsController extends SettingsController {
             return;
         }
 
-        const popout = new ScreenSpinnerClass();
         if (this.formSuccess && this.file) {
+            const popout = new ScreenSpinnerClass();
             userModel
                 .uploadPhoto(this.file)
                 .finally(() => {
