@@ -126,9 +126,6 @@ export function handleReactionPromise(response: Response): Context {
 
     const newChatData = response.json as IChatItem;
     if (newChatData?.chatId) {
-        eventBus.emit(Events.pushNotifications, {
-            children: 'У вас новая пара!'
-        });
         eventBus.emit(Events.newChat, newChatData);
     }
 
