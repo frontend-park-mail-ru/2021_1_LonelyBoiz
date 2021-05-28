@@ -1,6 +1,6 @@
 import HttpRequests from '../utils/requests';
 import { IResponseData, parseJson } from '../utils/helpers';
-import { imageStorageLocation } from '../consts/config';
+import { imageStorageLocation } from '@config';
 
 class AlbumModel {
     static instance: AlbumModel = null;
@@ -28,15 +28,22 @@ class AlbumModel {
         return HttpRequests.get(`/secretAlbum/${userId}`)
             .then(parseJson)
             .then((response) => {
-                response.json = {
-                    photos: response.json.photos.map((uuid: string) => imageStorageLocation + '/' + uuid)
-                };
+                if (response.ok) {
+                    response.json = {
+                        photos: response.json.photos.map((uuid: string) => imageStorageLocation + '/' + uuid)
+                    };
+                }
+
                 return response;
             });
     }
 
     unlockForUser(userId: number): Promise<IResponseData> {
         return HttpRequests.post(`/unlockSecretAlbum/${userId}`, {}).then(parseJson);
+    }
+
+    lockForUser(userId: number): Promise<IResponseData> {
+        return HttpRequests.delete(`/unlockSecretAlbum/${userId}`, {}).then(parseJson);
     }
 }
 

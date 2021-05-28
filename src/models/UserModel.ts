@@ -1,7 +1,7 @@
 import HttpRequests from '../utils/requests';
 import { addIfNotEq, filterObject, parseJson, IResponseData, isActive } from '../utils/helpers';
 import Context from '../utils/Context';
-import { imageStorageLocation, imageBackendLocation } from '../consts/config';
+import { imageStorageLocation, imageBackendLocation } from '@config';
 
 export interface IUserModel {
     error?: Context;

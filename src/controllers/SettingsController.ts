@@ -18,7 +18,7 @@ import PopoutWrapperClass from '../utils/PopoutWrapper';
 import Pay from '../components/Pay/Pay';
 import { patchUser } from '../utils/userPatch';
 import AlbumModel from '../models/AlbumModel';
-import { imageStorageLocation } from '../consts/config';
+import { imageStorageLocation } from '@config';
 
 import FilterButton from '../components/FilterButton/FilterButton';
 

@@ -31,6 +31,7 @@ export const Icons = {
     attachments: 'icon/attachments.svg',
     lock_open: 'icon/lock_open.svg',
     delete: 'icon/delete.svg',
+    message_outline: 'icon/message_outline.svg',
     lock: 'icon/lock.svg'
 };
 

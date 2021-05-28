@@ -6,6 +6,7 @@ const Events = {
     newChat: 'newChat',
     messageChanged: 'messageChanged',
     queryChange: 'queryChange',
+    feedEnd: 'feedEnd',
     resetFeed: 'resetFeed'
 };
 

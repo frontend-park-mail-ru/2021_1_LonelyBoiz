@@ -62,7 +62,14 @@ class MessageBox extends Component {
 
         this.context.lockOpen = new IconClass({
             iconCode: IconsSrc.lock_open,
-            size: 28
+            size: 28,
+            iconClasses: 'pointer'
+        }).render();
+
+        this.context.delete = new IconClass({
+            iconCode: IconsSrc.delete,
+            size: 28,
+            iconClasses: 'pointer'
         }).render();
 
         return this.template(this.context);

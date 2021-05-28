@@ -42,6 +42,7 @@ class LoginView extends BaseView {
                         required: true,
                         type: 'email',
                         id: 'mail',
+                        maxLength: 50,
                         placeholder: 'Почта'
                     }).render()
                 },
@@ -51,6 +52,7 @@ class LoginView extends BaseView {
                         required: true,
                         type: 'password',
                         id: 'password',
+                        maxLength: 64,
                         placeholder: 'Пароль'
                     }).render()
                 }

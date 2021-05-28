@@ -62,6 +62,7 @@ class PreSettingsView extends BaseView {
                         id: 'name_form-item',
                         children: new Input({
                             id: 'name',
+                            maxLength: 50,
                             placeholder: 'Имя'
                         }).render()
                     },

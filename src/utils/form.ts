@@ -158,7 +158,11 @@ const validateItem = ({
         case 'partnerWeightBot':
         case 'partnerAgeTop':
         case 'partnerAgeBot':
-            resultValue = parseInt(domElem.value);
+            if (domElem.value.length === 0) {
+                resultValue = -1;
+            } else {
+                resultValue = parseInt(domElem.value);
+            }
             break;
 
         case 'birthday':
@@ -167,19 +171,6 @@ const validateItem = ({
 
         default:
             resultValue = domElem.value;
-            break;
-    }
-
-    switch (key) {
-        case 'height':
-        case 'weight':
-        case 'partnerHeightTop':
-        case 'partnerHeightBot':
-        case 'partnerWeightTop':
-        case 'partnerWeightBot':
-        case 'partnerAgeTop':
-        case 'partnerAgeBot':
-            resultValue = isNaN(resultValue as number) ? -1 : resultValue;
             break;
     }
 
@@ -195,9 +186,10 @@ const validateItem = ({
             case 'partnerHeightTop':
             case 'partnerWeightTop':
             case 'partnerAgeTop':
-                value2 = parseInt(domElem2.value);
-                if (isNaN(value2)) {
+                if (domElem2.value.length === 0) {
                     value2 = -1;
+                } else {
+                    value2 = parseInt(domElem2.value);
                 }
                 valid =
                     validateFunction(resultValue, value2) ||
@@ -207,9 +199,10 @@ const validateItem = ({
             case 'partnerHeightBot':
             case 'partnerWeightBot':
             case 'partnerAgeBot':
-                value2 = parseInt(domElem2.value);
-                if (isNaN(value2)) {
+                if (domElem2.value.length === 0) {
                     value2 = -1;
+                } else {
+                    value2 = parseInt(domElem2.value);
                 }
                 valid =
                     validateFunction(value2, resultValue) ||
@@ -225,6 +218,19 @@ const validateItem = ({
         }
     } else {
         valid = validateFunction(resultValue) || (!required && (<string>resultValue).length === 0);
+    }
+
+    switch (key) {
+        case 'height':
+        case 'weight':
+        case 'partnerHeightTop':
+        case 'partnerHeightBot':
+        case 'partnerWeightTop':
+        case 'partnerWeightBot':
+        case 'partnerAgeTop':
+        case 'partnerAgeBot':
+            resultValue = isNaN(resultValue as number) ? -1 : resultValue;
+            break;
     }
 
     if (formItemId) {

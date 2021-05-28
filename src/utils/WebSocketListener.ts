@@ -1,4 +1,4 @@
-import { websocketLocation } from '../consts/config';
+import { websocketLocation } from '@config';
 import eventBus from './eventBus';
 import Events from '../consts/events';
 import Context from './Context';

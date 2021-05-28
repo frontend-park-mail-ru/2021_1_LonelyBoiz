@@ -51,6 +51,7 @@ class SignupView extends BaseView {
                         required: true,
                         type: 'email',
                         id: 'mail',
+                        maxLength: 50,
                         placeholder: 'Почта'
                     }).render()
                 },
@@ -60,6 +61,7 @@ class SignupView extends BaseView {
                         required: true,
                         type: 'password',
                         id: 'password',
+                        maxLength: 64,
                         placeholder: 'Пароль'
                     }).render()
                 },
@@ -69,6 +71,7 @@ class SignupView extends BaseView {
                         required: true,
                         type: 'password',
                         id: 'password_repeat',
+                        maxLength: 64,
                         placeholder: 'Пароль еще раз'
                     }).render(),
                     bottom: validationsErrors.password

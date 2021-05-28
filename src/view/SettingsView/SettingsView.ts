@@ -121,6 +121,7 @@ class SettingsView extends BaseView {
                         children: new Input({
                             disabled: true,
                             id: 'name',
+                            maxLength: 50,
                             placeholder: 'Имя'
                         }).render()
                     },
@@ -141,6 +142,7 @@ class SettingsView extends BaseView {
                             disabled: true,
                             type: 'email',
                             id: 'email',
+                            maxLength: 50,
                             placeholder: 'Почта'
                         }).render()
                     },
@@ -151,6 +153,7 @@ class SettingsView extends BaseView {
                         children: new Input({
                             disabled: true,
                             id: 'settings_description',
+                            maxLength: 250,
                             placeholder: 'Описание'
                         }).render()
                     },
@@ -161,6 +164,7 @@ class SettingsView extends BaseView {
                         children: new Input({
                             disabled: true,
                             id: 'settings_city',
+                            maxLength: 50,
                             placeholder: 'Город'
                         }).render()
                     },
@@ -171,6 +175,7 @@ class SettingsView extends BaseView {
                         children: new Input({
                             disabled: true,
                             id: 'settings_instagram',
+                            maxLength: 50,
                             placeholder: 'Instagram'
                         }).render()
                     },
@@ -195,6 +200,7 @@ class SettingsView extends BaseView {
                             type: 'number',
                             disabled: true,
                             id: 'settings_height',
+                            maxLength: 4,
                             placeholder: 'Рост'
                         }).render()
                     },
@@ -208,6 +214,7 @@ class SettingsView extends BaseView {
                             type: 'number',
                             disabled: true,
                             id: 'settings_weight',
+                            maxLength: 4,
                             placeholder: 'Вес'
                         }).render()
                     },
@@ -242,6 +249,7 @@ class SettingsView extends BaseView {
                         children: new Input({
                             type: 'password',
                             id: 'settings_password_old',
+                            maxLength: 64,
                             placeholder: 'Старый пароль'
                         }).render()
                     },
@@ -251,6 +259,7 @@ class SettingsView extends BaseView {
                         children: new Input({
                             type: 'password',
                             id: 'settings_password_new',
+                            maxLength: 64,
                             placeholder: 'Новый пароль'
                         }).render()
                     },
@@ -259,6 +268,7 @@ class SettingsView extends BaseView {
                         children: new Input({
                             type: 'password',
                             id: 'settings_password_new_repeat',
+                            maxLength: 64,
                             placeholder: 'Новый пароль еще раз'
                         }).render(),
                         bottom: validationsErrors.password
@@ -275,11 +285,13 @@ class SettingsView extends BaseView {
                             new Input({
                                 type: 'number',
                                 id: 'settings_partner-height-bot',
+                                maxLength: 4,
                                 placeholder: 'От'
                             }).render(),
                             new Input({
                                 type: 'number',
                                 id: 'settings_partner-height-top',
+                                maxLength: 4,
                                 placeholder: 'До'
                             }).render()
                         ]).render()
@@ -291,11 +303,13 @@ class SettingsView extends BaseView {
                             new Input({
                                 type: 'number',
                                 id: 'settings_partner-weight-bot',
+                                maxLength: 4,
                                 placeholder: 'От'
                             }).render(),
                             new Input({
                                 type: 'number',
                                 id: 'settings_partner-weight-top',
+                                maxLength: 4,
                                 placeholder: 'До'
                             }).render()
                         ]).render()
@@ -308,11 +322,14 @@ class SettingsView extends BaseView {
                                 minValue: '18',
                                 type: 'number',
                                 id: 'settings_partner-age-bot',
+                                maxLength: 3,
                                 placeholder: 'От'
                             }).render(),
                             new Input({
+                                minValue: '18',
                                 type: 'number',
                                 id: 'settings_partner-age-top',
+                                maxLength: 3,
                                 placeholder: 'До'
                             }).render()
                         ]).render()

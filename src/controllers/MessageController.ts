@@ -15,8 +15,14 @@ import userModel from '../models/UserModel';
 import chatModel from '../models/ChatModel';
 import Context from '../utils/Context';
 import { IMessageSocketData, IChatSocketData } from '../utils/WebSocketListener';
-import { imageStorageLocation } from '../consts/config';
-import { badInternet, timeToStringByTime } from '../utils/helpers';
+import { imageStorageLocation } from '@config';
+import {
+    badInternet,
+    timeToStringByTime,
+    pushOpenCloseAlbumError,
+    pushChatDeletionSuccess,
+    pushChatDeletionError
+} from '../utils/helpers';
 import PopoutWrapperClass from '../utils/PopoutWrapper';
 import CardClass from '../utils/Card';
 import AlbumModel from '../models/AlbumModel';
@@ -55,6 +61,7 @@ class MessageController extends BaseController {
         noChatSelectedList: null,
         chevronBack: null,
         secretsPhotos: null,
+        delete: null,
         lockOpen: null,
         lock: null
     };
@@ -102,7 +109,8 @@ class MessageController extends BaseController {
                                         text: value.lastMessage,
                                         time: value.lastMessageTime
                                     },
-                                    chatId: value.chatId
+                                    chatId: value.chatId,
+                                    isOpened: value.isOpened
                                 };
                             });
                             this.initChats(chats);
@@ -161,6 +169,7 @@ class MessageController extends BaseController {
         this.elements.chevronBack = document.querySelector('.message-header__chevron-back');
         this.elements.chevronBack = document.querySelector('.message-header__chevron-back');
         this.elements.secretsPhotos = document.querySelector('.message-header__icon__secrets-photos');
+        this.elements.delete = document.querySelector('.message-header__icon__delete');
         this.elements.lockOpen = document.querySelector('.message-header__icon__lock-open');
         this.elements.lock = document.querySelector('.message-header__icon__lock');
     }
@@ -170,16 +179,51 @@ class MessageController extends BaseController {
             return;
         }
 
+        if (!(this.activeChat && this.activeChat.chatId)) {
+            return;
+        }
+
+        if (unlock) {
+            chatModel.changeSecretAlbumStatus(Number(this.activeChat.chatId), true);
+            this.elements.lockOpen.classList.remove('div_disabled');
+            this.elements.lock.classList.add('div_disabled');
+        } else {
+            chatModel.changeSecretAlbumStatus(Number(this.activeChat.chatId), false);
+            this.elements.lockOpen.classList.add('div_disabled');
+            this.elements.lock.classList.remove('div_disabled');
+        }
+    }
+
+    unlockAlbum(unlock: boolean): void {
+        if (!this.elements.lock || !this.elements.lockOpen) {
+            return;
+        }
+
+        if (!(this.activeChat && this.activeChat.chatId && this.activeChat.user && this.activeChat.user.id)) {
+            pushOpenCloseAlbumError();
+            return;
+        }
+
         if (unlock) {
             AlbumModel.unlockForUser(Number(this.activeChat.user.id)).then((response) => {
                 if (response.ok) {
+                    chatModel.changeSecretAlbumStatus(Number(this.activeChat.chatId), true);
                     this.elements.lockOpen.classList.remove('div_disabled');
                     this.elements.lock.classList.add('div_disabled');
+                } else {
+                    pushOpenCloseAlbumError();
                 }
             });
         } else {
-            this.elements.lockOpen.classList.add('div_disabled');
-            this.elements.lock.classList.remove('div_disabled');
+            AlbumModel.lockForUser(Number(this.activeChat.user.id)).then((response) => {
+                if (response.ok) {
+                    chatModel.changeSecretAlbumStatus(Number(this.activeChat.chatId), false);
+                    this.elements.lockOpen.classList.add('div_disabled');
+                    this.elements.lock.classList.remove('div_disabled');
+                } else {
+                    pushOpenCloseAlbumError();
+                }
+            });
         }
     }
 
@@ -232,7 +276,7 @@ class MessageController extends BaseController {
             type: 'click',
             listener: (e) => {
                 e.preventDefault();
-                this.showLockIcon(true);
+                this.unlockAlbum(true);
             }
         });
 
@@ -241,6 +285,36 @@ class MessageController extends BaseController {
             type: 'click',
             listener: (e) => {
                 e.preventDefault();
+                this.unlockAlbum(false);
+            }
+        });
+
+        this.registerListener({
+            element: this.elements.delete,
+            type: 'click',
+            listener: (e) => {
+                e.preventDefault();
+                if (!(this.activeChat && this.activeChat.chatId)) {
+                    pushChatDeletionError();
+                    return;
+                }
+
+                chatModel
+                    .deleteChatById(Number(this.activeChat.chatId))
+                    .then((response) => {
+                        if (response.ok) {
+                            document
+                                .querySelector(`[data-chat-id="${this.activeChat.chatId}"]`)
+                                .classList.add('div_disabled');
+                            this.closeChat();
+                            pushChatDeletionSuccess();
+                        } else {
+                            pushChatDeletionError();
+                        }
+                    })
+                    .catch(() => {
+                        badInternet();
+                    });
             }
         });
     }
@@ -356,7 +430,7 @@ class MessageController extends BaseController {
         eventBus.emit(Events.queryChange, { queryObj: { chatId }, isNewState: true });
     }
 
-    openChat(chatId: number): void {
+    closeChat(): void {
         this.setVisibleChat(true);
 
         this.clearMessages();
@@ -366,14 +440,15 @@ class MessageController extends BaseController {
         document.querySelectorAll('.chats-list__list .cell').forEach((item: HTMLElement) => {
             item.classList.remove('cell_active');
         });
+    }
+
+    openChat(chatId: number): void {
+        this.closeChat();
 
         let currentChat: IChatItem;
         this.chats.forEach((item) => {
             if (item.chatId && item.chatId === chatId) {
                 currentChat = item;
-                if (item.isOpened) {
-                    this.showLockIcon(true);
-                }
                 const chatElement = <HTMLElement>document.querySelector(`div[data-chat-id="${item.chatId}"]`);
                 if (chatElement) {
                     chatElement.classList.add('cell_active');
@@ -388,6 +463,12 @@ class MessageController extends BaseController {
         this.activeChat = currentChat;
         (this.elements.headerIcon as HTMLImageElement).src = currentChat.user.avatar;
         this.elements.headerTitle.innerHTML = currentChat.user.name;
+
+        if (this.activeChat && this.activeChat.isOpened) {
+            this.showLockIcon(true);
+        } else {
+            this.showLockIcon(false);
+        }
 
         this.hiddenChat(false);
 

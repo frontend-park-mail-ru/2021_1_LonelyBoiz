@@ -4,7 +4,7 @@ import Context from '../utils/Context';
 import eventBus from '../utils/eventBus';
 import Events from '../consts/events';
 import { IChatSocketData, IMessageSocketData } from '../utils/WebSocketListener';
-import { imageStorageLocation } from '../consts/config';
+import { imageStorageLocation } from '@config';
 
 export interface IChat {
     chatId: number;
@@ -48,6 +48,25 @@ class ChatModel {
         eventBus.connect(Events.newMessage, this.addNewMessageHandler.bind(this));
         eventBus.connect(Events.newChat, this.addNewChatHandler.bind(this));
         eventBus.connect(Events.messageChanged, this.updateMessageHandler.bind(this));
+    }
+
+    deleteChatById(chatId: number) {
+        return HttpRequests.delete('/chats/' + chatId, {})
+            .then(parseJson)
+            .then((response) => {
+                if (response.ok) {
+                    this.chats = this.chats.filter((chat) => chat.chatId !== chatId);
+                }
+
+                return response;
+            });
+    }
+
+    changeSecretAlbumStatus(chatId: number, isOpened: boolean): void {
+        updateChat(this.chats, {
+            chatId: chatId,
+            isOpened: isOpened
+        });
     }
 
     addNewMessageHandler(msg: IMessageSocketData) {
