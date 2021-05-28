@@ -220,6 +220,7 @@ interface IChatPatch {
     lastMessage?: string;
     lastMessageTime?: number;
     photo?: number;
+    isOpened?: boolean;
 }
 
 export function updateChat(chats: IChat[], chatPatch: IChatPatch): void {
@@ -227,7 +228,7 @@ export function updateChat(chats: IChat[], chatPatch: IChatPatch): void {
         if (chat.chatId === chatPatch.chatId) {
             for (const key of Object.keys(chat)) {
                 const tmpKey = key as keyof IChatPatch;
-                if (chatPatch[tmpKey]) {
+                if (chatPatch[tmpKey] !== undefined) {
                     chat = { ...chat, [tmpKey]: chatPatch[tmpKey] };
                 }
             }
@@ -254,5 +255,25 @@ export const pushUploadPhotoError = (error: string): void => {
     eventBus.emit(Events.pushNotifications, {
         status: 'error',
         children: `Не удалось загрузить фото! ${error}`
+    });
+};
+
+export const pushOpenCloseAlbumError = (): void => {
+    eventBus.emit(Events.pushNotifications, {
+        status: 'error',
+        children: 'Не удалось изменить статус альбома!'
+    });
+};
+
+export const pushChatDeletionSuccess = (): void => {
+    eventBus.emit(Events.pushNotifications, {
+        children: 'Вы успешно удалили собеседника!'
+    });
+};
+
+export const pushChatDeletionError = (): void => {
+    eventBus.emit(Events.pushNotifications, {
+        status: 'error',
+        children: 'Произошла ошибка при удалении собеседника!'
     });
 };

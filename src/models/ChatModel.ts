@@ -50,6 +50,25 @@ class ChatModel {
         eventBus.connect(Events.messageChanged, this.updateMessageHandler.bind(this));
     }
 
+    deleteChatById(chatId: number) {
+        return HttpRequests.delete('/chats/' + chatId, {})
+            .then(parseJson)
+            .then((response) => {
+                if (response.ok) {
+                    this.chats = this.chats.filter((chat) => chat.chatId !== chatId);
+                }
+
+                return response;
+            });
+    }
+
+    changeSecretAlbumStatus(chatId: number, isOpened: boolean): void {
+        updateChat(this.chats, {
+            chatId: chatId,
+            isOpened: isOpened
+        });
+    }
+
     addNewMessageHandler(msg: IMessageSocketData) {
         const newMessage: IChatMessage = {
             messageId: msg.messageId,
