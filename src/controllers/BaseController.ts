@@ -66,7 +66,6 @@ class BaseController extends Listener {
                     eventBus.emit(Events.routeChange, Routes.preSettingsRoute);
                     return Promise.reject(new Error('Not activated'));
                 }
-                eventBus.emit(Events.updateAvatar);
                 webSocketListener.listen();
             });
     }

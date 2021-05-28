@@ -2,6 +2,8 @@ import HttpRequests from '../utils/requests';
 import { addIfNotEq, filterObject, parseJson, IResponseData, isActive } from '../utils/helpers';
 import Context from '../utils/Context';
 import { imageStorageLocation, imageBackendLocation } from '@config';
+import eventBus from '../utils/eventBus';
+import Events from '../consts/events';
 
 export interface IUserModel {
     error?: Context;
@@ -393,6 +395,7 @@ class UserModel {
                             this.data = { ...this.data, [key]: this.receiveMiddleware(key, value) };
                         }
                     });
+                    eventBus.emit(Events.updateAvatar);
                     response.json = this.getData();
                 } else {
                     this.authorized = false;
