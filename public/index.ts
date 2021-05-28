@@ -9,6 +9,7 @@ import Router from '../src/utils/router';
 import Notifications from '../src/utils/Notifications';
 import './css/index.scss';
 import initSW from '../src/utils/initSW';
+import faviconImg from '@img/favicon.png';
 initSW();
 
 const push = Notifications;
@@ -23,3 +24,9 @@ router.addRoute(Routes.preSettingsRoute, new PreSettingsController());
 router.addRoute(Routes.messageRoute, new MessageController());
 
 router.start();
+
+const favicon = document.createElement('link');
+favicon.setAttribute('rel', 'shortcut icon');
+favicon.setAttribute('href', faviconImg);
+favicon.setAttribute('type', 'image/png');
+document.querySelector('head').appendChild(favicon);
