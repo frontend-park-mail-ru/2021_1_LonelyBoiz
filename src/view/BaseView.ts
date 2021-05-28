@@ -137,7 +137,8 @@ class BaseView extends Listener {
                             iconClasses: 'avatar u-avatar-header',
                             size: 28,
                             src: img
-                        }
+                        },
+                        barClassess: 'div-phone_disabled'
                     }
                 ]
             }).render(),

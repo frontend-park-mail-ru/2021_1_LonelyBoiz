@@ -9,6 +9,7 @@ export interface ITabbar {
         idHref?: string;
         title?: string;
         titleClasses?: string;
+        barClassess?: string;
     }[];
 }
 

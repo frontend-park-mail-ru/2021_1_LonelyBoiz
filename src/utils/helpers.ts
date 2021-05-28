@@ -8,6 +8,7 @@ import Context from './Context';
 import { IUserModel } from '../models/UserModel';
 import { IChat } from '../models/ChatModel';
 import { IChatItem } from '../components/ChatItem/ChatItem';
+import CardClass from './Card';
 
 export interface IResponseData {
     status: number;
@@ -89,6 +90,14 @@ export function getFeed(): void {
             if (!feedResponse.ok) {
                 eventBus.emit(Events.routeChange, Routes.loginRoute);
                 return;
+            }
+
+            if (!this.card) {
+                this.destroyCard();
+                this.card = new CardClass({
+                    id: this.id,
+                    buttons: {}
+                });
             }
 
             this.card.setPlaceHolder(false);

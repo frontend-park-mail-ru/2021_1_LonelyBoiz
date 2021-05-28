@@ -51,7 +51,6 @@ class HomeController extends BaseController {
             .auth()
             .then(() => {
                 this.view.show();
-                this.drawLoaderPlaceholder();
                 getFeed.call(this);
                 this.feedEnd(false);
 
@@ -78,15 +77,6 @@ class HomeController extends BaseController {
             id: this.id,
             buttons: {},
             placeholder: false
-        });
-    }
-
-    drawLoaderPlaceholder(): void {
-        this.destroyCard();
-        this.card = new CardClass({
-            id: this.id,
-            buttons: {},
-            placeholder: true
         });
     }
 
@@ -125,6 +115,9 @@ class HomeController extends BaseController {
             feedModel
                 .reactCurrent('skip')
                 .then(handleReactionPromise.bind(this))
+                .finally(() => {
+                    this.card.setPlaceHolder(false);
+                })
                 .catch((likeReason) => {
                     console.error('Like error - ', likeReason);
                 });
