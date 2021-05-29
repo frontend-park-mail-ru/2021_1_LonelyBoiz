@@ -1,6 +1,6 @@
 # 2021_1_LonelyBoiz
 
-https://lepick.herokuapp.com
+https://lepick.ru
 
 Тема проекта: tinder/badoo/mamba;
 
