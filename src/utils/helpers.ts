@@ -45,6 +45,18 @@ export function parseJson(response: Response): Promise<IResponseData> {
     });
 }
 
+function findDob(bday: number) {
+    const dob = new Date(bday);
+
+    const monthDiff = Date.now() - dob.getTime();
+
+    const ageDt = new Date(monthDiff);
+
+    const year = ageDt.getUTCFullYear();
+
+    return Math.abs(year - 1970);
+}
+
 export function getAllUsers(response: IResponseData): Promise<IResponseData> {
     if (!response.ok) {
         return Promise.resolve(response);
@@ -65,6 +77,10 @@ export function getAllUsers(response: IResponseData): Promise<IResponseData> {
                     userResponse.json.photos = userResponse.json.photos.map(
                         (v: string) => imageStorageLocation + '/' + v
                     );
+                    userResponse.json = {
+                        ...userResponse.json,
+                        age: findDob(Number(userResponse.json.birthday) * 1000)
+                    };
                     return {
                         status: userResponse.status,
                         ok: userResponse.ok,

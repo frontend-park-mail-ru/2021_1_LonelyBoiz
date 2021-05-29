@@ -184,11 +184,9 @@ class MessageController extends BaseController {
         }
 
         if (unlock) {
-            chatModel.changeSecretAlbumStatus(Number(this.activeChat.chatId), true);
             this.elements.lockOpen.classList.remove('div_disabled');
             this.elements.lock.classList.add('div_disabled');
         } else {
-            chatModel.changeSecretAlbumStatus(Number(this.activeChat.chatId), false);
             this.elements.lockOpen.classList.add('div_disabled');
             this.elements.lock.classList.remove('div_disabled');
         }
@@ -207,6 +205,7 @@ class MessageController extends BaseController {
         if (unlock) {
             AlbumModel.unlockForUser(Number(this.activeChat.user.id)).then((response) => {
                 if (response.ok) {
+                    this.activeChat.isOpened = true;
                     chatModel.changeSecretAlbumStatus(Number(this.activeChat.chatId), true);
                     this.elements.lockOpen.classList.remove('div_disabled');
                     this.elements.lock.classList.add('div_disabled');
@@ -217,6 +216,7 @@ class MessageController extends BaseController {
         } else {
             AlbumModel.lockForUser(Number(this.activeChat.user.id)).then((response) => {
                 if (response.ok) {
+                    this.activeChat.isOpened = false;
                     chatModel.changeSecretAlbumStatus(Number(this.activeChat.chatId), false);
                     this.elements.lockOpen.classList.add('div_disabled');
                     this.elements.lock.classList.remove('div_disabled');
